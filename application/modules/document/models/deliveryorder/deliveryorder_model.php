@@ -908,9 +908,11 @@ class Deliveryorder_model extends CI_Model {
             LEFT JOIN TCNMWaHouse_L WAH_L   WITH (NOLOCK) ON POHD.FTBchCode     = WAH_L.FTBchCode   AND POHD.FTWahCode = WAH_L.FTWahCode AND WAH_L.FNLngID	= ".$this->db->escape($nLngID)."
             INNER JOIN TAPTPoHDSpl  SPL     WITH (NOLOCK) ON POHD.FTXphDocNo    = SPL.FTXphDocNo
             LEFT JOIN ( 
-                SELECT DOCREFSPC.FTXshDocNo , HD.FTXphDocNo , HD.FTSPLCode FROM TAPTPoHD HD
+                SELECT DOCREFSPC.FTXshDocNo , HD.FTXphDocNo , HD.FTSPLCode 
+                FROM TAPTPoHD HD WITH(NOLOCK)
                 LEFT JOIN TAPTPoHDDocRef DOCREFSPC	WITH (NOLOCK) ON HD.FTXphDocNo = DOCREFSPC.FTXshDocNo 
                 AND DOCREFSPC.FTXshRefKey = 'PO' AND DOCREFSPC.FTXshRefType = 2
+                WHERE HD.FTXphStaDoc <> '3'
             ) AS SUBFN ON POHD.FTXphDocNo = SUBFN.FTXshDocNo
             WHERE A.SumA != ".$this->db->escape(0)." ";
 
@@ -953,7 +955,9 @@ class Deliveryorder_model extends CI_Model {
                             $tSQLMain
                         ) Base) AS c 
                     WHERE c.FNRowID > ".$this->db->escape($aRowLen[0])." AND c.FNRowID <= ".$this->db->escape($aRowLen[1] )." ";
-
+        echo "<pre>";
+        print_r($tSQL);
+        echo "</pre>";
         $oQuery = $this->db->query($tSQL);
         if($oQuery->num_rows() > 0){
             $oDataList          = $oQuery->result_array();
