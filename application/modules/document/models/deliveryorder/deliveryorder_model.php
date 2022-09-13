@@ -955,9 +955,9 @@ class Deliveryorder_model extends CI_Model {
                             $tSQLMain
                         ) Base) AS c 
                     WHERE c.FNRowID > ".$this->db->escape($aRowLen[0])." AND c.FNRowID <= ".$this->db->escape($aRowLen[1] )." ";
-        echo "<pre>";
-        print_r($tSQL);
-        echo "</pre>";
+        // echo "<pre>";
+        // print_r($tSQL);
+        // echo "</pre>";
         $oQuery = $this->db->query($tSQL);
         if($oQuery->num_rows() > 0){
             $oDataList          = $oQuery->result_array();
