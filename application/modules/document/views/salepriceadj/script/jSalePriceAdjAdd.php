@@ -4,21 +4,29 @@
     var tFTZneChain = "";
 
     $('#oimSearchSpaPdtPri').click(function() {
-        var value   = $("#oetSearchSpaPdtPri").val().toLowerCase();
-        $("#otbSpaDataList tbody tr ").filter(function () {
-            tText   = $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-        });
-
+        JCNxOpenLoading();
+        JSvSpaPdtPriDataTable();
+        // var value   = $("#oetSearchSpaPdtPri").val().toLowerCase();
+        // $("#otbSpaDataList tbody tr ").filter(function () {
+        //     tText   = $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+        // });
     });
 
-    $('#oetSearchSpaPdtPri').keyup(function(event) {
-        var value   = $("#oetSearchSpaPdtPri").val().toLowerCase();
-        $("#otbSpaDataList tbody tr ").filter(function () {
-            tText   = $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-        });
+    $('#oetSearchSpaPdtPri').keypress(function(event){
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if(keycode == '13'){
+            JCNxOpenLoading();
+            JSvSpaPdtPriDataTable();
+        }
     });
 
-
+    // $('#oetSearchSpaPdtPri').keyup(function(event) {
+    //     JSvSpaPdtPriDataTable(1,1);
+    //     // var value   = $("#oetSearchSpaPdtPri").val().toLowerCase();
+    //     // $("#otbSpaDataList tbody tr ").filter(function () {
+    //     //     tText   = $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+    //     // });
+    // });
 
 
 

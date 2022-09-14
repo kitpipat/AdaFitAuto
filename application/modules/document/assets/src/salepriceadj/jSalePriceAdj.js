@@ -114,33 +114,22 @@ function JSvSpaDataTable(pnPage) {
 function JSvSpaPdtPriDataTable(pnPage, ptFocusType) {
     var nStaSession = 1;
     if (typeof(nStaSession) !== 'undefined' && nStaSession == 1) {
-
-        var tSearchAll = $('#oetSearchSpaPdtPri').val();
-        var FTXphDocNo = $('#oetXphDocNo').val();
-        // var nPageCurrent = (pnPage === undefined || pnPage == '')? '1' : pnPage;
-        var tFocusType = (ptFocusType === undefined || ptFocusType == '') ? '1' : ptFocusType;
-
+        var tSearchAll  = $('#oetSearchSpaPdtPri').val();
+        var FTXphDocNo  = $('#oetXphDocNo').val();
+        var tFocusType  = (ptFocusType === undefined || ptFocusType == '') ? '1' : ptFocusType;
         if ($('#ofmAddSpa tr.otrSpaPdtPri').length == 0) {
-            // alert('JSvSpaPdtPriDataTable length = 0: ' + $('#ofmAddSpa tr.otrSpaPdtPri').length);
             if (pnPage != undefined) {
                 pnPage = pnPage - 1;
-                // alert('JSvSpaPdtPriDataTable pnPage != undefined: ' + $('#ofmAddSpa tr.otrSpaPdtPri').length);
             }
-            // }else{
-            //     alert('JSvSpaPdtPriDataTable length != 0: ' + $('#ofmAddSpa tr.otrSpaPdtPri').length);
         }
-
-        nPageCurrent = (pnPage === undefined || pnPage == '' || pnPage <= 0) ? '1' : pnPage;
-
-        // alert('JSvSpaPdtPriDataTable nPageCurrent: ' + nPageCurrent);
-
+        nPageCurrent    = (pnPage === undefined || pnPage == '' || pnPage <= 0) ? '1' : pnPage;
         $.ajax({
-            type: "POST",
-            url: "dcmSPAPdtPriDataTable",
-            data: {
-                tSearchAll: tSearchAll,
-                nPageCurrent: nPageCurrent,
-                FTXphDocNo: FTXphDocNo,
+            type    : "POST",
+            url     : "dcmSPAPdtPriDataTable",
+            data    : {
+                tSearchAll      : tSearchAll,
+                nPageCurrent    : nPageCurrent,
+                FTXphDocNo      : FTXphDocNo,
             },
             cache: false,
             Timeout: 0,

@@ -204,7 +204,7 @@ class mSalePriceAdj extends CI_Model{
 
             ////จบเช็คตัวที่ไม่มี puncode
             $tSQL   = "
-                SELECT --TOP ". get_cookie('nShowRecordInPageList')."
+                SELECT TOP ". get_cookie('nShowRecordInPageList')."
                     DTP.FTXthDocNo AS FTXthDocNo,
                     DTP.FNXtdSeqNo AS FNXtdSeqNo,
                     DTP.FTPdtCode AS FTPdtCode,
@@ -252,10 +252,7 @@ class mSalePriceAdj extends CI_Model{
                 AND DTP.FTSessionID     = ".$this->db->escape($FTSessionID)." 
                 AND DTP.FTXthDocKey     = ".$this->db->escape($FTXthDocKey)."
             ";
-            // if (isset($FTXphDocNo) && !empty($FTXphDocNo)) {
-                // $tSQL .= " AND DTP.FTXthDocNo = '$FTXphDocNo'";
-            // }
-                // AND (DTP.FTTmpStatus    = 1 OR ISNULL(DTP.FTTmpStatus,'') = '')
+           
             if (isset($tSearchList) && !empty($tSearchList)) {
                 $tSQL   .= " AND (DTP.FTPdtCode LIKE '%".$this->db->escape_like_str($tSearchList)."%'";
                 $tSQL   .= " OR PDT_L.FTPdtName LIKE '%".$this->db->escape_like_str($tSearchList)."%'";
@@ -264,7 +261,7 @@ class mSalePriceAdj extends CI_Model{
                 $tSQL   .= " OR BCH_L.FTBchName LIKE '%".$this->db->escape_like_str($tSearchList)."%')";
             }
 
-            $tSQL   .= " GROUP BY DTP.FTPdtCode,
+            $tSQL   .= "    GROUP BY DTP.FTPdtCode,
 									DTP.FTXthDocNo,
 									DTP.FNXtdSeqNo,
 									DTP.FTPunCode,
