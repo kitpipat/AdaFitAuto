@@ -13,7 +13,7 @@ class mSalePriceAdj extends CI_Model{
         $nLngID         = $paData['FNLngID'];
         $aAdvanceSearch = $paData['oAdvanceSearchData'];
         $tSQL = " 
-            SELECT -- TOP ". get_cookie('nShowRecordInPageList')."
+            SELECT TOP ". get_cookie('nShowRecordInPageList')."
                 (CASE
                     WHEN 
                         PPH.FTXphStaDoc <> '3'
