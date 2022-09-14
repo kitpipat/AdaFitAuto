@@ -35,6 +35,7 @@
                 <tbody>
                     <?php if($aSpaDataList['rtCode'] == 1 ):?>
                         <?php foreach($aSpaDataList['raItems'] AS $nKey => $aValue):
+                            
                             if($aValue['FTXphStaApv']=="" || $aValue['FTXphStaDoc'] == 3){
                                 $tXphUsrApv = language('document/salepriceadj/salepriceadj','tSpaStaEmtpy');
                             }else{
@@ -42,15 +43,15 @@
                             }
 
                             /*===== Begin UsedStatus ===================================*/
-                            $tClassStaUse = "";
+                            $tClassStaUse       = "";
                             $tPmtUsedStatusShow = "";
                             if ($aValue['UsedStatus'] == "1") {
-                                $tClassStaUse = 'text-warning';
+                                $tClassStaUse       = 'text-warning';
                                 $tPmtUsedStatusShow = language('document/salepriceadj/salepriceadj', 'tLabel2');
                             }
 
                             if (in_array($aValue['UsedStatus'], ["2","3"])) {
-                                $tClassStaUse = 'text-success';
+                                $tClassStaUse   = 'text-success';
                                 if($aValue['UsedStatus'] == "2"){
                                     $tPmtUsedStatusShow = language('document/salepriceadj/salepriceadj', 'tLabel3');
                                 }else{
@@ -59,7 +60,7 @@
                             }
 
                             if (in_array($aValue['UsedStatus'], ["4","5"])) {
-                                $tClassStaUse = 'text-danger';
+                                $tClassStaUse   = 'text-danger';
                                 if($aValue['UsedStatus'] == "4"){
                                     $tPmtUsedStatusShow = language('document/salepriceadj/salepriceadj', 'tLabel5');
                                 }else{
@@ -68,43 +69,41 @@
                             }
 
                             if($aValue['FTXphStaDoc'] == 3){
-                                $tClassStaDoc = 'text-danger';
-                                $tStaDoc = language('common/main/main', 'tStaDoc3');
+                                $tClassStaDoc   = 'text-danger';
+                                $tStaDoc        = language('common/main/main', 'tStaDoc3');
                             }else if(!empty($aValue['FTXphStaApv'])){
-                                $tClassStaDoc = 'text-success';
-                                $tStaDoc = language('common/main/main', 'tStaDoc1'); 
+                                $tClassStaDoc   = 'text-success';
+                                $tStaDoc        = language('common/main/main', 'tStaDoc1'); 
                             }else{
-                                $tClassStaDoc = 'text-warning';
-                                $tStaDoc = language('common/main/main', 'tStaDoc');
+                                $tClassStaDoc   = 'text-warning';
+                                $tStaDoc        = language('common/main/main', 'tStaDoc');
                             }
 
                             if ($aValue['FTXphStaPrcDoc'] == 1) {
-                                $tClassPrcStk = 'text-success';
-                                $tStaPrcDoc = language('common/main/main', 'tStaPrcDoc1');
+                                $tClassPrcStk   = 'text-success';
+                                $tStaPrcDoc     = language('common/main/main', 'tStaPrcDoc1');
                             } else if ($aValue['FTXphStaPrcDoc'] == 2) {
-                                $tClassPrcStk = 'text-warning';
-                                $tStaPrcDoc = language('common/main/main', 'tStaPrcDoc2');
+                                $tClassPrcStk   = 'text-warning';
+                                $tStaPrcDoc     = language('common/main/main', 'tStaPrcDoc2');
                             } else if ($aValue['FTXphStaPrcDoc'] == 0 || $aValue['FTXphStaPrcDoc'] == '') {
-                                $tClassPrcStk = 'text-warning';
-                                $tStaPrcDoc = language('common/main/main', 'tStaPrcDoc3');
+                                $tClassPrcStk   = 'text-warning';
+                                $tStaPrcDoc     = language('common/main/main', 'tStaPrcDoc3');
                             }
 
                             /*===== End UsedStatus =====================================*/
                         ?>
-                            
                             <tr class="text-left xCNTextDetail2 otrPdtSpa" id="otrPdtSpa<?php echo $nKey?>" data-doc="<?php echo $aValue['FTXphDocNo']?>" data-bch="<?php echo $aValue['FTBchCode']?>">
                                 <?php if($aAlwEventSalePriceAdj['tAutStaFull'] == 1 || $aAlwEventSalePriceAdj['tAutStaDelete'] == 1) : ?>
                                 <td nowrap class="text-center">
                                     <label class="fancy-checkbox">
-                                        <input id="ocbListItem<?php echo $nKey?>" type="checkbox" class="ocbListItem" name="ocbListItem[]" <?php if($aValue['FTXphStaApv']!="" || $aValue['FTXphStaDoc']=="3"){ echo "disabled"; } ?>>
-                                        <span <?php if($aValue['FTXphStaApv']!="" || $aValue['FTXphStaDoc']=="3"){ echo "class='xCNDocDisabled'"; } ?>>&nbsp;</span>
+                                        <input id="ocbListItem<?php echo $nKey?>" type="checkbox" class="ocbListItem" name="ocbListItem[]" <?php if($aValue['FTXphStaApv'] != "" || $aValue['FTXphStaDoc']=="3" ){ echo "disabled"; } ?>>
+                                        <span <?php if( $aValue['FTXphStaApv'] != "" || $aValue['FTXphStaDoc'] == "3" ){ echo "class='xCNDocDisabled'"; } ?>>&nbsp;</span>
                                     </label>
                                 </td>
                                 <?php endif; ?>
                                 <td nowrap><?php echo $aValue['FTBchName']?></td>
                                 <td nowrap><?php echo $aValue['FTXphDocNo']?></td>
                                 <td nowrap class="text-center"><?php echo date("d/m/Y",strtotime($aValue['FDXphDocDate']));?></td>
-                                <!-- <td nowrap><?php echo language('document/salepriceadj/salepriceadj', 'tSpaADDXphStaDocn'.$aValue['FTXphStaDoc']);?></td> -->
                                 <td nowrap class="text-left"><label class="xCNTDTextStatus <?= $tClassStaDoc ?>"><?php echo $tStaDoc; ?></label></td>
                                 <td nowrap class="text-left"><label class="xCNTDTextStatus <?= $tClassPrcStk ?>"><?php echo $tStaPrcDoc; ?></label></td>
                                 <td class="text-left"><label class="xCNTDTextStatus <?= $tClassStaUse ?>"><?php echo $tPmtUsedStatusShow; ?></label></td>
@@ -115,11 +114,11 @@
                                 <?php endif; ?>
                                 <?php if($aAlwEventSalePriceAdj['tAutStaFull'] == 1 || ($aAlwEventSalePriceAdj['tAutStaEdit'] == 1 || $aAlwEventSalePriceAdj['tAutStaRead'] == 1)) : ?>
                                     <td class="text-center">
-                                        <?php if($aValue['FTXphStaApv'] == 1 || $aValue['FTXphStaDoc'] == 3){ ?>
+                                        <?php if(($aValue['FTXphStaApv'] == '1' || $aValue['FTXphStaDoc'] == 3) && ($aValue['FTXphDocType'] != 3 &&  $aValue['FTXphDocType'] != 4)): ?>
                                             <img class="xCNIconTable" style="width: 17px;" src="<?=base_url().'/application/modules/common/assets/images/icons/view2.png'?>" onClick="JSvCallPageSpaEdit('<?=$aValue['FTXphDocNo']?>')">
-                                        <?php }else{ ?>
+                                        <?php else : ?>
                                             <img class="xCNIconTable" src="<?=base_url().'/application/modules/common/assets/images/icons/edit.png'?>" onClick="JSvCallPageSpaEdit('<?=$aValue['FTXphDocNo']?>')">
-                                        <?php } ?>
+                                        <?php endif;?>
                                     </td>
                                 <?php endif; ?>
                             </tr>

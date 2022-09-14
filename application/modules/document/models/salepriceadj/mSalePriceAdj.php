@@ -13,40 +13,37 @@ class mSalePriceAdj extends CI_Model{
         $nLngID         = $paData['FNLngID'];
         $aAdvanceSearch = $paData['oAdvanceSearchData'];
         $tSQL = " 
-            SELECT TOP ". get_cookie('nShowRecordInPageList')."
+            SELECT -- TOP ". get_cookie('nShowRecordInPageList')."
                 (CASE
                     WHEN 
                         PPH.FTXphStaDoc <> '3'
                         AND CONCAT(CONVERT(CHAR(10),PPH.FDXphDStart,120),' ',CONVERT(CHAR(8), PPH.FTXphTStart, 108)) <= CONVERT(CHAR(19), GETDATE(), 120) 
                         AND CONCAT(CONVERT(CHAR(10),PPH.FDXphDStop,120),' ',CONVERT(CHAR(8), PPH.FTXphTStop, 108)) >= CONVERT(CHAR(19), GETDATE(), 120)
                     THEN '2'
-
                     WHEN  
                         PPH.FTXphStaDoc <> '3' 
                         AND CONVERT(CHAR(10),PPH.FDXphDStart,120) > CONVERT(CHAR(19), GETDATE(), 120)
                     THEN '3'
-
                     WHEN 
                         PPH.FTXphStaDoc <> '3' 
                         AND CONCAT(CONVERT(CHAR(10),PPH.FDXphDStop,120),' ',CONVERT(CHAR(8), PPH.FTXphTStop, 108)) < CONVERT(CHAR(19), GETDATE(), 120)
                     THEN '4'
-
                     WHEN 
                         PPH.FTXphStaDoc = '3'
                     THEN '5'
-                    
                     ELSE '6'
-                END) AS UsedStatus, 
-                BCH_L.FTBchName AS FTBchName,
-                PPH.FTBchCode AS FTBchCode,
-                PPH.FTXphDocNo AS FTXphDocNo,
-                PPH.FDXphDocDate AS FDXphDocDate,
-                PPH.FTXphStaDoc AS FTXphStaDoc,
-                PPH.FTXphStaPrcDoc AS FTXphStaPrcDoc,
-                PPH.FTXphStaApv AS FTXphStaApv,
-                PPH.FDCreateON AS FDCreateON,
-                CUSR_L.FTUsrName AS FTCreateBy,
-                AUSR_L.FTUsrName AS FTXphUsrApv
+                END) AS UsedStatus,
+                BCH_L.FTBchName     AS FTBchName,
+                PPH.FTBchCode       AS FTBchCode,
+                PPH.FTXphDocNo      AS FTXphDocNo,
+                PPH.FDXphDocDate    AS FDXphDocDate,
+                PPH.FTXphStaDoc     AS FTXphStaDoc,
+                PPH.FTXphStaPrcDoc  AS FTXphStaPrcDoc,
+                PPH.FTXphStaApv     AS FTXphStaApv,
+                PPH.FDCreateON      AS FDCreateON,
+                CUSR_L.FTUsrName    AS FTCreateBy,
+                AUSR_L.FTUsrName    AS FTXphUsrApv,
+                PPH.FTXphDocType    AS FTXphDocType
             FROM TCNTPdtAdjPriHD PPH WITH(NOLOCK)
             LEFT JOIN TCNMBranch BCHPPL WITH(NOLOCK) ON PPH.FTPplCode = BCHPPL.FTPplCode    AND PPH.FTBchCode   = BCHPPL.FTBchCode
             LEFT JOIN TCNMBranch_L BCH_L WITH(NOLOCK) ON PPH.FTBchCode = BCH_L.FTBchCode    AND BCH_L.FNLngID   = ".$this->db->escape($nLngID)."
