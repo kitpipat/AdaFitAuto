@@ -1,12 +1,13 @@
 {
-  "ReportVersion": "2022.1.4.0",
-  "ReportGuid": "2e24a23b337e4f41be8f54acee6fe1a3",
+  "ReportVersion": "2022.1.2.0",
+  "ReportGuid": "7548f76905d248b7a16574cf2ad6d067",
   "ReportName": "Report",
   "ReportAlias": "Report",
   "ReportCreated": "/Date(1240901133000+0700)/",
-  "ReportChanged": "/Date(1646139412000+0700)/",
+  "ReportChanged": "/Date(1661493602897+0700)/",
   "EngineVersion": "EngineV2",
   "NumberOfPass": "DoublePass",
+  "ReportUnit": "Millimeters",
   "PreviewSettings": 33501695,
   "Script": "using System;\r\nusing System.Drawing;\r\nusing System.Windows.Forms;\r\nusing System.Data;\r\nusing Stimulsoft.Controls;\r\nusing Stimulsoft.Base.Drawing;\r\nusing Stimulsoft.Report;\r\nusing Stimulsoft.Report.Dialogs;\r\nusing Stimulsoft.Report.Components;\r\n\r\nnamespace Reports\r\n{\r\n    \r\n    public class Report : Stimulsoft.Report.StiReport\r\n    {\r\n        \r\n        public Report()\r\n        {\r\n            this.InitializeComponent();\r\n        }\r\n        #region StiReport Designer generated code - do not modify\r\n\t\t#endregion StiReport Designer generated code - do not modify\r\n    }\r\n}",
   "ReferencedAssemblies": {
@@ -53,7 +54,7 @@
         "AllowUseAsSqlParameter": true
       },
       "4": {
-        "Value": "QT0000122000011",
+        "Value": "QT1008822000001",
         "Name": "SP_tDocNo",
         "Alias": "SP_tDocNo",
         "Type": "System.String",
@@ -69,7 +70,7 @@
         "AllowUseAsSqlParameter": true
       },
       "6": {
-        "Value": "00001",
+        "Value": "10088",
         "Name": "SP_tDocBch",
         "Alias": "SP_tDocBch",
         "Type": "System.String",
@@ -636,11 +637,32 @@
             "NameInSource": "FTXshCshOrCrd",
             "Alias": "FTXshCshOrCrd",
             "Type": "System.String"
+          },
+          "50": {
+            "Name": "FCXshVatNew",
+            "Index": -1,
+            "NameInSource": "FCXshVatNew",
+            "Alias": "FCXshVatNew",
+            "Type": "System.Decimal"
+          },
+          "51": {
+            "Name": "FCXshRnd",
+            "Index": -1,
+            "NameInSource": "FCXshRnd",
+            "Alias": "FCXshRnd",
+            "Type": "System.Decimal"
+          },
+          "52": {
+            "Name": "FCXshAmtNV",
+            "Index": -1,
+            "NameInSource": "FCXshAmtNV",
+            "Alias": "FCXshAmtNV",
+            "Type": "System.Decimal"
           }
         },
         "NameInSource": "Pos",
         "CommandTimeout": 5000,
-        "SqlCommand": "SELECT HD.FTBchCode,ISNULL(HD.FTCstCode,'') AS FTCstCode,ISNULL(FTXshRmk,'') AS FTXshRmk,\r\n\tISNULL(Cst.FTCstCardID,'') AS FTXshCardID,ISNULL(Cst_L.FTCstName,'') AS FTCstName,ISNULL(Cst.FTCstTel,'') AS FTCstTel,ISNULL(Cst.FTCstFax,'') AS FTCstFax,\r\n\tHD.FTXshDocNo,FDXshDocDate,CONVERT(VARCHAR(10),FDXshDocDate,103) AS FTChgDate,CONVERT(VARCHAR(10),FDXshDocDate,8) AS FTXshDocTime,HD.FTXshRefInt,HD.FTXshRefExt,HD.FTCreateBy,\r\n\tISNULL(HD.FTDptCode,'') AS FTDptCode,Dpl_L.FTDptName,\r\n\tISNULL(HD.FTUsrCode,'') AS FTUsrCode,Usr_L.FTUsrName,\r\n\tISNULL(HD.FTXshVATInOrEx,'') AS FTXshVATInOrEx,\r\n\tISNULL(FTXshStaDoc,'') AS FTXshStaDoc,\r\n\tISNULL(FTXshStaApv,'') AS FTXshStaApv,\r\n\tISNULL(HD.FTXshApvCode,'') AS FTXshApvCode,\r\n\tISNULL(SHD.FTXshCtrName,'') AS FTXshCtrName,\r\n\tISNULL(FTAddVersion,'2') AS FTAddVersion,\r\n\tISNULL(FTAddName,'') AS FTAddName,\r\n\tISNULL(FTAddV2Desc1,'') AS FTAddV2Desc1,\r\n\tISNULL(FTAddV2Desc2,'') AS FTAddV2Desc2,\r\n\tISNULL(CstAddr_L.FTAddRefNo,'') AS FTAddRefNo,\r\n\tISNULL(CstAddr_L.FTAddV1PvnCode,'') AS FTAddV1PvnCode, ISNULL(CstAddr_L.FTAddV1DstCode,'') AS FTAddV1DstCode,\r\n\tISNULL(CstAddr_L.FTAddV1SubDist,'') AS FTAddV1SubDist, \r\n\tISNULL(CstAddr_L.FTAddName,'') AS FTAddName, ISNULL(CstAddr_L.FTAddV1No, '') AS FTAddV1No,\r\n\tISNULL(CstAddr_L.FTAddV1Village, '') AS FTAddV1Village,\r\n\tISNULL(CstAddr_L.FTAddV1Soi, '') AS FTAddV1Soi,\r\n\tISNULL(CstAddr_L.FTAddV1Road, '') AS FTAddV1Road,\r\n\tISNULL(CstAddr_L.FTAddV1PostCode, '') AS FTAddV1PostCode,\r\n\tISNULL(FCXshTotal,0) AS FCXshTotal,ISNULL(FCXshVat,0) AS FCXshVat,ISNULL(FCXshChg,0) - ISNULL(FCXshDis,0) AS FCXshDiscount,\r\n\tISNULL(FCXshTotalAfDisChgV,0)+ISNULL(FCXshTotalAfDisChgNV,0) AS FCXshTotalAFDis,\r\n\tISNULL(FCXshGrand,0) AS FCXshGrandAmt,\r\n\tCASE WHEN HD.FTXshVATInOrEx='1' THEN ISNULL(FCXshTotal,0)+(ISNULL(FCXshChg,0) - ISNULL(FCXshDis,0)) ELSE (ISNULL(FCXshTotal,0)+(ISNULL(FCXshChg,0) - ISNULL(FCXshDis,0)))+HD.FCXshVat END AS FCXshGrand,    \r\n    HD.FTXshGndText,\r\n\tApver_L.FTUsrName AS FTUsrNameApp,Cst.FTCstTaxNo,Cst.FTCstBusiness,Cst.FTCstBchHQ ,Cst.FTCstBchCode ,Cst.FTCstEmail,\r\n\tHD.FTXshCshOrCrd\r\n\tFROM TARTSqHD  HD WITH (NOLOCK)  INNER JOIN \r\n     TARTSqHDCst SHD WITH (NOLOCK) ON HD.FTBchCode = SHD.FTBchCode AND HD.FTXshDocNo = SHD.FTXshDocNo LEFT JOIN \r\n\t TCNMCst Cst WITH (NOLOCK) ON HD.FTCstCode = Cst.FTCstCode LEFT JOIN\r\n\t TCNMCst_L Cst_L WITH (NOLOCK) ON HD.FTCstCode = Cst_L.FTCstCode AND Cst_L.FNLngID =  @pnLanguage LEFT JOIN\r\n     TCNMUsrDepart_L Dpl_L WITH (NOLOCK) ON  HD.FTDptCode = Dpl_L.FTDptCode AND Dpl_L.FNLngID =  @pnLanguage LEFT JOIN\r\n\t TCNMUser_L Usr_L  WITH (NOLOCK) ON HD.FTUsrCode = Usr_L.FTUsrCode AND Usr_L.FNLngID =  @pnLanguage LEFT JOIN\r\n\t TCNMUser_L Apver_L  WITH (NOLOCK) ON HD.FTXshApvCode = Apver_L.FTUsrCode AND Apver_L.FNLngID = @pnLanguage LEFT JOIN \t\r\n\t TCNMCstAddress_L CstAddr_L WITH (NoLock) ON HD.FTCstCode = CstAddr_L.FTCstCode AND CstAddr_L.FTAddGrpType = '1' AND CstAddr_L.FNLngID =  @pnLanguage\r\nWHERE HD.FTXshDocNo = @ptDocNo AND HD.FTBchCode = @ptDocBch\r\n",
+        "SqlCommand": "SELECT HD.FTBchCode,ISNULL(HD.FTCstCode,'') AS FTCstCode,ISNULL(FTXshRmk,'') AS FTXshRmk,\r\n\tISNULL(Cst.FTCstCardID,'') AS FTXshCardID,ISNULL(Cst_L.FTCstName,'') AS FTCstName,ISNULL(Cst.FTCstTel,'') AS FTCstTel,ISNULL(Cst.FTCstFax,'') AS FTCstFax,\r\n\tHD.FTXshDocNo,FDXshDocDate,CONVERT(VARCHAR(10),FDXshDocDate,103) AS FTChgDate,CONVERT(VARCHAR(10),FDXshDocDate,8) AS FTXshDocTime,HD.FTXshRefInt,HD.FTXshRefExt,HD.FTCreateBy,\r\n\tISNULL(HD.FTDptCode,'') AS FTDptCode,Dpl_L.FTDptName,\r\n\tISNULL(HD.FTUsrCode,'') AS FTUsrCode,Usr_L.FTUsrName,\r\n\tISNULL(HD.FTXshVATInOrEx,'') AS FTXshVATInOrEx,\r\n\tISNULL(FTXshStaDoc,'') AS FTXshStaDoc,\r\n\tISNULL(FTXshStaApv,'') AS FTXshStaApv,\r\n\tISNULL(HD.FTXshApvCode,'') AS FTXshApvCode,\r\n\tISNULL(SHD.FTXshCtrName,'') AS FTXshCtrName,\r\n\tISNULL(FTAddVersion,'2') AS FTAddVersion,\r\n\tISNULL(FTAddName,'') AS FTAddName,\r\n\tISNULL(FTAddV2Desc1,'') AS FTAddV2Desc1,\r\n\tISNULL(FTAddV2Desc2,'') AS FTAddV2Desc2,\r\n\tISNULL(CstAddr_L.FTAddRefNo,'') AS FTAddRefNo,\r\n\tISNULL(CstAddr_L.FTAddV1PvnCode,'') AS FTAddV1PvnCode, ISNULL(CstAddr_L.FTAddV1DstCode,'') AS FTAddV1DstCode,\r\n\tISNULL(CstAddr_L.FTAddV1SubDist,'') AS FTAddV1SubDist, \r\n\tISNULL(CstAddr_L.FTAddName,'') AS FTAddName, ISNULL(CstAddr_L.FTAddV1No, '') AS FTAddV1No,\r\n\tISNULL(CstAddr_L.FTAddV1Village, '') AS FTAddV1Village,\r\n\tISNULL(CstAddr_L.FTAddV1Soi, '') AS FTAddV1Soi,\r\n\tISNULL(CstAddr_L.FTAddV1Road, '') AS FTAddV1Road,\r\n\tISNULL(CstAddr_L.FTAddV1PostCode, '') AS FTAddV1PostCode,\r\n\tISNULL(FCXshTotal,0) AS FCXshTotal,ISNULL(FCXshVat,0) AS FCXshVat,ISNULL(FCXshChg,0) - ISNULL(FCXshDis,0) AS FCXshDiscount,\r\n\tISNULL(FCXshTotalAfDisChgV,0)+ISNULL(FCXshTotalAfDisChgNV,0) AS FCXshTotalAFDis,\r\n\tISNULL(FCXshGrand,0) AS FCXshGrandAmt,\r\n\tCASE WHEN HD.FTXshVATInOrEx='1' THEN ISNULL(FCXshTotal,0)+(ISNULL(FCXshChg,0) - ISNULL(FCXshDis,0)) ELSE (ISNULL(FCXshTotal,0)+(ISNULL(FCXshChg,0) - ISNULL(FCXshDis,0)))+HD.FCXshVat END AS FCXshGrand,    \r\n    HD.FTXshGndText,\r\n\tApver_L.FTUsrName AS FTUsrNameApp,Cst.FTCstTaxNo,Cst.FTCstBusiness,Cst.FTCstBchHQ ,Cst.FTCstBchCode ,Cst.FTCstEmail,\r\n\tHD.FTXshCshOrCrd,\r\n\t(ISNULL(HD.FCXshGrand,0)-ISNULL(HD.FCXshRnd,0))-ROUND(ISNULL(HD.FCXshVatable,0),2)- ISNULL(HD.FCXshAmtNV,0) AS FCXshVatNew,\r\n\tISNULL(HD.FCXshRnd,0) AS FCXshRnd,ISNULL(HD.FCXshAmtNV,0) AS FCXshAmtNV\r\n\tFROM TARTSqHD  HD WITH (NOLOCK)  INNER JOIN \r\n     TARTSqHDCst SHD WITH (NOLOCK) ON HD.FTBchCode = SHD.FTBchCode AND HD.FTXshDocNo = SHD.FTXshDocNo LEFT JOIN \r\n\t TCNMCst Cst WITH (NOLOCK) ON HD.FTCstCode = Cst.FTCstCode LEFT JOIN\r\n\t TCNMCst_L Cst_L WITH (NOLOCK) ON HD.FTCstCode = Cst_L.FTCstCode AND Cst_L.FNLngID =  @pnLanguage LEFT JOIN\r\n     TCNMUsrDepart_L Dpl_L WITH (NOLOCK) ON  HD.FTDptCode = Dpl_L.FTDptCode AND Dpl_L.FNLngID =  @pnLanguage LEFT JOIN\r\n\t TCNMUser_L Usr_L  WITH (NOLOCK) ON HD.FTUsrCode = Usr_L.FTUsrCode AND Usr_L.FNLngID =  @pnLanguage LEFT JOIN\r\n\t TCNMUser_L Apver_L  WITH (NOLOCK) ON HD.FTXshApvCode = Apver_L.FTUsrCode AND Apver_L.FNLngID = @pnLanguage LEFT JOIN \t\r\n\t TCNMCstAddress_L CstAddr_L WITH (NoLock) ON HD.FTCstCode = CstAddr_L.FTCstCode AND CstAddr_L.FTAddGrpType = '1' AND CstAddr_L.FNLngID =  @pnLanguage\r\nWHERE HD.FTXshDocNo = @ptDocNo AND HD.FTBchCode = @ptDocBch\r\n",
         "Parameters": {
           "0": {
             "Name": "ptDocNo",
@@ -786,11 +808,18 @@
             "NameInSource": "FCXsdVatRate",
             "Alias": "FCXsdVatRate",
             "Type": "System.Decimal"
+          },
+          "17": {
+            "Name": "FTXsdPdtName",
+            "Index": -1,
+            "NameInSource": "FTXsdPdtName",
+            "Alias": "FTXsdPdtName",
+            "Type": "System.String"
           }
         },
         "NameInSource": "Pos",
         "CommandTimeout": 10000,
-        "SqlCommand": "SELECT FNXsdSeqNo ,FTBchCode,FTXshDocNo,FTPdtCode,FTXsdBarCode, FTPdtName, FTPunCode,\r\n\t\tFTPunName,\r\n\t\tSUM(ISNULL(FCXsdQty,0)) AS FCXsdQty,\r\n\t\tFCXsdSetPrice,\r\n\t\tSUM(ISNULL(FCXsdDiscount,0)) AS FCXsdDiscount,\r\n\t\tSUM(ISNULL(FCXsdNet,0)) AS FCXsdNet,\r\n\t\tSUM(ISNULL(FCXsdDisFHD,0)) AS FCXsdDisFHD,\r\n\t\tSUM(ISNULL(FCXsdNet,0))- SUM(ISNULL(FCXsdDisFHD,0))  AS FCXsdGrandAmt,\r\n\t\tCASE WHEN FTXsdVatType = '1' THEN\r\n\t\t\t((SUM(ISNULL(FCXsdNet,0))- SUM(ISNULL(FCXsdDisFHD,0)))*FCXsdVatRate)/(100+FCXsdVatRate) ELSE\r\n\t\t\t0\r\n\t\tEND AS FCXsdVat,\r\n\t\tFTXsdVatType,FCXsdVatRate\r\nFROM\r\n\t(\r\n\tSELECT DT.FTBchCode, DT.FTXshDocNo,\r\n\t\tDT.FTPdtCode,DT.FTXsdBarCode, Pdt_L.FTPdtName, DT.FTPunCode,\r\n\t\tPun_L.FTPunName,\r\n\t\tDT.FCXsdQty,\r\n\t\tFCXsdSetPrice,\r\n\t\tFCXsdDiscount,\r\n\t\tFCXsdNet,\r\n\t\tDT.FNXsdSeqNo,DT.FTXsdVatType,FCXsdVatRate,\r\n\t\tDT.FCXsdVat,DT.FCXsdVatable,\r\n\t\tDT.FCXsdNet - DT.FCXsdNetAfHD AS FCXsdDisFHD\r\n\t\tFROM TARTSqDT DT WITH (NoLock)\r\n\t\tLEFT JOIN\r\n\t\t(\r\n\tSELECT FTBchCode,FTXshDocNo,FNXsdSeqNo,\r\n\t\tSUM(\r\n\t\tCASE FTXddDisChgType \r\n\t\t\t\tWHEN '1' THEN FCXddValue*-1\r\n\t\t\t\tWHEN '2' THEN FCXddValue*-1\r\n\t\t\t\tWHEN '3' THEN FCXddValue\r\n\t\t\t\tWHEN '4' THEN FCXddValue\r\n\t\t\t\tEND\r\n\t\t\t   ) AS FCXsdDiscount\r\n\t\t\tFROM TARTSqDTDis\r\n\t\t\tWHERE FNXddStaDis = 1\r\n\t\t\tGROUP BY FTBchCode,FTXshDocNo,FNXsdSeqNo\r\n\t\t) DTDis ON DT.FTBchCode = DTDis.FTBchCode AND DT.FTXshDocNo = DTDis.FTXshDocNo AND DT.FNXsdSeqNo = DTDis.FNXsdSeqNo\r\n\t\tLEFT JOIN TCNMPdt_L Pdt_L WITH (NoLock) ON DT.FTPdtCode = Pdt_L.FTPdtCode AND Pdt_L.FNLngID = @pnLanguage\r\n\t\tLEFT JOIN TCNMPdtUnit_L Pun_L WITH (NoLock) ON DT.FTPunCode = Pun_L.FTPunCode AND Pun_L.FNLngID =@pnLanguage\r\n\tWHERE DT.FTXshDocNo = @ptDocNo AND DT.FTBchCode = @ptDocBch\r\n) PtiPdt5\r\nWHERE PtiPdt5.FTXshDocNo = @ptDocNo AND FTBchCode = @ptDocBch\r\nGROUP BY FNXsdSeqNo,FTBchCode,FTXshDocNo,FTPdtCode,FTXsdBarCode, FTPdtName, FTPunCode,\r\nFTPunName,FCXsdSetPrice,FTXsdVatType,FCXsdVatRate",
+        "SqlCommand": "SELECT FNXsdSeqNo ,FTBchCode,FTXshDocNo,FTPdtCode,FTXsdBarCode,FTXsdPdtName ,FTPdtName, FTPunCode,\r\n\t\tFTPunName,\r\n\t\tSUM(ISNULL(FCXsdQty,0)) AS FCXsdQty,\r\n\t\tFCXsdSetPrice,\r\n\t\tSUM(ISNULL(FCXsdDiscount,0)) AS FCXsdDiscount,\r\n\t\tSUM(ISNULL(FCXsdNet,0)) AS FCXsdNet,\r\n\t\tSUM(ISNULL(FCXsdDisFHD,0)) AS FCXsdDisFHD,\r\n\t\tSUM(ISNULL(FCXsdNet,0))- SUM(ISNULL(FCXsdDisFHD,0))  AS FCXsdGrandAmt,\r\n\t\tCASE WHEN FTXsdVatType = '1' THEN\r\n\t\t\t((SUM(ISNULL(FCXsdNet,0))- SUM(ISNULL(FCXsdDisFHD,0)))*FCXsdVatRate)/(100+FCXsdVatRate) ELSE\r\n\t\t\t0\r\n\t\tEND AS FCXsdVat,\r\n\t\tFTXsdVatType,FCXsdVatRate\r\nFROM\r\n\t(\r\n\tSELECT DT.FTBchCode, DT.FTXshDocNo,\r\n\t\tDT.FTPdtCode,DT.FTXsdBarCode,DT.FTXsdPdtName, Pdt_L.FTPdtName, DT.FTPunCode,\r\n\t\tPun_L.FTPunName,\r\n\t\tDT.FCXsdQty,\r\n\t\tFCXsdSetPrice,\r\n\t\tFCXsdDiscount,\r\n\t\tFCXsdNet,\r\n\t\tDT.FNXsdSeqNo,DT.FTXsdVatType,FCXsdVatRate,\r\n\t\tDT.FCXsdVat,DT.FCXsdVatable,\r\n\t\tDT.FCXsdNet - DT.FCXsdNetAfHD AS FCXsdDisFHD\r\n\t\tFROM TARTSqDT DT WITH (NoLock)\r\n\t\tLEFT JOIN\r\n\t\t(\r\n\tSELECT FTBchCode,FTXshDocNo,FNXsdSeqNo,\r\n\t\tSUM(\r\n\t\tCASE FTXddDisChgType \r\n\t\t\t\tWHEN '1' THEN FCXddValue*-1\r\n\t\t\t\tWHEN '2' THEN FCXddValue*-1\r\n\t\t\t\tWHEN '3' THEN FCXddValue\r\n\t\t\t\tWHEN '4' THEN FCXddValue\r\n\t\t\t\tEND\r\n\t\t\t   ) AS FCXsdDiscount\r\n\t\t\tFROM TARTSqDTDis\r\n\t\t\tWHERE FNXddStaDis = 1\r\n\t\t\tGROUP BY FTBchCode,FTXshDocNo,FNXsdSeqNo\r\n\t\t) DTDis ON DT.FTBchCode = DTDis.FTBchCode AND DT.FTXshDocNo = DTDis.FTXshDocNo AND DT.FNXsdSeqNo = DTDis.FNXsdSeqNo\r\n\t\tLEFT JOIN TCNMPdt_L Pdt_L WITH (NoLock) ON DT.FTPdtCode = Pdt_L.FTPdtCode AND Pdt_L.FNLngID = @pnLanguage\r\n\t\tLEFT JOIN TCNMPdtUnit_L Pun_L WITH (NoLock) ON DT.FTPunCode = Pun_L.FTPunCode AND Pun_L.FNLngID =@pnLanguage\r\n\tWHERE DT.FTXshDocNo = @ptDocNo AND DT.FTBchCode = @ptDocBch\r\n) PtiPdt5\r\nWHERE PtiPdt5.FTXshDocNo = @ptDocNo AND FTBchCode = @ptDocBch\r\nGROUP BY FNXsdSeqNo,FTBchCode,FTXshDocNo,FTPdtCode,FTXsdBarCode,FTXsdPdtName, FTPdtName, FTPunCode,\r\nFTPunName,FCXsdSetPrice,FTXsdVatType,FCXsdVatRate",
         "Parameters": {
           "0": {
             "Name": "ptDocNo",
@@ -845,10 +874,31 @@
             "NameInSource": "FCXsdVat",
             "Alias": "FCXsdVat",
             "Type": "System.Decimal"
+          },
+          "4": {
+            "Name": "FCXsdVatable",
+            "Index": -1,
+            "NameInSource": "FCXsdVatable",
+            "Alias": "FCXsdVatable",
+            "Type": "System.Decimal"
+          },
+          "5": {
+            "Name": "FCXsdNetAfHD",
+            "Index": -1,
+            "NameInSource": "FCXsdNetAfHD",
+            "Alias": "FCXsdNetAfHD",
+            "Type": "System.Decimal"
+          },
+          "6": {
+            "Name": "FCXsdVatNew",
+            "Index": -1,
+            "NameInSource": "FCXsdVatNew",
+            "Alias": "FCXsdVatNew",
+            "Type": "System.Decimal"
           }
         },
         "NameInSource": "Pos",
-        "SqlCommand": "SELECT FTBchCode,FTXshDocNo,FCXsdVatRate,CAST(FCXsdVat AS DECIMAL(18,2)) AS FCXsdVat \r\nFROM\r\n(SELECT HD.FTBchCode,HD.FTXshDocNo,CAST(FCXsdVatRate AS DECIMAL(18,2))  AS FCXsdVatRate,\r\n\t SUM(FCXsdVat) AS FCXsdVat \r\n\t FROM TARTSqDT DT INNER JOIN TARTSqHD HD ON DT.FTBchCode = HD.FTBchCode AND DT.FTXshDocNo = HD.FTXshDocNo\r\n\t WHERE HD.FTXshDocNo = \t@ptDocNo AND FTXsdStaPdt <> '4' AND HD.FTBchCode = @ptDocBch\r\n\t GROUP BY HD.FTBchCode,HD.FTXshDocNo,CAST(FCXsdVatRate AS DECIMAL(18,2))\r\n    ) Vat",
+        "SqlCommand": "SELECT FTBchCode,FTXshDocNo,FCXsdVatRate,FCXsdVat ,CAST(FCXsdVatable AS DECIMAL(18,2)) AS FCXsdVatable, FCXsdNetAfHD,FCXsdNetAfHD-CAST(FCXsdVatable AS DECIMAL(18,2)) AS FCXsdVatNew\r\nFROM\r\n(SELECT HD.FTBchCode,HD.FTXshDocNo,CAST(FCXsdVatRate AS DECIMAL(18,2))  AS FCXsdVatRate,\r\n\t SUM(FCXsdVat) AS FCXsdVat,SUM(FCXsdVatable) AS FCXsdVatable,SUM(FCXsdNetAfHD) AS FCXsdNetAfHD\r\n\t FROM TARTSqDT DT INNER JOIN TARTSqHD HD ON DT.FTBchCode = HD.FTBchCode AND DT.FTXshDocNo = HD.FTXshDocNo\r\n\t WHERE HD.FTXshDocNo = \t@ptDocNo AND FTXsdStaPdt <> '4' AND HD.FTBchCode = @ptDocBch\r\n\t GROUP BY HD.FTBchCode,HD.FTXshDocNo,CAST(FCXsdVatRate AS DECIMAL(18,2))\r\n    ) Vat",
         "Parameters": {
           "0": {
             "Name": "ptDocNo",
@@ -976,7 +1026,7 @@
         "0": {
           "Ident": "StiPageHeaderBand",
           "Name": "PageHeader1",
-          "ClientRectangle": "0,0.4,20.4,7.05",
+          "ClientRectangle": "0,3.9,204,70.5",
           "Interaction": {
             "Ident": "StiInteraction"
           },
@@ -986,7 +1036,7 @@
             "0": {
               "Ident": "StiText",
               "Name": "Header",
-              "ClientRectangle": "11.07,0.2,8.6,0.7",
+              "ClientRectangle": "110.7,2,86,7",
               "Alias": "Header",
               "Interaction": {
                 "Ident": "StiInteraction"
@@ -1006,7 +1056,7 @@
               "Ident": "StiPanel",
               "Name": "Container1",
               "CanGrow": true,
-              "ClientRectangle": "0,2.2,10.9,3.45",
+              "ClientRectangle": "0,22,109,34.5",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -1018,7 +1068,7 @@
                   "Ident": "StiText",
                   "Name": "tTel",
                   "Guid": "5ee918350d484b60b9aa58fe6229de03",
-                  "ClientRectangle": "0.3,2.45,10.3,0.45",
+                  "ClientRectangle": "3,24.5,103,4.5",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -1036,9 +1086,8 @@
                   "Ident": "StiText",
                   "Name": "tSplAddress",
                   "Guid": "822c2197a06e4c37ba269c763c80f27d",
-                  "CanShrink": true,
                   "CanGrow": true,
-                  "ClientRectangle": "0.25,0.7,10.45,0.5",
+                  "ClientRectangle": "2.5,7,104.5,16.7",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -1062,7 +1111,7 @@
                   "Guid": "951d9c871fb74a61b8421b308d0725b7",
                   "CanShrink": true,
                   "CanGrow": true,
-                  "ClientRectangle": "0.05,0.2,10.75,0.5",
+                  "ClientRectangle": "0.5,2,107.5,5",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -1074,9 +1123,8 @@
                       "Ident": "StiText",
                       "Name": "tSplName",
                       "Guid": "26efd3f45231426faba32f7ccf7ff1ec",
-                      "CanShrink": true,
                       "CanGrow": true,
-                      "ClientRectangle": "0.2,0.05,10.45,0.45",
+                      "ClientRectangle": "2,0.5,104.5,4.5",
                       "Interaction": {
                         "Ident": "StiInteraction"
                       },
@@ -1101,7 +1149,7 @@
                   "Ident": "StiText",
                   "Name": "Text6",
                   "Guid": "ed460fa775fe4ccebf30daa0e3172ea7",
-                  "ClientRectangle": "0.3,2.9,10.29,0.45",
+                  "ClientRectangle": "3,29,102.9,4.5",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -1124,7 +1172,7 @@
                 "4": {
                   "Ident": "StiStartPointPrimitive",
                   "Name": "StartPointPrimitive3",
-                  "ClientRectangle": "0.15,0.05,0,0",
+                  "ClientRectangle": "1.5,0.5,0,0",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -1135,7 +1183,7 @@
             "2": {
               "Ident": "StiPanel",
               "Name": "Container2",
-              "ClientRectangle": "10.85,1,9.55,1.15",
+              "ClientRectangle": "108.5,10,95.5,11.5",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -1146,7 +1194,7 @@
                   "Ident": "StiText",
                   "Name": "TotalPage",
                   "Guid": "6b766ab665854a7d812ff3be4fd283f0",
-                  "ClientRectangle": "7.4,0.05,1.45,0.4",
+                  "ClientRectangle": "74,0.5,14.5,4",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -1162,7 +1210,7 @@
                   "Ident": "StiBarCode",
                   "Name": "tdBarcodeDoc",
                   "Guid": "7a5a08bf2caf492fb8a257b5a97327f5",
-                  "ClientRectangle": "0.25,0.5,8.6,0.5",
+                  "ClientRectangle": "2.5,5,86,5",
                   "Alias": "[Barcode]",
                   "Interaction": {
                     "Ident": "StiInteraction"
@@ -1181,7 +1229,7 @@
                   "Ident": "StiText",
                   "Name": "tDatePrint",
                   "Guid": "c5dd203116b84080adc0b35797117645",
-                  "ClientRectangle": "0.1,0.05,7.15,0.4",
+                  "ClientRectangle": "1,0.5,71.5,4",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -1200,7 +1248,7 @@
               "Ident": "StiPanel",
               "Name": "Container3",
               "CanGrow": true,
-              "ClientRectangle": "0,0.1,10.75,2.05",
+              "ClientRectangle": "0,1,107.5,20.5",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -1212,7 +1260,7 @@
                   "Ident": "StiText",
                   "Name": "CmpName",
                   "Guid": "b542f57c609b4485a31e1e2c866b6820",
-                  "ClientRectangle": "0.15,0.2,10.4,0.5",
+                  "ClientRectangle": "1.5,2,104,5",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -1231,7 +1279,7 @@
                   "Name": "CmpAddr",
                   "Guid": "2538538c36b0498f90976109fdee3c2a",
                   "CanGrow": true,
-                  "ClientRectangle": "0.15,0.7,10.35,0.4",
+                  "ClientRectangle": "1.5,7,103.5,12.1",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -1258,7 +1306,7 @@
               "Ident": "StiText",
               "Name": "tDocNo",
               "Guid": "aec36f1c31674f4f89d381c1000fee57",
-              "ClientRectangle": "11.25,2.45,8.5,0.45",
+              "ClientRectangle": "112.5,24.5,85,4.5",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -1276,7 +1324,7 @@
               "Ident": "StiText",
               "Name": "tDocDate",
               "Guid": "cc6d5426bfb949349bf3964142e53e33",
-              "ClientRectangle": "11.25,2.9,8.45,0.45",
+              "ClientRectangle": "112.5,29,84.5,4.5",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -1294,7 +1342,7 @@
               "Ident": "StiText",
               "Name": "tOperator",
               "Guid": "7903994508494d6089d6eea860bd902c",
-              "ClientRectangle": "11.25,3.35,8.45,0.45",
+              "ClientRectangle": "112.5,33.5,84.5,4.5",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -1312,7 +1360,7 @@
               "Ident": "StiText",
               "Name": "tContacter",
               "Guid": "fba1c7972b4c4f5898d7348924940d50",
-              "ClientRectangle": "11.25,4.25,8.45,0.45",
+              "ClientRectangle": "112.5,42.5,84.5,4.5",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -1329,7 +1377,7 @@
             "8": {
               "Ident": "StiPanel",
               "Name": "Panel2",
-              "ClientRectangle": "0,6,20.4,0.95",
+              "ClientRectangle": "0,60,204,9.5",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -1340,7 +1388,7 @@
                   "Ident": "StiText",
                   "Name": "tPdtName",
                   "Guid": "ab4e6ebccd894444bc2f8e6640b8af21",
-                  "ClientRectangle": "6.35,0.2,5.4,0.5",
+                  "ClientRectangle": "63.5,2,54,5",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -1358,7 +1406,7 @@
                   "Ident": "StiText",
                   "Name": "tPdtCode",
                   "Guid": "4f032a04f50343a6a76e4e5639d7a999",
-                  "ClientRectangle": "1.2,0.2,2.55,0.5",
+                  "ClientRectangle": "12,2,25.5,5",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -1376,7 +1424,7 @@
                   "Ident": "StiText",
                   "Name": "tNo",
                   "Guid": "3e68de0bea7c4a70b5badfe9afbe032f",
-                  "ClientRectangle": "0.2,0.2,0.9,0.5",
+                  "ClientRectangle": "2,2,9,5",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -1395,7 +1443,7 @@
                   "Ident": "StiText",
                   "Name": "tUnit",
                   "Guid": "8bcf355879ef4c18a0e44906d3cfb27d",
-                  "ClientRectangle": "13.4,0.2,1.25,0.5",
+                  "ClientRectangle": "134,2,12.5,5",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -1413,7 +1461,7 @@
                   "Ident": "StiText",
                   "Name": "tBarcode",
                   "Guid": "0986b5aaafb44ad48f915a79b059d6a1",
-                  "ClientRectangle": "3.75,0.2,2.6,0.5",
+                  "ClientRectangle": "37.5,2,26,5",
                   "Alias": "Barcode",
                   "Interaction": {
                     "Ident": "StiInteraction"
@@ -1432,7 +1480,7 @@
                   "Ident": "StiText",
                   "Name": "tUnitPrice",
                   "Guid": "aceb0b59a6ed48ddbcf1ddfa0080077d",
-                  "ClientRectangle": "14.65,0.2,1.65,0.5",
+                  "ClientRectangle": "146.5,2,16.5,5",
                   "Alias": "Price : Unit",
                   "Interaction": {
                     "Ident": "StiInteraction"
@@ -1452,7 +1500,7 @@
                   "Ident": "StiText",
                   "Name": "tAmount",
                   "Guid": "adbf47d1797041eabce2677565332773",
-                  "ClientRectangle": "17.7,0.2,2.05,0.5",
+                  "ClientRectangle": "177,2,20.5,5",
                   "Alias": "Amount",
                   "Interaction": {
                     "Ident": "StiInteraction"
@@ -1472,7 +1520,7 @@
                   "Ident": "StiText",
                   "Name": "Text4",
                   "Guid": "b3aa67e4657c4c1b8cf53d7a088086b8",
-                  "ClientRectangle": "16.3,0.2,1.4,0.5",
+                  "ClientRectangle": "163,2,14,5",
                   "Alias": "Price : Unit",
                   "Interaction": {
                     "Ident": "StiInteraction"
@@ -1492,7 +1540,7 @@
                   "Ident": "StiText",
                   "Name": "tQty",
                   "Guid": "3f96ea9844f74c5d97ab0f1292cf3267",
-                  "ClientRectangle": "11.8,0.2,1.5,0.5",
+                  "ClientRectangle": "118,2,15,5",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -1510,7 +1558,7 @@
                 "9": {
                   "Ident": "StiHorizontalLinePrimitive",
                   "Name": "HorizontalLine2",
-                  "ClientRectangle": "0.15,0.85,19.7,0.0254",
+                  "ClientRectangle": "1.5,8.5,197,0.254",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -1520,7 +1568,7 @@
                 "10": {
                   "Ident": "StiStartPointPrimitive",
                   "Name": "StartPointPrimitive2",
-                  "ClientRectangle": "0.15,0.1,0,0",
+                  "ClientRectangle": "1.5,1,0,0",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -1532,7 +1580,7 @@
               "Ident": "StiText",
               "Name": "Text5",
               "Guid": "e7d8278574514848b2dae803f94bbed2",
-              "ClientRectangle": "11.25,5.15,8.45,0.45",
+              "ClientRectangle": "112.5,51.5,84.5,4.5",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -1556,7 +1604,7 @@
               "Ident": "StiText",
               "Name": "Text20",
               "Guid": "e7b31581d23d48c0b84aa9b98b051834",
-              "ClientRectangle": "11.25,4.7,8.45,0.45",
+              "ClientRectangle": "112.5,47,84.5,4.5",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -1581,7 +1629,7 @@
               "Ident": "StiText",
               "Name": "tDpt",
               "Guid": "993f66676b6c4e75a1aebc51b5f4cd55",
-              "ClientRectangle": "11.25,3.8,8.45,0.45",
+              "ClientRectangle": "112.5,38,84.5,4.5",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -1599,7 +1647,7 @@
               "Ident": "StiPanel",
               "Name": "Panel5",
               "CanGrow": true,
-              "ClientRectangle": "0,5.8,20.4,0.15",
+              "ClientRectangle": "0,58,204,1.5",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -1610,7 +1658,7 @@
                 "0": {
                   "Ident": "StiSubReport",
                   "Name": "SubDocRefDT",
-                  "ClientRectangle": "0.05,0.05,20.3,0.05",
+                  "ClientRectangle": "0.5,0.5,203,0.5",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -1624,7 +1672,7 @@
             "13": {
               "Ident": "StiStartPointPrimitive",
               "Name": "StartPointPrimitive1",
-              "ClientRectangle": "11,0.1,0,0",
+              "ClientRectangle": "110,1,0,0",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -1633,7 +1681,7 @@
             "14": {
               "Ident": "StiStartPointPrimitive",
               "Name": "StartPointPrimitive4",
-              "ClientRectangle": "11.1,2.25,0,0",
+              "ClientRectangle": "111,22.5,0,0",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -1642,7 +1690,7 @@
             "15": {
               "Ident": "StiEndPointPrimitive",
               "Name": "EndPointPrimitive1",
-              "ClientRectangle": "19.85,0.95,0,0",
+              "ClientRectangle": "198.5,9.5,0,0",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -1651,7 +1699,7 @@
             "16": {
               "Ident": "StiEndPointPrimitive",
               "Name": "EndPointPrimitive4",
-              "ClientRectangle": "19.85,5.75,0,0",
+              "ClientRectangle": "198.5,57.5,0,0",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -1660,7 +1708,7 @@
             "17": {
               "Ident": "StiEndPointPrimitive",
               "Name": "EndPointPrimitive3",
-              "ClientRectangle": "10.95,5.75,0,0",
+              "ClientRectangle": "109.5,57.5,0,0",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -1671,7 +1719,7 @@
         "1": {
           "Ident": "StiPageFooterBand",
           "Name": "PageFooter1",
-          "ClientRectangle": "0,20.8,20.4,8.2",
+          "ClientRectangle": "0,208,204,82",
           "Interaction": {
             "Ident": "StiInteraction"
           },
@@ -1681,7 +1729,7 @@
             "0": {
               "Ident": "StiPanel",
               "Name": "Container4",
-              "ClientRectangle": "13.05,0.2,7.35,3.05",
+              "ClientRectangle": "130.5,2,73.5,30.5",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -1693,7 +1741,7 @@
                   "Name": "GrossTotal",
                   "Guid": "3b8ab19e38a948a6a4364444b2d5e0d5",
                   "PrintOn": "OnlyLastPage",
-                  "ClientRectangle": "4.05,0.05,2.55,0.5",
+                  "ClientRectangle": "40.5,0.5,25.5,5",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -1719,7 +1767,7 @@
                   "Name": "DiscountHD",
                   "Guid": "bf11a01a63864fc3a6d9ed12f3445fe3",
                   "PrintOn": "OnlyLastPage",
-                  "ClientRectangle": "4,0.55,2.6,0.5",
+                  "ClientRectangle": "40,5.5,26,5",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -1745,7 +1793,7 @@
                   "Name": "NetAmt",
                   "Guid": "d9e2ef5cb5ed44b3a322e0e294bb23c7",
                   "PrintOn": "OnlyLastPage",
-                  "ClientRectangle": "4,1.05,2.6,0.5",
+                  "ClientRectangle": "40,10.5,26,5",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -1771,12 +1819,12 @@
                   "Name": "Vat",
                   "Guid": "cd69b3435f574095bba841c14f96f623",
                   "PrintOn": "OnlyLastPage",
-                  "ClientRectangle": "4,2.05,2.6,0.5",
+                  "ClientRectangle": "40,20.5,26,5",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
                   "Text": {
-                    "Value": "{Sum(Data1,TARTSODT.FCXsdVat)}"
+                    "Value": "{Sum(TARTSODTVat.FCXsdVatNew)}"
                   },
                   "HorAlignment": "Right",
                   "VertAlignment": "Center",
@@ -1797,7 +1845,7 @@
                   "Name": "GranTotal",
                   "Guid": "44722848d64b412b8257128572fcbf2a",
                   "PrintOn": "OnlyLastPage",
-                  "ClientRectangle": "4,2.55,2.6,0.5",
+                  "ClientRectangle": "40,25.5,26,5",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -1823,7 +1871,7 @@
                   "Name": "tGranTotal",
                   "Guid": "e68f63563b2947f8add598b857094a7f",
                   "PrintOn": "OnlyLastPage",
-                  "ClientRectangle": "0.05,2.55,3.8,0.5",
+                  "ClientRectangle": "0.5,25.5,38,5",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -1842,7 +1890,7 @@
                   "Name": "tVat",
                   "Guid": "791239dae75c42baa6008f46915bc34e",
                   "PrintOn": "OnlyLastPage",
-                  "ClientRectangle": "0.05,2.05,3.8,0.5",
+                  "ClientRectangle": "0.5,20.5,38,5",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -1861,7 +1909,7 @@
                   "Name": "tDiscountHD",
                   "Guid": "89ba16482bb642c5a08514802c3eaaaa",
                   "PrintOn": "OnlyLastPage",
-                  "ClientRectangle": "0.05,0.55,3.8,0.5",
+                  "ClientRectangle": "0.5,5.5,38,5",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -1880,7 +1928,7 @@
                   "Name": "tGrossTotal",
                   "Guid": "50f5c8bbc70c4df687725b41e98385cd",
                   "PrintOn": "OnlyLastPage",
-                  "ClientRectangle": "0.05,0.05,4,0.5",
+                  "ClientRectangle": "0.5,0.5,40,5",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -1899,7 +1947,7 @@
                   "Name": "tNetAmt",
                   "Guid": "470eb05cb588436785813a3d7840f0bd",
                   "PrintOn": "OnlyLastPage",
-                  "ClientRectangle": "0.05,1.05,3.8,0.5",
+                  "ClientRectangle": "0.5,10.5,38,5",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -1918,7 +1966,7 @@
                   "Name": "Text8",
                   "Guid": "cb6a7b9575b1471089dd2a1404ddc85c",
                   "PrintOn": "OnlyLastPage",
-                  "ClientRectangle": "4,1.55,2.6,0.5",
+                  "ClientRectangle": "40,15.5,26,5",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -1944,7 +1992,7 @@
                   "Name": "Text9",
                   "Guid": "8a5f3e4e29824f0c89deaecb153c60c9",
                   "PrintOn": "OnlyLastPage",
-                  "ClientRectangle": "0.05,1.55,3.8,0.5",
+                  "ClientRectangle": "0.5,15.5,38,5",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -1963,7 +2011,7 @@
             "1": {
               "Ident": "StiText",
               "Name": "Text3",
-              "ClientRectangle": "0.4,2.75,12.4,0.5",
+              "ClientRectangle": "4,27.5,124,5",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -1981,7 +2029,7 @@
               "Ident": "StiPanel",
               "Name": "Panel3",
               "CanGrow": true,
-              "ClientRectangle": "0,3.4,20.4,3.2",
+              "ClientRectangle": "0,34,204,32",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -1995,7 +2043,7 @@
                   "Guid": "ca5ac26cb8fe4525b867d1dfad2538b7",
                   "CanShrink": true,
                   "CanGrow": true,
-                  "ClientRectangle": "0.35,0.1,9.3,0.55",
+                  "ClientRectangle": "3.5,1,93,27.4",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -2017,7 +2065,7 @@
                   "Ident": "StiText",
                   "Name": "Text14",
                   "Guid": "a84e65f275664af9a5a4708ae37a7f9f",
-                  "ClientRectangle": "9.8,2,5.1,0.6",
+                  "ClientRectangle": "98,20,51,6",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -2036,7 +2084,7 @@
                   "Ident": "StiText",
                   "Name": "Text15",
                   "Guid": "a4ad39e5041e4f0b9803be4f2f47894f",
-                  "ClientRectangle": "9.95,1.25,0.25,0.6",
+                  "ClientRectangle": "99.5,12.5,2.5,6",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -2053,7 +2101,7 @@
                   "Ident": "StiText",
                   "Name": "Text16",
                   "Guid": "3a9ffb303e274e5abd8cd01cef74c5f3",
-                  "ClientRectangle": "9.95,0.15,4.7,0.6",
+                  "ClientRectangle": "99.5,1.5,47,6",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -2072,7 +2120,7 @@
                   "Ident": "StiText",
                   "Name": "Text17",
                   "Guid": "eec789a6ebd645668df536210a850901",
-                  "ClientRectangle": "9.8,2.65,5.1,0.45",
+                  "ClientRectangle": "98,26.5,51,4.5",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -2090,7 +2138,7 @@
                   "Ident": "StiText",
                   "Name": "Text18",
                   "Guid": "e36a09160fc946f8bd2fa1a67ed8bf27",
-                  "ClientRectangle": "9.8,0.95,5.1,0.3",
+                  "ClientRectangle": "98,9.5,51,3",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -2108,7 +2156,7 @@
                   "Ident": "StiText",
                   "Name": "Text1",
                   "Guid": "24327d08a85649b1b4c4071354081c0b",
-                  "ClientRectangle": "14.7,1.25,0.2,0.6",
+                  "ClientRectangle": "147,12.5,2,6",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -2126,7 +2174,7 @@
                   "Ident": "StiText",
                   "Name": "tReceive",
                   "Guid": "61e5e08d37db4ea3aa6174510729e1b2",
-                  "ClientRectangle": "15.2,1.9,4.55,0.6",
+                  "ClientRectangle": "152,19,45.5,6",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -2144,7 +2192,7 @@
                   "Ident": "StiText",
                   "Name": "tDelivered",
                   "Guid": "91b8c471bf19492aabb8a1ccfa613ec0",
-                  "ClientRectangle": "15.2,0.45,4.55,0.6",
+                  "ClientRectangle": "152,4.5,45.5,6",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -2162,7 +2210,7 @@
                   "Ident": "StiText",
                   "Name": "tDate1",
                   "Guid": "dfb22e749a6345ebb9ed02566d309723",
-                  "ClientRectangle": "15.2,1.1,4.55,0.6",
+                  "ClientRectangle": "152,11,45.5,6",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -2180,7 +2228,7 @@
                   "Ident": "StiText",
                   "Name": "tDate2",
                   "Guid": "35c54b529f784761bb2315ad5cba5376",
-                  "ClientRectangle": "15.2,2.6,4.55,0.55",
+                  "ClientRectangle": "152,26,45.5,5.5",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -2197,7 +2245,7 @@
                 "11": {
                   "Ident": "StiStartPointPrimitive",
                   "Name": "StartPointPrimitive5",
-                  "ClientRectangle": "0.15,0.05,0,0",
+                  "ClientRectangle": "1.5,0.5,0,0",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -2206,7 +2254,7 @@
                 "12": {
                   "Ident": "StiEndPointPrimitive",
                   "Name": "EndPointPrimitive5",
-                  "ClientRectangle": "15,3.15,0,0",
+                  "ClientRectangle": "150,31.5,0,0",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -2215,7 +2263,7 @@
                 "13": {
                   "Ident": "StiStartPointPrimitive",
                   "Name": "StartPointPrimitive6",
-                  "ClientRectangle": "9.8,0.05,0,0",
+                  "ClientRectangle": "98,0.5,0,0",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -2224,7 +2272,7 @@
                 "14": {
                   "Ident": "StiEndPointPrimitive",
                   "Name": "EndPointPrimitive6",
-                  "ClientRectangle": "9.8,3.15,0,0",
+                  "ClientRectangle": "98,31.5,0,0",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -2233,7 +2281,7 @@
                 "15": {
                   "Ident": "StiStartPointPrimitive",
                   "Name": "StartPointPrimitive7",
-                  "ClientRectangle": "15.1,0.05,0,0",
+                  "ClientRectangle": "151,0.5,0,0",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -2242,7 +2290,7 @@
                 "16": {
                   "Ident": "StiEndPointPrimitive",
                   "Name": "EndPointPrimitive7",
-                  "ClientRectangle": "19.85,3.15,0,0",
+                  "ClientRectangle": "198.5,31.5,0,0",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -2254,9 +2302,8 @@
               "Ident": "StiPanel",
               "Name": "Panel4",
               "PrintOn": "OnlyLastPage",
-              "CanShrink": true,
               "CanGrow": true,
-              "ClientRectangle": "8.3,0.3,4.7,2.35",
+              "ClientRectangle": "83,3,47,23.5",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -2267,7 +2314,7 @@
                 "0": {
                   "Ident": "StiSubReport",
                   "Name": "SubVat",
-                  "ClientRectangle": "0.1,0.05,4.55,0.55",
+                  "ClientRectangle": "1,0.5,45.5,5.5",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -2280,7 +2327,7 @@
             "4": {
               "Ident": "StiEndPointPrimitive",
               "Name": "EndPointPrimitive2",
-              "ClientRectangle": "19.85,3.3,0,0",
+              "ClientRectangle": "198.5,33,0,0",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -2290,7 +2337,7 @@
               "Ident": "StiHorizontalLinePrimitive",
               "Name": "HorizontalLine3",
               "Guid": "9141c63f61c04eda8d2c42275830d854",
-              "ClientRectangle": "0.15,0.1,19.7,0.0254",
+              "ClientRectangle": "1.5,1,197,0.254",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -2303,7 +2350,7 @@
           "Ident": "StiGroupHeaderBand",
           "Name": "GroupHeader1",
           "CanShrink": true,
-          "ClientRectangle": "0,8.25,20.4,0.05",
+          "ClientRectangle": "0,82.2,204,0.5",
           "Interaction": {
             "Ident": "StiBandInteraction"
           },
@@ -2319,7 +2366,7 @@
           "Ident": "StiDataBand",
           "Name": "Data1",
           "CanShrink": true,
-          "ClientRectangle": "0,9.1,20.4,0.4",
+          "ClientRectangle": "0,90.5,204,4",
           "Interaction": {
             "Ident": "StiBandInteraction"
           },
@@ -2331,7 +2378,7 @@
               "Ident": "StiText",
               "Name": "Qty",
               "Guid": "cd4df916e70a4dc1a036ec828ac3292a",
-              "ClientRectangle": "11.8,0,1.5,0.4",
+              "ClientRectangle": "118,0,15,4",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -2354,16 +2401,13 @@
               "Ident": "StiText",
               "Name": "PdtName",
               "Guid": "f5206b2b8d3640e6b7106a49c2b2569c",
-              "CanShrink": true,
               "CanGrow": true,
-              "GrowToHeight": true,
-              "ClientRectangle": "6.35,0,5.4,0.4",
+              "ClientRectangle": "63.5,0,54,4",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
-              "Editable": true,
               "Text": {
-                "Value": "{TARTSODT.FTPdtName}"
+                "Value": "{TARTSODT.FTXsdPdtName}"
               },
               "CanBreak": true,
               "Font": "Tahoma;9;;",
@@ -2374,14 +2418,14 @@
                 "WordWrap": true
               },
               "LineSpacing": 1.1000000238418579,
-              "Type": "Expression"
+              "Type": "DataColumn"
             },
             "2": {
               "Ident": "StiText",
               "Name": "tdPdtCode",
               "Guid": "78ba2748284b458eb2af7d06a6c4323e",
               "CanGrow": true,
-              "ClientRectangle": "1.2,0,2.55,0.4",
+              "ClientRectangle": "12,0,25.5,4",
               "Alias": "[Product Code]",
               "Interaction": {
                 "Ident": "StiInteraction"
@@ -2402,7 +2446,7 @@
               "Ident": "StiText",
               "Name": "LineNo",
               "Guid": "5a988d2fc442466b84029c7d508302d8",
-              "ClientRectangle": "0.2,0,0.8,0.4",
+              "ClientRectangle": "2,0,8,4",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -2420,7 +2464,7 @@
               "Ident": "StiText",
               "Name": "PdtUnit",
               "Guid": "cb85e910862d4c6190facd1bf1d163ae",
-              "ClientRectangle": "13.4,0,1.25,0.4",
+              "ClientRectangle": "134,0,12.5,4",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -2438,7 +2482,7 @@
               "Name": "tdBarcode",
               "Guid": "0686bc135fa146ceb559c5e280a5403b",
               "CanGrow": true,
-              "ClientRectangle": "3.75,0,2.6,0.4",
+              "ClientRectangle": "37.5,0,26,4",
               "Alias": "[Barcode]",
               "Interaction": {
                 "Ident": "StiInteraction"
@@ -2459,7 +2503,7 @@
               "Ident": "StiText",
               "Name": "nSetPrice",
               "Guid": "2580567bef22475c89a44e058fe3319a",
-              "ClientRectangle": "14.65,0,1.65,0.4",
+              "ClientRectangle": "146.5,0,16.5,4",
               "Alias": "SetPrice",
               "Interaction": {
                 "Ident": "StiInteraction"
@@ -2486,7 +2530,7 @@
               "Ident": "StiText",
               "Name": "nAmount",
               "Guid": "513249b78134469790b5fb66c6b2933b",
-              "ClientRectangle": "17.7,0,2.05,0.4",
+              "ClientRectangle": "177,0,20.5,4",
               "Alias": "Amount",
               "Interaction": {
                 "Ident": "StiInteraction"
@@ -2513,7 +2557,7 @@
               "Ident": "StiText",
               "Name": "Text7",
               "Guid": "152c266a26ed4425a4cd60f1ca2dd806",
-              "ClientRectangle": "16.3,0,1.4,0.4",
+              "ClientRectangle": "163,0,14,4",
               "Alias": "Price : Unit",
               "Interaction": {
                 "Ident": "StiInteraction"
@@ -2549,7 +2593,7 @@
           "Ident": "StiGroupFooterBand",
           "Name": "GroupFooter1",
           "CanShrink": true,
-          "ClientRectangle": "0,10.3,20.4,1.05",
+          "ClientRectangle": "0,102.3,204,10.5",
           "Enabled": false,
           "Interaction": {
             "Ident": "StiInteraction"
@@ -2561,7 +2605,7 @@
               "Ident": "StiHorizontalLinePrimitive",
               "Name": "HorizontalLine5",
               "Guid": "d34a902177b04835b2885a1d63cad5d6",
-              "ClientRectangle": "0.15,0.85,19.9,0.0254",
+              "ClientRectangle": "1.5,8.5,199,0.254",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -2572,7 +2616,7 @@
               "Ident": "StiHorizontalLinePrimitive",
               "Name": "HorizontalLine1",
               "Guid": "dfc378957a0c40809090eb53d4e101d3",
-              "ClientRectangle": "0.15,0.1,19.9,0.0254",
+              "ClientRectangle": "1.5,1,199,0.254",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -2585,7 +2629,7 @@
           "Ident": "StiRoundedRectanglePrimitive",
           "Name": "RoundedRectanglePrimitive1",
           "Guid": "9c492308b26d4f0cbb3333b8a6c11599",
-          "ClientRectangle": "11,0.5,8.85,0.85",
+          "ClientRectangle": "110,4.9,88.5,8.5",
           "Interaction": {
             "Ident": "StiInteraction"
           },
@@ -2595,7 +2639,7 @@
           "Ident": "StiRoundedRectanglePrimitive",
           "Name": "RoundedRectangle1",
           "Guid": "89106e34c9c340e2ac1b54ef762145cf",
-          "ClientRectangle": "0.15,6.5,19.7,17.6",
+          "ClientRectangle": "1.5,64.9,197,176.1",
           "Interaction": {
             "Ident": "StiInteraction"
           },
@@ -2605,7 +2649,7 @@
           "Ident": "StiRoundedRectanglePrimitive",
           "Name": "RoundedRectangle2",
           "Guid": "8faf532b730e4b038cdf2fcbc5a44c7d",
-          "ClientRectangle": "0.15,2.65,10.8,3.5",
+          "ClientRectangle": "1.5,26.4,108,35",
           "Interaction": {
             "Ident": "StiInteraction"
           },
@@ -2615,7 +2659,7 @@
           "Ident": "StiRoundedRectanglePrimitive",
           "Name": "RoundedRectangle3",
           "Guid": "32586d38c9f1415b84e1b4e0c37c0c3f",
-          "ClientRectangle": "11.1,2.65,8.75,3.5",
+          "ClientRectangle": "111,26.4,87.5,35",
           "Interaction": {
             "Ident": "StiInteraction"
           },
@@ -2625,7 +2669,7 @@
           "Ident": "StiRoundedRectanglePrimitive",
           "Name": "RoundedRectangle4",
           "Guid": "cbb59815f6b44d3da95ce0e8a347a8b0",
-          "ClientRectangle": "0.15,24.25,14.85,3.1",
+          "ClientRectangle": "1.5,242.5,148.5,31",
           "Interaction": {
             "Ident": "StiInteraction"
           },
@@ -2635,7 +2679,7 @@
           "Ident": "StiVerticalLinePrimitive",
           "Name": "VerticalLine1",
           "Guid": "c6c6184fd2ae4a6d9daf17f4fe513e5c",
-          "ClientRectangle": "9.8,24.25,0.0254,3.1",
+          "ClientRectangle": "98,242.5,0.254,31",
           "Interaction": {
             "Ident": "StiInteraction"
           },
@@ -2646,7 +2690,7 @@
           "Ident": "StiRoundedRectanglePrimitive",
           "Name": "RoundedRectangle5",
           "Guid": "eae51f0c48f84c7ca7096dc4503f8faf",
-          "ClientRectangle": "15.1,24.25,4.75,3.1",
+          "ClientRectangle": "151,242.5,47.5,31",
           "Interaction": {
             "Ident": "StiInteraction"
           },
@@ -2656,17 +2700,17 @@
       "PaperSize": "A4",
       "PaperSourceOfFirstPage": "Automatically Select",
       "PaperSourceOfOtherPages": "Automatically Select",
-      "PageWidth": 21.0,
-      "PageHeight": 29.7,
+      "PageWidth": 210.0,
+      "PageHeight": 297.0,
       "Watermark": {
         "Font": ";150;;",
         "TextBrush": "solid:50,0,0,0"
       },
       "Margins": {
-        "Left": 0.3,
-        "Right": 0.3,
-        "Top": 0.3,
-        "Bottom": 0.4
+        "Left": 3.0,
+        "Right": 3.0,
+        "Top": 3.0,
+        "Bottom": 4.0
       }
     },
     "1": {
@@ -2683,7 +2727,7 @@
           "Ident": "StiGroupHeaderBand",
           "Name": "GroupHeaderBand3",
           "Guid": "ebadf0078a32439e8c52fea6229648d3",
-          "ClientRectangle": "0,0.4,4.55,0.35",
+          "ClientRectangle": "0,3.9,45.5,3.5",
           "Interaction": {
             "Ident": "StiBandInteraction"
           },
@@ -2695,7 +2739,7 @@
               "Name": "Text25",
               "Guid": "1659e3f7fe204928b0313f5e1c2155c5",
               "PrintOn": "OnlyLastPage",
-              "ClientRectangle": "0.15,0,1.9,0.35",
+              "ClientRectangle": "1.5,0,19,3.5",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -2715,7 +2759,7 @@
               "Name": "Text12",
               "Guid": "2a85566b8d25456bb52c0131dce8a750",
               "PrintOn": "OnlyLastPage",
-              "ClientRectangle": "2.2,0,2.3,0.35",
+              "ClientRectangle": "22,0,21,3.5",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -2739,7 +2783,7 @@
           "Ident": "StiDataBand",
           "Name": "DataBand3",
           "Guid": "348ccdce821b4db785507cbbf0052b96",
-          "ClientRectangle": "0,1.55,4.55,0.4",
+          "ClientRectangle": "0,15.2,45.5,4",
           "Interaction": {
             "Ident": "StiBandInteraction"
           },
@@ -2750,7 +2794,7 @@
               "Ident": "StiText",
               "Name": "Text10",
               "Guid": "1845a48408244d84971fc454ea2b6998",
-              "ClientRectangle": "0.53,0,1.52,0.4",
+              "ClientRectangle": "1.5,0,19,4",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -2758,7 +2802,7 @@
                 "Value": "{TARTSODT.FCXsdVatRate}"
               },
               "HorAlignment": "Right",
-              "VertAlignment": "Bottom",
+              "VertAlignment": "Center",
               "Font": "Tahoma;;;",
               "Border": "Bottom;;;None;;;;solid:Black",
               "Brush": "solid:",
@@ -2775,15 +2819,15 @@
               "Ident": "StiText",
               "Name": "Text11",
               "Guid": "61695af7c61d4d088bf15930c25a37c1",
-              "ClientRectangle": "2.2,0,2.3,0.4",
+              "ClientRectangle": "22,0,21,4",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
               "Text": {
-                "Value": "{TARTSODTVat.FCXsdVat}"
+                "Value": "{TARTSODTVat.FCXsdVatNew}"
               },
               "HorAlignment": "Right",
-              "VertAlignment": "Bottom",
+              "VertAlignment": "Center",
               "Font": "Tahoma;;;",
               "Border": "Bottom;;;None;;;;solid:Black",
               "Brush": "solid:",
@@ -2803,7 +2847,7 @@
           "Ident": "StiGroupFooterBand",
           "Name": "GroupFooterBand2",
           "Guid": "ce47c7474a8f4ba4b0a870ed31b1c9fb",
-          "ClientRectangle": "0,2.75,4.55,0.45",
+          "ClientRectangle": "0,27,45.5,4.5",
           "Interaction": {
             "Ident": "StiInteraction"
           },
@@ -2814,12 +2858,12 @@
               "Ident": "StiText",
               "Name": "Text24",
               "Guid": "79886b7f8b884bf2b71f57c47492e81f",
-              "ClientRectangle": "2.2,0.04,2.3,0.4",
+              "ClientRectangle": "22,0.4,21,4",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
               "Text": {
-                "Value": "{Sum(DataBand3,TARTSODTVat.FCXsdVat)}"
+                "Value": "{Sum(DataBand3,TARTSODTVat.FCXsdVatNew)}"
               },
               "HorAlignment": "Right",
               "VertAlignment": "Center",
@@ -2840,7 +2884,7 @@
               "Name": "Text26",
               "Guid": "fa9d6d27c4b544efb2de86124d4cacb5",
               "PrintOn": "OnlyLastPage",
-              "ClientRectangle": "0.48,0.04,1.62,0.4",
+              "ClientRectangle": "1.5,0.4,19,4",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -2858,16 +2902,16 @@
           }
         }
       },
-      "PageWidth": 6.55,
-      "PageHeight": 29.7,
+      "PageWidth": 65.5,
+      "PageHeight": 297.0,
       "Watermark": {
         "TextBrush": "solid:50,0,0,0"
       },
       "Margins": {
-        "Left": 1.0,
-        "Right": 1.0,
-        "Top": 1.0,
-        "Bottom": 1.0
+        "Left": 10.0,
+        "Right": 10.0,
+        "Top": 10.0,
+        "Bottom": 10.0
       }
     },
     "2": {
@@ -2883,7 +2927,7 @@
         "0": {
           "Ident": "StiGroupHeaderBand",
           "Name": "GroupHeaderBand4",
-          "ClientRectangle": "0,0.4,20.3,0.75",
+          "ClientRectangle": "0,3.9,203,7.5",
           "Interaction": {
             "Ident": "StiBandInteraction"
           },
@@ -2894,7 +2938,7 @@
               "Ident": "StiText",
               "Name": "Text13",
               "Guid": "a556b7c21fb04827a079be460a939496",
-              "ClientRectangle": "0.1,0.15,6.6,0.45",
+              "ClientRectangle": "1,1.5,66,4.5",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -2913,7 +2957,7 @@
               "Ident": "StiText",
               "Name": "Text22",
               "Guid": "dfb5f69500654826917682a538bbb1a0",
-              "ClientRectangle": "6.7,0.15,6.95,0.45",
+              "ClientRectangle": "67,1.5,69.5,4.5",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -2932,7 +2976,7 @@
               "Ident": "StiText",
               "Name": "Text37",
               "Guid": "d22abbeaec3c4e0fa2375eb09d5b87fa",
-              "ClientRectangle": "13.75,0.15,5.95,0.45",
+              "ClientRectangle": "137.5,1.5,59.5,4.5",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -2950,7 +2994,7 @@
             "3": {
               "Ident": "StiStartPointPrimitive",
               "Name": "StartPointPrimitive16",
-              "ClientRectangle": "0.1,0.05,0,0",
+              "ClientRectangle": "1,0.5,0,0",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -2959,7 +3003,7 @@
             "4": {
               "Ident": "StiStartPointPrimitive",
               "Name": "StartPointPrimitive11",
-              "ClientRectangle": "6.75,0.05,0,0",
+              "ClientRectangle": "67.5,0.5,0,0",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -2968,7 +3012,7 @@
             "5": {
               "Ident": "StiStartPointPrimitive",
               "Name": "StartPointPrimitive18",
-              "ClientRectangle": "13.65,0.05,0,0",
+              "ClientRectangle": "136.5,0.5,0,0",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -2977,7 +3021,7 @@
             "6": {
               "Ident": "StiStartPointPrimitive",
               "Name": "StartPointPrimitive8",
-              "ClientRectangle": "0.15,0,0,0",
+              "ClientRectangle": "1.5,0,0,0",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -2986,7 +3030,7 @@
             "7": {
               "Ident": "StiStartPointPrimitive",
               "Name": "StartPointPrimitive9",
-              "ClientRectangle": "6.75,0,0,0",
+              "ClientRectangle": "67.5,0,0,0",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -2995,7 +3039,7 @@
             "8": {
               "Ident": "StiStartPointPrimitive",
               "Name": "StartPointPrimitive10",
-              "ClientRectangle": "13.7,0,0,0",
+              "ClientRectangle": "137,0,0,0",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -3004,7 +3048,7 @@
             "9": {
               "Ident": "StiHorizontalLinePrimitive",
               "Name": "HorizontalLinePrimitive1",
-              "ClientRectangle": "0.1,0.7,19.7,0.0254",
+              "ClientRectangle": "1,7,197,0.254",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -3014,7 +3058,7 @@
             "10": {
               "Ident": "StiStartPointPrimitive",
               "Name": "StartPointPrimitive12",
-              "ClientRectangle": "0.1,0,0,0",
+              "ClientRectangle": "1,0,0,0",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -3023,7 +3067,7 @@
             "11": {
               "Ident": "StiStartPointPrimitive",
               "Name": "StartPointPrimitive13",
-              "ClientRectangle": "6.7,0,0,0",
+              "ClientRectangle": "67,0,0,0",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -3032,7 +3076,7 @@
             "12": {
               "Ident": "StiStartPointPrimitive",
               "Name": "StartPointPrimitive14",
-              "ClientRectangle": "13.65,0,0,0",
+              "ClientRectangle": "136.5,0,0,0",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -3041,7 +3085,7 @@
             "13": {
               "Ident": "StiStartPointPrimitive",
               "Name": "StartPointPrimitive15",
-              "ClientRectangle": "0.2,0.05,0,0",
+              "ClientRectangle": "2,0.5,0,0",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -3050,7 +3094,7 @@
             "14": {
               "Ident": "StiStartPointPrimitive",
               "Name": "StartPointPrimitive17",
-              "ClientRectangle": "6.8,0.05,0,0",
+              "ClientRectangle": "68,0.5,0,0",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -3059,7 +3103,7 @@
             "15": {
               "Ident": "StiStartPointPrimitive",
               "Name": "StartPointPrimitive19",
-              "ClientRectangle": "13.75,0.05,0,0",
+              "ClientRectangle": "137.5,0.5,0,0",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -3068,7 +3112,7 @@
             "16": {
               "Ident": "StiStartPointPrimitive",
               "Name": "StartPointPrimitive20",
-              "ClientRectangle": "0.1,0,0,0",
+              "ClientRectangle": "1,0,0,0",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -3077,7 +3121,7 @@
             "17": {
               "Ident": "StiStartPointPrimitive",
               "Name": "StartPointPrimitive21",
-              "ClientRectangle": "6.7,0,0,0",
+              "ClientRectangle": "67,0,0,0",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -3086,7 +3130,7 @@
             "18": {
               "Ident": "StiStartPointPrimitive",
               "Name": "StartPointPrimitive22",
-              "ClientRectangle": "13.65,0,0,0",
+              "ClientRectangle": "136.5,0,0,0",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -3100,7 +3144,7 @@
         "1": {
           "Ident": "StiDataBand",
           "Name": "DataBand2",
-          "ClientRectangle": "0,1.95,20.3,0.55",
+          "ClientRectangle": "0,19.2,203,5.5",
           "Interaction": {
             "Ident": "StiBandInteraction"
           },
@@ -3111,7 +3155,7 @@
               "Ident": "StiText",
               "Name": "Text21",
               "Guid": "66d47d1f60f44e39908e4cc7228fe65c",
-              "ClientRectangle": "0.65,0,5.95,0.55",
+              "ClientRectangle": "6.5,0,59.5,5.5",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -3128,7 +3172,7 @@
             "1": {
               "Ident": "StiText",
               "Name": "Text36",
-              "ClientRectangle": "7.5,0,5.95,0.55",
+              "ClientRectangle": "75,0,59.5,5.5",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -3145,7 +3189,7 @@
             "2": {
               "Ident": "StiText",
               "Name": "Text38",
-              "ClientRectangle": "15.85,0,1.9,0.55",
+              "ClientRectangle": "158.5,0,19,5.5",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -3166,7 +3210,7 @@
         "2": {
           "Ident": "StiGroupFooterBand",
           "Name": "GroupFooterBand1",
-          "ClientRectangle": "0,3.3,20.3,0.1",
+          "ClientRectangle": "0,32.5,203,1",
           "Interaction": {
             "Ident": "StiInteraction"
           },
@@ -3176,7 +3220,7 @@
             "0": {
               "Ident": "StiEndPointPrimitive",
               "Name": "EndPointPrimitive8",
-              "ClientRectangle": "19.8,0.05,0,0",
+              "ClientRectangle": "198,0.5,0,0",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -3185,7 +3229,7 @@
             "1": {
               "Ident": "StiEndPointPrimitive",
               "Name": "EndPointPrimitive9",
-              "ClientRectangle": "6.75,0.05,0,0",
+              "ClientRectangle": "67.5,0.5,0,0",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -3194,7 +3238,7 @@
             "2": {
               "Ident": "StiEndPointPrimitive",
               "Name": "EndPointPrimitive10",
-              "ClientRectangle": "13.65,0.05,0,0",
+              "ClientRectangle": "136.5,0.5,0,0",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -3203,7 +3247,7 @@
             "3": {
               "Ident": "StiEndPointPrimitive",
               "Name": "EndPointPrimitive11",
-              "ClientRectangle": "19.75,0.05,0,0",
+              "ClientRectangle": "197.5,0.5,0,0",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -3212,7 +3256,7 @@
             "4": {
               "Ident": "StiEndPointPrimitive",
               "Name": "EndPointPrimitive12",
-              "ClientRectangle": "6.7,0.05,0,0",
+              "ClientRectangle": "67,0.5,0,0",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -3221,7 +3265,7 @@
             "5": {
               "Ident": "StiEndPointPrimitive",
               "Name": "EndPointPrimitive13",
-              "ClientRectangle": "13.65,0.05,0,0",
+              "ClientRectangle": "136.5,0.5,0,0",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -3230,7 +3274,7 @@
             "6": {
               "Ident": "StiEndPointPrimitive",
               "Name": "EndPointPrimitive14",
-              "ClientRectangle": "20.1,0.1,0,0",
+              "ClientRectangle": "201,1,0,0",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -3239,7 +3283,7 @@
             "7": {
               "Ident": "StiEndPointPrimitive",
               "Name": "EndPointPrimitive15",
-              "ClientRectangle": "6.8,0.1,0,0",
+              "ClientRectangle": "68,1,0,0",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -3248,7 +3292,7 @@
             "8": {
               "Ident": "StiEndPointPrimitive",
               "Name": "EndPointPrimitive16",
-              "ClientRectangle": "13.75,0.1,0,0",
+              "ClientRectangle": "137.5,1,0,0",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -3257,7 +3301,7 @@
             "9": {
               "Ident": "StiEndPointPrimitive",
               "Name": "EndPointPrimitive17",
-              "ClientRectangle": "20,0.05,0,0",
+              "ClientRectangle": "200,0.5,0,0",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -3266,7 +3310,7 @@
             "10": {
               "Ident": "StiEndPointPrimitive",
               "Name": "EndPointPrimitive18",
-              "ClientRectangle": "6.7,0.05,0,0",
+              "ClientRectangle": "67,0.5,0,0",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -3275,7 +3319,7 @@
             "11": {
               "Ident": "StiEndPointPrimitive",
               "Name": "EndPointPrimitive19",
-              "ClientRectangle": "13.65,0.05,0,0",
+              "ClientRectangle": "136.5,0.5,0,0",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -3287,7 +3331,7 @@
           "Ident": "StiRectanglePrimitive",
           "Name": "RectanglePrimitive5",
           "Guid": "00dc332e66454b2382fff4d8562ec6a8",
-          "ClientRectangle": "0.1,0.45,19.7,2.9",
+          "ClientRectangle": "1,4.4,197,28.6",
           "Interaction": {
             "Ident": "StiInteraction"
           }
@@ -3296,7 +3340,7 @@
           "Ident": "StiVerticalLinePrimitive",
           "Name": "VerticalLinePrimitive7",
           "Guid": "4a46c0b46121418ea762da58f92d6ebb",
-          "ClientRectangle": "6.75,0.45,0.0254,2.9",
+          "ClientRectangle": "67.5,4.4,0.254,28.6",
           "Interaction": {
             "Ident": "StiInteraction"
           },
@@ -3307,7 +3351,7 @@
           "Ident": "StiVerticalLinePrimitive",
           "Name": "VerticalLinePrimitive9",
           "Guid": "922141b09be140bd9915f27610be003f",
-          "ClientRectangle": "13.65,0.45,0.0254,2.9",
+          "ClientRectangle": "136.5,4.4,0.254,28.6",
           "Interaction": {
             "Ident": "StiInteraction"
           },
@@ -3315,16 +3359,16 @@
           "EndCap": ";;;"
         }
       },
-      "PageWidth": 22.3,
-      "PageHeight": 29.7,
+      "PageWidth": 223.0,
+      "PageHeight": 297.0,
       "Watermark": {
         "TextBrush": "solid:50,0,0,0"
       },
       "Margins": {
-        "Left": 1.0,
-        "Right": 1.0,
-        "Top": 1.0,
-        "Bottom": 1.0
+        "Left": 10.0,
+        "Right": 10.0,
+        "Top": 10.0,
+        "Bottom": 10.0
       }
     }
   }
