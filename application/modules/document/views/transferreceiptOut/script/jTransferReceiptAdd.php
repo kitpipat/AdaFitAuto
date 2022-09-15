@@ -776,9 +776,9 @@
             Master: 'TCNMSpl',
             PK: 'FTSplCode'
         },
-        Where :{
-            Condition : ["AND TCNMSpl.FTAgnCode = '<?php echo $tAgnCode; ?>' "],
-        },
+        // Where :{
+        //     // Condition : ["AND TCNMSpl.FTAgnCode = '<?php echo $tAgnCode; ?>' "],
+        // },
         Join: {
             Table: ['TCNMSpl_L'],
             On: ['TCNMSpl_L.FTSplCode = TCNMSpl.FTSplCode AND TCNMSpl_L.FNLngID = ' + nLangEdits]

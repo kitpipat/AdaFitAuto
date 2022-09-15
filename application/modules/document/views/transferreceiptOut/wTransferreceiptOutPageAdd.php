@@ -504,7 +504,7 @@ if (isset($aDataDocHD) && $aDataDocHD['rtCode'] == "1") {
 
                                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                         <div id="odvINWhereSPL" style="display:none;">
-
+                                            
                                             <!-- เลือกผู้จำหน่าย -->
                                             <div class="form-group">
                                                 <label class="xCNLabelFrm"><?= language('document/topupVending/topupVending', 'tTBSpl'); ?></label>
