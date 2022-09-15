@@ -196,9 +196,10 @@
             }
         });
 
-        var tStatusDoc = $('#ohdIVStaDoc').val();
-        var tStatusApv = $('#ohdIVStaApv').val();
-        if(tStatusDoc == 3 || (tStatusDoc == 1 && tStatusApv == 1)){ //เอกสารยกเลิก + เอกสารอนุมัติแล้ว
+        var tStatusDoc      = $('#ohdIVStaDoc').val();
+        var tStatusApv      = $('#ohdIVStaApv').val();
+        var tStatusPrcStk   = $('#ohdIVStaPrcDoc').val();
+        if(tStatusDoc == 3 || (tStatusDoc == 1 && tStatusApv == 1 && tStatusPrcStk == 1)){ //เอกสารยกเลิก + เอกสารอนุมัติแล้ว
             //อินพุต
             $('#oetSearchPdtHTML').attr('readonly', false);
 

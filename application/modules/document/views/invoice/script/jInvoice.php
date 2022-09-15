@@ -49,7 +49,7 @@
         let tStatusPrcStk   = $('#ohdIVStaPrcDoc').val();
 
         // Control ฟอร์ม
-        if(tStatusDoc == 3 || (tStatusDoc == 1 && tStatusApv == 1)){ //เอกสารยกเลิก
+        if(tStatusDoc == 3 || (tStatusDoc == 1 && tStatusApv == 1 && tStatusPrcStk == 1)){ //เอกสารยกเลิก
             //ปุ่มเลือก
             $('.xCNBtnBrowseAddOn').addClass('disabled');
             $('.xCNBtnBrowseAddOn').attr('disabled',true);
@@ -68,6 +68,7 @@
             $('.selectpicker').prop("disabled",true)
         }
 
+
         // Control ปุ่ม
         if(tStatusDoc == 3 ){ //เอกสารยกเลิก
             //ปุ่มยกเลิก
@@ -78,7 +79,8 @@
 
             //ปุ่มบันทึก
             $('.xCNBTNSaveDoc').hide();
-        }else if(tStatusDoc == 1 && tStatusApv == 1 && tStatusPrcStk == 1){ // เอกสารอนุมัติแล้ว และ มีการส่งข้อมูลเรียบร้อย
+        }else if(tStatusDoc == 1 && tStatusApv == 1 && tStatusPrcStk == 1){ 
+            // เอกสารอนุมัติแล้ว และ มีการส่งข้อมูลเรียบร้อย
             
             //ปุ่มยกเลิก
             $('#obtIVCancelDoc').show();
@@ -92,11 +94,12 @@
             //สามารถกรอกหมายเหตุได้
             $('#otaIVRemark').attr('readonly', false);
         }else if(tStatusDoc == 1 && tStatusApv == 1 && tStatusPrcStk == ''){
+            
             //ปุ่มยกเลิก
             $('#obtIVCancelDoc').show();
 
             //ปุ่มอนุมัติ
-            $('#obtIVApproveDoc').hide();
+            $('#obtIVApproveDoc').show();
 
             //ปุ่มบันทึก
             $('.xCNBTNSaveDoc').show();

@@ -1,4 +1,4 @@
-<script>
+<script type="text/javascript">
     $('.selectpicker').selectpicker('refresh');
     $("#obtIVSubmitFromDoc").removeAttr("disabled");
 
