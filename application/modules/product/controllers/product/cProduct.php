@@ -268,8 +268,7 @@ class cProduct extends MX_Controller{
     // Last Modified : -
     // Return : String View
     // Return Type : View
-    public function FSoCPDTCallPageEdit()
-    {
+    public function FSoCPDTCallPageEdit(){
         try {
             $tPdtCode       = $this->input->post('tPdtCode');
             $nLangResort    = $this->session->userdata("tLangID");
@@ -364,27 +363,27 @@ class cProduct extends MX_Controller{
             ), true);
 
             $aReturnData    = array(
-                'vPdtPageAdd'       => $tViewPagePdtAdd,
-                'nStaEvent'         => '1',
-                'tStaMessg'         => 'Call Page Success',
+                'vPdtPageAdd'   => $tViewPagePdtAdd,
+                'nStaEvent'     => '1',
+                'tStaMessg'     => 'Call Page Success',
                 //เพิ่มใหม่
-                'tLogType' => 'INFO',
-                'tDocNo' => $tPdtCode,
-                'tEventName' => 'เรียกดูสินค้า',
-                'nLogCode' => '001',
-                'nLogLevel' => '',
+                'tLogType'      => 'INFO',
+                'tDocNo'        => $tPdtCode,
+                'tEventName'    => 'เรียกดูสินค้า',
+                'nLogCode'      => '001',
+                'nLogLevel'     => '',
                 'FTXphUsrApv'   => ''
             );
         } catch (Exception $Error) {
             $aReturnData    = array(
-                'nStaEvent' => '500',
-                'tStaMessg' => $Error->getMessage(),
+                'nStaEvent'     => '500',
+                'tStaMessg'     => $Error->getMessage(),
                 //เพิ่มใหม่
-                'tLogType' => 'INFO',
-                'tDocNo' => $tPdtCode,
-                'tEventName' => 'เรียกดูสินค้า',
-                'nLogCode' => '001',
-                'nLogLevel' => '',
+                'tLogType'      => 'INFO',
+                'tDocNo'        => $tPdtCode,
+                'tEventName'    => 'เรียกดูสินค้า',
+                'nLogCode'      => '001',
+                'nLogLevel'     => '',
                 'FTXphUsrApv'   => ''
             );
         }

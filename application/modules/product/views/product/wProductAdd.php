@@ -338,6 +338,11 @@
     }
     
 </style>
+<?php 
+    // echo "<pre>";
+    // print_r($this->session->userdata());
+    // echo "</pre>";
+?>
 
 <input type="hidden" id="ohdErrMsgNotHasUnit" value="<?php echo language('product/product/product', 'tErrMsgNotHasUnit') ?>">
 <input type="hidden" id="ohdErrMsgNotHasBarCode" value="<?php echo language('product/product/product', 'tErrMsgNotHasBarCode') ?>">

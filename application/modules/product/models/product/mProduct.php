@@ -1950,53 +1950,103 @@ class mProduct extends CI_Model{
     // Creator:  20/02/2019 Wasin(Yoshi)
     // Return: Array Data Image
     // ReturnType: Array
-    public function FSaMPDTGetDataInfoByID($paDataWhere)
-    {
+    public function FSaMPDTGetDataInfoByID($paDataWhere){
+        $tAgnCode   = $this->session->userdata('tSesUsrAgnCode');
+        $tAgnType   = $this->session->userdata('tAgnType');
         $tPdtCode   = $paDataWhere['FTPdtCode'];
         $nLngID     = $paDataWhere['FNLngID'];
-        $tSQL       = " SELECT
-                            PDT.FTPdtCode,PDTL.FTPdtName,PDTL.FTPdtNameOth,PDTL.FTPdtNameABB,PDT.FTPdtStkControl,PDT.FTPdtGrpControl,PDT.FTPdtForSystem,
-                            PDT.FCPdtQtyOrdBuy,PDT.FCPdtCostDef,PDT.FCPdtCostOth,PDT.FCPdtCostStd,PDT.FCPdtMax,PDT.FTPdtPoint,PDT.FCPdtPointTime,PDT.FTPdtType,
-                            PDT.FTPdtSaleType,PDT.FTPdtSetOrSN,PDT.FTPdtStaAlwDis,PDT.FTPdtStaAlwReturn,PDT.FTPdtStaVatBuy,PDT.FTPdtStaVat,PDT.FTPdtStaActive,PDT.FTPdtStaAlwReCalOpt,
-                            PDT.FTPdtStaCsm,PDT.FTTcgCode,TCGL.FTTcgName,PDT.FTPgpChain,PGPL.FTPgpChainName,
-                            PDT.FTPtyCode,PTYL.FTPtyName,PDT.FTPbnCode,PBNL.FTPbnName,PDT.FTPmoCode,PMOL.FTPmoName,PDT.FTVatCode,VAT.FCVatRate,
-                            PDT.FTPdtStaLot,
-                            PDT.FTPdtStaAlwWHTax,
-                            PDT.FTPdtStaAlwBook,
-                            PDT.FTPdtStaSetPri,PDT.FTPdtStaSetShwDT, --Napat(Jame) 13/11/2019
-                            PDT.FTPdtType,PDT.FTPdtSaleType, --Napat(Jame) 10/09/2019
-                            SPC.FCPdtMin, --Napat(Jame) 17/09/2019 ย้ายจาก TCNMPdt ไป TCNMPdtSpcBch
-                            FTPdtStaSetPrcStk, --Napat(Jame) 20/11/2020
 
-                            BCHL.FTBchName,MERL.FTMerName,SHPL.FTShpName,
-                            BCHL.FTBchCode,MERL.FTMerCode,SHPL.FTShpCode,
-                            MPGL.FTMgpCode,MPGL.FTMgpName,
-                            AGNL.FTAgnCode,AGNL.FTAgnName,
-                            PDT.FTPdtCtrlRole,
-							              ROLEL.FTRolName,
-                            ROLEL.FTRolCode,
+        if(isset($tAgnCode) && !empty($tAgnCode) && isset($tAgnType) && $tAgnType == 2){
+            // เช็ค สถานะ ตัวแทนขาย / แฟรนไชส์ และ เช็ค สถานะแฟรนไชส์ == 2
+            $tSQL   = "
+                SELECT DISTINCT
+                    PDT.FTPdtCode,PDTL.FTPdtName,PDTL.FTPdtNameOth,PDTL.FTPdtNameABB,PDT.FTPdtStkControl,PDT.FTPdtGrpControl,PDT.FTPdtForSystem,
+                    PDT.FCPdtQtyOrdBuy,
+                    ISNULL(PDT.FCPdtCostDef,0)      AS FCPdtCostDef,
+                    ISNULL(PDT.FCPdtCostOth,0)      AS FCPdtCostOth,
+                    ISNULL(COSTAVG.FCPdtCostStd,0)  AS FCPdtCostStd,
+                    PDT.FCPdtMax,PDT.FTPdtPoint,PDT.FCPdtPointTime,PDT.FTPdtType,PDT.FTPdtSaleType,PDT.FTPdtSetOrSN,PDT.FTPdtStaAlwDis,PDT.FTPdtStaAlwReturn,
+                    PDT.FTPdtStaVatBuy,PDT.FTPdtStaVat,PDT.FTPdtStaActive,PDT.FTPdtStaAlwReCalOpt,
+                    PDT.FTPdtStaCsm,PDT.FTTcgCode,TCGL.FTTcgName,PDT.FTPgpChain,PGPL.FTPgpChainName,
+                    PDT.FTPtyCode,PTYL.FTPtyName,PDT.FTPbnCode,PBNL.FTPbnName,PDT.FTPmoCode,PMOL.FTPmoName,PDT.FTVatCode,VAT.FCVatRate,
+                    PDT.FTPdtStaLot,PDT.FTPdtStaAlwWHTax,PDT.FTPdtStaAlwBook,PDT.FTPdtStaSetPri,PDT.FTPdtStaSetShwDT,
+                    PDT.FTPdtType,PDT.FTPdtSaleType,SPC.FCPdtMin,PDT.FTPdtStaSetPrcStk,
+                    BCHL.FTBchName,MERL.FTMerName,SHPL.FTShpName,
+                    BCHL.FTBchCode,MERL.FTMerCode,SHPL.FTShpCode,
+                    MPGL.FTMgpCode,MPGL.FTMgpName,
+                    AGNL.FTAgnCode,AGNL.FTAgnName,
+                    PDT.FTPdtCtrlRole,
+                    ROLEL.FTRolName,
+                    ROLEL.FTRolCode,
+                    CONVERT(CHAR(10),PDT.FDPdtSaleStart,126)    AS FDPdtSaleStart,
+                    CONVERT(CHAR(10),PDT.FDPdtSaleStop,126)     AS FDPdtSaleStop,
+                    PDTL.FTPdtRmk
+                FROM TCNMPdt PDT WITH(NOLOCK)
+                LEFT JOIN TCNMPdt_L         PDTL    WITH(NOLOCK)    ON PDT.FTPdtCode        = PDTL.FTPdtCode    AND PDTL.FNLngID    = ".$this->db->escape($nLngID)."
+                LEFT JOIN TCNMPdtTouchGrp_L TCGL    WITH(NOLOCK)    ON PDT.FTTcgCode        = TCGL.FTTcgCode    AND TCGL.FNLngID    = ".$this->db->escape($nLngID)."
+                LEFT JOIN TCNMPdtGrp_L      PGPL    WITH(NOLOCK)    ON PDT.FTPgpChain       = PGPL.FTPgpChain   AND PGPL.FNLngID    = ".$this->db->escape($nLngID)."
+                LEFT JOIN TCNMPdtType_L     PTYL    WITH(NOLOCK)    ON PDT.FTPtyCode        = PTYL.FTPtyCode    AND PTYL.FNLngID    = ".$this->db->escape($nLngID)."
+                LEFT JOIN TCNMPdtBrand_L    PBNL    WITH(NOLOCK)    ON PDT.FTPbnCode        = PBNL.FTPbnCode    AND PBNL.FNLngID    = ".$this->db->escape($nLngID)."
+                LEFT JOIN TCNMPdtModel_L    PMOL    WITH(NOLOCK)    ON PDT.FTPmoCode        = PMOL.FTPmoCode    AND PMOL.FNLngID    = ".$this->db->escape($nLngID)."
+                LEFT JOIN VCN_VatActive     VAT     WITH(NOLOCK)    ON PDT.FTVatCode        = VAT.FTVatCode
+                LEFT JOIN TCNMPdtSpcBch     SPC     WITH(NOLOCK)    ON SPC.FTPdtCode        = PDT.FTPdtCode
+                LEFT JOIN TCNMAgency_L      AGNL    WITH(NOLOCK)    ON SPC.FTAgnCode        = AGNL.FTAgnCode    AND AGNL.FNLngID    = ".$this->db->escape($nLngID)."
+                LEFT JOIN TCNMBranch_L      BCHL    WITH(NOLOCK)    ON SPC.FTBchCode        = BCHL.FTBchCode    AND BCHL.FNLngID    = ".$this->db->escape($nLngID)."
+                LEFT JOIN TCNMMerchant_L    MERL    WITH(NOLOCK)    ON SPC.FTMerCode        = MERL.FTMerCode    AND MERL.FNLngID    = ".$this->db->escape($nLngID)."
+                LEFT JOIN TCNMShop_L        SHPL    WITH(NOLOCK)    ON SPC.FTShpCode        = SHPL.FTShpCode    AND  SPC.FTBchCode  = SHPL.FTBchCode  AND SHPL.FNLngID  = ".$this->db->escape($nLngID)."
+                LEFT JOIN TCNMMerPdtGrp_L   MPGL    WITH(NOLOCK)    ON SPC.FTMgpCode        = MPGL.FTMgpCode    AND MPGL.FNLngID    = ".$this->db->escape($nLngID)."
+                LEFT JOIN TCNMUsrRole_L		ROLEL	WITH(NOLOCK)    ON PDT.FTPdtCtrlRole    = ROLEL.FTRolCode   AND ROLEL.FNLngID   = ".$this->db->escape($nLngID)."
+                LEFT JOIN TCNMPdtCostAvg	COSTAVG	WITH(NOLOCK)	ON PDT.FTPdtCode		= COSTAVG.FTPdtCode	AND COSTAVG.FTAgnCode   = ".$this->db->escape($tAgnCode)."
+                WHERE PDT.FTPdtCode <> '' AND PDT.FTPdtCode = ".$this->db->escape($tPdtCode)."
+            ";
+        } else {
+            $tSQL   = "
+                SELECT DISTINCT
+                    PDT.FTPdtCode,PDTL.FTPdtName,PDTL.FTPdtNameOth,PDTL.FTPdtNameABB,PDT.FTPdtStkControl,PDT.FTPdtGrpControl,PDT.FTPdtForSystem,
+                    PDT.FCPdtQtyOrdBuy,
+                    ISNULL(PDT.FCPdtCostDef,0)  AS FCPdtCostDef,
+                    ISNULL(PDT.FCPdtCostOth,0)  AS FCPdtCostOth,
+                    ISNULL(PDT.FCPdtCostStd,0)  AS FCPdtCostStd,
+                    PDT.FCPdtMax,PDT.FTPdtPoint,PDT.FCPdtPointTime,PDT.FTPdtType,
+                    PDT.FTPdtSaleType,PDT.FTPdtSetOrSN,PDT.FTPdtStaAlwDis,PDT.FTPdtStaAlwReturn,PDT.FTPdtStaVatBuy,PDT.FTPdtStaVat,PDT.FTPdtStaActive,PDT.FTPdtStaAlwReCalOpt,
+                    PDT.FTPdtStaCsm,PDT.FTTcgCode,TCGL.FTTcgName,PDT.FTPgpChain,PGPL.FTPgpChainName,
+                    PDT.FTPtyCode,PTYL.FTPtyName,PDT.FTPbnCode,PBNL.FTPbnName,PDT.FTPmoCode,PMOL.FTPmoName,PDT.FTVatCode,VAT.FCVatRate,
+                    PDT.FTPdtStaLot,
+                    PDT.FTPdtStaAlwWHTax,
+                    PDT.FTPdtStaAlwBook,
+                    PDT.FTPdtStaSetPri,PDT.FTPdtStaSetShwDT, --Napat(Jame) 13/11/2019
+                    PDT.FTPdtType,PDT.FTPdtSaleType, --Napat(Jame) 10/09/2019
+                    SPC.FCPdtMin, --Napat(Jame) 17/09/2019 ย้ายจาก TCNMPdt ไป TCNMPdtSpcBch
+                    FTPdtStaSetPrcStk, --Napat(Jame) 20/11/2020
+                    BCHL.FTBchName,MERL.FTMerName,SHPL.FTShpName,
+                    BCHL.FTBchCode,MERL.FTMerCode,SHPL.FTShpCode,
+                    MPGL.FTMgpCode,MPGL.FTMgpName,
+                    AGNL.FTAgnCode,AGNL.FTAgnName,
+                    PDT.FTPdtCtrlRole,
+                    ROLEL.FTRolName,
+                    ROLEL.FTRolCode,
+                    CONVERT(CHAR(10),PDT.FDPdtSaleStart,126)    AS FDPdtSaleStart,
+                    CONVERT(CHAR(10),PDT.FDPdtSaleStop,126)     AS FDPdtSaleStop,
+                    PDTL.FTPdtRmk
+                FROM TCNMPdt PDT WITH(NOLOCK)
+                LEFT JOIN TCNMPdt_L         PDTL    WITH(NOLOCK)    ON PDT.FTPdtCode        = PDTL.FTPdtCode    AND PDTL.FNLngID    = ".$this->db->escape($nLngID)."
+                LEFT JOIN TCNMPdtTouchGrp_L TCGL    WITH(NOLOCK)    ON PDT.FTTcgCode        = TCGL.FTTcgCode    AND TCGL.FNLngID    = ".$this->db->escape($nLngID)."
+                LEFT JOIN TCNMPdtGrp_L      PGPL    WITH(NOLOCK)    ON PDT.FTPgpChain       = PGPL.FTPgpChain   AND PGPL.FNLngID    = ".$this->db->escape($nLngID)."
+                LEFT JOIN TCNMPdtType_L     PTYL    WITH(NOLOCK)    ON PDT.FTPtyCode        = PTYL.FTPtyCode    AND PTYL.FNLngID    = ".$this->db->escape($nLngID)."
+                LEFT JOIN TCNMPdtBrand_L    PBNL    WITH(NOLOCK)    ON PDT.FTPbnCode        = PBNL.FTPbnCode    AND PBNL.FNLngID    = ".$this->db->escape($nLngID)."
+                LEFT JOIN TCNMPdtModel_L    PMOL    WITH(NOLOCK)    ON PDT.FTPmoCode        = PMOL.FTPmoCode    AND PMOL.FNLngID    = ".$this->db->escape($nLngID)."
+                LEFT JOIN VCN_VatActive     VAT     WITH(NOLOCK)    ON PDT.FTVatCode        = VAT.FTVatCode
+                LEFT JOIN TCNMPdtSpcBch     SPC     WITH(NOLOCK)    ON SPC.FTPdtCode        = PDT.FTPdtCode
+                LEFT JOIN TCNMAgency_L      AGNL    WITH(NOLOCK)    ON SPC.FTAgnCode        = AGNL.FTAgnCode    AND AGNL.FNLngID    = ".$this->db->escape($nLngID)."
+                LEFT JOIN TCNMBranch_L      BCHL    WITH(NOLOCK)    ON SPC.FTBchCode        = BCHL.FTBchCode    AND BCHL.FNLngID    = ".$this->db->escape($nLngID)."
+                LEFT JOIN TCNMMerchant_L    MERL    WITH(NOLOCK)    ON SPC.FTMerCode        = MERL.FTMerCode    AND MERL.FNLngID    = ".$this->db->escape($nLngID)."
+                LEFT JOIN TCNMShop_L        SHPL    WITH(NOLOCK)    ON SPC.FTShpCode        = SHPL.FTShpCode    AND  SPC.FTBchCode  = SHPL.FTBchCode  AND SHPL.FNLngID  = ".$this->db->escape($nLngID)."
+                LEFT JOIN TCNMMerPdtGrp_L   MPGL    WITH(NOLOCK)    ON SPC.FTMgpCode        = MPGL.FTMgpCode    AND MPGL.FNLngID    = ".$this->db->escape($nLngID)."
+                LEFT JOIN TCNMUsrRole_L		ROLEL	WITH(NOLOCK)    ON PDT.FTPdtCtrlRole    = ROLEL.FTRolCode   AND ROLEL.FNLngID   = ".$this->db->escape($nLngID)."
+                WHERE PDT.FTPdtCode <> '' AND PDT.FTPdtCode = ".$this->db->escape($tPdtCode)."
+            ";
+        }
 
-                            CONVERT(CHAR(10),PDT.FDPdtSaleStart,126)    AS FDPdtSaleStart,
-                            CONVERT(CHAR(10),PDT.FDPdtSaleStop,126)     AS FDPdtSaleStop,
-                            PDTL.FTPdtRmk
-                        FROM TCNMPdt PDT
-                        LEFT JOIN TCNMPdt_L         PDTL    ON PDT.FTPdtCode    = PDTL.FTPdtCode    AND PDTL.FNLngID = $nLngID
-                        LEFT JOIN TCNMPdtTouchGrp_L TCGL    ON PDT.FTTcgCode    = TCGL.FTTcgCode    AND TCGL.FNLngID = $nLngID
-                        LEFT JOIN TCNMPdtGrp_L      PGPL    ON PDT.FTPgpChain   = PGPL.FTPgpChain   AND PGPL.FNLngID = $nLngID
-                        LEFT JOIN TCNMPdtType_L     PTYL    ON PDT.FTPtyCode    = PTYL.FTPtyCode    AND PTYL.FNLngID = $nLngID
-                        LEFT JOIN TCNMPdtBrand_L    PBNL    ON PDT.FTPbnCode    = PBNL.FTPbnCode    AND PBNL.FNLngID = $nLngID
-                        LEFT JOIN TCNMPdtModel_L    PMOL    ON PDT.FTPmoCode    = PMOL.FTPmoCode    AND PMOL.FNLngID = $nLngID
-                        LEFT JOIN VCN_VatActive       VAT     ON PDT.FTVatCode    = VAT.FTVatCode
-                        LEFT JOIN TCNMPdtSpcBch     SPC     ON SPC.FTPdtCode    = PDT.FTPdtCode
-                        LEFT JOIN TCNMAgency_L      AGNL    ON SPC.FTAgnCode    = AGNL.FTAgnCode    AND AGNL.FNLngID = $nLngID
-                        LEFT JOIN TCNMBranch_L      BCHL    ON SPC.FTBchCode    = BCHL.FTBchCode    AND BCHL.FNLngID = $nLngID
-                        LEFT JOIN TCNMMerchant_L    MERL    ON SPC.FTMerCode    = MERL.FTMerCode    AND MERL.FNLngID = $nLngID
-                        LEFT JOIN TCNMShop_L        SHPL    ON SPC.FTShpCode    = SHPL.FTShpCode  AND  SPC.FTBchCode = SHPL.FTBchCode  AND SHPL.FNLngID = $nLngID
-                        LEFT JOIN TCNMMerPdtGrp_L   MPGL    ON SPC.FTMgpCode    = MPGL.FTMgpCode    AND MPGL.FNLngID = $nLngID
-                        LEFT JOIN TCNMUsrRole_L		ROLEL	ON PDT.FTPdtCtrlRole = ROLEL.FTRolCode AND ROLEL.FNLngID = $nLngID
-                        WHERE 1=1 AND PDT.FTPdtCode = '$tPdtCode' ";
-        // echo $tSQL;
-        // exit();
         $oQuery = $this->db->query($tSQL);
         if ($oQuery->num_rows() > 0) {
             $aDataQuery = $oQuery->row_array();
