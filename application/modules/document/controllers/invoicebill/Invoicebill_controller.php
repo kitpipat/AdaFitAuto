@@ -28,8 +28,8 @@ class Invoicebill_controller extends MX_Controller {
             'tIVBBrowseOption'      => $tIVBBrowseOption,
             'aAlwEvent'             => FCNaHCheckAlwFunc('docInvoiceBill/0/0'),
             'vBtnSave'              => FCNaHBtnSaveActiveHTML('docInvoiceBill/0/0'),
-            'nOptDecimalShow'       => FCNxHGetOptionDecimalShow(),
-            'nOptDecimalSave'       => FCNxHGetOptionDecimalSave(),
+            'nOptDecimalShow'       => get_cookie('tOptDecimalShow'),
+            'nOptDecimalSave'       => get_cookie('tOptDecimalSave'),
             'aParams'               => $aParams
         );
         $this->load->view('document/Invoicebill/wInvoiceBill',$aDataConfigView);
@@ -44,7 +44,7 @@ class Invoicebill_controller extends MX_Controller {
     public function FSvCIVBDatatable(){
         $tAdvanceSearchData     = $this->input->post('oAdvanceSearch');
         $nPage                  = $this->input->post('nPageCurrent');
-        $nOptDecimalShow        = FCNxHGetOptionDecimalShow();
+        $nOptDecimalShow        = get_cookie('tOptDecimalShow');
 
         if ($nPage == '' || $nPage == null) {
             $nPage = 1;
@@ -85,7 +85,7 @@ class Invoicebill_controller extends MX_Controller {
             $this->Invoicebill_model->FSaMIVBDeletePDTInTmp();
 
             // Get Option Show Decimal
-            $nOptDecimalShow    = FCNxHGetOptionDecimalShow();
+            $nOptDecimalShow    = get_cookie('tOptDecimalShow');
 
             $aDataConfigViewAdd = array(
                 'nOptDecimalShow'   => $nOptDecimalShow,
@@ -116,7 +116,7 @@ class Invoicebill_controller extends MX_Controller {
             $this->Invoicebill_model->FSaMIVBDeletePDTInTmp($ptDocumentNumber);
 
             // Get Option Show Decimal
-            $nOptDecimalShow    = FCNxHGetOptionDecimalShow();
+            $nOptDecimalShow    = get_cookie('tOptDecimalShow');
 
             // Array Data Where Get (HD,HDCst)
             $aDataWhere = array(
@@ -618,7 +618,7 @@ class Invoicebill_controller extends MX_Controller {
         $nLangEdit          = $this->session->userdata("tLangEdit");
         $tBchCode           = $this->input->post('ptBchCode');
         $tDocNo             = $this->input->post('ptDocNo');
-        $nOptDecimalShow    = FCNxHGetOptionDecimalShow();
+        $nOptDecimalShow    = get_cookie('tOptDecimalShow');
         $aDataCondition = array(
             'FNLngID'   => $nLangEdit,
             'tBchCode'  => $tBchCode,

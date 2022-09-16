@@ -1,9 +1,9 @@
 <script>
-    var tStatusDoc = $('#ohdIVBStaDoc').val();
-    var tChkrount = $('#ohdIVBRoute').val();
+    var tStatusDoc      = $('#ohdIVBStaDoc').val();
+    var tChkrount       = $('#ohdIVBRoute').val();
     var nAddressVersion = '<?=FCNaHAddressFormat('TCNMSpl')?>';
-    var tStatusDoc = $('#ohdIVBStaDoc').val();
-    var tStatusApv = $('#ohdIVBStaApv').val();
+    var tStatusDoc      = $('#ohdIVBStaDoc').val();
+    var tStatusApv      = $('#ohdIVBStaApv').val();
     if(tStatusDoc == 3 || (tStatusDoc == 1 && tStatusApv == 1)){
         $('#CheckStep').addClass('xCNHide');
         $('#odvStp1Div').addClass('xCNHide');
