@@ -343,7 +343,7 @@
                         if(aReturnData['FTXthStaApv'] == 1){
                             $("#obtTransferBchOutApprove").hide();
                             $("#obtTransferBchOutCancel").hide();
-                        }else if (aReturnData['FTXthStaDoc'] == 3 || aReturnData['nStaDocRef'] == 2) {
+                        }else if (aReturnData['FTXthStaDoc'] == 3) {
                             $("#obtTransferBchOutApprove").hide();
                             $("#obtTransferBchOutCancel").hide();
                         }else{
