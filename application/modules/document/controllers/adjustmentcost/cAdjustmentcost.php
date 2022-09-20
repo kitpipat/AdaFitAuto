@@ -654,15 +654,15 @@ class cAdjustmentcost extends MX_Controller {
             if($aStaApv['rtCode'] == '1'){
                 $aMQParams = [
                     "queueName" => "CN_QDocApprove",
-                    "params" => [
-                        'ptFunction' => "AdjustCost",
-                        'ptSource' => 'AdaStoreBack',
-                        'ptDest' =>'MQReceivePrc',
-                        'ptFilter' => $tADCBchCode,
-                        'ptData'=>json_encode([
+                    "params"    => [
+                        'ptFunction'    => "AdjustCost",
+                        'ptSource'      => 'AdaStoreBack',
+                        'ptDest'        =>'MQReceivePrc',
+                        'ptFilter'      => $tADCBchCode,
+                        'ptData'        =>json_encode([
                             "ptBchCode" => $tADCBchCode,
-                            "ptDocNo" => $tADCDocNo,
-                            "ptUser" => $this->session->userdata("tSesUsername"),
+                            "ptDocNo"   => $tADCDocNo,
+                            "ptUser"    => $this->session->userdata("tSesUsername"),
                         ])
                     ]
                 ];
