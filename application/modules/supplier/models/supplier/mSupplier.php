@@ -13,20 +13,20 @@ class mSupplier extends CI_Model {
             $aRowLen        = FCNaHCallLenData($paData['nRow'],$paData['nPage']);
             $nLngID         = $paData['FNLngID'];
             $tSearchList    = $paData['tSearchAll'];
-
             $tSQLHeader     = " SELECT c.* FROM( SELECT  ROW_NUMBER() OVER(ORDER BY FDCreateOn DESC , rtSplCode DESC) AS rtRowID,* FROM ( ";
-            $tSQL           = "     SELECT DISTINCT
-                                        SPL.FTSplCode AS rtSplCode,
-                                        SPL_L.FTSplName AS rtSplName,
-                                        SPL.FTSplTel AS rtSplTel,
-                                        SPL.FTSplEmail AS rtSplEmail,
-                                        SPL.FDCreateOn,
-                                        Img.FTImgObj
-                                    FROM TCNMSpl SPL WITH(NOLOCK)
-                                    LEFT JOIN TCNMSpl_L SPL_L WITH(NOLOCK) ON SPL.FTSplCode = SPL_L.FTSplCode AND SPL_L.FNLngID = $nLngID
-                                    LEFT JOIN TCNMImgObj Img WITH(NOLOCK) ON Img.FTImgRefID = SPL.FTSplCode AND Img.FTImgTable = 'TCNMSpl'
-
-                                    WHERE 1=1 ";
+            $tSQL           = " SELECT DISTINCT
+                                    SPL.FTAgnCode   AS rtAgnCode,
+                                    SPL.FTSplCode   AS rtSplCode,
+                                    SPL_L.FTSplName AS rtSplName,
+                                    SPL.FTSplTel    AS rtSplTel,
+                                    SPL.FTSplEmail  AS rtSplEmail,
+                                    SPL.FDCreateOn,
+                                    Img.FTImgObj
+                                FROM TCNMSpl SPL WITH(NOLOCK)
+                                LEFT JOIN TCNMSpl_L SPL_L WITH(NOLOCK) ON SPL.FTSplCode = SPL_L.FTSplCode AND SPL_L.FNLngID = $nLngID
+                                LEFT JOIN TCNMImgObj Img WITH(NOLOCK) ON Img.FTImgRefID = SPL.FTSplCode AND Img.FTImgTable = 'TCNMSpl'
+                                WHERE 1=1
+            ";
             if(isset($tSearchList) && !empty($tSearchList)){
                 $tSQL .= " AND (SPL.FTSplCode  COLLATE THAI_BIN LIKE '%$tSearchList%'";
                 $tSQL .= " OR SPL_L.FTSplName  COLLATE THAI_BIN LIKE '%$tSearchList%'";
@@ -34,23 +34,25 @@ class mSupplier extends CI_Model {
                 $tSQL .= " OR SPL.FTSplEmail   COLLATE THAI_BIN LIKE '%$tSearchList%')";
             }
 
-            $tAgnCode = $this->session->userdata("tSesUsrAgnCode");
+            $tAgnCode   = $this->session->userdata("tSesUsrAgnCode");
             if($tAgnCode != ""){
                 $tSQL .= " AND ( SPL.FTAgnCode = '$tAgnCode' OR ISNULL(SPL.FTAgnCode,'') = '' ) ";
             }
 
-            $tSQLFooter = " ) Base) AS c WHERE c.rtRowID > $aRowLen[0] AND c.rtRowID <= $aRowLen[1] ";
+            $tSQL   .= " ORDER BY SPL.FDCreateOn DESC";
 
-            $tSQLMain = $tSQLHeader.$tSQL.$tSQLFooter;
-            $tSQLSub  = $tSQL;
+            $tSQLFooter = "
+                ) Base) AS c WHERE c.rtRowID > $aRowLen[0] AND c.rtRowID <= $aRowLen[1]
+            ";
 
+            $tSQLMain   = $tSQLHeader.$tSQL.$tSQLFooter;
+            $tSQLSub    = $tSQL;
+            
             $oQuery = $this->db->query($tSQL);
             if( $oQuery->num_rows() > 0 ){
                 $oQuerySub  = $this->db->query($tSQLSub);
                 $aList      = $oQuery->result_array();
                 $nFoundRow  = $oQuerySub->num_rows();
-                // $oFoundRow = $this->FSoMSPLGetPageAll($tSearchList,$nLngID);
-                // $nFoundRow = $oFoundRow[0]->counts;
                 $nPageAll   = ceil($nFoundRow/$paData['nRow']); //หา Page All จำนวน Rec หาร จำนวนต่อหน้า
                 $aResult    = array(
                     'raItems'       => $aList,
@@ -75,40 +77,6 @@ class mSupplier extends CI_Model {
             echo $Error;
         }
     }
-
-    //Functionality : All Page Of Supplier
-    //Parameters : function parameters
-    //Creator :  22/10/2018 Phisan
-    //Return : object Count All Product Type
-    //Return Type : Object
-    // public function FSoMSPLGetPageAll($ptSearchList,$pnLngID){
-    //     try{
-    //         $tSQL = "SELECT COUNT (SPL.FTSplCode) AS counts
-    //                  FROM TCNMSpl SPL
-    //                  LEFT JOIN TCNMSpl_L SPL_L ON SPL.FTSplCode = SPL_L.FTSplCode AND SPL_L.FNLngID = $pnLngID
-    //                  WHERE 1=1 ";
-    //         if(isset($ptSearchList) && !empty($ptSearchList)){
-    //             $tSQL .= " AND (SPL.FTSplCode  COLLATE THAI_BIN LIKE '%$ptSearchList%'";
-    //             $tSQL .= " OR SPL_L.FTSplName  COLLATE THAI_BIN LIKE '%$ptSearchList%'";
-    //             $tSQL .= " OR SPL.FTSplTel     COLLATE THAI_BIN LIKE '%$ptSearchList%'";
-    //             $tSQL .= " OR SPL.FTSplEmail   COLLATE THAI_BIN LIKE '%$ptSearchList%')";
-    //         }
-
-    //         $tAgnCode = $this->session->userdata("tSesUsrAgnCode");
-    //         if($tAgnCode != ""){
-    //             $tSQL .= "AND SPL.FTAgnCode = '$tAgnCode' ";
-    //         }
-
-    //         $oQuery = $this->db->query($tSQL);
-    //         if ($oQuery->num_rows() > 0) {
-    //             return $oQuery->result();
-    //         }else{
-    //             return false;
-    //         }
-    //     }catch(Exception $Error){
-    //         echo $Error;
-    //     }
-    // }
 
     //Functionality : Get Data Supplier By ID
     //Parameters : function parameters

@@ -17,10 +17,17 @@
 </style>
 <?php 
     if($aSplDataList['rtCode'] == '1'){
-        $nCurrentPage = $aSplDataList['rnCurrentPage'];
+        $nCurrentPage   = $aSplDataList['rnCurrentPage'];
     }else{
-        $nCurrentPage = '1';
+        $nCurrentPage   = '1';
     }
+    $tAgnCode   = $this->session->userdata("tSesUsrAgnCode");
+    $tAgnType   = $this->session->userdata('tAgnType');
+?>
+<?php 
+    // echo "<pre>";
+    // print_r($tAgnCode);
+    // echo "</pre>";    
 ?>
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -47,6 +54,11 @@
                     <?php if($aSplDataList['rtCode'] == 1 ):?>
                         <?php if(!empty($aSplDataList['raItems'])) { ?>
                         <?php foreach($aSplDataList['raItems'] AS $nKey => $aValue):?>
+                            <?php 
+                                // echo "<pre>";
+                                // print_r($aValue);
+                                // echo "</pre>";    
+                            ?>
                             <tr class=" xCNTextDetail2 otrSupplier" id="otrSupplier<?php echo $nKey?>" data-code="<?php echo $aValue['rtSplCode']?>" data-name="<?php echo $aValue['rtSplName']?>">
                                 <td  nowarp class="text-center">
                                     <label class="fancy-checkbox">
@@ -61,10 +73,26 @@
                                 <td nowarp><?=($aValue['rtSplEmail'] == '') ? '-' : $aValue['rtSplEmail']?></td>
                                 
                                 <td nowarp class="text-center">
-                                    <img class="xCNIconTable" src="<?php echo  base_url().'/application/modules/common/assets/images/icons/delete.png'?>" onClick="JSoSupplierDel('<?php echo $aValue['rtSplCode']?>','<?php echo $aValue['rtSplName']?>')">
+                                    <?php if(isset($tAgnCode) && !empty($tAgnCode) && isset($tAgnType) && $tAgnType == 2): ?>
+                                        <?php if($tAgnCode == $aValue['rtAgnCode']): ?>
+                                            <img class="xCNIconTable" src="<?php echo  base_url().'/application/modules/common/assets/images/icons/delete.png'?>" onClick="JSoSupplierDel('<?php echo $aValue['rtSplCode']?>','<?php echo $aValue['rtSplName']?>')">
+                                        <?php else :?>
+                                            <img class="xCNIconTable xCNDocDisabled" src="<?php echo  base_url().'/application/modules/common/assets/images/icons/delete.png'?>">
+                                        <?php endif; ?>
+                                    <?php else :?>
+                                        <img class="xCNIconTable" src="<?php echo  base_url().'/application/modules/common/assets/images/icons/delete.png'?>" onClick="JSoSupplierDel('<?php echo $aValue['rtSplCode']?>','<?php echo $aValue['rtSplName']?>')">
+                                    <?php endif; ?>
                                 </td>
                                 <td nowarp class="text-center">
-                                    <img class="xCNIconTable" src="<?php echo  base_url().'/application/modules/common/assets/images/icons/edit.png'?>" onClick="JSvCallPageSupplierEdit('<?php echo $aValue['rtSplCode']?>')">
+                                    <?php if(isset($tAgnCode) && !empty($tAgnCode) && isset($tAgnType) && $tAgnType == 2): ?>
+                                        <?php if($tAgnCode == $aValue['rtAgnCode']): ?>
+                                            <img class="xCNIconTable" src="<?php echo  base_url().'/application/modules/common/assets/images/icons/edit.png'?>" onClick="JSvCallPageSupplierEdit('<?php echo $aValue['rtSplCode']?>')">
+                                        <?php else :?>
+                                            <img class="xCNIconTable xCNDocDisabled" src="<?php echo  base_url().'/application/modules/common/assets/images/icons/edit.png'?>">
+                                        <?php endif; ?>
+                                    <?php else :?>
+                                        <img class="xCNIconTable" src="<?php echo  base_url().'/application/modules/common/assets/images/icons/edit.png'?>" onClick="JSvCallPageSupplierEdit('<?php echo $aValue['rtSplCode']?>')">
+                                    <?php endif; ?>
                                 </td>
                             </tr>
                            
