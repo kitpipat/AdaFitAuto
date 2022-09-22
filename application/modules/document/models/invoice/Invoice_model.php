@@ -5,58 +5,59 @@ class Invoice_model extends CI_Model{
 
     //Datatable
     public function FSaMIVList($paData){
-        $nLngID     = $paData['FNLngID'];
-        $tSQL       = " 
-        SELECT TOP ". get_cookie('nShowRecordInPageList')." c.*
-                                FROM(
-                                SELECT DISTINCT
-                                COUNT ( HDDocRef_in.FTXshDocNo ) OVER ( PARTITION BY HD.FTXphDocNo ) AS PARTITIONBYDOC,
-                                BCHL.FTBchName,
-                                HD.FTBchCode,
-                                HD.FTXphDocNo,
-                                CONVERT(CHAR(10),HD.FDXphDocDate,103) AS FDXphDocDate,
-                                HD.FTXphRefInt,
-                                CONVERT(CHAR(10),HD.FDXphRefIntDate,103) AS FDXphRefIntDate,
-                                HD.FTXphStaDoc,
-                                HD.FTAgnCode,
-                                AGN_L.FTAgnName,
-                                HD.FTXphStaApv,
-                                HD.FTXphStaPrcDoc,
-                                HD.FTCreateBy,
-                                HD.FDCreateOn,
-                                HD.FTXphApvCode,
-                                USRL.FTUsrName                  AS FTCreateByName,
-                                USRLAPV.FTUsrName               AS FTXphApvName,
-                                SPL_L.FTSplName,
-                                POHD.FTXphBchTo,
-                                DOHD.FTBchCode AS FTXphBchToDO,
-                                POBCHL.FTBchName AS BchNameTo,
-                                DOBCHL.FTBchName AS BchNameToDO,
-                                HDDocRef_in.FTXshRefDocNo                           AS DocRefIn, 
-                                CONVERT(CHAR(10),HDDocRef_in.FDXshRefDocDate,103)   AS DateRefIn
-                            FROM [TAPTPiHD] HD WITH (NOLOCK)
-                            LEFT JOIN TAPTPiHDDocRef    HDDocRef_in WITH (NOLOCK) ON HD.FTXphDocNo  = HDDocRef_in.FTXshDocNo AND HDDocRef_in.FTXshRefType = 1
-                            LEFT JOIN TAPTPoHD          POHD        WITH (NOLOCK) ON POHD.FTXphDocNo  = HDDocRef_in.FTXshRefDocNo
-                            LEFT JOIN TAPTDoHD          DOHD        WITH ( NOLOCK ) ON DOHD.FTXphDocNo = HDDocRef_in.FTXshRefDocNo
-                            LEFT JOIN TCNMBranch_L      BCHL        WITH (NOLOCK) ON HD.FTBchCode = BCHL.FTBchCode AND BCHL.FNLngID = $nLngID 
-                            LEFT JOIN TCNMBranch_L      POBCHL      WITH (NOLOCK) ON POHD.FTXphBchTo = POBCHL.FTBchCode AND POBCHL.FNLngID = $nLngID 
-                            LEFT JOIN TCNMBranch_L      DOBCHL      WITH ( NOLOCK ) ON DOHD.FTBchCode = DOBCHL.FTBchCode AND DOBCHL.FNLngID = 1
-                            LEFT JOIN TCNMUser_L        USRL        WITH (NOLOCK) ON HD.FTCreateBy = USRL.FTUsrCode AND USRL.FNLngID = $nLngID 
-                            LEFT JOIN TCNMUser_L        USRLAPV     WITH (NOLOCK) ON HD.FTXphApvCode = USRLAPV.FTUsrCode AND USRLAPV.FNLngID = $nLngID 
-                            LEFT JOIN TCNMSpl_L         SPL_L       WITH (NOLOCK) ON HD.FTSplCode = SPL_L.FTSplCode AND SPL_L.FNLngID = $nLngID 
-                            LEFT JOIN TCNMAgency_L      AGN_L       WITH (NOLOCK) ON HD.FTAgnCode = AGN_L.FTAgnCode AND AGN_L.FNLngID = $nLngID 
-                            WHERE 1=1 AND HD.FNXphDocType = 12 ";
+        $nLngID = $paData['FNLngID'];
+        $tSQL   = " 
+            SELECT TOP ". get_cookie('nShowRecordInPageList')." c.*
+                FROM(
+                SELECT DISTINCT
+                COUNT ( HDDocRef_in.FTXshDocNo ) OVER ( PARTITION BY HD.FTXphDocNo ) AS PARTITIONBYDOC,
+                BCHL.FTBchName,
+                HD.FTBchCode,
+                HD.FTXphDocNo,
+                CONVERT(CHAR(10),HD.FDXphDocDate,103) AS FDXphDocDate,
+                HD.FTXphRefInt,
+                CONVERT(CHAR(10),HD.FDXphRefIntDate,103) AS FDXphRefIntDate,
+                HD.FTXphStaDoc,
+                HD.FTAgnCode,
+                AGN_L.FTAgnName,
+                HD.FTXphStaApv,
+                HD.FTXphStaPrcDoc,
+                HD.FTCreateBy,
+                HD.FDCreateOn,
+                HD.FTXphApvCode,
+                USRL.FTUsrName                  AS FTCreateByName,
+                USRLAPV.FTUsrName               AS FTXphApvName,
+                SPL_L.FTSplName,
+                POHD.FTXphBchTo,
+                DOHD.FTBchCode AS FTXphBchToDO,
+                POBCHL.FTBchName AS BchNameTo,
+                DOBCHL.FTBchName AS BchNameToDO,
+                HDDocRef_in.FTXshRefDocNo                           AS DocRefIn, 
+                CONVERT(CHAR(10),HDDocRef_in.FDXshRefDocDate,103)   AS DateRefIn
+            FROM [TAPTPiHD] HD WITH (NOLOCK)
+            LEFT JOIN TAPTPiHDDocRef    HDDocRef_in WITH (NOLOCK)   ON HD.FTXphDocNo    = HDDocRef_in.FTXshDocNo AND HDDocRef_in.FTXshRefType = 1
+            LEFT JOIN TAPTPoHD          POHD        WITH (NOLOCK)   ON POHD.FTXphDocNo  = HDDocRef_in.FTXshRefDocNo
+            LEFT JOIN TAPTDoHD          DOHD        WITH ( NOLOCK ) ON DOHD.FTXphDocNo  = HDDocRef_in.FTXshRefDocNo
+            LEFT JOIN TCNMBranch_L      BCHL        WITH (NOLOCK)   ON HD.FTBchCode     = BCHL.FTBchCode    AND BCHL.FNLngID    = ".$this->db->escape($nLngID)." 
+            LEFT JOIN TCNMBranch_L      POBCHL      WITH (NOLOCK)   ON POHD.FTXphBchTo  = POBCHL.FTBchCode  AND POBCHL.FNLngID  = ".$this->db->escape($nLngID)."
+            LEFT JOIN TCNMBranch_L      DOBCHL      WITH ( NOLOCK ) ON DOHD.FTBchCode   = DOBCHL.FTBchCode  AND DOBCHL.FNLngID  = 1
+            LEFT JOIN TCNMUser_L        USRL        WITH (NOLOCK)   ON HD.FTCreateBy    = USRL.FTUsrCode    AND USRL.FNLngID    = ".$this->db->escape($nLngID)."
+            LEFT JOIN TCNMUser_L        USRLAPV     WITH (NOLOCK)   ON HD.FTXphApvCode  = USRLAPV.FTUsrCode AND USRLAPV.FNLngID = ".$this->db->escape($nLngID)."
+            LEFT JOIN TCNMSpl_L         SPL_L       WITH (NOLOCK)   ON HD.FTSplCode     = SPL_L.FTSplCode   AND SPL_L.FNLngID   = ".$this->db->escape($nLngID)."
+            LEFT JOIN TCNMAgency_L      AGN_L       WITH (NOLOCK)   ON HD.FTAgnCode     = AGN_L.FTAgnCode   AND AGN_L.FNLngID   = ".$this->db->escape($nLngID)."
+            WHERE HD.FDCreateOn <> '' AND HD.FNXphDocType = 12
+        ";
 
         $aAdvanceSearch = $paData['aAdvanceSearch'];
         @$tSearchList   = $aAdvanceSearch['tSearchAll'];
         if (@$tSearchList != '') {
             $tSQL   .= "
                 AND (
-                    (HD.FTXphDocNo      LIKE '%$tSearchList%')
-                    OR (BCHL.FTBchName  LIKE '%$tSearchList%')
-                    OR (AGN_L.FTAgnName LIKE '%$tSearchList%')
-                    OR (SPL_L.FTSplName LIKE '%$tSearchList%')
-                    OR (CONVERT(CHAR(10),HD.FDXphDocDate,103)   LIKE '%$tSearchList%')
+                    (HD.FTXphDocNo      LIKE '%".$this->db->escape_like_str($tSearchList)."%')
+                    OR (BCHL.FTBchName  LIKE '%".$this->db->escape_like_str($tSearchList)."%')
+                    OR (AGN_L.FTAgnName LIKE '%".$this->db->escape_like_str($tSearchList)."%')
+                    OR (SPL_L.FTSplName LIKE '%".$this->db->escape_like_str($tSearchList)."%')
+                    OR (CONVERT(CHAR(10),HD.FDXphDocDate,103)   LIKE '%".$this->db->escape_like_str($tSearchList)."%')
                 )
             ";
         }
@@ -149,11 +150,13 @@ class Invoice_model extends CI_Model{
 
     //จำนวน
     public function FSnMIVGetPageAll($paData){
-        $nLngID     = $paData['FNLngID'];
-        $tSQL       = "SELECT COUNT (HD.FTXphDocNo) AS counts
-                        FROM [TAPTPiHD] HD WITH (NOLOCK) 
-                        LEFT JOIN TCNMBranch_L BCHL WITH (NOLOCK) ON HD.FTBchCode = BCHL.FTBchCode AND BCHL.FNLngID = $nLngID 
-                        WHERE 1=1 AND HD.FNXphDocType = 12 ";
+        $nLngID = $paData['FNLngID'];
+        $tSQL   = "
+            SELECT COUNT (HD.FTXphDocNo) AS counts
+            FROM [TAPTPiHD] HD WITH (NOLOCK) 
+            LEFT JOIN TCNMBranch_L BCHL WITH (NOLOCK) ON HD.FTBchCode = BCHL.FTBchCode AND BCHL.FNLngID = $nLngID 
+            WHERE 1=1 AND HD.FNXphDocType = 12
+        ";
 
         $aAdvanceSearch = $paData['aAdvanceSearch'];
         @$tSearchList   = $aAdvanceSearch['tSearchAll'];
@@ -218,41 +221,43 @@ class Invoice_model extends CI_Model{
         $tDocNo             = $paDataWhere['FTXthDocNo'];
         $tDocKey            = $paDataWhere['FTXthDocKey'];
         $tSesSessionID      = $this->session->userdata('tSesSessionID');
-        $tSQL               = " SELECT c.* FROM(
-                                SELECT  ROW_NUMBER() OVER(ORDER BY FNXtdSeqNo ASC) AS rtRowID,* FROM (
-                                    SELECT
-                                        DOCTMP.FTBchCode,
-                                        DOCTMP.FTXthDocNo,
-                                        DOCTMP.FNXtdSeqNo,
-                                        DOCTMP.FTXthDocKey,
-                                        DOCTMP.FTPdtCode,
-                                        DOCTMP.FTXtdPdtName,
-                                        DOCTMP.FTPunName,
-                                        DOCTMP.FTXtdBarCode,
-                                        DOCTMP.FTPunCode,
-                                        DOCTMP.FCXtdFactor,
-                                        DOCTMP.FCXtdQty,
-                                        DOCTMP.FCXtdSetPrice,
-                                        DOCTMP.FCXtdAmtB4DisChg,
-                                        DOCTMP.FTXtdDisChgTxt,
-                                        DOCTMP.FCXtdNet,
-                                        DOCTMP.FCXtdNetAfHD,
-                                        DOCTMP.FTXtdStaAlwDis,
-                                        DOCTMP.FTTmpRemark,
-                                        DOCTMP.FCXtdVatRate,
-                                        DOCTMP.FTXtdVatType,
-                                        DOCTMP.FTSrnCode,
-                                        DOCTMP.FTTmpStatus,
-                                        DOCTMP.FDLastUpdOn,
-                                        DOCTMP.FDCreateOn,
-                                        DOCTMP.FTLastUpdBy,
-                                        DOCTMP.FTCreateBy
-                                    FROM TCNTDocDTTmp DOCTMP WITH (NOLOCK)
-                                    WHERE 1 = 1
-                                    AND ISNULL(DOCTMP.FTXthDocNo,'')  = '$tDocNo'
-                                    AND DOCTMP.FTXthDocKey = '$tDocKey'
-                                    AND DOCTMP.FTSessionID = '$tSesSessionID' ";
-        $tSQL               .= ") Base) AS c ";
+        $tSQL               = "
+            SELECT c.* FROM(
+                SELECT  ROW_NUMBER() OVER(ORDER BY FNXtdSeqNo ASC) AS rtRowID,* FROM (
+                    SELECT
+                        DOCTMP.FTBchCode,
+                        DOCTMP.FTXthDocNo,
+                        DOCTMP.FNXtdSeqNo,
+                        DOCTMP.FTXthDocKey,
+                        DOCTMP.FTPdtCode,
+                        DOCTMP.FTXtdPdtName,
+                        DOCTMP.FTPunName,
+                        DOCTMP.FTXtdBarCode,
+                        DOCTMP.FTPunCode,
+                        DOCTMP.FCXtdFactor,
+                        DOCTMP.FCXtdQty,
+                        DOCTMP.FCXtdSetPrice,
+                        DOCTMP.FCXtdAmtB4DisChg,
+                        DOCTMP.FTXtdDisChgTxt,
+                        DOCTMP.FCXtdNet,
+                        DOCTMP.FCXtdNetAfHD,
+                        DOCTMP.FTXtdStaAlwDis,
+                        DOCTMP.FTTmpRemark,
+                        DOCTMP.FCXtdVatRate,
+                        DOCTMP.FTXtdVatType,
+                        DOCTMP.FTSrnCode,
+                        DOCTMP.FTTmpStatus,
+                        DOCTMP.FDLastUpdOn,
+                        DOCTMP.FDCreateOn,
+                        DOCTMP.FTLastUpdBy,
+                        DOCTMP.FTCreateBy
+                    FROM TCNTDocDTTmp DOCTMP WITH (NOLOCK)
+                    WHERE 1 = 1
+                    AND ISNULL(DOCTMP.FTXthDocNo,'')  = '$tDocNo'
+                    AND DOCTMP.FTXthDocKey = '$tDocKey'
+                    AND DOCTMP.FTSessionID = '$tSesSessionID'
+        ";
+        $tSQL   .= ") Base) AS c ";
 
         $oQuery = $this->db->query($tSQL);
         if ($oQuery->num_rows() > 0) {
@@ -278,91 +283,117 @@ class Invoice_model extends CI_Model{
 
     //รายละเอียดสินค้า และราคา ใน Master
     public function FSaMIVGetDataPdt($paDataPdtParams){
+        $tAgnCode   = $this->session->userdata("tSesUsrAgnCode");
+        $tAgnType   = $this->session->userdata('tAgnType');
         $tPdtCode   = $paDataPdtParams['tPdtCode'];
         $FTPunCode  = $paDataPdtParams['tPunCode'];
         $FTBarCode  = $paDataPdtParams['tBarCode'];
         $nLngID     = $paDataPdtParams['nLngID'];
-        $tSQL       = " SELECT
-                            PDT.FTPdtCode,
-                            PDT.FTPdtStkControl,
-                            PDT.FTPdtGrpControl,
-                            PDT.FTPdtForSystem,
-                            PDT.FCPdtQtyOrdBuy,
-                            PDT.FCPdtCostDef,
-                            PDT.FCPdtCostOth,
-                            PDT.FCPdtCostStd,
-                            PDT.FCPdtMin,
-                            PDT.FCPdtMax,
-                            PDT.FTPdtPoint,
-                            PDT.FCPdtPointTime,
-                            PDT.FTPdtType,
-                            PDT.FTPdtSaleType,
-                            0 AS FTPdtSalePrice,
-                            PDT.FTPdtSetOrSN,
-                            PDT.FTPdtStaSetPri,
-                            PDT.FTPdtStaSetShwDT,
-                            PDT.FTPdtStaAlwDis,
-                            PDT.FTPdtStaAlwReturn,
-                            PDT.FTPdtStaVatBuy,
-                            PDT.FTPdtStaVat,
-                            PDT.FTPdtStaActive,
-                            PDT.FTPdtStaAlwReCalOpt,
-                            PDT.FTPdtStaCsm,
-                            PDT.FTTcgCode,
-                            PDT.FTPtyCode,
-                            PDT.FTPbnCode,
-                            PDT.FTPmoCode,
-                            PDT.FTVatCode,
-                            PDT.FDPdtSaleStart,
-                            PDT.FDPdtSaleStop,
-                            PDTL.FTPdtName,
-                            PDTL.FTPdtNameOth,
-                            PDTL.FTPdtNameABB,
-                            PDTL.FTPdtRmk,
-                            PKS.FTPunCode,
-                            PKS.FCPdtUnitFact,
-                            VAT.FCVatRate,
-                            UNTL.FTPunName,
-                            BAR.FTBarCode,
-                            BAR.FTPlcCode,
-                            PDTLOCL.FTPlcName,
-                            PDTSRL.FTSrnCode,
-                            PDT.FCPdtCostStd,
-                            CAVG.FCPdtCostEx,
-                            CAVG.FCPdtCostIn,
-                            SPL.FCSplLastPrice
-                        FROM TCNMPdt PDT WITH (NOLOCK)
-                        LEFT JOIN TCNMPdt_L PDTL        WITH (NOLOCK)   ON PDT.FTPdtCode      = PDTL.FTPdtCode    AND PDTL.FNLngID    = $nLngID
-                        LEFT JOIN TCNMPdtPackSize  PKS  WITH (NOLOCK)   ON PDT.FTPdtCode      = PKS.FTPdtCode     AND PKS.FTPunCode   = '$FTPunCode'
-                        LEFT JOIN TCNMPdtUnit_L UNTL    WITH (NOLOCK)   ON UNTL.FTPunCode     = '$FTPunCode'      AND UNTL.FNLngID    = $nLngID
-                        LEFT JOIN TCNMPdtBar BAR        WITH (NOLOCK)   ON PKS.FTPdtCode      = BAR.FTPdtCode     AND BAR.FTPunCode   = '$FTPunCode'
-                        LEFT JOIN TCNMPdtLoc_L PDTLOCL  WITH (NOLOCK)   ON PDTLOCL.FTPlcCode  = BAR.FTPlcCode     AND PDTLOCL.FNLngID = $nLngID
-                        INNER JOIN (
-                            SELECT A.* FROM(
-                                SELECT  
-                                    ROW_NUMBER() OVER (PARTITION BY FTVatCode ORDER BY FDVatStart DESC) AS RowNumber , 
-                                    FTVatCode , 
-                                    FCVatRate 
-                                FROM TCNMVatRate where CONVERT(VARCHAR(19),GETDATE(),121) > FDVatStart 
-                            ) AS A WHERE A.RowNumber = 1 
-                        ) VAT ON PDT.FTVatCode = VAT.FTVatCode
-                        LEFT JOIN TCNTPdtSerial PDTSRL  WITH (NOLOCK)   ON PDT.FTPdtCode    = PDTSRL.FTPdtCode
-                        LEFT JOIN TCNMPdtSpl SPL        WITH (NOLOCK)   ON PDT.FTPdtCode    = SPL.FTPdtCode AND BAR.FTBarCode = SPL.FTBarCode
-                        LEFT JOIN TCNMPdtCostAvg CAVG   WITH (NOLOCK)   ON PDT.FTPdtCode    = CAVG.FTPdtCode
-                        LEFT JOIN (
-                            SELECT DISTINCT
-                                P4PDT.FTPdtCode,
-                                P4PDT.FTPunCode,
-                                P4PDT.FDPghDStart,
-                                P4PDT.FTPghTStart,
-                                P4PDT.FCPgdPriceRet
-                            FROM TCNTPdtPrice4PDT P4PDT WITH (NOLOCK)
-                            WHERE 1=1
-                            AND (CONVERT(VARCHAR(10),GETDATE(),121) >= CONVERT(VARCHAR(10),P4PDT.FDPghDStart,121))
-                            AND (CONVERT(VARCHAR(10),GETDATE(),121) <= CONVERT(VARCHAR(10),P4PDT.FDPghDStop,121))
-                        ) AS PRI4PDT
-                        ON PDT.FTPdtCode = PRI4PDT.FTPdtCode AND PRI4PDT.FTPunCode = PKS.FTPunCode
-                        WHERE 1 = 1 ";
+
+        if(isset($tAgnCode) && !empty($tAgnCode) && isset($tAgnType) && $tAgnType == 2){
+            $tSQL   = "
+                SELECT
+                    PDT.FTPdtCode,
+                    PDT.FTPdtStkControl,PDT.FTPdtGrpControl,PDT.FTPdtForSystem,
+                    PDT.FCPdtQtyOrdBuy,PDT.FCPdtCostDef,PDT.FCPdtCostOth,CAVG.FCPdtCostStd,PDT.FCPdtMin,PDT.FCPdtMax,PDT.FTPdtPoint,
+                    PDT.FCPdtPointTime,PDT.FTPdtType,PDT.FTPdtSaleType,0 AS FTPdtSalePrice,PDT.FTPdtSetOrSN,PDT.FTPdtStaSetPri,
+                    PDT.FTPdtStaSetShwDT,PDT.FTPdtStaAlwDis,PDT.FTPdtStaAlwReturn,PDT.FTPdtStaVatBuy,PDT.FTPdtStaVat,PDT.FTPdtStaActive,
+                    PDT.FTPdtStaAlwReCalOpt,PDT.FTPdtStaCsm,PDT.FTTcgCode,PDT.FTPtyCode,PDT.FTPbnCode,PDT.FTPmoCode,PDT.FTVatCode,
+                    PDT.FDPdtSaleStart,PDT.FDPdtSaleStop,PDTL.FTPdtName,PDTL.FTPdtNameOth,PDTL.FTPdtNameABB,PDTL.FTPdtRmk,
+                    PKS.FTPunCode,PKS.FCPdtUnitFact,VAT.FCVatRate,UNTL.FTPunName,BAR.FTBarCode,
+                    BAR.FTPlcCode,
+                    PDTLOCL.FTPlcName,
+                    PDTSRL.FTSrnCode,
+                    CAVG.FCPdtCostStd,
+                    CAVG.FCPdtCostEx,
+                    CAVG.FCPdtCostIn,
+                    SPL.FCSplLastPrice
+                FROM TCNMPdt PDT WITH (NOLOCK)
+                LEFT JOIN TCNMPdt_L PDTL        WITH (NOLOCK)   ON PDT.FTPdtCode      = PDTL.FTPdtCode    AND PDTL.FNLngID    = $nLngID
+                LEFT JOIN TCNMPdtPackSize  PKS  WITH (NOLOCK)   ON PDT.FTPdtCode      = PKS.FTPdtCode     AND PKS.FTPunCode   = '$FTPunCode'
+                LEFT JOIN TCNMPdtUnit_L UNTL    WITH (NOLOCK)   ON UNTL.FTPunCode     = '$FTPunCode'      AND UNTL.FNLngID    = $nLngID
+                LEFT JOIN TCNMPdtBar BAR        WITH (NOLOCK)   ON PKS.FTPdtCode      = BAR.FTPdtCode     AND BAR.FTPunCode   = '$FTPunCode'
+                LEFT JOIN TCNMPdtLoc_L PDTLOCL  WITH (NOLOCK)   ON PDTLOCL.FTPlcCode  = BAR.FTPlcCode     AND PDTLOCL.FNLngID = $nLngID
+                INNER JOIN (
+                    SELECT A.* FROM(
+                        SELECT  ROW_NUMBER() OVER (PARTITION BY FTVatCode ORDER BY FDVatStart DESC) AS RowNumber , FTVatCode , FCVatRate 
+                        FROM TCNMVatRate where CONVERT(VARCHAR(19),GETDATE(),121) > FDVatStart 
+                    ) AS A WHERE A.RowNumber = 1 
+                ) VAT ON PDT.FTVatCode = VAT.FTVatCode
+                LEFT JOIN TCNTPdtSerial PDTSRL  WITH (NOLOCK)   ON PDT.FTPdtCode    = PDTSRL.FTPdtCode
+                LEFT JOIN TCNMPdtSpl SPL        WITH (NOLOCK)   ON PDT.FTPdtCode    = SPL.FTPdtCode AND BAR.FTBarCode = SPL.FTBarCode
+                LEFT JOIN TCNMPdtCostAvg CAVG   WITH (NOLOCK)   ON PDT.FTPdtCode    = CAVG.FTPdtCode
+                WHERE PDT.FTPdtCode <> ''
+            ";
+        } else {
+            $tSQL   = " 
+                SELECT
+                    PDT.FTPdtCode,
+                    PDT.FTPdtStkControl,
+                    PDT.FTPdtGrpControl,
+                    PDT.FTPdtForSystem,
+                    PDT.FCPdtQtyOrdBuy,
+                    PDT.FCPdtCostDef,
+                    PDT.FCPdtCostOth,
+                    PDT.FCPdtCostStd,
+                    PDT.FCPdtMin,
+                    PDT.FCPdtMax,
+                    PDT.FTPdtPoint,
+                    PDT.FCPdtPointTime,
+                    PDT.FTPdtType,
+                    PDT.FTPdtSaleType,
+                    0 AS FTPdtSalePrice,
+                    PDT.FTPdtSetOrSN,
+                    PDT.FTPdtStaSetPri,
+                    PDT.FTPdtStaSetShwDT,
+                    PDT.FTPdtStaAlwDis,
+                    PDT.FTPdtStaAlwReturn,
+                    PDT.FTPdtStaVatBuy,
+                    PDT.FTPdtStaVat,
+                    PDT.FTPdtStaActive,
+                    PDT.FTPdtStaAlwReCalOpt,
+                    PDT.FTPdtStaCsm,
+                    PDT.FTTcgCode,
+                    PDT.FTPtyCode,
+                    PDT.FTPbnCode,
+                    PDT.FTPmoCode,
+                    PDT.FTVatCode,
+                    PDT.FDPdtSaleStart,
+                    PDT.FDPdtSaleStop,
+                    PDTL.FTPdtName,
+                    PDTL.FTPdtNameOth,
+                    PDTL.FTPdtNameABB,
+                    PDTL.FTPdtRmk,
+                    PKS.FTPunCode,
+                    PKS.FCPdtUnitFact,
+                    VAT.FCVatRate,
+                    UNTL.FTPunName,
+                    BAR.FTBarCode,
+                    BAR.FTPlcCode,
+                    PDTLOCL.FTPlcName,
+                    PDTSRL.FTSrnCode,
+                    PDT.FCPdtCostStd,
+                    CAVG.FCPdtCostEx,
+                    CAVG.FCPdtCostIn,
+                    SPL.FCSplLastPrice
+                FROM TCNMPdt PDT WITH (NOLOCK)
+                LEFT JOIN TCNMPdt_L PDTL        WITH (NOLOCK)   ON PDT.FTPdtCode      = PDTL.FTPdtCode    AND PDTL.FNLngID    = $nLngID
+                LEFT JOIN TCNMPdtPackSize  PKS  WITH (NOLOCK)   ON PDT.FTPdtCode      = PKS.FTPdtCode     AND PKS.FTPunCode   = '$FTPunCode'
+                LEFT JOIN TCNMPdtUnit_L UNTL    WITH (NOLOCK)   ON UNTL.FTPunCode     = '$FTPunCode'      AND UNTL.FNLngID    = $nLngID
+                LEFT JOIN TCNMPdtBar BAR        WITH (NOLOCK)   ON PKS.FTPdtCode      = BAR.FTPdtCode     AND BAR.FTPunCode   = '$FTPunCode'
+                LEFT JOIN TCNMPdtLoc_L PDTLOCL  WITH (NOLOCK)   ON PDTLOCL.FTPlcCode  = BAR.FTPlcCode     AND PDTLOCL.FNLngID = $nLngID
+                INNER JOIN (
+                    SELECT A.* FROM(
+                        SELECT  ROW_NUMBER() OVER (PARTITION BY FTVatCode ORDER BY FDVatStart DESC) AS RowNumber , FTVatCode , FCVatRate 
+                        FROM TCNMVatRate where CONVERT(VARCHAR(19),GETDATE(),121) > FDVatStart 
+                    ) AS A WHERE A.RowNumber = 1 
+                ) VAT ON PDT.FTVatCode = VAT.FTVatCode
+                LEFT JOIN TCNTPdtSerial PDTSRL  WITH (NOLOCK)   ON PDT.FTPdtCode    = PDTSRL.FTPdtCode
+                LEFT JOIN TCNMPdtSpl SPL        WITH (NOLOCK)   ON PDT.FTPdtCode    = SPL.FTPdtCode AND BAR.FTBarCode = SPL.FTBarCode
+                LEFT JOIN TCNMPdtCostAvg CAVG   WITH (NOLOCK)   ON PDT.FTPdtCode    = CAVG.FTPdtCode
+                WHERE PDT.FTPdtCode <> ''
+            ";
+        }
 
         if (isset($tPdtCode) && !empty($tPdtCode)) {
             $tSQL   .= " AND PDT.FTPdtCode   = '$tPdtCode'";
@@ -3006,12 +3037,90 @@ class Invoice_model extends CI_Model{
 
     //นำข้อมูลจาก Browse ลง DTTemp (PO) [DT]
     public function FSoMIVCallRefIntDocInsertDTToTemp_PO($paData){
+        $tAgnCode       = $this->session->userdata("tSesUsrAgnCode");
+        $tAgnType       = $this->session->userdata('tAgnType');
+
         $tIVDocNo       = $paData['tIVDocNo'];
         $tIVFrmBchCode  = $paData['tIVFrmBchCode'];
         $tRefIntDocNo   = $paData['tRefIntDocNo'];
         $tRefIntBchCode = $paData['tRefIntBchCode'];
         $aSeqNo         = '(' . implode(',', $paData['aSeqNo']) . ')';
-        $tSQL = "INSERT INTO TCNTDocDTTmp (
+
+
+        // เช็ค Login ด้วย Agency ดึงต้นทุน Agency
+        if(isset($tAgnCode) && !empty($tAgnCode) && isset($tAgnType) && $tAgnType == 2){
+            $tSQL = "
+                INSERT INTO TCNTDocDTTmp (
+                    FTBchCode, FTXthDocNo, FNXtdSeqNo, FTXthDocKey, FTPdtCode, FTXtdPdtName,
+                    FTPunCode, FTPunName, FCXtdFactor, FTXtdBarCode, FTSrnCode,
+                    FTXtdVatType, FTVatCode, FCXtdVatRate, FTXtdSaleType, FCXtdSalePrice,
+                    FCXtdQty, FCXtdQtyAll, FCXtdSetPrice, FCXtdAmtB4DisChg, FTXtdDisChgTxt,
+                    FCXtdQtyLef, FCXtdQtyRfn, FTXtdStaPrcStk, FTXtdStaAlwDis,
+                    FNXtdPdtLevel,FTXtdPdtParent,FCXtdQtySet,
+                    FTXtdPdtStaSet,FTXtdRmk,FTTmpStatus,
+                    FTSessionID,FDLastUpdOn,FDCreateOn,FTLastUpdBy,FTCreateBy 
+                )
+                SELECT
+                    '$tIVFrmBchCode'    AS FTBchCode,
+                    '$tIVDocNo'         AS FTXphDocNo,
+                    ROW_NUMBER() OVER(ORDER BY DT.FNXpdSeqNo DESC ) AS FNXpdSeqNo,
+                    'TAPTPiDT' AS FTXthDocKey,
+                    DT.FTPdtCode,
+                    DT.FTXpdPdtName,
+                    DT.FTPunCode,
+                    DT.FTPunName,
+                    DT.FCXpdFactor,
+                    DT.FTXpdBarCode,
+                    '' AS FTSrnCode,
+                    PDT.FTPdtStaVatBuy,
+                    PDT.FTVatCode AS FTVatCode,
+                    VAT.FCVatRate,
+                    PDT.FTPdtSaleType       AS FTXpdSaleType,
+                    COSTAVG.FCPdtCostStd    AS FCXpdSalePrice,
+                    (DT.FCXpdQty - ISNULL(CHKSUM.FCXpdQty,0)) AS FCXpdQty,
+                    DT.FCXpdQtyAll,
+                    COSTAVG.FCPdtCostStd    AS FCXpdSetPrice,
+                    0 AS FCXpdAmtB4DisChg,
+                    '' AS FTXpdDisChgTxt,
+                    0 as FCXpdQtyLef,
+                    0 as FCXpdQtyRfn,
+                    '' as FTXpdStaPrcStk,
+                    PDT.FTPdtStaAlwDis,
+                    0 as FNXpdPdtLevel,
+                    '' as FTXpdPdtParent,
+                    0 as FCXpdQtySet,
+                    '' as FTPdtStaSet,
+                    '' as FTXpdRmk,   
+                    PDT.FTPdtType,
+                    CONVERT(VARCHAR,'" . $this->session->userdata('tSesSessionID') . "') AS FTSessionID,
+                    CONVERT(DATETIME,'" . date('Y-m-d H:i:s') . "') AS FDLastUpdOn,
+                    CONVERT(DATETIME,'" . date('Y-m-d H:i:s') . "') AS FDCreateOn,
+                    CONVERT(VARCHAR,'" . $this->session->userdata('tSesUsername') . "') AS FTLastUpdBy,
+                    CONVERT(VARCHAR,'" . $this->session->userdata('tSesUsername') . "') AS FTCreateBy
+                FROM TAPTPoDT DT WITH (NOLOCK)
+                LEFT JOIN TCNMPdt PDT WITH (NOLOCK) ON DT.FTPdtCode = PDT.FTPdtCode
+                LEFT JOIN TCNMPdtCostAvg COSTAVG WITH(NOLOCK) ON DT.FTPdtCode = COSTAVG.FTPdtCode AND COSTAVG.FTAgnCode = ".$this->db->escape($tAgnCode)."
+                LEFT JOIN (
+                    SELECT HDR.FTXshRefDocNo,DT.FTPdtCode,SUM(DT.FCXpdQty) AS FCXpdQty 
+                    FROM TAPTPiDT DT WITH ( NOLOCK )
+                    INNER JOIN TAPTPiHDDocRef HDR WITH ( NOLOCK ) ON DT.FTXphDocNo = HDR.FTXshDocNo 
+                    WHERE HDR.FTXshRefType = '1' AND HDR.FTXshRefKey = 'PO' 
+                    GROUP BY HDR.FTXshRefDocNo,DT.FTPdtCode 
+                ) CHKSUM ON DT.FTXphDocNo = CHKSUM.FTXshRefDocNo AND CHKSUM.FTPdtCode = DT.FTPdtCode
+                INNER JOIN (
+                    SELECT A.* FROM(
+                        SELECT  
+                            ROW_NUMBER() OVER (PARTITION BY FTVatCode ORDER BY FDVatStart DESC) AS RowNumber , 
+                            FTVatCode , 
+                            FCVatRate 
+                        FROM TCNMVatRate where CONVERT(VARCHAR(19),GETDATE(),121) > FDVatStart 
+                    ) AS A WHERE A.RowNumber = 1 
+                ) VAT ON PDT.FTVatCode = VAT.FTVatCode
+                WHERE DT.FTBchCode = '$tRefIntBchCode' AND  DT.FTXphDocNo ='$tRefIntDocNo' AND DT.FNXpdSeqNo IN $aSeqNo 
+            ";
+        } else {
+            $tSQL = "
+                INSERT INTO TCNTDocDTTmp (
                     FTBchCode, FTXthDocNo, FNXtdSeqNo, FTXthDocKey, FTPdtCode, FTXtdPdtName,
                     FTPunCode, FTPunName, FCXtdFactor, FTXtdBarCode, FTSrnCode,
                     FTXtdVatType, FTVatCode, FCXtdVatRate, FTXtdSaleType, FCXtdSalePrice,
@@ -3036,11 +3145,11 @@ class Invoice_model extends CI_Model{
                     PDT.FTPdtStaVatBuy,
                     PDT.FTVatCode AS FTVatCode,
                     VAT.FCVatRate,
-                    PDT.FTPdtSaleType AS FTXpdSaleType,
-                    PDT.FCPdtCostStd AS FCXpdSalePrice,
+                    PDT.FTPdtSaleType   AS FTXpdSaleType,
+                    PDT.FCPdtCostStd    AS FCXpdSalePrice,
                     (DT.FCXpdQty - ISNULL(CHKSUM.FCXpdQty,0)) AS FCXpdQty,
                     DT.FCXpdQtyAll,
-                    PDT.FCPdtCostStd AS FCXpdSetPrice,
+                    PDT.FCPdtCostStd    AS FCXpdSetPrice,
                     0 AS FCXpdAmtB4DisChg,
                     '' AS FTXpdDisChgTxt,
                     0 as FCXpdQtyLef,
@@ -3058,35 +3167,27 @@ class Invoice_model extends CI_Model{
                     CONVERT(DATETIME,'" . date('Y-m-d H:i:s') . "') AS FDCreateOn,
                     CONVERT(VARCHAR,'" . $this->session->userdata('tSesUsername') . "') AS FTLastUpdBy,
                     CONVERT(VARCHAR,'" . $this->session->userdata('tSesUsername') . "') AS FTCreateBy
-                FROM
-                    TAPTPoDT DT WITH (NOLOCK)
-                    LEFT JOIN TCNMPdt PDT WITH (NOLOCK) ON DT.FTPdtCode = PDT.FTPdtCode
-                    LEFT JOIN (
-                        SELECT
-                            HDR.FTXshRefDocNo,
-                            DT.FTPdtCode,
-                            SUM ( DT.FCXpdQty ) AS FCXpdQty 
-                        FROM
-                            TAPTPiDT DT WITH ( NOLOCK )
-                            INNER JOIN TAPTPiHDDocRef HDR WITH ( NOLOCK ) ON DT.FTXphDocNo = HDR.FTXshDocNo 
-                        WHERE
-                            HDR.FTXshRefType = '1' 
-                            AND HDR.FTXshRefKey = 'PO' 
-                            
-                        GROUP BY
-                            HDR.FTXshRefDocNo,
-                            DT.FTPdtCode 
-                        ) CHKSUM ON DT.FTXphDocNo = CHKSUM.FTXshRefDocNo AND CHKSUM.FTPdtCode = DT.FTPdtCode
-                    INNER JOIN (
-                        SELECT A.* FROM(
-                            SELECT  
-                                ROW_NUMBER() OVER (PARTITION BY FTVatCode ORDER BY FDVatStart DESC) AS RowNumber , 
-                                FTVatCode , 
-                                FCVatRate 
-                            FROM TCNMVatRate where CONVERT(VARCHAR(19),GETDATE(),121) > FDVatStart 
-                        ) AS A WHERE A.RowNumber = 1 
-                    ) VAT ON PDT.FTVatCode = VAT.FTVatCode
-                    WHERE DT.FTBchCode = '$tRefIntBchCode' AND  DT.FTXphDocNo ='$tRefIntDocNo' AND DT.FNXpdSeqNo IN $aSeqNo ";
+                FROM TAPTPoDT DT WITH (NOLOCK)
+                LEFT JOIN TCNMPdt PDT WITH (NOLOCK) ON DT.FTPdtCode = PDT.FTPdtCode
+                LEFT JOIN (
+                    SELECT HDR.FTXshRefDocNo,DT.FTPdtCode,SUM(DT.FCXpdQty) AS FCXpdQty 
+                    FROM TAPTPiDT DT WITH ( NOLOCK )
+                    INNER JOIN TAPTPiHDDocRef HDR WITH ( NOLOCK ) ON DT.FTXphDocNo = HDR.FTXshDocNo 
+                    WHERE HDR.FTXshRefType = '1' AND HDR.FTXshRefKey = 'PO' 
+                    GROUP BY HDR.FTXshRefDocNo,DT.FTPdtCode 
+                ) CHKSUM ON DT.FTXphDocNo = CHKSUM.FTXshRefDocNo AND CHKSUM.FTPdtCode = DT.FTPdtCode
+                INNER JOIN (
+                    SELECT A.* FROM(
+                        SELECT  
+                            ROW_NUMBER() OVER (PARTITION BY FTVatCode ORDER BY FDVatStart DESC) AS RowNumber , 
+                            FTVatCode , 
+                            FCVatRate 
+                        FROM TCNMVatRate where CONVERT(VARCHAR(19),GETDATE(),121) > FDVatStart 
+                    ) AS A WHERE A.RowNumber = 1 
+                ) VAT ON PDT.FTVatCode = VAT.FTVatCode
+                WHERE DT.FTBchCode = '$tRefIntBchCode' AND  DT.FTXphDocNo ='$tRefIntDocNo' AND DT.FNXpdSeqNo IN $aSeqNo 
+            ";
+        }
 
         $oQuery = $this->db->query($tSQL);
 
@@ -3108,12 +3209,82 @@ class Invoice_model extends CI_Model{
 
     //นำข้อมูลจาก Browse ลง DTTemp (DO) [DT]
     public function FSoMIVCallRefIntDocInsertDTToTemp_DO($paData){
+        $tAgnCode       = $this->session->userdata("tSesUsrAgnCode");
+        $tAgnType       = $this->session->userdata('tAgnType');
+
         $tIVDocNo       = $paData['tIVDocNo'];
         $tIVFrmBchCode  = $paData['tIVFrmBchCode'];
         $tRefIntDocNo   = $paData['tRefIntDocNo'];
         $tRefIntBchCode = $paData['tRefIntBchCode'];
         $aSeqNo         = '(' . implode(',', $paData['aSeqNo']) . ')';
-        $tSQL = "INSERT INTO TCNTDocDTTmp (
+
+        // เช็ค Login ด้วย Agency ดึงต้นทุน Agency
+        if(isset($tAgnCode) && !empty($tAgnCode) && isset($tAgnType) && $tAgnType == 2){
+            $tSQL = "
+                INSERT INTO TCNTDocDTTmp (
+                    FTBchCode, FTXthDocNo, FNXtdSeqNo, FTXthDocKey, FTPdtCode, FTXtdPdtName,
+                    FTPunCode, FTPunName, FCXtdFactor, FTXtdBarCode, FTSrnCode,
+                    FTXtdVatType, FTVatCode, FCXtdVatRate, FTXtdSaleType, FCXtdSalePrice,
+                    FCXtdQty, FCXtdQtyAll, FCXtdSetPrice, FCXtdAmtB4DisChg, FTXtdDisChgTxt,
+                    FCXtdQtyLef, FCXtdQtyRfn, FTXtdStaPrcStk, FTXtdStaAlwDis,
+                    FNXtdPdtLevel,FTXtdPdtParent,FCXtdQtySet,
+                    FTXtdPdtStaSet,FTXtdRmk,FTTmpStatus,
+                    FTSessionID,FDLastUpdOn,FDCreateOn,FTLastUpdBy,FTCreateBy 
+                )
+                SELECT
+                    '$tIVFrmBchCode' as FTBchCode,
+                    '$tIVDocNo' as FTXphDocNo,
+                    ROW_NUMBER() OVER(ORDER BY DT.FNXpdSeqNo ASC ) AS FNXpdSeqNo,
+                    'TAPTPiDT' AS FTXthDocKey,
+                    DT.FTPdtCode,
+                    DT.FTXpdPdtName,
+                    DT.FTPunCode,
+                    DT.FTPunName,
+                    DT.FCXpdFactor,
+                    DT.FTXpdBarCode,
+                    '' AS FTSrnCode,
+                    PDT.FTPdtStaVatBuy,
+                    PDT.FTVatCode AS FTVatCode,
+                    VAT.FCVatRate,
+                    PDT.FTPdtSaleType       AS FTXpdSaleType,
+                    COSTAVG.FCPdtCostStd    AS FCXpdSalePrice,
+                    DT.FCXpdQty,
+                    DT.FCXpdQtyAll,
+                    COSTAVG.FCPdtCostStd    AS FCXpdSetPrice,
+                    0 AS FCXpdAmtB4DisChg,
+                    '' AS FTXpdDisChgTxt,
+                    0 as FCXpdQtyLef,
+                    0 as FCXpdQtyRfn,
+                    '' as FTXpdStaPrcStk,
+                    PDT.FTPdtStaAlwDis,
+                    0 as FNXpdPdtLevel,
+                    '' as FTXpdPdtParent,
+                    0 as FCXpdQtySet,
+                    '' as FTPdtStaSet,
+                    '' as FTXpdRmk,   
+                    PDT.FTPdtType,
+                    CONVERT(VARCHAR,'" . $this->session->userdata('tSesSessionID') . "') AS FTSessionID,
+                    CONVERT(DATETIME,'" . date('Y-m-d H:i:s') . "') AS FDLastUpdOn,
+                    CONVERT(DATETIME,'" . date('Y-m-d H:i:s') . "') AS FDCreateOn,
+                    CONVERT(VARCHAR,'" . $this->session->userdata('tSesUsername') . "') AS FTLastUpdBy,
+                    CONVERT(VARCHAR,'" . $this->session->userdata('tSesUsername') . "') AS FTCreateBy
+                FROM TAPTDoDT DT WITH (NOLOCK)
+                LEFT JOIN TCNMPdt PDT WITH (NOLOCK) ON DT.FTPdtCode = PDT.FTPdtCode
+                LEFT JOIN TCNMPdtCostAvg COSTAVG WITH(NOLOCK) ON DT.FTPdtCode = COSTAVG.FTPdtCode AND COSTAVG.FTAgnCode = ".$this->db->escape($tAgnCode)."
+                INNER JOIN (
+                    SELECT A.* FROM(
+                        SELECT  
+                            ROW_NUMBER() OVER (PARTITION BY FTVatCode ORDER BY FDVatStart DESC) AS RowNumber , 
+                            FTVatCode , 
+                            FCVatRate 
+                        FROM TCNMVatRate where CONVERT(VARCHAR(19),GETDATE(),121) > FDVatStart 
+                    ) AS A WHERE A.RowNumber = 1 
+                ) VAT ON PDT.FTVatCode = VAT.FTVatCode
+                WHERE DT.FTBchCode = '$tRefIntBchCode' AND  DT.FTXphDocNo ='$tRefIntDocNo' AND DT.FNXpdSeqNo IN $aSeqNo
+            ";
+        } else {
+            $tSQL = "
+                INSERT INTO TCNTDocDTTmp (
                     FTBchCode, FTXthDocNo, FNXtdSeqNo, FTXthDocKey, FTPdtCode, FTXtdPdtName,
                     FTPunCode, FTPunName, FCXtdFactor, FTXtdBarCode, FTSrnCode,
                     FTXtdVatType, FTVatCode, FCXtdVatRate, FTXtdSaleType, FCXtdSalePrice,
@@ -3160,22 +3331,21 @@ class Invoice_model extends CI_Model{
                     CONVERT(DATETIME,'" . date('Y-m-d H:i:s') . "') AS FDCreateOn,
                     CONVERT(VARCHAR,'" . $this->session->userdata('tSesUsername') . "') AS FTLastUpdBy,
                     CONVERT(VARCHAR,'" . $this->session->userdata('tSesUsername') . "') AS FTCreateBy
-                FROM
-                    TAPTDoDT DT WITH (NOLOCK)
-                    LEFT JOIN TCNMPdt PDT WITH (NOLOCK) ON DT.FTPdtCode = PDT.FTPdtCode
-                    INNER JOIN (
-                        SELECT A.* FROM(
-                            SELECT  
-                                ROW_NUMBER() OVER (PARTITION BY FTVatCode ORDER BY FDVatStart DESC) AS RowNumber , 
-                                FTVatCode , 
-                                FCVatRate 
-                            FROM TCNMVatRate where CONVERT(VARCHAR(19),GETDATE(),121) > FDVatStart 
-                        ) AS A WHERE A.RowNumber = 1 
-                    ) VAT ON PDT.FTVatCode = VAT.FTVatCode
-                    WHERE DT.FTBchCode = '$tRefIntBchCode' AND  DT.FTXphDocNo ='$tRefIntDocNo' AND DT.FNXpdSeqNo IN $aSeqNo ";
-
-        print_r($tSQL);
-
+                FROM TAPTDoDT DT WITH (NOLOCK)
+                LEFT JOIN TCNMPdt PDT WITH (NOLOCK) ON DT.FTPdtCode = PDT.FTPdtCode
+                INNER JOIN (
+                    SELECT A.* FROM(
+                        SELECT  
+                            ROW_NUMBER() OVER (PARTITION BY FTVatCode ORDER BY FDVatStart DESC) AS RowNumber , 
+                            FTVatCode , 
+                            FCVatRate 
+                        FROM TCNMVatRate where CONVERT(VARCHAR(19),GETDATE(),121) > FDVatStart 
+                    ) AS A WHERE A.RowNumber = 1 
+                ) VAT ON PDT.FTVatCode = VAT.FTVatCode
+                WHERE DT.FTBchCode = '$tRefIntBchCode' AND  DT.FTXphDocNo ='$tRefIntDocNo' AND DT.FNXpdSeqNo IN $aSeqNo
+            ";
+        }
+        
         $oQuery = $this->db->query($tSQL);
         if ($this->db->affected_rows() > 0) {
             $aResult = array(
@@ -3247,8 +3417,7 @@ class Invoice_model extends CI_Model{
                     CONVERT(DATETIME,'".date('Y-m-d H:i:s')."') AS FDCreateOn,
                     CONVERT(VARCHAR,'".$this->session->userdata('tSesUsername')."') AS FTLastUpdBy,
                     CONVERT(VARCHAR,'".$this->session->userdata('tSesUsername')."') AS FTCreateBy
-                FROM
-                    TPSTSalDT DT WITH (NOLOCK)
+                FROM TPSTSalDT DT WITH (NOLOCK)
                 LEFT JOIN TCNMPdt PDT WITH (NOLOCK) ON DT.FTPdtCode = PDT.FTPdtCode
                 WHERE  DT.FTBchCode = '$tRefIntBchCode' AND  DT.FTXshDocNo ='$tRefIntDocNo' AND DT.FNXsdSeqNo IN $aSeqNo
         ";

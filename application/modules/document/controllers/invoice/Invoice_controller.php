@@ -203,6 +203,7 @@ class Invoice_controller extends MX_Controller {
                 );
                 // Data Master Pdt ข้อมูลรายการสินค้าที่เพิ่มเข้ามา
                 $aDataPdtMaster = $this->Invoice_model->FSaMIVGetDataPdt($aDataPdtParams);
+                
                 // นำรายการสินค้าเข้า DT Temp
                 $this->Invoice_model->FSaMIVInsertPDTToTemp($aDataPdtMaster, $aDataPdtParams);
             }
