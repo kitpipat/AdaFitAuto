@@ -134,7 +134,7 @@ class cBrowserPDTCallView extends MX_Controller
         $tSNPDT                 = $this->input->post('tSNPDT');
         if (isset($tSNPDT)) { $tSNPDT = $tSNPDT; } else { $tSNPDT = ''; }
 
-        $aData = array(
+        $aData  = array(
             'nShowCountRecord'  => get_cookie('nShowRecordInPageList'), //$nShowCountRecord,
             'aQualitysearch'    => $Qualitysearch,
             'aPriceType'        => $PriceType,
@@ -167,13 +167,11 @@ class cBrowserPDTCallView extends MX_Controller
             'tStaControlStk'     => $tStaControlStk,
             'tParameterWAH'      => $tParameterWAH
         );
-
         $this->load->view('common/wBrowsePDTCallView', $aData);
     }
 
     //วิ่งเข้าฟังก์ชั่น get product โยนพวก parameter ไป
-    public function FSxGetProductfotPDT()
-    {
+    public function FSxGetProductfotPDT(){
         $tBarcode           = $this->input->post('tTextScan');
         $tProductCode       = $this->input->post('ProductCode');
         $tAgenCode          = $this->input->post('AgenCode');
@@ -263,11 +261,10 @@ class cBrowserPDTCallView extends MX_Controller
             'tPdtSpcCtl'            => $tPdtSpcCtl,
             'tSNPDT'                => $tSNPDT
         );
-        // echo "<pre>";
-        // print_r($aDataSearch);
+        
         //ค้นหาสินค้า
         $aProduct = $this->JSaCGetDataProduct($aDataSearch);
-
+        
         // GetAllRow
         if ($aProduct['nPDTAll'] == 0) {
             $tGetAllRow = $this->session->userdata("tSesGetAllRow");
@@ -317,7 +314,6 @@ class cBrowserPDTCallView extends MX_Controller
                 $aReturn = 800;
             } else {
                 $tReturn    = $aProduct;
-
                 $aData      = $tReturn['raItems'];
                 $aReturn    = array();
                 for ($i = 0; $i < FCNnHSizeOf($tReturn['raItems']); $i++) {
@@ -345,9 +341,9 @@ class cBrowserPDTCallView extends MX_Controller
                     );
 
                     if ($aPriceType[0] == 'Pricesell' || $aPriceType[0] == 'Price4Cst') {
-                        $aPackData['PriceRet'] = number_format($aData[$i]['FCPgdPriceRet'], $nOptDecimalShow, '.', ',');
-                        $aPackData['PriceWhs'] = number_format($aData[$i]['FCPgdPriceWhs'], $nOptDecimalShow, '.', ',');
-                        $aPackData['PriceNet'] = number_format($aData[$i]['FCPgdPriceNet'], $nOptDecimalShow, '.', ',');
+                        $aPackData['PriceRet']  = number_format($aData[$i]['FCPgdPriceRet'], $nOptDecimalShow, '.', ',');
+                        $aPackData['PriceWhs']  = number_format($aData[$i]['FCPgdPriceWhs'], $nOptDecimalShow, '.', ',');
+                        $aPackData['PriceNet']  = number_format($aData[$i]['FCPgdPriceNet'], $nOptDecimalShow, '.', ',');
                         $aPackData['NetAfHD']   = number_format($aData[$i]['FCPgdPriceRet'], $nOptDecimalShow, '.', ',');
                     }else if($aPriceType[0] == 'Cost'){
 
@@ -371,7 +367,7 @@ class cBrowserPDTCallView extends MX_Controller
                         );
                         $nCost = $this->GetTotalByConfig($aDataFind);
                         $nCost = $nCost * $aData[$i]['FCPdtUnitFact'];
-                        $aPackData['Price'] = number_format($nCost, $nOptDecimalShow, '.', ',');
+                        $aPackData['Price']     = number_format($nCost, $nOptDecimalShow, '.', ',');
                         $aPackData['NetAfHD']   = number_format($nCost, $nOptDecimalShow, '.', ',');
                     }
                     array_push($aReturn, [
@@ -387,16 +383,14 @@ class cBrowserPDTCallView extends MX_Controller
     }
 
     //GET Product
-    public function JSaCGetDataProduct($paData)
-    {
+    public function JSaCGetDataProduct($paData){
         $tFilter            = '';
         $tBchSession        = $this->session->userdata("tSesUsrBchCodeDefault");
         $tShpSession        = $this->session->userdata("tSesUsrShpCode");
         $tMerSession        = $this->session->userdata("tSesUsrMerCode");
         $tSelectTier        = $paData['tSelectTier'];
-        $aDataParamExe     = array();
-
-        $tWhere = $paData['tWhere'];
+        $aDataParamExe      = array();
+        $tWhere             = $paData['tWhere'];
         // echo "<pre>";
         // print_r($paData['tPdtSpcCtl']);
         // var_dump($tWhere);

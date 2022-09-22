@@ -181,32 +181,25 @@ class mBrowserPDTCallView extends CI_Model
     //#################################################### PDT VIEW BCH ###################################################
 
     //PDT - สำหรับ VIEW BCH + ข้อมูล
-    public function FSaMGetProductBCH($ptFilter, $ptLeftJoinPrice, $paData, $pnTotalResult , $aDataParamExe)
-    {
+    public function FSaMGetProductBCH($ptFilter, $ptLeftJoinPrice, $paData, $pnTotalResult , $aDataParamExe){
         try {
-                $tSesUserCode = $this->session->userdata('tSesUserCode');
-                // $tSesUsrAgnCode     = $this->session->userdata('tSesUsrAgnCode');
-                // $tBchSession        = $this->session->userdata("tSesUsrBchCodeMulti");
-                // $tShpSession        = $this->session->userdata("tSesUsrShpCodeMulti");
-                // $tMerSession        = $this->session->userdata("tSesUsrMerCode");
+                $tSesUserCode       = $this->session->userdata('tSesUserCode');
                 $aRowLen            = FCNaHCallLenData($paData['nRow'], $paData['nPage']);
                 $nLngID             = $this->session->userdata("tLangEdit");
                 $aDataUsrGrp        = $this->db->where('FTUsrCode',$tSesUserCode)->get('TCNTUsrGroup')->row_array();
                 $tDefaultBchCode    = $aDataUsrGrp['FTBchCode'];
-
-                $tSQL = '';
-
-                // $tSesUserCode       = $this->session->userdata('tSesUserCode');
-                $tSesUsrAgnCode     = $this->session->userdata('tSesUsrAgnCode');
-                $tSesUsrShpCodeMulti        = $this->session->userdata("tSesUsrShpCodeMulti");
-                $tSesUsrBchCodeMulti        = $this->session->userdata("tSesUsrBchCodeMulti");
                 
-                // $tShpSession        = $this->session->userdata("tSesUsrShpCodeMulti");
-                // $tMerSession        = $this->session->userdata("tSesUsrMerCode");
-                $tSesUsrLevel       = $this->session->userdata('tSesUsrLevel');
-                $tSesRealUsrLevel    = $this->session->userdata('tSesRealUsrLevel');
-                $tSesUsrBchCodeMulti = ($tSesUsrBchCodeMulti) ? '' : FCNtAddSingleQuote($tSesUsrBchCodeMulti); 
-                $tSesUsrShpCodeMulti = ($tSesUsrShpCodeMulti) ? '' : FCNtAddSingleQuote($tSesUsrShpCodeMulti); 
+                $tSQL = '';
+                $tSesUsrAgnCode = $this->session->userdata('tSesUsrAgnCode');
+                $tSesUsrAgnType = $this->session->userdata('tAgnType');
+
+                $tSesUsrShpCodeMulti    = $this->session->userdata("tSesUsrShpCodeMulti");
+                $tSesUsrBchCodeMulti    = $this->session->userdata("tSesUsrBchCodeMulti");
+                
+                $tSesUsrLevel           = $this->session->userdata('tSesUsrLevel');
+                $tSesRealUsrLevel       = $this->session->userdata('tSesRealUsrLevel');
+                $tSesUsrBchCodeMulti    = ($tSesUsrBchCodeMulti) ? '' : FCNtAddSingleQuote($tSesUsrBchCodeMulti); 
+                $tSesUsrShpCodeMulti    = ($tSesUsrShpCodeMulti) ? '' : FCNtAddSingleQuote($tSesUsrShpCodeMulti); 
 
                 $tSesUsrWahCode      = $this->session->userdata("tSesUsrWahCode");
 
@@ -242,11 +235,12 @@ class mBrowserPDTCallView extends CI_Model
                     $nMaxTopPage = 0;
                 }
                 
-                $tCallStore = "{CALL SP_CNoBrowseProduct(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+                $tCallStore = "{CALL SP_CNoBrowseProduct(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
                 $aDataStore = array(
                     'ptUsrCode'           => $tSesUserCode,
                     'ptUsrLevel'          => $tSesRealUsrLevel,  //$tSesUsrLevel
                     'tSesUsrAgnCode'      => $tSesUsrAgnCode,
+                    'tSesUsrAgnType'      => $tSesUsrAgnType,
                     'ptSesBchCodeMulti'   => $tBCH,
                     'ptSesShopCodeMulti'  => $tSHP,
                     'ptSesMerCode'        => $tMER,
@@ -270,15 +264,13 @@ class mBrowserPDTCallView extends CI_Model
                     'ptPdtSpcCtl'         => $aDataParamExe['ptPdtSpcCtl'],
                     'FNResult'            => $nLngID
                 );
-                // echo "<pre>";
-                // print_r($aDataStore);
-                // echo "<br>";
-                // exit;
+                
 
                 $oQuery = $this->db->query($tCallStore, $aDataStore);
 
-
+                // echo "<pre>";
                 // echo $this->db->last_query();
+                // echo "</pre>";
                 // die();
             
                 if ($oQuery->num_rows() > 0) {
