@@ -11,6 +11,17 @@ class mRptInventoryPos extends CI_Model {
     //Return : Call Store Proce
     //Return Type: Array
     public function FSnMExecStoreCReport($paDataFilter) {
+        $tAgnCode   = $this->session->userdata('tSesUsrAgnCode');
+        $tAgnType   = $this->session->userdata('tAgnType');
+        // เช็ค Login ด้วย Agency ดึงต้นทุน Agency
+        if(isset($tAgnCode) && !empty($tAgnCode) && isset($tAgnType) && $tAgnType == 2){
+            $tAgnCode   = $tAgnCode;
+            $tAgnType   = $tAgnType;
+        } else {
+            $tAgnCode   = $paDataFilter['tAgnCodeSelect'];
+            $tAgnType   = 0;
+        }
+
         // สาขา
         $tBchCodeSelect = ($paDataFilter['bBchStaSelectAll']) ? '' : FCNtAddSingleQuote($paDataFilter['tBchCodeSelect']); 
         // ร้านค้า
@@ -20,27 +31,31 @@ class mRptInventoryPos extends CI_Model {
         // ประเภทเครื่องจุดขาย
         $tPosCodeSelect = ($paDataFilter['bPosStaSelectAll']) ? '' : FCNtAddSingleQuote($paDataFilter['tPosCodeSelect']);
 
-        $tCallStore = "{ CALL SP_RPTxStockBal1002001(?,?,?,?,?,?,?,?,?,?,?,?,?) }";
+        $tCallStore = "{ CALL SP_RPTxStockBal1002001(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) }";
         $aDataStore = array(
             'pnLngID'       => $paDataFilter['nLangID'],
             'ptComName'     => $paDataFilter['tCompName'],
             'ptRptCode'     => $paDataFilter['tRptCode'],
             'ptUsrSession'  => $paDataFilter['tUserSession'],
-
             'pnFilterType'  => $paDataFilter['tTypeSelect'],
+            'ptAgnCode'     => $tAgnCode,
+            'ptAgnType'     => $tAgnType,
             'ptBchL'        => $tBchCodeSelect,
             'ptBchF'        => $paDataFilter['tBchCodeFrom'],
             'ptBchT'        => $paDataFilter['tBchCodeTo'],
-
             'ptWahCodeF'    => $paDataFilter['tWahCodeFrom'],
             'ptWahCodeT'    => $paDataFilter['tWahCodeTo'],
             'ptCate1From'   => FCNtAddSingleQuote($paDataFilter['tCate1From']),
             'ptCate2From'   => FCNtAddSingleQuote($paDataFilter['tCate2From']),
-
             'FTResult'      => 0
         );
-
         $oQuery = $this->db->query($tCallStore, $aDataStore);
+
+        // echo "<pre>";
+        // print_r($this->db->last_query());
+        // echo "</pre>";
+        // exit;
+
         if ($oQuery != FALSE) {
             unset($oQuery);
             return 1;
