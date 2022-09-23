@@ -241,3 +241,186 @@ GO
 
 ALTER TABLE [dbo].[TRPTxSalPdtRetNextDateTmp] ADD  DEFAULT (getdate()) FOR [FDTmpTxnDate]
 GO
+
+/****** Object:  Table [dbo].[TCNSDocCtl_L]    Script Date: 5/9/2565 18:21:46 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TCNSDocCtl_L]') AND type in (N'U'))
+DROP TABLE [dbo].[TCNSDocCtl_L]
+GO
+
+/****** Object:  Table [dbo].[TCNSDocCtl_L]    Script Date: 5/9/2565 18:21:46 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[TCNSDocCtl_L](
+	[FTDctCode] [varchar](5) NOT NULL,
+	[FNLngID] [bigint] NOT NULL,
+	[FTDctTable] [varchar](100) NOT NULL,
+	[FTDctName] [varchar](150) NULL,
+	[FTDctStaUse] [varchar](1) NULL,
+ CONSTRAINT [PK_TCNSDocCtl_1] PRIMARY KEY CLUSTERED 
+(
+	[FTDctCode] ASC,
+	[FNLngID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+/****** Object:  Table [dbo].[TCNMPdtSpcCtl]    Script Date: 5/9/2565 18:25:18 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TCNMPdtSpcCtl]') AND type in (N'U'))
+DROP TABLE [dbo].[TCNMPdtSpcCtl]
+GO
+
+/****** Object:  Table [dbo].[TCNMPdtSpcCtl]    Script Date: 5/9/2565 18:25:18 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[TCNMPdtSpcCtl](
+	[FTPdtCode] [varchar](20) NOT NULL,
+	[FTDctCode] [varchar](5) NOT NULL,
+	[FTPscAlwCmp] [varchar](1) NULL,
+	[FTPscAlwAD] [varchar](1) NULL,
+	[FTPscAlwBch] [varchar](1) NULL,
+	[FTPscAlwMer] [varchar](1) NULL,
+	[FTPscAlwShp] [varchar](1) NULL,
+	[FTPscAlwOwner] [varchar](1) NULL,
+ CONSTRAINT [PK_TCNMPdtSpcCtl] PRIMARY KEY CLUSTERED 
+(
+	[FTPdtCode] ASC,
+	[FTDctCode] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
+/****** Object:  Table [dbo].[TRPTTrfpmtinfTmp]    Script Date: 16/9/2565 16:59:45 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TRPTTrfpmtinfTmp]') AND type in (N'U'))
+DROP TABLE [dbo].[TRPTTrfpmtinfTmp]
+GO
+
+/****** Object:  Table [dbo].[TRPTTrfpmtinfTmp]    Script Date: 16/9/2565 16:59:45 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[TRPTTrfpmtinfTmp](
+	[FTRptRowSeq] [bigint] IDENTITY(1,1) NOT NULL,
+	[FNRowPartID] [bigint] NULL,
+	[FTBchRefIDFrm] [varchar](20) NULL,
+	[FTBchCodeFrm] [varchar](20) NULL,
+	[FTBchNameFrm] [varchar](255) NULL,
+	[FTXthDocNoFrm] [varchar](20) NULL,
+	[FDXthDocDateFrm] [datetime] NULL,
+	[FTBchRefIDTo] [varchar](20) NULL,
+	[FTBchCodeTo] [varchar](20) NULL,
+	[FTBchNameTo] [varchar](255) NULL,
+	[FTXthDocNoTo] [varchar](20) NULL,
+	[FDXthDocDateTo] [datetime] NULL,
+	[FTPdtCode] [varchar](20) NULL,
+	[FTXtdPdtName] [varchar](255) NULL,
+	[FTPunCode] [varchar](20) NULL,
+	[FTPunName] [varchar](255) NULL,
+	[FTPgpChain] [varchar](20) NULL,
+	[FTPgpChainName] [varchar](255) NULL,
+	[FTPtyCode] [varchar](20) NULL,
+	[FTPtyName] [varchar](255) NULL,
+	[FTPdtCatCode1] [varchar](50) NULL,
+	[FTPdtCatName1] [varchar](255) NULL,
+	[FTPdtCatCode2] [varchar](50) NULL,
+	[FTPdtCatName2] [varchar](255) NULL,
+	[FCXtdQty] [numeric](18, 4) NULL,
+	[FTXtdUsrKey] [varchar](50) NULL,
+	[FTComName] [varchar](50) NULL,
+	[FTRptCode] [varchar](50) NULL,
+	[FTUsrSession] [varchar](255) NULL,
+	[FDTmpTxnDate] [datetime] NULL
+) ON [PRIMARY]
+GO
+
+
+/****** Object:  Table [dbo].[TRPTStockAllCompareTextfileTmp]    Script Date: 16/9/2565 17:03:37 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TRPTStockAllCompareTextfileTmp]') AND type in (N'U'))
+DROP TABLE [dbo].[TRPTStockAllCompareTextfileTmp]
+GO
+
+/****** Object:  Table [dbo].[TRPTStockAllCompareTextfileTmp]    Script Date: 16/9/2565 17:03:37 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[TRPTStockAllCompareTextfileTmp](
+	[FTRptCode] [varchar](50) NULL,
+	[FTUsrSession] [varchar](255) NULL,
+	[FTBchCode] [varchar](50) NULL,
+	[FTBchName] [varchar](255) NULL,
+	[FTPdtCode] [varchar](50) NULL,
+	[FTPdtName] [varchar](255) NULL,
+	[FTPunCode] [varchar](50) NULL,
+	[FTPunName] [varchar](255) NULL,
+	[FTPdtCat1] [varchar](255) NULL,
+	[FTPdtCat2] [varchar](255) NULL,
+	[FTCatName] [varchar](255) NULL,
+	[FTMapUsrValue] [varchar](255) NULL,
+	[FCXtdQty] [numeric](18, 4) NULL,
+	[FCXtdCost] [numeric](18, 4) NULL,
+	[FCXtdAmount] [numeric](18, 4) NULL,
+	[FTBchRefID] [varchar](255) NULL
+) ON [PRIMARY]
+GO
+
+/****** Object:  Table [dbo].[TRPTSaleFCCompVDTmp]    Script Date: 16/9/2565 17:04:17 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TRPTSaleFCCompVDTmp]') AND type in (N'U'))
+DROP TABLE [dbo].[TRPTSaleFCCompVDTmp]
+GO
+
+/****** Object:  Table [dbo].[TRPTSaleFCCompVDTmp]    Script Date: 16/9/2565 17:04:17 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[TRPTSaleFCCompVDTmp](
+	[FTRptRowSeq] [bigint] IDENTITY(1,1) NOT NULL,
+	[FNRowPartID] [bigint] NULL,
+	[FNAppType] [int] NULL,
+	[FTAgnCode] [varchar](100) NULL,
+	[FTAgnName] [varchar](255) NULL,
+	[FTBchCode] [varchar](100) NULL,
+	[FTBchName] [varchar](255) NULL,
+	[FTPdtCode] [varchar](100) NULL,
+	[FTPdtName] [varchar](255) NULL,
+	[FTPgpChain] [varchar](100) NULL,
+	[FTPgpChainName] [varchar](255) NULL,
+	[FTPtyCode] [varchar](100) NULL,
+	[FTPtyName] [varchar](255) NULL,
+	[FTPdtCat1] [varchar](100) NULL,
+	[FTCatName1] [varchar](255) NULL,
+	[FTPdtCat2] [varchar](100) NULL,
+	[FTCatName2] [varchar](255) NULL,
+	[FCXpdNetAfHDHQ] [numeric](18, 4) NULL,
+	[FCXpdPerPoByHQ] [numeric](18, 4) NULL,
+	[FCXpdNetAfHDVD] [numeric](18, 4) NULL,
+	[FCXpdPerPoByVD] [numeric](18, 4) NULL,
+	[FDLastUpdOn] [datetime] NULL,
+	[FTLastUpdBy] [varchar](20) NULL,
+	[FDCreateOn] [datetime] NULL,
+	[FTCreateBy] [varchar](20) NULL,
+	[FTComName] [varchar](50) NULL,
+	[FTRptCode] [varchar](50) NULL,
+	[FTUsrSession] [varchar](255) NULL,
+ CONSTRAINT [PK_TRPTSaleFCCompVDTmp] PRIMARY KEY CLUSTERED 
+(
+	[FTRptRowSeq] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
