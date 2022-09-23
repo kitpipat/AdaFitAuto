@@ -10,13 +10,24 @@ class RptStkAllCompTextFile_model extends CI_Model {
     // Return: Status Stored Procedure
     // ReturnType: Boolen
     public function FSnMExecStoreReport($paDataFilter){
-        // สาขา
+        $tAgnCode   = $this->session->userdata('tSesUsrAgnCode');
+        $tAgnType   = $this->session->userdata('tAgnType');
+
+        // เช็ค Login ด้วย Agency ดึงต้นทุน Agency
+        if(isset($tAgnCode) && !empty($tAgnCode) && isset($tAgnType) && $tAgnType == 2){
+            $tAgnCode   = $tAgnCode;
+            $tAgnType   = $tAgnType;
+        } else {
+            $tAgnCode   = $paDataFilter['tAgnCodeSelect'];
+            $tAgnType   = 0;
+        }
         $tBchCodeSelect = ($paDataFilter['bBchStaSelectAll']) ? '' : FCNtAddSingleQuote($paDataFilter['tBchCodeSelect']);
-        $tCallStore     = "{ CALL SP_RPTxStockAllCompareTextfile(?,?,?,?,?,?,?,?,?,?,?,?) }";
+        $tCallStore     = "{ CALL SP_RPTxStockAllCompareTextfile(?,?,?,?,?,?,?,?,?,?,?,?,?) }";
         $aDataStore     = [
             'ptRptCode'         => $paDataFilter['tRptCode'],
             'ptUsrSessionID'    => $paDataFilter['tSessionID'],
-            'ptAgnCode'         => $paDataFilter['tAgnCodeSelect'],
+            'ptAgnCode'         => $tAgnCode,
+            'ptAgnType'         => $tAgnType,
             'ptBchCode'         => $tBchCodeSelect,
             'ptPdtCodeFrom'     => $paDataFilter['tPdtCodeFrom'],
             'ptPdtCodeTo'       => $paDataFilter['tPdtCodeTo'],
@@ -28,6 +39,12 @@ class RptStkAllCompTextFile_model extends CI_Model {
             'pnResult'          => 0
         ];
         $oQuery = $this->db->query($tCallStore, $aDataStore);
+
+        // echo "<pre>";
+        // print_r($this->db->last_query());
+        // echo "</pre>";
+        // exit;
+
         if ($oQuery != FALSE) {
             unset($oQuery);
             return 1;
