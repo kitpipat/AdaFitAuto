@@ -89,10 +89,10 @@ class Car_model extends CI_Model {
         $nLngID         = $paData['FNLngID'];
         $tSesAgnCode    = $paData['tSesAgnCode'];
         $tSQLFilter     = '';
-        // Check Agency 
-        if($tSesAgnCode != ''){
-            $tSQLFilter .= "AND CAR.FTAgnCode = '$tSesAgnCode' ";
-        }
+        // // Check Agency 
+        // if($tSesAgnCode != ''){
+        //     $tSQLFilter .= "AND CAR.FTAgnCode = '$tSesAgnCode' ";
+        // }
         // Chekc Filter Search
         $tSearchList = $paData['tSearchAll'];
         if ($tSearchList != ''){
@@ -147,6 +147,10 @@ class Car_model extends CI_Model {
             ) AS BOOKING ON DATACAR.rtCarCode = BOOKING.FTXshCstRef2
             ORDER BY DATACAR.rtFDCreateOn DESC
         ";
+        // echo "<pre>";
+        // print_r($tSQL);
+        // echo "</pre>";
+        // exit;
         $oQuery = $this->db->query($tSQL);
         if ($oQuery->num_rows() > 0) {
             $aList      = $oQuery->result_array();
