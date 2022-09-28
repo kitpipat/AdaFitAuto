@@ -393,15 +393,16 @@ function JSxCheckCustomerCodeDupInDB() {
             type: "POST",
             url: "CheckInputGenCode",
             data: {
-                tTableName: "TCNMCst",
-                tFieldName: "FTCstCode",
-                tCode: $("#oetCstCode").val()
+                tTableName  : "TCNMCst",
+                tFieldName  : "FTCstCode",
+                tCode       : $("#oetCstCode").val()
             },
             cache: false,
             timeout: 0,
             success: function(tResult) {
                 var aResult = JSON.parse(tResult);
                 $("#ohdCheckDuplicateCstCode").val(aResult["rtCode"]);
+
                 $('#ofmAddCustomerInfo1').validate().destroy();
                 // Set Validate Dublicate Code
                 $.validator.addMethod('dublicateCode', function(value, element) {
@@ -410,7 +411,8 @@ function JSxCheckCustomerCodeDupInDB() {
                     } else {
                         return true;
                     }
-                }, );
+                },);
+
                 // From Summit Validate
                 $('#ofmAddCustomerInfo1').validate({
                     rules: {
@@ -467,8 +469,7 @@ function JSxCheckCustomerCodeDupInDB() {
 
                     }
                 });
-                // $('#ofmAddCustomerInfo1').submit();
-
+                $('#ofmAddCustomerInfo1').submit();
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 JCNxResponseError(jqXHR, textStatus, errorThrown);
