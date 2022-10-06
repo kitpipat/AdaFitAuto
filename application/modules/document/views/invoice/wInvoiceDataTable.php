@@ -24,12 +24,12 @@
                         <th class="xCNTextBold" style="width:7%;"><?=language('document/adjuststock/adjuststock','tASTTBDocDate')?></th>
                         <th nowrap class="xCNTextBold" style="width:8%;">เอกสารอ้างอิง</th>
                         <th nowrap class="xCNTextBold" style="width:7%;">วันที่เอกสารอ้างอิง</th>
+                        <th nowrap class="xCNTextBold" style="width:8%;">อ้างอิงใบวางบิล</th>
                         <th class="xCNTextBold"><?=language('document/invoice/invoice','tIVTitleBuySPL')?></th>
                         <th class="xCNTextBold"><?=language('document/adjuststock/adjuststock','tASTTBStaDoc')?></th>
                         <th nowrap class="xCNTextBold"><?=language('document/purchaseinvoice/purchaseinvoice','tPITBStaPrc')?></th>
                         <th class="xCNTextBold"><?=language('document/adjuststock/adjuststock','tASTTBCreateBy')?></th>
                         <th class="xCNTextBold"><?=language('document/adjuststock/adjuststock','tASTTBApvBy')?></th>
-
                         <?php if($aAlwEvent['tAutStaFull'] == 1 || $aAlwEvent['tAutStaDelete'] == 1) : ?>
 							<th class="xCNTextBold" style="width:5%;"><?= language('common/main/main','tCMNActionDelete')?></th>
                         <?php endif; ?>
@@ -112,22 +112,23 @@
                                     <td class="text-left" <?=$nRowspan?>><?=(!empty($aValue['FTAgnName']))? $aValue['FTAgnName'] : '-' ?></td>
                                     <td class="text-left" <?=$nRowspan?>><?=(!empty($aValue['FTBchName']))? $aValue['FTBchName'] : '-' ?></td>
                                     <?php if(!empty($aValue['BchNameTo'])){ ?>
-                                    <td class="text-left" <?=$nRowspan?>><?=(!empty($aValue['BchNameTo']))? $aValue['BchNameTo'] : '-' ?></td>
+                                        <td class="text-left" <?=$nRowspan?>><?=(!empty($aValue['BchNameTo']))? $aValue['BchNameTo'] : '-' ?></td>
                                     <?php }else{?>
-                                    <td class="text-left" <?=$nRowspan?>><?=(!empty($aValue['BchNameToDO']))? $aValue['BchNameToDO'] : '-' ?></td>
+                                        <td class="text-left" <?=$nRowspan?>><?=(!empty($aValue['BchNameToDO']))? $aValue['BchNameToDO'] : '-' ?></td>
                                     <?php } ?>
-                                    <td class="text-left" <?=$nRowspan?>><?=(!empty($aValue['FTXphDocNo']))? $aValue['FTXphDocNo'] : '-' ?></td>
-                                    <td class="text-center" <?=$nRowspan?>><?=(!empty($aValue['FDXphDocDate']))? $aValue['FDXphDocDate'] : '-' ?></td>
+                                        <td class="text-left" <?=$nRowspan?>><?=(!empty($aValue['FTXphDocNo']))? $aValue['FTXphDocNo'] : '-' ?></td>
+                                        <td class="text-center" <?=$nRowspan?>><?=(!empty($aValue['FDXphDocDate']))? $aValue['FDXphDocDate'] : '-' ?></td>
                                     <?php } ?>
-                                    <td class="text-left"><?=(!empty($aValue['DocRefIn']))? $aValue['DocRefIn'] : '-' ?></td>
-                                    <td class="text-center"><?=(!empty($aValue['DateRefIn']))? $aValue['DateRefIn'] : '-' ?></td>
+                                        <td class="text-left"><?=(!empty($aValue['DocRefIn']))? $aValue['DocRefIn'] : '-' ?></td>
+                                        <td class="text-center"><?=(!empty($aValue['DateRefIn']))? $aValue['DateRefIn'] : '-' ?></td>
+                                        <td class="text-center"><?=(!empty($aValue['FTXphPbDocNo']))? $aValue['FTXphPbDocNo'] : '-' ?></td>
                                     <?php if($tKeepDocNo != $aValue['FTXphDocNo'] ) { ?>
-                                    <td class="text-left" <?=$nRowspan?>><?=(!empty($aValue['FTSplName']))? $aValue['FTSplName'] : '-' ?></td>
-                                    <td class="text-left" <?=$nRowspan?>>
-                                        <label class="xCNTDTextStatus <?=$tClassStaDoc;?>">
-                                            <?=$tStaDoc?>
-                                        </label>
-                                    </td>
+                                        <td class="text-left" <?=$nRowspan?>><?=(!empty($aValue['FTSplName']))? $aValue['FTSplName'] : '-' ?></td>
+                                        <td class="text-left" <?=$nRowspan?>>
+                                            <label class="xCNTDTextStatus <?=$tClassStaDoc;?>">
+                                                <?=$tStaDoc?>
+                                            </label>
+                                        </td>
                                     <td nowrap class="text-left" <?=$nRowspan?>>
                                         <label class="xCNTDTextStatus <?=$tClassPrcStk;?>">
                                             <?=$tStaPrcDoc; ?>

@@ -33,7 +33,8 @@ class Invoice_model extends CI_Model{
                 POBCHL.FTBchName AS BchNameTo,
                 DOBCHL.FTBchName AS BchNameToDO,
                 HDDocRef_in.FTXshRefDocNo                           AS DocRefIn, 
-                CONVERT(CHAR(10),HDDocRef_in.FDXshRefDocDate,103)   AS DateRefIn
+                CONVERT(CHAR(10),HDDocRef_in.FDXshRefDocDate,103)   AS DateRefIn,
+                PBDT.FTXphDocNo AS FTXphPbDocNo
             FROM [TAPTPiHD] HD WITH (NOLOCK)
             LEFT JOIN TAPTPiHDDocRef    HDDocRef_in WITH (NOLOCK)   ON HD.FTXphDocNo    = HDDocRef_in.FTXshDocNo AND HDDocRef_in.FTXshRefType = 1
             LEFT JOIN TAPTPoHD          POHD        WITH (NOLOCK)   ON POHD.FTXphDocNo  = HDDocRef_in.FTXshRefDocNo
@@ -45,6 +46,15 @@ class Invoice_model extends CI_Model{
             LEFT JOIN TCNMUser_L        USRLAPV     WITH (NOLOCK)   ON HD.FTXphApvCode  = USRLAPV.FTUsrCode AND USRLAPV.FNLngID = ".$this->db->escape($nLngID)."
             LEFT JOIN TCNMSpl_L         SPL_L       WITH (NOLOCK)   ON HD.FTSplCode     = SPL_L.FTSplCode   AND SPL_L.FNLngID   = ".$this->db->escape($nLngID)."
             LEFT JOIN TCNMAgency_L      AGN_L       WITH (NOLOCK)   ON HD.FTAgnCode     = AGN_L.FTAgnCode   AND AGN_L.FNLngID   = ".$this->db->escape($nLngID)."
+            LEFT JOIN (
+                SELECT 
+					PBDT.FTAgnCode,PBDT.FTBchCode,PBDT.FTXphDocNo,PBDT.FTXpdRefDocNo
+				FROM TACTPbDT		PBDT WITH(NOLOCK)
+				LEFT JOIN TACTPbHD	PBHD WITH(NOLOCK) ON PBDT.FTAgnCode = PBHD.FTAgnCode AND PBDT.FTBchCode = PBHD.FTBchCode AND PBDT.FTXphDocNo = PBHD.FTXphDocNo
+				WHERE FTXpdRefDocNo LIKE '%IV%'
+				AND PBHD.FTXphStaDoc    = '1'
+				GROUP BY PBDT.FTAgnCode,PBDT.FTBchCode,PBDT.FTXphDocNo,PBDT.FTXpdRefDocNo
+            ) PBDT ON HD.FTBchCode = PBDT.FTBchCode AND HD.FTXphDocNo = PBDT.FTXpdRefDocNo
             WHERE HD.FDCreateOn <> '' AND HD.FNXphDocType = 12
         ";
 
@@ -58,6 +68,7 @@ class Invoice_model extends CI_Model{
                     OR (AGN_L.FTAgnName LIKE '%".$this->db->escape_like_str($tSearchList)."%')
                     OR (SPL_L.FTSplName LIKE '%".$this->db->escape_like_str($tSearchList)."%')
                     OR (CONVERT(CHAR(10),HD.FDXphDocDate,103)   LIKE '%".$this->db->escape_like_str($tSearchList)."%')
+                    OR (PBDT.FTXphDocNo LIKE '%".$this->db->escape_like_str($tSearchList)."%')
                 )
             ";
         }
@@ -120,6 +131,10 @@ class Invoice_model extends CI_Model{
         }
 
         $tSQL .= ") AS c ORDER BY C.FDCreateOn DESC";
+
+        // echo "<pre>";
+        // print_r($tSQL);
+        // echo "</pre>";
 
         $oQuery = $this->db->query($tSQL);
         if ($oQuery->num_rows() > 0) {
