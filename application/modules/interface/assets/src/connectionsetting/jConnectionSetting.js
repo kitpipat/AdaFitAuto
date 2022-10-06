@@ -1171,22 +1171,26 @@ function JSvCallPageEditConnectionSettingMSShop(ptBchCode, ptPosCode) {
 //Return : View
 //Return Type : View
 function JSnCallTimeOut() {
-    nTimeout = $("#oetMSShopTime").val();
-    tMid = $("#oetMSShopMid").val();
-    tTid = $("#oetMSShopTid").val();
-    tUserName = $("#oetMSShopUser").val();
-    tPassWord = JCNtAES128DecryptData($('#oetMSShopPassword').val(),tKey,tIV);
-    tURL = $("#oetMSShopApiToken").val();
+    tBchCode    = $('#oetUsrShopBchCode').val();
+    tPosCode    = $('#oetMSShopPosCode').val();
+    nTimeout    = $("#oetMSShopTime").val();
+    tMid        = $("#oetMSShopMid").val();
+    tTid        = $("#oetMSShopTid").val();
+    tUserName   = $("#oetMSShopUser").val();
+    tPassWord   = JCNtAES128DecryptData($('#oetMSShopPassword').val(),tKey,tIV);
+    tURL        = $("#oetMSShopApiToken").val();
     $.ajax({
         type: "POST",
         url: "connectionsettingMSShopTestHost",
         data: {
-            nTimeout: nTimeout,
-            tMid: tMid,
-            tTid: tTid,
-            tUserName: tUserName,
-            tPassWord: tPassWord,
-            tURL: tURL,
+            tBchCode    : tBchCode,
+            tPosCode    : tPosCode,
+            nTimeout    : nTimeout,
+            tMid        : tMid,
+            tTid        : tTid,
+            tUserName   : tUserName,
+            tPassWord   : tPassWord,
+            tURL        : tURL,
         },
         success: function(tResult) {
             var aReturn = JSON.parse(tResult);

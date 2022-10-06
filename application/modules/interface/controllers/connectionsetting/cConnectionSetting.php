@@ -742,51 +742,59 @@ class cConnectionSetting extends MX_Controller {
     //Functionality :  Load Page settingWahouse
     //Parameters : 
     //Creator : 15/05/2020 saharat(Golf)
-    //Last Modified : -
+    //Last Modified : 06/10/2022 Wasin (Yoshi)
     //Return : String View
     //Return Type : View
     public function FSxCCCSMSShopTestHost(){
-        $nTimeout = $this->input->post('nTimeout');
-        $tMid = $this->input->post('tMid');
-        $tTid = $this->input->post('tTid');
-        $tUser = $this->input->post('tUserName');
-        $tPass = $this->input->post('tPassWord');
-        $tURL = $this->input->post('tURL');
-
-        $aGetTokenAPI    = $this->mConnectionSetting->FSaMCCGetToken();
-        $aGetTestHost    = $this->mConnectionSetting->FSaMCCGetTestHost();
-        $tUrlApiToken = $tURL.'/?grant_type=client_credentials';
-        $tUrlTestHost = $aGetTestHost[0]->FTApiURL;
-
-        $aAPIKey    = array();
-        $aParam1     = array(
-            'ptLang'        => $this->session->userdata("tLangEdit")
-        );
-        $aParam     = array(
-            'ptLang'        => $this->session->userdata("tLangEdit"),
-            "AddressData"        => array(
-                "Method"        => "TestHost",
-                "MethodParam"   => 0
-            ),
-            "SystemData"        => array(
-                "Batch_ID"        => 0,
-                "MID"   => $tMid,
-                "Stand_ID"   => 0,
-                "TID"   => $tTid
-            ),
-        );
-        $aLogin = array(
-            "login" => $tUser,
-            "password" => $tPass
-        );
-
-        $oResultGetToken  = FCNaHCallAPIGetToken($tUrlApiToken,'POST',$aParam1,$aAPIKey,'json',$nTimeout,$aLogin);
-        if(isset($oResultGetToken['error'])){
-            echo 'Error Get Token';
-        }else{
-            $tGettoken = $oResultGetToken['access_token'];
-            $oResultTestHost  = FCNaHCallAPITestHost($tUrlTestHost,'POST',$aParam,$aAPIKey,'json',$nTimeout,$tGettoken);
-            echo json_encode($oResultTestHost);
+        $tBchCode   = $this->input->post('tBchCode');
+        $tPosCode   = $this->input->post('tPosCode');
+        $nTimeout   = $this->input->post('nTimeout');
+        $tMid       = $this->input->post('tMid');
+        $tTid       = $this->input->post('tTid');
+        $aDataWhere = [
+            'tBchCode'  => $tBchCode,
+            'tPosCode'  => $tPosCode,
+            'tMid'      => $tMid,
+            'tTid'      => $tTid,
+        ];
+        // Get Data Config Token In TLKMLMSShop
+        $aGetTokenAPI   = $this->mConnectionSetting->FSaMCCGetToken($aDataWhere);
+        // Get Data Config Test Host Check TCNMTxnSpcAPI Or TCNMTxnAPI
+        $aGetTestHost   = $this->mConnectionSetting->FSaMCCGetTestHost($aDataWhere);
+        // print_r($aGetTestHost);
+        if((isset($aGetTokenAPI) && !empty($aGetTokenAPI)) && (isset($aGetTestHost) && !empty($aGetTestHost))){
+            $tUrlApiToken   = $aGetTokenAPI['FTApiToken'];
+            $tUrlTestHost   = $aGetTestHost['FTApiURL'];
+            $tUserNameToken = $aGetTokenAPI['FTApiLoginUsr'];
+            $tPassWordToken = $aGetTokenAPI['FTApiLoginPwd'];
+            // Set Data Send Api Helper
+            $aAPIKey        = array();
+            $aParam1        = array(
+                'username'  => $tUserNameToken,
+                'password'  => $tPassWordToken
+            );
+            $aLogin         = array(
+                "login"     => $tUserNameToken,
+                "password"  => $tPassWordToken
+            );
+            $aParam     = array(
+                "AddressData"       => array(
+                    "Method"        => "TestHost",
+                    "MethodParam"   => 0
+                ),
+                "SystemData"    => array(
+                    "MID"       => $tMid,
+                    "TID"       => $tTid
+                ),
+            );
+            $oResultGetToken    = FCNaHCallAPIGetToken($tUrlApiToken,'POST',$aParam1,$aAPIKey,'json',$nTimeout,$aLogin);
+            if(isset($oResultGetToken['error'])){
+                echo 'Error Get Token';
+            } else {
+                $tGettoken  = $oResultGetToken['accessToken'];
+                $oResultTestHost    = FCNaHCallAPITestHost($tUrlTestHost,'POST',$aParam,$aAPIKey,'json',$nTimeout,$tGettoken);
+                echo json_encode($oResultTestHost);
+            }
         }
     }
 

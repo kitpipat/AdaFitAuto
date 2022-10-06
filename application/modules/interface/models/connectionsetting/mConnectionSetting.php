@@ -1474,15 +1474,33 @@ class mConnectionSetting extends CI_Model
     //Creator : 04/07/2019 Witsarut (Bell)
     //Return : array result from db
     //Return Type : array
-    public function FSaMCCGetToken()
-    {
-        $tSQL = "SELECT FTApiURL FROM TCNMTxnAPI WHERE FTApiCode = '00001'";
+    public function FSaMCCGetToken($paDataWhere){
+        $tBchCode   = $paDataWhere['tBchCode'];
+        $tPosCode   = $paDataWhere['tPosCode'];
+        $tMid       = $paDataWhere['tMid'];
+        $tTid       = $paDataWhere['tTid'];
+        $tSQL       = "
+            SELECT 
+                LMSS.FTBchCode,
+                LMSS.FTPosCode,
+                LMSS.FTLmsMID,
+                LMSS.FTLmsTID,
+                LMSS.FTApiToken,
+                LMSS.FTApiLoginUsr,
+                LMSS.FTApiLoginPwd
+            FROM TLKMLMSShop LMSS WITH(NOLOCK)
+            WHERE LMSS.FTBchCode = ".$this->db->escape($tBchCode)."
+            AND LMSS.FTPosCode	 = ".$this->db->escape($tPosCode)."
+            AND LMSS.FTLmsMID	 = ".$this->db->escape($tMid)."
+            AND LMSS.FTLmsTID	 = ".$this->db->escape($tTid)."
+        ";
         $oQuery = $this->db->query($tSQL);
         if ($oQuery->num_rows() > 0) {
-            $aResult = $oQuery->result();
+            $aResult    = $oQuery->row_array();
         } else {
-            $aResult = false;
+            $aResult    = false;
         }
+        unset($tBchCode,$tPosCode,$tMid,$tTid,$tSQL,$oQuery);
         return $aResult;
     }
 
@@ -1491,15 +1509,32 @@ class mConnectionSetting extends CI_Model
     //Creator : 04/07/2019 Witsarut (Bell)
     //Return : array result from db
     //Return Type : array
-    public function FSaMCCGetTestHost()
-    {
-        $tSQL = "SELECT FTApiURL FROM TCNMTxnAPI WHERE FTApiCode = '00002'";
-        $oQuery = $this->db->query($tSQL);
-        if ($oQuery->num_rows() > 0) {
-            $aResult = $oQuery->result();
-        } else {
-            $aResult = false;
+    public function FSaMCCGetTestHost($paDataWhere){
+        $tBchCode   = $paDataWhere['tBchCode'];
+        // Check Api Spc 
+        $tSQL1  = "
+            SELECT SAPI.FTApiURL
+            FROM TCNMTxnSpcAPI SAPI WITH(NOLOCK)
+            WHERE SAPI.FTApiCode = '00002'
+            AND SAPI.FTBchCode	 = ".$this->db->escape($tBchCode)."
+        ";
+        $oQuery1    = $this->db->query($tSQL1);
+        if ($oQuery1->num_rows() > 0) {
+            $aResult    = $oQuery1->row_array();
+        }else{
+            $tSQL2  = "
+                SELECT API.FTApiURL
+                FROM TCNMTxnAPI API WITH(NOLOCK)
+                WHERE API.FTApiCode	= '00002'
+            ";            
+            $oQuery2    = $this->db->query($tSQL2);
+            if ($oQuery2->num_rows() > 0) {
+                $aResult    = $oQuery2->row_array();
+            }else{
+                $aResult    = [];
+            }
         }
+        unset($tBchCode,$tSQL1,$oQuery1,$tSQL2,$oQuery2);
         return $aResult;
     }
 
