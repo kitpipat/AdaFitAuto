@@ -2718,3 +2718,12 @@ $lang['tRptTrfPmtInfPdtType']       = "ประเภทสินค้า";
 $lang['tRptTrfPmtInfPdtCat1']       = "หมวดหมู่สินค้าหลัก";
 $lang['tRptTrfPmtInfPdtCat2']       = "หมวดหมู่สินค้าย่อย";
 $lang['tRptTrfPmtInfXtdQty']        = "จำนวน";
+
+// รายงาน - ข้อมูลการพิมพ์ซ้ำ
+$lang['tRptReprintDocument']        = "รายงาน - ข้อมูลการพิมพ์ซ้ำ";
+$lang['tRptReprintDocBchCode']      = "รหัสสาขา";
+$lang['tRptReprintDocBchName']      = "ชื่อสาขา";
+$lang['tRptReprintDocDocNo']        = "เลขที่เอกสาร";
+$lang['tRptReprintDocDocCreate']    = "วันที่ทำรายการ";
+$lang['tRptReprintDocNumPrint']     = "พิมพ์ซ้ำครั้งที่";
+$lang['tRptReprintDocCashier']      = "ผู้ทำรายการ";

@@ -932,3 +932,8 @@ $route['rptSaleFCCompVDExportFile'] = 'report/reportFitauto/RptSaleFCCompVD_cont
 // รายงาน - ข้อมูลจ่ายโอนรับโอน
 $route['rptTrfpmtinf']              = 'report/reportFitauto/RptTrfpmtinf_controller/index';
 $route['rptTrfpmtinfExportFile']    = 'report/reportFitauto/RptTrfpmtinf_controller/FSvCCallRptExportFile';
+
+
+// รายงาน - ข้อมูลการพิมพ์ซ้ำ
+$route['rptReprintDocument']            = 'report/reportFitauto/RptReprintDocument_controller/index';
+$route['rptReprintDocumentClickPage']   = 'report/reportFitauto/RptReprintDocument_controller/FSvCCallRptViewBeforePrintClickPage';
