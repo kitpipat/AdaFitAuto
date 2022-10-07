@@ -217,6 +217,8 @@
 
     //เอาข้อมูลสินค้าลง Temp
     function JSxIVEventInsertToTemp(paData){
+        // console.log(paData);
+
         if($("#ohdIVRoute").val() == "docInvoiceEventAdd"){
             var tIVDocNo    = "";
         }else{
@@ -263,6 +265,7 @@
 
     //Render ตาราง
     function JSxIVEventRenderTemp(paData){
+        
         JCNxCloseLoading();
 
         //ช่องสแกนต้องเปิดเมื่อมีรายการใหม่เพิ่มขึ้นไป
@@ -295,7 +298,9 @@
             var tProductName    = oResult.PDTName;          //ชื่อสินค้า
             var tPunCode        = oResult.PUNCode;          //รหัสหน่วย
             var tUnitName       = oResult.PUNName;          //ชื่อหน่วยสินค้า
+
             var nPrice          = (parseFloat(accounting.unformat(oResult.nCostSTD))).toFixed(2);                           //ราคา
+
             var nAlwDiscount    = (oResult.AlwDis == '' || oResult.AlwDis === undefined ? 2 : oResult.AlwDis);           //อนุญาตคำนวณลด
             var nAlwVat         = (oResult.AlwVat == '' || oResult.AlwVat === undefined ? 0 : oResult.AlwVat);           //อนุญาตคำนวณภาษี
             var nVat            = (oResult.nVat == ''   || oResult.nVat === undefined   ? 7 : parseFloat(oResult.nVat).toFixed(2));  //ภาษีจากผู้จำหน่าย

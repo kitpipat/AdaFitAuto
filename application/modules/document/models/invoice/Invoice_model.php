@@ -1514,6 +1514,7 @@ class Invoice_model extends CI_Model{
         if (isset($aDataGetDataHD['rtCode']) && $aDataGetDataHD['rtCode'] == 1) {
             $aDataHDOld         = $aDataGetDataHD['raItems'];
             $aDataAddUpdateHD   = array_merge($paDataMaster, array(
+                'FTAgnCode'     => $paDataWhere['FTAgnCode'],
                 'FTBchCode'     => $paDataWhere['FTBchCode'],
                 'FTXphDocNo'    => $paDataWhere['FTXphDocNo'],
                 'FDLastUpdOn'   => $paDataWhere['FDLastUpdOn'],
@@ -1523,6 +1524,7 @@ class Invoice_model extends CI_Model{
             ));
         } else {
             $aDataAddUpdateHD   = array_merge($paDataMaster, array(
+                'FTAgnCode'     => $paDataWhere['FTAgnCode'],
                 'FTBchCode'     => $paDataWhere['FTBchCode'],
                 'FTXphDocNo'    => $paDataWhere['FTXphDocNo'],
                 'FDCreateOn'    => $paDataWhere['FDCreateOn'],
@@ -1530,9 +1532,11 @@ class Invoice_model extends CI_Model{
             ));
         }
         // Delete HD
+        $this->db->where_in('FTAgnCode', $aDataAddUpdateHD['FTAgnCode']);
         $this->db->where_in('FTBchCode', $aDataAddUpdateHD['FTBchCode']);
         $this->db->where_in('FTXphDocNo', $aDataAddUpdateHD['FTXphDocNo']);
         $this->db->delete($paTableAddUpdate['tTableHD']);
+
         // Insert HD 
         $this->db->insert($paTableAddUpdate['tTableHD'], $aDataAddUpdateHD);
         return;

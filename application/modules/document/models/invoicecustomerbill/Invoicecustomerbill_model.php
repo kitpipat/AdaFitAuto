@@ -723,7 +723,9 @@ class Invoicecustomerbill_model extends CI_Model
                             PBDT.FTXpdRefDocNo AS FTPdtCode ,
                             PBDT.FTXpdRefDocType AS FTPunCode,
                             PBDT.FCXpdInvLeft AS FCXtdVatable ,
-                            PBDT.FCXpdInvPaid AS FCXtdSetPrice ,
+                            -- PBDT.FCXpdInvPaid AS FCXtdSetPrice ,
+                            -- เนื่องจากการตัดชำระอยู่ที่ฝั่ง SAP
+                            0 AS FCXtdSetPrice ,
                             PBDT.FDXpdDueDate AS FDAjdDateTimeC1 ,
                             PBDT.FDXpdRefDocDate AS FDAjdDateTimeC2 ,
                             PBDT.FDLastUpdOn ,
@@ -1455,7 +1457,10 @@ class Invoicecustomerbill_model extends CI_Model
                                     AND DOCTMP.FTSessionID = ".$this->db->escape($tSesSessionID)." ";
 
         $tSQL               .= ") Base) AS c ";
-        // echo $tSQL;
+        echo '<pre>';
+        echo $tSQL;
+        echo '</pre>';
+        
         $oQuery = $this->db->query($tSQL);
         if ($oQuery->num_rows() > 0) {
             $aDataList  = $oQuery->result_array();

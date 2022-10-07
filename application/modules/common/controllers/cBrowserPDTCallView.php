@@ -178,8 +178,8 @@ class cBrowserPDTCallView extends MX_Controller
         $tNotInPdtType      = $this->input->post('tNotInPdtType');
         $tWhere             = $this->input->post('tWhere');
         if ($tBarcode == '' || $tBarcode == null) { //เลือกสินค้าผ่านหน้าจอ
-            $nPage                  =  $this->input->post("nPage");
-            $tPagename              =  $this->input->post("tPagename");
+            $nPage      =  $this->input->post("nPage");
+            $tPagename  =  $this->input->post("tPagename");
 
             //เก็บข้อมูลลง  Cookie
             $nCheckPage  =  $this->input->cookie("PDTCookie_" . $this->session->userdata("tSesUserCode"), true);
@@ -274,6 +274,10 @@ class cBrowserPDTCallView extends MX_Controller
 
         $this->session->set_userdata("tSesGetAllRow", $tGetAllRow);
 
+        // echo "<pre>";
+        // print_r($aPriceType);
+        // echo "</pre>";
+
         //หาประเภทราคา ใช้ต้นทุนแบบไหน [1,2,3,4];
         if ($aPriceType[0] == 'Pricesell' || $aPriceType[0] == 'Price4Cst') {
             $aCheckPrice = '';
@@ -366,7 +370,11 @@ class cBrowserPDTCallView extends MX_Controller
                             'nCostSTD'           => $aData[$i]['FCPdtCostStd']
                         );
                         $nCost = $this->GetTotalByConfig($aDataFind);
+                        // print_r($aDataFind);
+                        // print_r($nCost);
+
                         $nCost = $nCost * $aData[$i]['FCPdtUnitFact'];
+                        $aPackData['nCostSTD']  = number_format($nCost, $nOptDecimalShow, '.', ',');
                         $aPackData['Price']     = number_format($nCost, $nOptDecimalShow, '.', ',');
                         $aPackData['NetAfHD']   = number_format($nCost, $nOptDecimalShow, '.', ',');
                     }
@@ -378,6 +386,9 @@ class cBrowserPDTCallView extends MX_Controller
                     ]);
                 }
             }
+
+            // print_r($aReturn);
+
             echo json_encode($aReturn);
         }
     }
@@ -913,7 +924,9 @@ class cBrowserPDTCallView extends MX_Controller
 
     //หาว่าใช้ราคาแบบไหน
     public function GetTotalByConfig($aData){
-
+        // echo "<pre>";
+        // print_r($aData);
+        // echo "</pre>";
         $nINDEXConfig       = explode(',',$aData['nINDEX']);
         $nVATSPL            = $aData['nVATSPL'];
         $nCostAvgIn         = $aData['nCostAvgIn'];

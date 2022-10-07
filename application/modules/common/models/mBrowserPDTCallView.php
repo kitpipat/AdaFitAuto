@@ -656,14 +656,32 @@ class mBrowserPDTCallView extends CI_Model
 
     //#################################################### Get หาต้นทุนใช้แบบไหน #################################################### 
     public function FSnMGetTypePrice($tSyscode, $tSyskey, $tSysseq){
-        $tSQL = "SELECT FTSysStaDefValue,FTSysStaUsrValue
-            FROM  TSysConfig 
-            WHERE 
+        $tSesUsrAgnCode = $this->session->userdata('tSesUsrAgnCode');
+        $tSesUsrAgnType = $this->session->userdata('tAgnType');
+
+        /** เช็ค Login เข้ามาด้วย User AD ให้ไปดึงจากตาราง TCNTConfigSpc แต่ถ้า Login ด้วย User HQ หรือ สาขา ให้ไปดึงที่ตาราง TSysConfig */
+        if(isset($tSesUsrAgnCode) && !empty($tSesUsrAgnCode) && isset($tSesUsrAgnType) && $tSesUsrAgnType == 2){
+            $tSQL = "
+                SELECT 
+                    FTCfgStaUsrValue AS FTSysStaDefValue,
+                    FTCfgStaUsrValue AS FTSysStaUsrValue
+                FROM  TCNTConfigSpc
+                WHERE FTSysCode = '$tSyscode' 
+                AND FTSysKey    = '$tSyskey'
+                AND FTSysSeq    = '$tSysseq'
+                AND FTAgnCode   = '$tSesUsrAgnCode'
+            ";
+        } else {
+            $tSQL = "
+                SELECT FTSysStaDefValue,FTSysStaUsrValue
+                FROM  TSysConfig WITH(NOLOCK)
+                WHERE 
                 FTSysCode = '$tSyscode' AND 
                 FTSysKey = '$tSyskey' AND 
                 FTSysSeq = '$tSysseq'
             ";
-
+        }
+ 
         $oQuery = $this->db->query($tSQL);
 
         if ($oQuery->num_rows() > 0) {

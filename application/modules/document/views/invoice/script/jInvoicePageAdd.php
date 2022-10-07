@@ -849,7 +849,9 @@
                 'Qualitysearch'       : [],
                 'ReturnType'          : "S",
                 'ShowCountRecord'     : 10,
+
                 'aPriceType'          : ["Cost","tCN_Cost","Company","1"],
+
                 'NextFunc'            : "",
                 'SelectTier'          : ["PDT"],
                 'SPL'                 : $('#ohdIVSPLCode').val(),
@@ -870,7 +872,7 @@
             success : function (tResult){
                 JCNxCloseLoading();
                 var oText = JSON.parse(tResult);
-                console.log(oText);
+                // console.log(oText);
                 if(oText == '800'){
                     $('#oetIVInsertBarcode').attr('readonly',false);
                     $('#odvIVModalPDTNotFound').modal('show');
