@@ -970,7 +970,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <?php if (isset($aDataDocCtlL) && !empty($aDataDocCtlL) &&  $aDataDocCtlL['rtCode']): ?>
+                                                    <?php if (isset($aDataDocCtlL) && !empty($aDataDocCtlL) &&  $aDataDocCtlL['rtCode'] == '1'): ?>
                                                         <?php foreach($aDataDocCtlL['raItems'] AS $nKey => $aValue): ?>
                                                             <?php 
                                                                 $tPdtDctCode        = $aValue['FTDctCode'];
