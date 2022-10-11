@@ -1457,9 +1457,9 @@ class Invoicecustomerbill_model extends CI_Model
                                     AND DOCTMP.FTSessionID = ".$this->db->escape($tSesSessionID)." ";
 
         $tSQL               .= ") Base) AS c ";
-        echo '<pre>';
-        echo $tSQL;
-        echo '</pre>';
+        //echo '<pre>';
+        //echo $tSQL;
+        //echo '</pre>';
         
         $oQuery = $this->db->query($tSQL);
         if ($oQuery->num_rows() > 0) {
