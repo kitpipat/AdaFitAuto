@@ -774,7 +774,7 @@ class cBrowserPDTCallView extends MX_Controller
 
         //-------------------ผู้จำหน่าย-------------------
         if ($paData['tSPL'] != '' || $paData['tSPL'] != null) {
-            $tFilter .= " AND (PDTSPL.FTSplCode = '" . $paData['tSPL'] . "' OR ISNULL(PDTSPL.FTSplCode,'') = '')";
+            // $tFilter .= " AND (PDTSPL.FTSplCode = '" . $paData['tSPL'] . "' OR ISNULL(PDTSPL.FTSplCode,'') = '')";
         }
 
         //-------------------สาขา-------------------
