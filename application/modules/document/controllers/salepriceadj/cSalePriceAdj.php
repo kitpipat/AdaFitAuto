@@ -98,11 +98,11 @@ class cSalePriceAdj extends MX_Controller{
     //Return Type : View
     public function FSvCSPAPdtPriDataList(){
         try {
-            $tSearchAll     = $this->input->post('tSearchAll');
-            $FTXphDocNo     = $this->input->post('FTXphDocNo');
-            $nPage          = ($this->input->post('nPageCurrent') == '' || null) ? 1 : $this->input->post('nPageCurrent');   // Check Number Page
-            $nLangEdit      = $this->session->userdata("tLangEdit");
-            $aData          = array(
+            $tSearchAll = $this->input->post('tSearchAll');
+            $FTXphDocNo = $this->input->post('FTXphDocNo');
+            $nPage      = ($this->input->post('nPageCurrent') == '' || null) ? 1 : $this->input->post('nPageCurrent');   // Check Number Page
+            $nLangEdit  = $this->session->userdata("tLangEdit");
+            $aData      = array(
                 'nStaAddOrEdit' => 99,
                 'nPage'         => $nPage,
                 'nRow'          => 20,
@@ -114,7 +114,6 @@ class cSalePriceAdj extends MX_Controller{
             );
             // Get Option Show Decimal
             $nOptDecimalShow        = get_cookie('tOptDecimalShow');
-            // $aColumnShow            = $this->mSalePriceAdj->FCNaDCLGetColumnShow('TCNTPdtAdjPriDT');
             $aPdtPriDataList        = $this->mSalePriceAdj->FSaMSPAPdtPriList($aData);
             $aAlwEventSalePriceAdj  = FCNaHCheckAlwFunc('dcmSPA/0/0');
             $aGenTable              = array(
@@ -122,10 +121,8 @@ class cSalePriceAdj extends MX_Controller{
                 'nPage'                     => $nPage,
                 'tSearchAll'                => $tSearchAll,
                 'aAlwEventSalePriceAdj'     => $aAlwEventSalePriceAdj,
-                // 'aColumnShow'               => $aColumnShow,
                 'nOptDecimalShow'           => $nOptDecimalShow
             );
-            // print_r($aPdtPriDataList);
             $this->load->view('document/salepriceadj/wSalePriceAdjPdtPriDataTable', $aGenTable);
         } catch (Exception $Error) {
             echo $Error;

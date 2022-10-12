@@ -120,55 +120,55 @@ if (isset($nStaAddOrEdit) && $nStaAddOrEdit == 1) {
     $nStaUploadFile        = 1;
 }
 
-$aParams = [
-    "aFieldName" => ['FTBchCode', 'FTPosCode'],
-    "tUserSessionID" => "1234",
-    "tTableName" => "TCNMPos"
+$aParams    = [
+    "aFieldName"        => ['FTBchCode', 'FTPosCode'],
+    "tUserSessionID"    => "1234",
+    "tTableName"        => "TCNMPos"
 ];
 // FCNnMasTmpChkCodeMultiDupInDB($aParams);
 
-$aParams = [
-    "aFieldName" => ['FTPdtCode', 'FTPunCode'],
-    "tUserSessionID" => "0000120200710085938",
-    "tTableName" => "TCNMPdtPackSize"
+$aParams    = [
+    "aFieldName"        => ['FTPdtCode', 'FTPunCode'],
+    "tUserSessionID"    => "0000120200710085938",
+    "tTableName"        => "TCNMPdtPackSize"
 ];
 // FCNnDocTmpChkCodeMultiInDB($aParams);
-$nDecimalShow =  FCNxHGetOptionDecimalShow();
+$nDecimalShow   =  get_cookie('tOptDecimalShow');
 
 
 $tUsrLevel                 = $this->session->userdata('tSesUsrLevel');
 if ($tUsrLevel == 'SHP') {
-    $tUserMchCode             = $this->session->userdata('tSesUsrMerCode');
-    $tUserMchName             = $this->session->userdata('tSesUsrMerName');
+    $tUserMchCode   = $this->session->userdata('tSesUsrMerCode');
+    $tUserMchName   = $this->session->userdata('tSesUsrMerName');
 } else {
-    $tUserMchCode             = "";
-    $tUserMchName             = "";
+    $tUserMchCode   = "";
+    $tUserMchName   = "";
 }
 
 if ($tUsrLevel == 'SHP') {
-    $tUserShpCode             = $this->session->userdata('tSesUsrShpCodeDefault');
-    $tUserShpName             = $this->session->userdata('tSesUsrShpNameDefault');
+    $tUserShpCode   = $this->session->userdata('tSesUsrShpCodeDefault');
+    $tUserShpName   = $this->session->userdata('tSesUsrShpNameDefault');
 } else {
-    $tUserShpCode             = "";
-    $tUserShpName             = "";
+    $tUserShpCode   = "";
+    $tUserShpName   = "";
 }
 
-$tWahCodeFrom             = "";
-$tWahNameFrom             = "";
+$tWahCodeFrom       = "";
+$tWahNameFrom       = "";
 
-$tUserBchCode = $this->session->userdata('tSesUsrBchCodeDefault');
-$tUserBchName = $this->session->userdata('tSesUsrBchNameDefault');
+$tUserBchCode       = $this->session->userdata('tSesUsrBchCodeDefault');
+$tUserBchName       = $this->session->userdata('tSesUsrBchNameDefault');
 
 if ($tXphStaDoc == 3) {
-    $tNewProcess =  language('document/adjustmentcost/adjustmentcost', 'tADCStaDoc3'); //ยกเลิก
-    $tClassStaDoc = 'text-danger';
+    $tNewProcess    =  language('document/adjustmentcost/adjustmentcost', 'tADCStaDoc3'); //ยกเลิก
+    $tClassStaDoc   = 'text-danger';
 } else {
     if ($tXphStaApv == 1) {
-        $tNewProcess =  language('document/adjustmentcost/adjustmentcost', 'tADCStaApv1'); //อนุมัติแล้ว
-        $tClassStaDoc = 'text-success';
+        $tNewProcess    =  language('document/adjustmentcost/adjustmentcost', 'tADCStaApv1'); //อนุมัติแล้ว
+        $tClassStaDoc   = 'text-success';
     } else {
-        $tNewProcess = language('document/adjustmentcost/adjustmentcost', 'tADCStaApv'); //รออนุมัติ
-        $tClassStaDoc = 'text-warning';
+        $tNewProcess    = language('document/adjustmentcost/adjustmentcost', 'tADCStaApv'); //รออนุมัติ
+        $tClassStaDoc   = 'text-warning';
     }
 }
 ?>

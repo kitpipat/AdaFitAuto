@@ -1,5 +1,5 @@
 <script type="text/javascript">
-    var nLangEdits = <?= $this->session->userdata("tLangEdit") ?>;
+    var nLangEdits  = <?= $this->session->userdata("tLangEdit") ?>;
     var tUsrBchCode = $('#oetBchCode').val();
     var tFTZneChain = "";
 
@@ -43,16 +43,16 @@
         JSxCheckSwitchDocType();
         $('#oetXphDocNo').attr('readonly', true);
         /*===========================================================================*/
-        var tLangCode = $("#ohdLangEdit").val();
+        var tLangCode   = $("#ohdLangEdit").val();
         var tUsrBchCode = $("#oetBchCode").val();
-        var tUsrApv = $("#oetXthApvCodeUsrLogin").val();
-        var tStaPrcDoc = $("#oetStaPrcDoc").val();
-        var tUsrCode = $("#oetUsrCode").val();
-        var tDocNo = $("#oetXphDocNo").val();
-        var tPrefix = 'RESAJP';
-        var tStaDelMQ = $("#oetStaDelQname").val();
-        var tStaApv = $("#oetStaApv").val();
-        var tQName = tPrefix + '_' + tDocNo + '_' + tUsrApv;
+        var tUsrApv     = $("#oetXthApvCodeUsrLogin").val();
+        var tStaPrcDoc  = $("#oetStaPrcDoc").val();
+        var tUsrCode    = $("#oetUsrCode").val();
+        var tDocNo      = $("#oetXphDocNo").val();
+        var tPrefix     = 'RESAJP';
+        var tStaDelMQ   = $("#oetStaDelQname").val();
+        var tStaApv     = $("#oetStaApv").val();
+        var tQName      = tPrefix + '_' + tDocNo + '_' + tUsrApv;
 
         // MQ Message Config
         var poDocConfig = {

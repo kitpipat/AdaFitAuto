@@ -167,7 +167,7 @@ class mSalePriceAdj extends CI_Model{
     //Return Type : Array
     public function FSaMSPAPdtPriList($paData){
         try {
-            
+            $aRowLen        = FCNaHCallLenData($paData['nRow'],$paData['nPage']);
             $nLngID         = $paData['FNLngID'];
             $tSearchList    = $paData['tSearchAll'];
             $FTXthDocKey    = $paData['FTXthDocKey'];
@@ -176,21 +176,21 @@ class mSalePriceAdj extends CI_Model{
 
             ////เช็คตัวที่ไม่มี puncode
             // Last Update : Napat(Jame) 29/08/2022 เปลี่ยนเป็นค้นหาตาม error text ให้หาหน่วยเล็กสุด เฉพาะเคสที่ กรอกหน่วยผิด
-            $tSQL2 = "  SELECT
-                            TMP.FTPunCode AS FTPunCodeTemp,
-                            TMP.FTPdtCode AS FTPdtCodeTemp,
-                            ISNULL( MAS.FTPunCode, MAS.FTPunCode ) AS FTPunCode,
-                            ISNULL( MAS.FTPdtCode, MAS.FTPdtCode ) AS FTPdtCode
-                        FROM TCNTDocDTTmp TMP WITH(NOLOCK)
-                        LEFT JOIN TCNMPdtPackSize MAS WITH ( NOLOCK ) ON MAS.FTPdtCode = TMP.FTPdtCode AND MAS.FCPdtUnitFact = 1
-                        WHERE TMP.FTSessionID = ".$this->db->escape($FTSessionID)."
-                        AND FTTmpRemark = 'ไม่พบหน่วยสินค้าในระบบ'
-                        AND MAS.FTPunCode != '' ";
-                        //AND ( FTTmpStatus = '2' OR FTTmpStatus = '7' )
+            $tSQL2          = "
+                SELECT
+                    TMP.FTPunCode AS FTPunCodeTemp,
+                    TMP.FTPdtCode AS FTPdtCodeTemp,
+                    ISNULL( MAS.FTPunCode, MAS.FTPunCode ) AS FTPunCode,
+                    ISNULL( MAS.FTPdtCode, MAS.FTPdtCode ) AS FTPdtCode
+                FROM TCNTDocDTTmp TMP WITH(NOLOCK)
+                LEFT JOIN TCNMPdtPackSize MAS WITH ( NOLOCK ) ON MAS.FTPdtCode = TMP.FTPdtCode AND MAS.FCPdtUnitFact = 1
+                WHERE TMP.FTSessionID = ".$this->db->escape($FTSessionID)."
+                AND FTTmpRemark = 'ไม่พบหน่วยสินค้าในระบบ'
+                AND MAS.FTPunCode != ''
+            ";
             
             $oQuery2  = $this->db->query($tSQL2);
             $aList2   = $oQuery2->result_array();
-
             foreach($aList2 as $key => $aval){
                 $this->db->where('FTSessionID', $paData['FTSessionID']);
                 $this->db->where('FTPunCode', $aval['FTPunCodeTemp']);
@@ -204,53 +204,56 @@ class mSalePriceAdj extends CI_Model{
 
             ////จบเช็คตัวที่ไม่มี puncode
             $tSQL   = "
-                SELECT TOP ". get_cookie('nShowRecordInPageList')."
-                    DTP.FTXthDocNo AS FTXthDocNo,
-                    DTP.FNXtdSeqNo AS FNXtdSeqNo,
-                    DTP.FTPdtCode AS FTPdtCode,
-                    DTP.FTPunCode AS FTPunCode,
-                    PDT_L.FTPdtName AS FTPdtName,
-                    PUN_L.FTPunName AS FTPunName,
-                    BCH_L.FTBchName AS FTBchName,
-                    SHP_L.FTShpName AS FTShpName,
-                    DTP.FCXtdPriceRet AS FCXtdPriceRet,
-                    DTP.FCXtdPriceWhs AS FCXtdPriceWhs,
-                    DTP.FCXtdPriceNet AS FCXtdPriceNet,
-                    DTP.FTXthDocNo AS FTDefalutPrice,
-                    DTP.FTXtdShpTo AS FTXtdShpTo,
-                    DTP.FTXtdBchTo AS FTXtdBchTo,
-                    DTP.FTTmpRemark AS FTTmpRemark,
-                    DTP.FTTmpStatus AS FTTmpStatus,
-                    convert(varchar, DTP.FDCreateOn,103) AS FDDateIns,
-                    convert(varchar, DTP.FDLastUpdOn,103) AS FDDateUpd,
-					stuff( (  SELECT DISTINCT ',' + cast(PAC.FTPunCode as varchar(max))
-							  FROM TCNTDocDTTmp DTP
-											LEFT JOIN TCNMPdtPackSize PAC ON PAC.FTPdtCode = DTP.FTPdtCode
-											WHERE DTP.FTSessionID = ".$this->db->escape($FTSessionID)." 
-											AND DTP.FTXthDocKey = ".$this->db->escape($FTXthDocKey)."
-							  for xml path ('')
-							), 1, 1, '' ) AS FTAllPunCode,
+                SELECT c.* FROM(
+                SELECT  ROW_NUMBER() OVER(ORDER BY FNXtdSeqNo ASC) AS rtRowID,* 
+                FROM (
+                    SELECT 
+                        DTP.FTXthDocNo AS FTXthDocNo,
+                        DTP.FNXtdSeqNo AS FNXtdSeqNo,
+                        DTP.FTPdtCode AS FTPdtCode,
+                        DTP.FTPunCode AS FTPunCode,
+                        PDT_L.FTPdtName AS FTPdtName,
+                        PUN_L.FTPunName AS FTPunName,
+                        BCH_L.FTBchName AS FTBchName,
+                        SHP_L.FTShpName AS FTShpName,
+                        DTP.FCXtdPriceRet AS FCXtdPriceRet,
+                        DTP.FCXtdPriceWhs AS FCXtdPriceWhs,
+                        DTP.FCXtdPriceNet AS FCXtdPriceNet,
+                        DTP.FTXthDocNo AS FTDefalutPrice,
+                        DTP.FTXtdShpTo AS FTXtdShpTo,
+                        DTP.FTXtdBchTo AS FTXtdBchTo,
+                        DTP.FTTmpRemark AS FTTmpRemark,
+                        DTP.FTTmpStatus AS FTTmpStatus,
+                        convert(varchar, DTP.FDCreateOn,103) AS FDDateIns,
+                        convert(varchar, DTP.FDLastUpdOn,103) AS FDDateUpd,
+                        STUFF( (    SELECT DISTINCT ',' + cast(PAC.FTPunCode as varchar(max))
+                                FROM TCNTDocDTTmp DTP
+                                                LEFT JOIN TCNMPdtPackSize PAC ON PAC.FTPdtCode = DTP.FTPdtCode
+                                                WHERE DTP.FTSessionID = ".$this->db->escape($FTSessionID)." 
+                                                AND DTP.FTXthDocKey = ".$this->db->escape($FTXthDocKey)."
+                                for xml path ('')
+                                ), 1, 1, '' ) AS FTAllPunCode,
 
-					stuff( (	SELECT DISTINCT ',' + cast(UNITL.FTPunName as varchar(max))
-								FROM TCNTDocDTTmp DTP
-												LEFT JOIN TCNMPdtPackSize PAC ON DTP.FTPdtCode = PAC.FTPdtCode  
-												LEFT JOIN TCNMPdtUnit_L UNITL ON PAC.FTPunCode = UNITL.FTPunCode AND UNITL.FNLngID = ".$this->db->escape($nLngID)."
-												WHERE DTP.FTSessionID = ".$this->db->escape($FTSessionID)." 
-												AND DTP.FTXthDocKey = ".$this->db->escape($FTXthDocKey)."
-								 for xml path ('')
-							), 1, 1, '' ) AS FTAllPunName
-                    /*STRING_AGG(PAC.FTPunCode,',') AS FTAllPunCode,
-                    STRING_AGG ( UNITL.FTPunName, ',' ) AS FTAllPunName*/
-                FROM TCNTDocDTTmp DTP WITH(NOLOCK)
-                LEFT JOIN TCNMPdt_L PDT_L WITH(NOLOCK) ON DTP.FTPdtCode = PDT_L.FTPdtCode AND PDT_L.FNLngID      = ".$this->db->escape($nLngID)."
-                LEFT JOIN TCNMPdtUnit_L PUN_L WITH(NOLOCK) ON DTP.FTPunCode = PUN_L.FTPunCode AND PUN_L.FNLngID  = ".$this->db->escape($nLngID)."
-                LEFT JOIN TCNMShop_L SHP_L WITH(NOLOCK) ON DTP.FTXtdShpTo = SHP_L.FTShpCode AND DTP.FTBchCode = SHP_L.FTBchCode  AND SHP_L.FNLngID   = ".$this->db->escape($nLngID)."
-                LEFT JOIN TCNMBranch_L BCH_L WITH(NOLOCK) ON DTP.FTXtdBchTo = BCH_L.FTBchCode AND BCH_L.FNLngID = ".$this->db->escape($nLngID)."
-                INNER JOIN TCNMPdtPackSize PAC WITH(NOLOCK) ON PAC.FTPdtCode = DTP.FTPdtCode  AND PAC.FTPunCode = DTP.FTPunCode
-                LEFT JOIN TCNMPdtUnit_L UNITL WITH(NOLOCK) ON PAC.FTPunCode = UNITL.FTPunCode AND UNITL.FNLngID = ".$this->db->escape($nLngID)."
-                WHERE DTP.FDCreateOn <> '' 
-                AND DTP.FTSessionID     = ".$this->db->escape($FTSessionID)." 
-                AND DTP.FTXthDocKey     = ".$this->db->escape($FTXthDocKey)."
+                        STUFF( (    SELECT DISTINCT ',' + cast(UNITL.FTPunName as varchar(max))
+                                    FROM TCNTDocDTTmp DTP
+                                                    LEFT JOIN TCNMPdtPackSize PAC ON DTP.FTPdtCode = PAC.FTPdtCode  
+                                                    LEFT JOIN TCNMPdtUnit_L UNITL ON PAC.FTPunCode = UNITL.FTPunCode AND UNITL.FNLngID = ".$this->db->escape($nLngID)."
+                                                    WHERE DTP.FTSessionID = ".$this->db->escape($FTSessionID)." 
+                                                    AND DTP.FTXthDocKey = ".$this->db->escape($FTXthDocKey)."
+                                    for xml path ('')
+                                ), 1, 1, '' ) AS FTAllPunName
+                        /*STRING_AGG(PAC.FTPunCode,',') AS FTAllPunCode,
+                        STRING_AGG ( UNITL.FTPunName, ',' ) AS FTAllPunName*/
+                    FROM TCNTDocDTTmp DTP WITH(NOLOCK)
+                    LEFT JOIN TCNMPdt_L PDT_L WITH(NOLOCK) ON DTP.FTPdtCode = PDT_L.FTPdtCode AND PDT_L.FNLngID      = ".$this->db->escape($nLngID)."
+                    LEFT JOIN TCNMPdtUnit_L PUN_L WITH(NOLOCK) ON DTP.FTPunCode = PUN_L.FTPunCode AND PUN_L.FNLngID  = ".$this->db->escape($nLngID)."
+                    LEFT JOIN TCNMShop_L SHP_L WITH(NOLOCK) ON DTP.FTXtdShpTo = SHP_L.FTShpCode AND DTP.FTBchCode = SHP_L.FTBchCode  AND SHP_L.FNLngID   = ".$this->db->escape($nLngID)."
+                    LEFT JOIN TCNMBranch_L BCH_L WITH(NOLOCK) ON DTP.FTXtdBchTo = BCH_L.FTBchCode AND BCH_L.FNLngID = ".$this->db->escape($nLngID)."
+                    INNER JOIN TCNMPdtPackSize PAC WITH(NOLOCK) ON PAC.FTPdtCode = DTP.FTPdtCode  AND PAC.FTPunCode = DTP.FTPunCode
+                    LEFT JOIN TCNMPdtUnit_L UNITL WITH(NOLOCK) ON PAC.FTPunCode = UNITL.FTPunCode AND UNITL.FNLngID = ".$this->db->escape($nLngID)."
+                    WHERE DTP.FDCreateOn <> '' 
+                    AND DTP.FTSessionID     = ".$this->db->escape($FTSessionID)." 
+                    AND DTP.FTXthDocKey     = ".$this->db->escape($FTXthDocKey)."
             ";
            
             if (isset($tSearchList) && !empty($tSearchList)) {
@@ -261,28 +264,31 @@ class mSalePriceAdj extends CI_Model{
                 $tSQL   .= " OR BCH_L.FTBchName LIKE '%".$this->db->escape_like_str($tSearchList)."%')";
             }
 
-            $tSQL   .= "    GROUP BY DTP.FTPdtCode,
-									DTP.FTXthDocNo,
-									DTP.FNXtdSeqNo,
-									DTP.FTPunCode,
-									PAC.FTPunCode,
-									UNITL.FTPunName,
-									PDT_L.FTPdtName,
-									PUN_L.FTPunName,
-									BCH_L.FTBchName,
-									SHP_L.FTShpName,
-									DTP.FCXtdPriceRet,
-									DTP.FCXtdPriceWhs,
-									DTP.FCXtdPriceNet,
-									DTP.FTXthDocNo,
-									DTP.FTXtdShpTo,
-									DTP.FTXtdBchTo,
-									DTP.FTTmpRemark,
-									DTP.FTTmpStatus,
-									DTP.FDCreateOn,
-									DTP.FDLastUpdOn 
-            ORDER BY DTP.FNXtdSeqNo ASC";
-        
+            $tSQL   .= "
+                GROUP BY 
+                    DTP.FTPdtCode,
+                    DTP.FTXthDocNo,
+                    DTP.FNXtdSeqNo,
+                    DTP.FTPunCode,
+                    PAC.FTPunCode,
+                    UNITL.FTPunName,
+                    PDT_L.FTPdtName,
+                    PUN_L.FTPunName,
+                    BCH_L.FTBchName,
+                    SHP_L.FTShpName,
+                    DTP.FCXtdPriceRet,
+                    DTP.FCXtdPriceWhs,
+                    DTP.FCXtdPriceNet,
+                    DTP.FTXthDocNo,
+                    DTP.FTXtdShpTo,
+                    DTP.FTXtdBchTo,
+                    DTP.FTTmpRemark,
+                    DTP.FTTmpStatus,
+                    DTP.FDCreateOn,
+                    DTP.FDLastUpdOn 
+            ";
+            $tSQL   .= ") Base) AS c WHERE c.rtRowID > ".$this->db->escape($aRowLen[0])." AND c.rtRowID <= ".$this->db->escape($aRowLen[1])."";
+
             $oQuery  = $this->db->query($tSQL);
             if ($oQuery->num_rows() > 0) {
                 $aList      = $oQuery->result_array();
