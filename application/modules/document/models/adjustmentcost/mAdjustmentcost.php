@@ -357,11 +357,11 @@ class mAdjustmentcost extends CI_Model{
                         '' AS FCXcdCostNew,
                         ISNULL(PBAR.FTBarCode, PDT.FTPdtCode) AS FTBarCode
                     FROM TCNMPdt PDT WITH(NOLOCK)
-                    LEFT JOIN TCNMPdt_L         PDTL    WITH(NOLOCK)    ON PDT.FTPdtCode    = PDTL.FTPdtCode AND PDTL.FNLngID = ".$this->db->escape($nLngID)."
-                    LEFT JOIN TCNMPdtCostAvg    COST    WITH(NOLOCK)    ON PDT.FTPdtCode    = COST.FTPdtCode
+                    LEFT JOIN TCNMPdt_L         PDTL    WITH(NOLOCK)    ON PDT.FTPdtCode    = PDTL.FTPdtCode AND PDTL.FNLngID   = ".$this->db->escape($nLngID)."
+                    LEFT JOIN TCNMPdtCostAvg    COST    WITH(NOLOCK)    ON PDT.FTPdtCode    = COST.FTPdtCode AND COST.FTAgnCOde = ''
                     LEFT JOIN TCNMPdtPackSize   PPCZ    WITH(NOLOCK)    ON PDT.FTPdtCode    = PPCZ.FTPdtCode
                     LEFT JOIN TCNMPdtUnit_L     PUNL    WITH(NOLOCK)    ON PPCZ.FTPunCode   = PUNL.FTPunCode AND PUNL.FNLngID   = ".$this->db->escape($nLngID)."
-                    LEFT JOIN TCNMPdtBar        PBAR    WITH (NOLOCK)   ON PDT.FTPdtCode    = PBAR.FTPdtCode AND PPCZ.FTPunCode   = PBAR.FTPunCode
+                    LEFT JOIN TCNMPdtBar        PBAR    WITH (NOLOCK)   ON PDT.FTPdtCode    = PBAR.FTPdtCode AND PPCZ.FTPunCode = PBAR.FTPunCode
                     LEFT JOIN TCNMPdtSpcBch     SPC     WITH (NOLOCK)   ON PDT.FTPdtCode    = SPC.FTPdtCode
                     WHERE PDT.FDCreateOn <> '' AND PDT.FTPdtCode  = ".$this->db->escape($tPdtCode)." AND PBAR.FTBarCode = ".$this->db->escape($FTBarCode)."
             ";
