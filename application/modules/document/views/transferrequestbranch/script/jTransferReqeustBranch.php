@@ -520,15 +520,15 @@
             $('.xCNBTNSaveDoc').show();
             JCNxTRBControlObjAndBtn();
             // เช็ค เดือน ถ้า เดือนไม่เท่ากับเอกสาร จะวิ่งไปเช็คสิทธิ ว่า มีสิทธิเห็นปุ่มยกเลิกไหม ถ้ามี ยกเลิกได้ ถ้าไม่มี ยกเลิกไม่ได้
-            if(tDocDateCreate != "" && tDocDateToday != "" && tDocDateCreate != tDocDateToday){
-                if(tAutStaCancel == '1'){
-                    $('#obtTRBCancelDoc').show();
-                }else{
-                    $('#obtTRBCancelDoc').hide();
-                }
-            }else{
-                $('#obtTRBCancelDoc').hide();
-            }
+            // if(tDocDateCreate != "" && tDocDateToday != "" && tDocDateCreate != tDocDateToday){
+            //     if(tAutStaCancel == '1'){
+            //         $('#obtTRBCancelDoc').show();
+            //     }else{
+            //         $('#obtTRBCancelDoc').hide();
+            //     }
+            // }else{
+            //     $('#obtTRBCancelDoc').hide();
+            // }
         }else if (tStatusDoc == 1 && tStatusApv == 1 && tStatusRef == 2) {
             // เอกสารอนุมัติแล้วและถูกอ้างอิงแล้ว
             // ปุ่มยกเลิก

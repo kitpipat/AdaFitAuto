@@ -704,6 +704,11 @@ class mTransferBchOutPdt extends CI_Model
                     (  $tSQLMain
                     ) Base) AS c WHERE c.FNRowID > $aRowLen[0] AND c.FNRowID <= $aRowLen[1] ";
 
+
+        echo "<pre>";
+        print_r($tSQL);
+        echo "</pre>";
+
         $oQuery = $this->db->query($tSQL);
 
         if($oQuery->num_rows() > 0){

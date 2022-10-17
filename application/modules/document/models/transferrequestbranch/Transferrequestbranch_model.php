@@ -44,7 +44,9 @@ class Transferrequestbranch_model extends CI_Model {
             LEFT JOIN TCNMBranch_L  BCHLTo      WITH (NOLOCK) ON HD.FTXthBchTo    = BCHLTo.FTBchCode    AND BCHLTo.FNLngID  = ".$this->db->escape($nLngID)."
             LEFT JOIN TCNMUser_L    USRL        WITH (NOLOCK) ON HD.FTUsrCode     = USRL.FTUsrCode      AND USRL.FNLngID    = ".$this->db->escape($nLngID)."
             LEFT JOIN TCNMUser_L    USRLAPV     WITH (NOLOCK) ON HD.FTXthApvCode  = USRLAPV.FTUsrCode   AND USRLAPV.FNLngID = ".$this->db->escape($nLngID)."
-            LEFT JOIN TCNTPdtReqBchHDDocRef    HDREF WITH (NOLOCK) ON HDREF.FTXshDocNo  = HD.FTXthDocNo AND HDREF.FTBchCode = HD.FTBchCode AND HDREF.FTXshRefType = 1 AND (HDREF.FTXshRefKey = 'TRB' OR HDREF.FTXshRefKey = 'PRHQ')
+            LEFT JOIN TCNTPdtReqBchHDDocRef    HDREF WITH (NOLOCK) ON HDREF.FTXshDocNo  = HD.FTXthDocNo
+            AND HDREF.FTXshRefType = '2'
+            -- AND HDREF.FTXshRefType = 1 AND (HDREF.FTXshRefKey = 'TRB' OR HDREF.FTXshRefKey = 'PRHQ')
             WHERE HD.FDCreateOn <> ''
                                 
         ";
@@ -107,6 +109,11 @@ class Transferrequestbranch_model extends CI_Model {
         }
 
         $tSQL   .=  " ORDER BY FDCreateOn DESC ,FTXthDocNo DESC";
+
+        // echo "<pre>";
+        // print_r($tSQL);
+        // echo "</pre>";
+
         $oQuery = $this->db->query($tSQL);
         if($oQuery->num_rows() > 0){
             $oDataList          = $oQuery->result_array();
