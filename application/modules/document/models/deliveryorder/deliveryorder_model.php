@@ -1183,8 +1183,8 @@ class Deliveryorder_model extends CI_Model {
                 DT.FTLastUpdBy,
                 DT.FDCreateOn,
                 DT.FTCreateBy
-                FROM TAPTPoDT DT WITH(NOLOCK)
-                LEFT JOIN TAPTPoHD HD WITH (NOLOCK) ON DT.FTXphDocNo  = HD.FTXphDocNo
+            FROM TAPTPoDT DT WITH(NOLOCK)
+            LEFT JOIN TAPTPoHD HD WITH (NOLOCK) ON DT.FTXphDocNo  = HD.FTXphDocNo AND HD.FTXphStaDoc <> '3'
             WHERE DT.FTBchCode = ".$this->db->escape($tBchCode)." AND  DT.FTXphDocNo = ".$this->db->escape($tDocNo)."
         ";
         $oQuery = $this->db->query($tSQL);
