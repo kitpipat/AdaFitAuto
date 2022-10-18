@@ -2201,25 +2201,24 @@ class Quotation_model extends CI_Model {
                     DT.FTXsdBarCode,
                     DT.FCXsdQty,
                     DT.FCXsdQtyAll,
-                    FTXsdVatType    AS FTXtdVatType,
-                    FTVatCode       AS FTVatCode,
-                    FCXsdVatRate    AS FCXtdVatRate,
-                    FTXsdStaAlwDis  AS FTXtdStaAlwDis,
-                    FCXsdSalePrice  AS FCXtdSalePrice,
-                    FCXsdSetPrice   AS FCXtdSetPrice,
-                    FCXsdNet        AS FCXtdNet,
-                    FCXsdNetAfHD    AS FCXtdNetAfHD,
+                    DT.FTXsdVatType     AS FTXtdVatType,
+                    DT.FTVatCode        AS FTVatCode,
+                    DT.FCXsdVatRate     AS FCXtdVatRate,
+                    DT.FTXsdStaAlwDis   AS FTXtdStaAlwDis,
+                    DT.FCXsdSalePrice   AS FCXtdSalePrice,
+                    DT.FCXsdSetPrice    AS FCXtdSetPrice,
+                    DT.FCXsdNet         AS FCXtdNet,
+                    DT.FCXsdNetAfHD     AS FCXtdNetAfHD,
                     PDT.FTPdtType,
                     CONVERT(VARCHAR,'".$this->session->userdata('tSesSessionID')."') AS FTSessionID,
                     CONVERT(DATETIME,'".date('Y-m-d H:i:s')."') AS FDLastUpdOn,
                     CONVERT(DATETIME,'".date('Y-m-d H:i:s')."') AS FDCreateOn,
                     CONVERT(VARCHAR,'".$this->session->userdata('tSesUsername')."') AS FTLastUpdBy,
                     CONVERT(VARCHAR,'".$this->session->userdata('tSesUsername')."') AS FTCreateBy
-                FROM
-                    TSVTJob1ReqDT DT WITH (NOLOCK)
-                    LEFT JOIN TCNMPdt PDT WITH (NOLOCK) ON DT.FTPdtCode = PDT.FTPdtCode
-                    WHERE DT.FTBchCode = '$tRefIntBchCode' AND  DT.FTXshDocNo ='$tRefIntDocNo' AND DT.FNXsdSeqNo IN $aSeqNo ";
-
+                FROM TSVTJob1ReqDT DT WITH (NOLOCK)
+                LEFT JOIN TCNMPdt PDT WITH (NOLOCK) ON DT.FTPdtCode = PDT.FTPdtCode
+                WHERE DT.FTBchCode = '$tRefIntBchCode' AND  DT.FTXshDocNo ='$tRefIntDocNo' AND DT.FNXsdSeqNo IN $aSeqNo
+        ";
         $oQuery = $this->db->query($tSQL);
         if($this->db->affected_rows() > 0){
             $aResult = array(
