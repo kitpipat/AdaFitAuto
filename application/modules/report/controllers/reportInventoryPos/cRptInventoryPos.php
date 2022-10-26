@@ -317,6 +317,8 @@ class cRptInventoryPos extends MX_Controller
             'tCate2FromName' => !empty($this->input->post('oetRptCate2NameFrom')) ? $this->input->post('oetRptCate2NameFrom') : "",
             'tCate2To' => !empty($this->input->post('oetRptCate2CodeTo')) ? $this->input->post('oetRptCate2CodeTo') : "",
             'tCate2ToName' => !empty($this->input->post('oetRptCate2NameTo')) ? $this->input->post('oetRptCate2NameTo') : "",
+
+            'tAgnCodeSelect' => !empty($this->input->post('oetSpcAgncyCode')) ? $this->input->post('oetSpcAgncyCode') : "",
         ];
 
         // ดึงข้อมูลบริษัทฯ
