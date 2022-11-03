@@ -418,13 +418,17 @@
                         }
                     }
                 },
-                oetIVDocDate    : {"required" : true},
-                oetIVDocTime    : {"required" : true},
+                oetIVDocDate        : {"required" : true},
+                oetIVDocTime        : {"required" : true},
+                oetIVRefSBInt       : {"required" : true},
+                oetIVRefSBIntDate   : {"required" : true}
             },
             messages: {
-                oetIVDocNo      : {"required" : $('#oetIVDocNo').attr('data-validate-required')},
-                oetIVDocDate    : {"required" : $('#oetIVDocDate').attr('data-validate-required')},
-                oetIVDocTime    : {"required" : $('#oetIVDocTime').attr('data-validate-required')}
+                oetIVDocNo          : {"required" : $('#oetIVDocNo').attr('data-validate-required')},
+                oetIVDocDate        : {"required" : $('#oetIVDocDate').attr('data-validate-required')},
+                oetIVDocTime        : {"required" : $('#oetIVDocTime').attr('data-validate-required')},
+                oetIVRefSBInt       : {"required" : $('#oetIVRefSBInt').attr('data-validate-required')},
+                oetIVRefSBIntDate   : {"required" : $('#oetIVRefSBIntDate').attr('data-validate-required')},
             },
             errorElement: "em",
             errorPlacement: function (error, element) {

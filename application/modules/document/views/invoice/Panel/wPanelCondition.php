@@ -167,7 +167,7 @@
                         
                         <input type="hidden" id="oetIVRefSBInt_Old" name="oetIVRefSBInt_Old" value="<?=@$tFTXphBillDoc?>" >
                         <input type="text" class="form-control xCNInputWithoutSpc" id="oetIVRefSBInt" autocomplete="off"
-                        name="oetIVRefSBInt" maxlength="20" placeholder="<?=language('document/invoice/invoice', 'tIVTitlePanelRefSB'); ?>" value="<?=@$tFTXphBillDoc?>">
+                        name="oetIVRefSBInt" maxlength="20" placeholder="<?=language('document/invoice/invoice', 'tIVTitlePanelRefSB'); ?>" value="<?=@$tFTXphBillDoc?>" data-validate-required="<?= language('document/quotation/quotation', 'tTQPlsEnterRefSBInt'); ?>">
                         <label id="olbIVRefSBInt"><font color="red"><?= language('document/quotation/quotation', 'tTQPlsEnterDocDates'); ?></font></label>
                     </div>
                 </div>
@@ -180,7 +180,7 @@
                         <label class="xCNLabelFrm"><span style="color:red">*</span><?=language('document/invoice/invoice', 'tIVTitlePanelRefSBDate'); ?></label>
                         <div class="input-group">
                             <input type="hidden" class="form-control xCNDatePicker xCNInputMaskDate" autocomplete="off" placeholder="YYYY-MM-DD"  id="oetIVRefSBIntDate_Old" name="oetIVRefSBIntDate_Old" value="<?=@$tFDXphBillDue?>">
-                            <input type="text" class="form-control xCNDatePicker xCNInputMaskDate" autocomplete="off" placeholder="YYYY-MM-DD"  id="oetIVRefSBIntDate" name="oetIVRefSBIntDate" value="<?=@$tFDXphBillDue?>">
+                            <input type="text" class="form-control xCNDatePicker xCNInputMaskDate" autocomplete="off" placeholder="YYYY-MM-DD"  id="oetIVRefSBIntDate" name="oetIVRefSBIntDate" value="<?=@$tFDXphBillDue?>" data-validate-required="<?= language('document/quotation/quotation', 'tTQPlsEnterRefSBIntDate'); ?>">
                             <span class="input-group-btn">
                                 <button id="obtIVRefSBIntDate" type="button" class="btn xCNBtnDateTime">
                                     <img src="<?=base_url() . 'application/modules/common/assets/images/icons/icons8-Calendar-100.png'; ?>">

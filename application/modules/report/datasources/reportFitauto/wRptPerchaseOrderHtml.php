@@ -97,14 +97,16 @@ $aDataFilter    = $aDataViewRpt['aDataFilter'];
                                 <!-- สถานะเอกสาร -->
                                 <?php
                                     $tStaApvPq = '';
-                                    if ($aValue['FTXphStaApvPq'] == 1) {
-                                        $tStaApvPq = language('report/report/report', 'tRptPhStaApv0');
-                                    }elseif ($aValue['FTXphStaApvPq'] == 2) {
-                                        $tStaApvPq = language('report/report/report', 'tRptPhStaApv1');
-                                    }elseif ($aValue['FTXphStaApvPq'] == 3) {
-                                        $tStaApvPq = language('report/report/report', 'tRptStaCrd3');
-                                    }else{
-                                        $tStaApvPq = '';
+                                    if($aValue['FTXphRefInt'] != '') {
+                                        if ($aValue['FTXphStaApvPq'] == 1) {
+                                            $tStaApvPq = language('report/report/report', 'tRptPhStaApv0');
+                                        }elseif ($aValue['FTXphStaApvPq'] == 2) {
+                                            $tStaApvPq = language('report/report/report', 'tRptPhStaApv1');
+                                        }elseif ($aValue['FTXphStaApvPq'] == 3) {
+                                            $tStaApvPq = language('report/report/report', 'tRptStaCrd3');
+                                        }else{
+                                            $tStaApvPq = '';
+                                        }
                                     }
                                 ?>
                                 <!-- ------------- //=date("d/m/Y", strtotime($aValue['FDXshRefIntDate']))-->

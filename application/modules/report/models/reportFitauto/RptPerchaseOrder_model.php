@@ -7,13 +7,14 @@ class RptPerchaseOrder_model extends CI_Model {
     public function FSnMExecStoreReport($paDataFilter) {
         // สาขา
         $tBchCodeSelect = ($paDataFilter['bBchStaSelectAll']) ? '' :  FCNtAddSingleQuote($paDataFilter['tBchCodeSelect']);
+        $tAgnCodeSelect = ($paDataFilter['tAgnCodeSelect']) ? '' :  FCNtAddSingleQuote($paDataFilter['tAgnCodeSelect']);
 
         $tCallStore = "{ CALL SP_RPTxPurPo(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) }";
         $aDataStore = array(
             'pnLangID'               => $paDataFilter['nLangID'],
             'ptUsrSession'           => $paDataFilter['tSessionID'],
             'pnFilterType'           => 2,
-            'ptAgnCode'              => $paDataFilter['tAgnCodeSelect'],
+            'ptAgnCode'              => $tAgnCodeSelect,
             'ptBchCode'              => $tBchCodeSelect,   
             'ptShpCode'              => '',  
             'ptStaOdr'               => $paDataFilter['tStaApv'], 
@@ -50,13 +51,13 @@ class RptPerchaseOrder_model extends CI_Model {
             AND ADJSTK_TMP.FTUsrSession = '$tUsrSession'
         ";
         
-        $oQuery = $this->db->query($tSQL);
-        $nRptAllRecord = $oQuery->row_array()['rnCountPage'];
-        $nPage = $paDataWhere['nPage'];
-        $nPerPage = $paDataWhere['nPerPage'];
-        $nPrevPage = $nPage - 1;
-        $nNextPage = $nPage + 1;
-        $nRowIDStart = (($nPerPage * $nPage) - $nPerPage); //RowId Start
+        $oQuery         = $this->db->query($tSQL);
+        $nRptAllRecord  = $oQuery->row_array()['rnCountPage'];
+        $nPage          = $paDataWhere['nPage'];
+        $nPerPage       = $paDataWhere['nPerPage'];
+        $nPrevPage      = $nPage - 1;
+        $nNextPage      = $nPage + 1;
+        $nRowIDStart    = (($nPerPage * $nPage) - $nPerPage); //RowId Start
         if ($nRptAllRecord <= $nPerPage) {
             $nTotalPage = 1;
         } else if (($nRptAllRecord % $nPerPage) == 0) {
@@ -154,6 +155,7 @@ class RptPerchaseOrder_model extends CI_Model {
             "aRptData" => $aData,
             "aError" => $aErrorList
         );
+       
         unset($oQuery);
         unset($aData);
         return $aResualt;

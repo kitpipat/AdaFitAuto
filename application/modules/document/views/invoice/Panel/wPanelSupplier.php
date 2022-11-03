@@ -68,7 +68,8 @@
 
             <!-- วันที่มีผล -->
             <div class="form-group">
-                <label class="xCNLabelFrm"><span style="color:red">*</span><?= language('document/quotation/quotation', 'tTQEffectiveDate'); ?></label>
+                <!-- <label class="xCNLabelFrm"><span style="color:red">*</span><?= language('document/quotation/quotation', 'tTQEffectiveDate'); ?></label> -->
+                <label class="xCNLabelFrm"><?= language('document/quotation/quotation', 'tTQEffectiveDate'); ?></label>
                 <div class="input-group">
                     <input type="hidden" id="oetIVEffectiveDate_Old" value="<?=@$tIVAffectDate?>" >
                     <input type="text" class="form-control xCNDatePicker xCNInputMaskDate" id="oetIVEffectiveDate" name="oetIVEffectiveDate" placeholder="YYYY-MM-DD" autocomplete="off" value="<?= @$tIVAffectDate; ?>" data-validate-required="<?= language('document/quotation/quotation', 'tTQPlsEffectiveDate'); ?>">
