@@ -2297,7 +2297,72 @@ class Invoice_model extends CI_Model{
         }
     }
 
+    // ยกเลิกเอกสาร ปรับสถานะเอกสารเมื่อยกเลิกแล้วเอกสารที่อ้างอิงสามารถนำมาใช้งานได้อีกครั้ง จาก delete
+    public function FSaMIVUpdateStaDocRefCancelWhenDelete($paDataUpdate){
+        $tDocNo = $paDataUpdate['tDataDocNo'];
+        $tSQL   = "
+            SELECT 
+                DOCREF.FTAgnCode,
+                DOCREF.FTBchCode,
+                DOCREF.FTXshDocNo,
+                DOCREF.FTXshRefDocNo,
+                DOCREF.FTXshRefType,
+                DOCREF.FTXshRefKey
+            FROM TAPTPiHDDocRef DOCREF WITH(NOLOCK)
+            WHERE DOCREF.FTXshDocNo = ".$this->db->escape($tDocNo)."
+            AND DOCREF.FTXshRefType	= 1
+        ";
+        $oQuery = $this->db->query($tSQL);
+        if ($oQuery->num_rows() > 0) {
+            $aList  = $oQuery->result_array();
+            // Loop Update StaDocRef
+            foreach($aList AS $nkey => $aValue){
+                $tRefDocNo  = $aValue['FTXshRefDocNo'];
+                $tRefKey    = $aValue['FTXshRefKey'];
+                // เคส Update เอกสารที่ยกเลิกไปแล้วให้กลับมาใช้งานได้อีกครั้ง
+                switch($tRefKey){
+                    case 'DO':
+                        // อ้างอิงเอกสารใบรับของ
+                        $this->db->where('FTXphDocNo',$tRefDocNo);
+                        $this->db->update('TAPTDoHD',array(
+                            'FNXphStaRef'   => 0
+                        ));
+                    break;
+                    case 'PO':
+                        // อ้างอิงเอกสารใบซื้อสินค้า
+                        $this->db->where('FTXphDocNo',$tRefDocNo);
+                        $this->db->update('TAPTPoHD',array(
+                            'FNXphStaRef'   => 0
+                        ));
+                    break;
+                    case 'ABB':
+                        // อ้างอิงเอกสารใบขาย
+                        $this->db->where('FTXshDocNo',$tRefDocNo);
+                        $this->db->update('TPSTSalHD',array(
+                            'FNXshStaRef'   => 0
+                        ));
+                    break;
+                }
+            }
 
+            // อัพเดทเอกสาร DO ให้กลับมาใช้งานได้อีก
+            $this->db->where('FTXshDocNo', $paDataUpdate['tDataDocNo']);
+            $this->db->delete('TAPTPiHDDocRef');
+
+            $this->db->where('FTXshRefDocNo', $paDataUpdate['tDataDocNo']);
+            $this->db->delete('TAPTPoHDDocRef');
+
+            $this->db->where('FTXshRefDocNo', $paDataUpdate['tDataDocNo']);
+            $this->db->delete('TAPTDoHDDocRef');
+
+            // ลบ TAPTPiHDDocRef
+            $this->db->where('FTXshDocNo', $paDataUpdate['tDataDocNo']);
+            $this->db->delete('TAPTPiHDDocRef');
+
+            $this->db->where('FTXshRefDocNo', $paDataUpdate['tDataDocNo']);
+            $this->db->delete('TPSTSalHDDocRef');
+        }
+    }
 
     //อัพเดทวันที่กำหนดชำระ
     public function FSaMIVUpdateDocDuelPayDocument($paDataUpdate, $ptDocDuelBill){

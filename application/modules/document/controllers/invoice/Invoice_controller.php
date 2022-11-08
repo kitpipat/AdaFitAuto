@@ -879,9 +879,13 @@ class Invoice_controller extends MX_Controller {
     public function FSoCIVEventDelete(){
         try {
             $tDataDocNo     = $this->input->post('tDataDocNo');
+         
             $aDataMaster    = array(
                 'tDataDocNo'    => $tDataDocNo
             );
+            // ลบเอกสารอ้างอิงภายใน
+            $this->Invoice_model->FSaMIVUpdateStaDocRefCancelWhenDelete($aDataMaster);
+            
             $aResDelDoc = $this->Invoice_model->FSnMIVDelDocument($aDataMaster);
             if ($aResDelDoc['rtCode'] == '1') {
                 $aDataStaReturn = array(
