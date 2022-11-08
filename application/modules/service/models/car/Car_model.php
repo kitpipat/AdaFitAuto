@@ -89,10 +89,12 @@ class Car_model extends CI_Model {
         $nLngID         = $paData['FNLngID'];
         $tSesAgnCode    = $paData['tSesAgnCode'];
         $tSQLFilter     = '';
-        // // Check Agency 
-        // if($tSesAgnCode != ''){
-        //     $tSQLFilter .= "AND CAR.FTAgnCode = '$tSesAgnCode' ";
-        // }
+        
+        // Check Agency 
+        //if($tSesAgnCode != ''){
+        //   $tSQLFilter .= "AND CAR.FTAgnCode = '$tSesAgnCode' ";
+        //}
+
         // Chekc Filter Search
         $tSearchList = $paData['tSearchAll'];
         if ($tSearchList != ''){
