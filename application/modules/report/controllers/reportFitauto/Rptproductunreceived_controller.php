@@ -401,7 +401,7 @@ class Rptproductunreceived_controller extends MX_Controller
         );
 
         // Load View Advance Table
-        $tRptView = JCNoHLoadViewAdvanceTable('report/datasources/reportFitauto', 'wSaleQuantationHtml', $aDataViewRptParams);
+        $tRptView = JCNoHLoadViewAdvanceTable('report/datasources/reportFitauto', 'wRptproductunreceivedHtml', $aDataViewRptParams);
 
         // Data Viewer Center Report
         $aDataViewerParams = array(

@@ -776,7 +776,7 @@ $route['rptAverageDayToWeekSalesExportFile']         = 'report/reportFitauto/Rpt
 
 // รายงาน - รายงานสินค้าค้างรับ
 $route['rptProductUnreceived']                      = 'report/reportFitauto/Rptproductunreceived_controller/index';
-$route['rptProductUreceivedClickPage']              = 'report/reportFitauto/Rptproductunreceived_controller/FSvCCallRptViewBeforePrintClickPage';
+$route['rptProductUnreceivedClickPage']              = 'report/reportFitauto/Rptproductunreceived_controller/FSvCCallRptViewBeforePrintClickPage';
 $route['rptProductUnreceivedExportFile']            = 'report/reportFitauto/Rptproductunreceived_controller/FSvCCallRptExportFile';
 
 //รายงาน  - ยอดขายตามเงื่อนไข
