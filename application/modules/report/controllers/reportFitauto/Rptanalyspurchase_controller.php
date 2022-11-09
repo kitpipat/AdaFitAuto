@@ -141,139 +141,191 @@ class Rptanalyspurchase_controller extends MX_Controller
     private function init()
     {
         $this->aText = [
-            'tTitleReport'          => language('report/report/report', 'tRptAnalysPurchaseTitle'),
-            'tDatePrint'            => language('report/report/report', 'tRptAdjStkVDDatePrint'),
-            'tTimePrint'            => language('report/report/report', 'tRptAdjStkVDTimePrint'),
+            'tTitleReport'                                  => language('report/report/report', 'tRptAnalysPurchaseTitle'),
+            'tDatePrint'                                    => language('report/report/report', 'tRptAdjStkVDDatePrint'),
+            'tTimePrint'                                    => language('report/report/report', 'tRptAdjStkVDTimePrint'),
             // Address Lang
-            'tRptAddrBuilding'      => language('report/report/report', 'tRptAddrBuilding'),
-            'tRptAddrRoad'          => language('report/report/report', 'tRptAddrRoad'),
-            'tRptAddrSoi'           => language('report/report/report', 'tRptAddrSoi'),
-            'tRptAddrSubDistrict'   => language('report/report/report', 'tRptAddrSubDistrict'),
-            'tRptAddrDistrict'      => language('report/report/report', 'tRptAddrDistrict'),
-            'tRptAddrProvince'      => language('report/report/report', 'tRptAddrProvince'),
-            'tRptAddrTel'           => language('report/report/report', 'tRptAddrTel'),
-            'tRptAddrFax'           => language('report/report/report', 'tRptAddrFax'),
-            'tRptAddrBranch'        => language('report/report/report', 'tRptAddrBranch'),
-            'tRptAddV2Desc1'        => language('report/report/report', 'tRptAddV2Desc1'),
-            'tRptAddV2Desc2'        => language('report/report/report', 'tRptAddV2Desc2'),
-            'tRPCTaxNo' => language('report/report/report', 'tRPCTaxNo'),
-            'tRptFaxNo' => language('report/report/report', 'tRptFaxNo'),
-            'tRptTel' => language('report/report/report', 'tRptTel'),
+            'tRptAddrBuilding'                              => language('report/report/report', 'tRptAddrBuilding'),
+            'tRptAddrRoad'                                  => language('report/report/report', 'tRptAddrRoad'),
+            'tRptAddrSoi'                                   => language('report/report/report', 'tRptAddrSoi'),
+            'tRptAddrSubDistrict'                           => language('report/report/report', 'tRptAddrSubDistrict'),
+            'tRptAddrDistrict'                              => language('report/report/report', 'tRptAddrDistrict'),
+            'tRptAddrProvince'                              => language('report/report/report', 'tRptAddrProvince'),
+            'tRptAddrTel'                                   => language('report/report/report', 'tRptAddrTel'),
+            'tRptAddrFax'                                   => language('report/report/report', 'tRptAddrFax'),
+            'tRptAddrBranch'                                => language('report/report/report', 'tRptAddrBranch'),
+            'tRptAddV2Desc1'                                => language('report/report/report', 'tRptAddV2Desc1'),
+            'tRptAddV2Desc2'                                => language('report/report/report', 'tRptAddV2Desc2'),
+            'tRPCTaxNo'                                     => language('report/report/report', 'tRPCTaxNo'),
+            'tRptFaxNo'                                     => language('report/report/report', 'tRptFaxNo'),
+            'tRptTel'                                       => language('report/report/report', 'tRptTel'),
+            
+            'tRptDateFrom'                                  => language('report/report/report', 'tRptDateFrom'),
+            'tRptDateTo'                                    => language('report/report/report', 'tRptDateTo'),
 
             // Table Label
-            'tRptSatificationList'         => language('report/report/report', 'tRptSatificationList'),
-            'tRptSatificationList'       => language('report/report/report', 'tRptSatificationList'),
-            'tRptSatification5score'       => language('report/report/report', 'tRptSatification5score'),
-            'tRptSatification4score'       => language('report/report/report', 'tRptSatification4score'),
-            'tRptSatification3score'       => language('report/report/report', 'tRptSatification3score'),
-            'tRptSatification2score'        => language('report/report/report', 'tRptSatification2score'),
-            'tRptSatification1score'        => language('report/report/report', 'tRptSatification1score'),
-            'tRptSatificationAvg'      => language('report/report/report', 'tRptSatificationAvg'),
-            'tRptSatificationStandard'       => language('report/report/report', 'tRptSatificationStandard'),
-            'tRptAdjStkVDTotalSub'      => language('report/report/report', 'tRptAdjStkVDTotalSub'),
-            'tRptAdjStkVDTotalFooter'   => language('report/report/report', 'tRptAdjStkVDTotalFooter'),
-            'tRptUnit'                  => language('report/report/report', 'tRptUnit'),
+            'tRptSatificationList'                          => language('report/report/report', 'tRptSatificationList'),
+            'tRptSatificationList'                          => language('report/report/report', 'tRptSatificationList'),
+            'tRptSatification5score'                        => language('report/report/report', 'tRptSatification5score'),
+            'tRptSatification4score'                        => language('report/report/report', 'tRptSatification4score'),
+            'tRptSatification3score'                        => language('report/report/report', 'tRptSatification3score'),
+            'tRptSatification2score'                        => language('report/report/report', 'tRptSatification2score'),
+            'tRptSatification1score'                        => language('report/report/report', 'tRptSatification1score'),
+            'tRptSatificationAvg'                           => language('report/report/report', 'tRptSatificationAvg'),
+            'tRptSatificationStandard'                      => language('report/report/report', 'tRptSatificationStandard'),
+            'tRptAdjStkVDTotalSub'                          => language('report/report/report', 'tRptAdjStkVDTotalSub'),
+            'tRptAdjStkVDTotalFooter'                       => language('report/report/report', 'tRptAdjStkVDTotalFooter'),
+            'tRptUnit'                                      => language('report/report/report', 'tRptUnit'),
 
             // Fillter AdjStock
-            'tRptAdjMerChantFrom'       => language('report/report/report', 'tRptAdjMerChantFrom'),
-            'tRptAdjMerChantTo'         => language('report/report/report', 'tRptAdjMerChantTo'),
-            'tRptAdjShopFrom'           => language('report/report/report', 'tRptAdjShopFrom'),
-            'tRptAdjShopTo'             => language('report/report/report', 'tRptAdjShopTo'),
-            'tRptAdjPosFrom'            => language('report/report/report', 'tRptAdjPosFrom'),
-            'tRptAdjPosTo'              => language('report/report/report', 'tRptAdjPosTo'),
-            'tRptAdjWahFrom'            => language('report/report/report', 'tRptAdjWahFrom'),
-            'tRptAdjWahTo'              => language('report/report/report', 'tRptAdjWahTo'),
-            'tRptAdjDateFrom'           => language('report/report/report', 'tRptAdjDateFrom'),
-            'tRptAdjDateTo'             => language('report/report/report', 'tRptAdjDateTo'),
-            'tRptBchFrom'               => language('report/report/report', 'tRptBchFrom'),
-            'tRptBchTo'                 => language('report/report/report', 'tRptBchTo'),
-            'tRptSaleByCashierAndPosFilterDocDateFrom' => language('report/report/report', 'tRptSaleByCashierAndPosFilterDocDateFrom'),
-            'tRptSaleByCashierAndPosFilterDocDateTo' => language('report/report/report', 'tRptSaleByCashierAndPosFilterDocDateTo'),
+            'tRptAdjMerChantFrom'                           => language('report/report/report', 'tRptAdjMerChantFrom'),
+            'tRptAdjMerChantTo'                             => language('report/report/report', 'tRptAdjMerChantTo'),
+            'tRptAdjShopFrom'                               => language('report/report/report', 'tRptAdjShopFrom'),
+            'tRptAdjShopTo'                                 => language('report/report/report', 'tRptAdjShopTo'),
+            'tRptAdjPosFrom'                                => language('report/report/report', 'tRptAdjPosFrom'),
+            'tRptAdjPosTo'                                  => language('report/report/report', 'tRptAdjPosTo'),
+            'tRptAdjWahFrom'                                => language('report/report/report', 'tRptAdjWahFrom'),
+            'tRptAdjWahTo'                                  => language('report/report/report', 'tRptAdjWahTo'),
+            'tRptAdjDateFrom'                               => language('report/report/report', 'tRptAdjDateFrom'),
+            'tRptAdjDateTo'                                 => language('report/report/report', 'tRptAdjDateTo'),
+            'tRptBchFrom'                                   => language('report/report/report', 'tRptBchFrom'),
+            'tRptBchTo'                                     => language('report/report/report', 'tRptBchTo'),
+            'tRptSaleByCashierAndPosFilterDocDateFrom'      => language('report/report/report', 'tRptSaleByCashierAndPosFilterDocDateFrom'),
+            'tRptSaleByCashierAndPosFilterDocDateTo'        => language('report/report/report', 'tRptSaleByCashierAndPosFilterDocDateTo'),
             // No Data Report
-            'tRptAdjStkNoData'          => language('common/main/main', 'tCMNNotFoundData'),
+            'tRptAdjStkNoData'                              => language('common/main/main', 'tCMNNotFoundData'),
 
             // Update Text Wasin(18/11/2019)
-            'tRptAjdQtyAllDiff'         => language('report/report/report', 'tRptAjdQtyAllDiff'),
-            'tRptAdjStkVDTaxNo'         => language('report/report/report', 'tRptAdjStkVDTaxNo'),
-            'tRptConditionInReport'     => language('report/report/report', 'tRptConditionInReport'),
+            'tRptAjdQtyAllDiff'                             => language('report/report/report', 'tRptAjdQtyAllDiff'),
+            'tRptAdjStkVDTaxNo'                             => language('report/report/report', 'tRptAdjStkVDTaxNo'),
+            'tRptConditionInReport'                         => language('report/report/report', 'tRptConditionInReport'),
 
-            'tRptAll'                   => language('report/report/report', 'tRptAll'),
+            'tRptAll'                                       => language('report/report/report', 'tRptAll'),
 
             // Filter Text Label
-            'tRptTaxSalePosFilterBchFrom' => language('report/report/report', 'tRptTaxSalePosFilterBchFrom'),
-            'tRptTaxSalePosFilterBchTo' => language('report/report/report', 'tRptTaxSalePosFilterBchTo'),
-            'tRptTaxSalePosFilterShopFrom' => language('report/report/report', 'tRptTaxSalePosFilterShopFrom'),
-            'tRptTaxSalePosFilterShopTo' => language('report/report/report', 'tRptTaxSalePosFilterShopTo'),
-            'tRptTaxSalePosFilterPosFrom' => language('report/report/report', 'tRptTaxSalePosFilterPosFrom'),
-            'tRptTaxSalePosFilterPosTo' => language('report/report/report', 'tRptTaxSalePosFilterPosTo'),
-            'tRptTaxSalePosFilterPayTypeFrom' => language('report/report/report', 'tRptTaxSalePosFilterPayTypeFrom'),
-            'tRptTaxSalePosFilterPayTypeTo' => language('report/report/report', 'tRptTaxSalePosFilterPayTypeTo'),
-            'tRptTaxSalePosFilterDocDateFrom' => language('report/report/report', 'tRptTaxSalePosFilterDocDateFrom'),
-            'tRptTaxSalePosFilterDocDateTo' => language('report/report/report', 'tRptTaxSalePosFilterDocDateTo'),
-            'tRptTaxSalePosTaxId' => language('report/report/report', 'tRptTaxSalePosTaxId'),
+            'tRptTaxSalePosFilterBchFrom'                   => language('report/report/report', 'tRptTaxSalePosFilterBchFrom'),
+            'tRptTaxSalePosFilterBchTo'                     => language('report/report/report', 'tRptTaxSalePosFilterBchTo'),
+            'tRptTaxSalePosFilterShopFrom'                  => language('report/report/report', 'tRptTaxSalePosFilterShopFrom'),
+            'tRptTaxSalePosFilterShopTo'                    => language('report/report/report', 'tRptTaxSalePosFilterShopTo'),
+            'tRptTaxSalePosFilterPosFrom'                   => language('report/report/report', 'tRptTaxSalePosFilterPosFrom'),
+            'tRptTaxSalePosFilterPosTo'                     => language('report/report/report', 'tRptTaxSalePosFilterPosTo'),
+            'tRptTaxSalePosFilterPayTypeFrom'               => language('report/report/report', 'tRptTaxSalePosFilterPayTypeFrom'),
+            'tRptTaxSalePosFilterPayTypeTo'                 => language('report/report/report', 'tRptTaxSalePosFilterPayTypeTo'),
+            'tRptTaxSalePosFilterDocDateFrom'               => language('report/report/report', 'tRptTaxSalePosFilterDocDateFrom'),
+            'tRptTaxSalePosFilterDocDateTo'                 => language('report/report/report', 'tRptTaxSalePosFilterDocDateTo'),
+            'tRptTaxSalePosTaxId'                           => language('report/report/report', 'tRptTaxSalePosTaxId'),
 
+            'tRptSplFrom'                                   => language('report/report/report', 'tRptSplFrom'),
+            'tRptSplTo'                                     => language('report/report/report', 'tRptSplTo'),
+
+            'tRptSplTypeForm'                               => language('report/report/report', 'tRptSplTypeForm'),
+            'tRptSplTypeTo'                                 => language('report/report/report', 'tRptSplTypeTo'),
+            'tPdtTypeFrom'                                  => language('report/report/report', 'tPdtTypeFrom'),
+            'tPdtTypeTo'                                    => language('report/report/report', 'tPdtTypeTo'),
+            'tPdtCodeTo'                                    => language('report/report/report', 'tPdtCodeTo'),
+            'tPdtCodeFrom'                                  => language('report/report/report', 'tPdtCodeFrom'),
+            
+            'tRptBrandFrom'                                 => language('report/report/report', 'tRptBrandFrom'),
+            'tRptBrandTo'                                   => language('report/report/report', 'tRptBrandTo'),
+            'tRptModelFrom'                                 => language('report/report/report', 'tRptModelFrom'),
+            'tRptModelTo'                                   => language('report/report/report', 'tRptModelTo'),
+
+            'tRptCondition'                                 => language('report/report/report', 'tReportCondition'),
+            'tRptGrpPdtType'                                => language('report/report/report', 'tRptGrpPdtType'),
+            'tRptGrpPdtGroup'                               => language('report/report/report', 'tRptGrpPdtGroup'),
+            'tRptGrpPdtBrand'                               => language('report/report/report', 'tRptGrpPdtBrand'),
+            'tRptGrpPdtModel'                               => language('report/report/report', 'tRptGrpPdtModel'),
+            'tRptGrpPdtSpl'                                 => language('report/report/report', 'tRptGrpPdtSpl'),
         ];
 
-        $this->tSysBchCode = SYS_BCH_CODE;
-        $this->tBchCodeLogin = (!empty($this->session->userdata('tSesUsrBchCom')) ? $this->session->userdata('tSesUsrBchCom') : $this->session->userdata('tSesUsrBchCom'));
-        $this->nPerPage = 100;
-        $this->nOptDecimalShow = FCNxHGetOptionDecimalShow();
+        $this->tSysBchCode              = SYS_BCH_CODE;
+        $this->tBchCodeLogin            = (!empty($this->session->userdata('tSesUsrBchCom')) ? $this->session->userdata('tSesUsrBchCom') : $this->session->userdata('tSesUsrBchCom'));
+        $this->nPerPage                 = 100;
+        $this->nOptDecimalShow          = FCNxHGetOptionDecimalShow();
 
-        $tIP = $this->input->ip_address();
-        $tFullHost = gethostbyaddr($tIP);
-        $this->tCompName = $tFullHost;
+        $tIP                            = $this->input->ip_address();
+        $tFullHost                      = gethostbyaddr($tIP);
+        $this->tCompName                = $tFullHost;
 
-        $this->nLngID = FCNaHGetLangEdit();
-        $this->tRptCode = $this->input->post('ohdRptCode');
-        $this->tRptGroup = $this->input->post('ohdRptGrpCode');
-        $this->tUserSessionID = $this->session->userdata('tSesSessionID');
-        $this->tRptRoute = $this->input->post('ohdRptRoute');
-        $this->tRptExportType = $this->input->post('ohdRptTypeExport');
-        $this->nPage = empty($this->input->post('ohdRptCurrentPage')) ? 1 : $this->input->post('ohdRptCurrentPage');
-        $this->tUserLoginCode = $this->session->userdata('tSesUsername');
+        $this->nLngID                   = FCNaHGetLangEdit();
+        $this->tRptCode                 = $this->input->post('ohdRptCode');
+        $this->tRptGroup                = $this->input->post('ohdRptGrpCode');
+        $this->tUserSessionID           = $this->session->userdata('tSesSessionID');
+        $this->tRptRoute                = $this->input->post('ohdRptRoute');
+        $this->tRptExportType           = $this->input->post('ohdRptTypeExport');
+        $this->nPage                    = empty($this->input->post('ohdRptCurrentPage')) ? 1 : $this->input->post('ohdRptCurrentPage');
+        $this->tUserLoginCode           = $this->session->userdata('tSesUsername');
 
         // Report Fillter
         $this->aRptFilter = [
-            'tSessionID'  => $this->tUserSessionID,
-            'tCompName'     => $this->tCompName,
-            'tRptCode'      => $this->tRptCode,
-            'nLangID'       => $this->nLngID,
+            'tSessionID'                            => $this->tUserSessionID,
+            'tCompName'                             => $this->tCompName,
+            'tRptCode'                              => $this->tRptCode,
+            'nLangID'                               => $this->nLngID,
 
-            'tTypeSelect'          => !empty($this->input->post('ohdTypeDataCondition')) ? $this->input->post('ohdTypeDataCondition') : "",
+            'tTypeSelect'                           => !empty($this->input->post('ohdTypeDataCondition')) ? $this->input->post('ohdTypeDataCondition') : "",
 
             //Fillter Agency (ตัวแทนขาย)
-            'tAgnCodeSelect' => !empty($this->input->post('oetSpcAgncyCode')) ? $this->input->post('oetSpcAgncyCode') : "",
+            'tAgnCodeSelect'                        => !empty($this->input->post('oetSpcAgncyCode')) ? $this->input->post('oetSpcAgncyCode') : "",
 
             //Filter BCH (สาขา)
-            'tBchCodeFrom'      => !empty($this->input->post('oetRptBchCodeFrom')) ? $this->input->post('oetRptBchCodeFrom') : "",
-            'tBchNameFrom'      => !empty($this->input->post('oetRptBchNameFrom')) ? $this->input->post('oetRptBchNameFrom') : "",
-            'tBchCodeTo'        => !empty($this->input->post('oetRptBchCodeTo')) ? $this->input->post('oetRptBchCodeTo') : "",
-            'tBchNameTo'        => !empty($this->input->post('oetRptBchNameTo')) ? $this->input->post('oetRptBchNameTo') : "",
-            'tBchCodeSelect'    => !empty($this->input->post('oetRptBchCodeSelect')) ? $this->input->post('oetRptBchCodeSelect') : "",
-            'tBchNameSelect'    => !empty($this->input->post('oetRptBchNameSelect')) ? $this->input->post('oetRptBchNameSelect') : "",
-            'bBchStaSelectAll'  => !empty($this->input->post('oetRptBchStaSelectAll')) && ($this->input->post('oetRptBchStaSelectAll') == 1) ? true : false,
-            //ผู้จำหน่าย
-            'tPdtSupplierCodeFrom' => !empty($this->input->post('oetRptSupplierCodeFrom')) ? $this->input->post('oetRptSupplierCodeFrom') : "",
-            'tPdtSupplierCodeTo' => !empty($this->input->post('oetRptSupplierCodeTo')) ? $this->input->post('oetRptSupplierCodeTo') : "",
+            'tBchCodeFrom'                          => !empty($this->input->post('oetRptBchCodeFrom')) ? $this->input->post('oetRptBchCodeFrom') : "",
+            'tBchNameFrom'                          => !empty($this->input->post('oetRptBchNameFrom')) ? $this->input->post('oetRptBchNameFrom') : "",
+            'tBchCodeTo'                            => !empty($this->input->post('oetRptBchCodeTo')) ? $this->input->post('oetRptBchCodeTo') : "",
+            'tBchNameTo'                            => !empty($this->input->post('oetRptBchNameTo')) ? $this->input->post('oetRptBchNameTo') : "",
+            'tBchCodeSelect'                        => !empty($this->input->post('oetRptBchCodeSelect')) ? $this->input->post('oetRptBchCodeSelect') : "",
+            'tBchNameSelect'                        => !empty($this->input->post('oetRptBchNameSelect')) ? $this->input->post('oetRptBchNameSelect') : "",
+            'bBchStaSelectAll'                      => !empty($this->input->post('oetRptBchStaSelectAll')) && ($this->input->post('oetRptBchStaSelectAll') == 1) ? true : false,
+            // //ผู้จำหน่าย
+            // 'tPdtSupplierCodeFrom'                  => !empty($this->input->post('oetRptSupplierCodeFrom')) ? $this->input->post('oetRptSupplierCodeFrom') : "",
+            // 'tPdtSupplierCodeTo'                    => !empty($this->input->post('oetRptSupplierCodeTo')) ? $this->input->post('oetRptSupplierCodeTo') : "",
+
+            // //ผู้จำหน่าย
+            // 'tPdtSupplierCodeFrom'                  => !empty($this->input->post('oetRptSupplierCodeFrom')) ? $this->input->post('oetRptSupplierCodeFrom') : "",
+            // 'tPdtSupplierCodeTo'                    => !empty($this->input->post('oetRptSupplierCodeTo')) ? $this->input->post('oetRptSupplierCodeTo') : "",
+
+            //วันที่เอกสาร
+            'tDocDateFrom'                          => (!empty($this->input->post('oetRptDocDateFrom'))) ? $this->input->post('oetRptDocDateFrom') : "",
+            'tDocDateTo'                            => (!empty($this->input->post('oetRptDocDateTo'))) ? $this->input->post('oetRptDocDateTo') : "",
+
+            'tRptCondition'                         => (!empty($this->input->post('ocmRptCondition'))) ? $this->input->post('ocmRptCondition') : "",
 
             //ผู้จำหน่าย
-            'tPdtSupplierCodeFrom' => !empty($this->input->post('oetRptSupplierCodeFrom')) ? $this->input->post('oetRptSupplierCodeFrom') : "",
-            'tPdtSupplierCodeTo' => !empty($this->input->post('oetRptSupplierCodeTo')) ? $this->input->post('oetRptSupplierCodeTo') : "",
+            'tPdtSupplierCodeFrom'                  => !empty($this->input->post('oetRptSupplierCodeFrom')) ? $this->input->post('oetRptSupplierCodeFrom') : "",
+            'tPdtSupplierNameFrom'                  => !empty($this->input->post('oetRptSupplierNameFrom')) ? $this->input->post('oetRptSupplierNameFrom') : "",
+            'tPdtSupplierCodeTo'                    => !empty($this->input->post('oetRptSupplierCodeTo')) ? $this->input->post('oetRptSupplierCodeTo') : "",
+            'tPdtSupplierNameTo'                    => !empty($this->input->post('oetRptSupplierNameTo')) ? $this->input->post('oetRptSupplierNameTo') : "",
+
+            // กลุ่มสินค้า
+            'tPdtGrpCodeFrom'                       => !empty($this->input->post('oetRptPdtGrpCodeFrom')) ? $this->input->post('oetRptPdtGrpCodeFrom') : "",
+            'tPdtGrpNameFrom'                       => !empty($this->input->post('oetRptPdtGrpNameFrom')) ? $this->input->post('oetRptPdtGrpNameFrom') : "",
+            'tPdtGrpCodeTo'                         => !empty($this->input->post('oetRptPdtGrpCodeTo')) ? $this->input->post('oetRptPdtGrpCodeTo') : "",
+            'tPdtGrpNameTo'                         => !empty($this->input->post('oetRptPdtGrpNameTo')) ? $this->input->post('oetRptPdtGrpNameTo') : "",
+
+            // ประเภทสินค้า
+            'tPdtTypeCodeFrom'                      => !empty($this->input->post('oetRptPdtTypeCodeFrom')) ? $this->input->post('oetRptPdtTypeCodeFrom') : "",
+            'tPdtTypeNameFrom'                      => !empty($this->input->post('oetRptPdtTypeNameFrom')) ? $this->input->post('oetRptPdtTypeNameFrom') : "",
+            'tPdtTypeCodeTo'                        => !empty($this->input->post('oetRptPdtTypeCodeTo')) ? $this->input->post('oetRptPdtTypeCodeTo') : "",
+            'tPdtTypeNameTo'                        => !empty($this->input->post('oetRptPdtTypeNameTo')) ? $this->input->post('oetRptPdtTypeNameTo') : "",
 
             // สินค้า
-            'tPdtCodeFrom' => !empty($this->input->post('oetRptPdtCodeFrom')) ? $this->input->post('oetRptPdtCodeFrom') : "",
-            'tPdtNameFrom' => !empty($this->input->post('oetRptPdtNameFrom')) ? $this->input->post('oetRptPdtNameFrom') : "",
-            'tPdtCodeTo' => !empty($this->input->post('oetRptPdtCodeTo')) ? $this->input->post('oetRptPdtCodeTo') : "",
-            'tPdtNameTo' => !empty($this->input->post('oetRptPdtNameTo')) ? $this->input->post('oetRptPdtNameTo') : "",
+            'tPdtCodeFrom'                          => !empty($this->input->post('oetRptPdtCodeFrom')) ? $this->input->post('oetRptPdtCodeFrom') : "",
+            'tPdtNameFrom'                          => !empty($this->input->post('oetRptPdtNameFrom')) ? $this->input->post('oetRptPdtNameFrom') : "",
+            'tPdtCodeTo'                            => !empty($this->input->post('oetRptPdtCodeTo')) ? $this->input->post('oetRptPdtCodeTo') : "",
+            'tPdtNameTo'                            => !empty($this->input->post('oetRptPdtNameTo')) ? $this->input->post('oetRptPdtNameTo') : "",
 
-            //tRptGroup
+            // ยี่ห้อ
+            'tPdtBrandCodeFrom'                     => !empty($this->input->post('oetRptBrandCodeFrom')) ? $this->input->post('oetRptBrandCodeFrom') : "",
+            'tPdtBrandNameFrom'                     => !empty($this->input->post('oetRptBrandNameFrom')) ? $this->input->post('oetRptBrandNameFrom') : "",
+            'tPdtBrandCodeTo'                       => !empty($this->input->post('oetRptBrandCodeTo')) ? $this->input->post('oetRptBrandCodeTo') : "",
+            'tPdtBrandNameTo'                       => !empty($this->input->post('oetRptBrandNameTo')) ? $this->input->post('oetRptBrandNameTo') : "",
 
-            'tPdtRptConditonSub' => !empty($this->input->post('ocmtRptConditonSub')) ? $this->input->post('ocmtRptConditonSub') : "",
-            // Filter
-            'tDocDateFrom'  => (empty($this->input->post('oetRptDocDateFrom'))) ? '' : $this->input->post('oetRptDocDateFrom'),
-            'tDocDateTo'    => (empty($this->input->post('oetRptDocDateTo'))) ? '' : $this->input->post('oetRptDocDateTo'),
-            //สถานะ รับ/จ่ายเงิน
-            'tPdtRptPhStaPaid' => !empty($this->input->post('ocmRptPhStaPaid')) ? $this->input->post('ocmRptPhStaPaid') : "",
+            // รุ่น
+            'tPdtModelCodeFrom'                     => !empty($this->input->post('oetRptModelCodeFrom')) ? $this->input->post('oetRptModelCodeFrom') : "",
+            'tPdtModelNameFrom'                     => !empty($this->input->post('oetRptModelNameFrom')) ? $this->input->post('oetRptModelNameFrom') : "",
+            'tPdtModelCodeTo'                       => !empty($this->input->post('oetRptModelCodeTo')) ? $this->input->post('oetRptModelCodeTo') : "",
+            'tPdtModelNameTo'                       => !empty($this->input->post('oetRptModelNameTo')) ? $this->input->post('oetRptModelNameTo') : "",
+
         ];
         // print_r($this->aRptFilter);
         // exit();
@@ -335,25 +387,25 @@ class Rptanalyspurchase_controller extends MX_Controller
                 'aDataTextRef'      => $this->aText,
                 'aDataFilter'       => $this->aRptFilter
             ];
-
+            // print_r($aDataViewRptParams);
             // Load View Advance Table
             $tRptView = JCNoHLoadViewAdvanceTable('report/datasources/reportFitauto', 'wRptanalyspurchase', $aDataViewRptParams);
 
             // Data Viewer Center Report
             $aDataViewerParams = [
-                'tTitleReport'   => $this->aText['tTitleReport'],
-                'tRptTypeExport' => $this->tRptExportType,
-                'tRptCode'       => $this->tRptCode,
-                'tRptRoute'      => $this->tRptRoute,
-                'tViewRenderKool' => $tRptView,
-                'aDataFilter' => $this->aRptFilter,
-                'aDataReport' => [
-                    'raItems' => $aDataReport['aRptData'],
-                    'rnAllRow' => $aDataReport['aPagination']['nTotalRecord'],
-                    'rnCurrentPage' => $aDataReport['aPagination']['nDisplayPage'],
-                    'rnAllPage' => $aDataReport['aPagination']['nTotalPage'],
-                    'rtCode' => '1',
-                    'rtDesc' => 'success',
+                'tTitleReport'          => $this->aText['tTitleReport'],
+                'tRptTypeExport'        => $this->tRptExportType,
+                'tRptCode'              => $this->tRptCode,
+                'tRptRoute'             => $this->tRptRoute,
+                'tViewRenderKool'       => $tRptView,
+                'aDataFilter'           => $this->aRptFilter,
+                'aDataReport'           => [
+                    'raItems'                   => $aDataReport['aRptData'],
+                    'rnAllRow'                  => $aDataReport['aPagination']['nTotalRecord'],
+                    'rnCurrentPage'             => $aDataReport['aPagination']['nDisplayPage'],
+                    'rnAllPage'                 => $aDataReport['aPagination']['nTotalPage'],
+                    'rtCode'                    => '1',
+                    'rtDesc'                    => 'success',
                 ]
             ];
 
@@ -391,24 +443,25 @@ class Rptanalyspurchase_controller extends MX_Controller
             'aDataFilter'     => $aDataFilter
         );
 
+        // print_r($aDataViewRptParams);
         // Load View Advance Table
         $tRptView = JCNoHLoadViewAdvanceTable('report/datasources/reportFitauto', 'wRptanalyspurchase', $aDataViewRptParams);
 
         // Data Viewer Center Report
         $aDataViewerParams = array(
-            'tTitleReport' => $this->aText['tTitleReport'],
-            'tRptTypeExport' => $this->tRptExportType,
-            'tRptCode' => $this->tRptCode,
-            'tRptRoute' => $this->tRptRoute,
-            'tViewRenderKool' => $tRptView,
-            'aDataFilter' => $aDataFilter,
-            'aDataReport' => array(
-                'raItems' => $aDataReport['aRptData'],
-                'rnAllRow' => $aDataReport['aPagination']['nRowIDEnd'],
-                'rnCurrentPage' => $aDataReport['aPagination']['nDisplayPage'],
-                'rnAllPage' => $aDataReport['aPagination']['nTotalPage'],
-                'rtCode' => '1',
-                'rtDesc' => 'success'
+            'tTitleReport'          => $this->aText['tTitleReport'],
+            'tRptTypeExport'        => $this->tRptExportType,
+            'tRptCode'              => $this->tRptCode,
+            'tRptRoute'             => $this->tRptRoute,
+            'tViewRenderKool'       => $tRptView,
+            'aDataFilter'           => $aDataFilter,
+            'aDataReport'           => array(
+                'raItems'               => $aDataReport['aRptData'],
+                'rnAllRow'              => $aDataReport['aPagination']['nRowIDEnd'],
+                'rnCurrentPage'         => $aDataReport['aPagination']['nDisplayPage'],
+                'rnAllPage'             => $aDataReport['aPagination']['nTotalPage'],
+                'rtCode'                => '1',
+                'rtDesc'                => 'success'
             )
         );
 
@@ -426,38 +479,39 @@ class Rptanalyspurchase_controller extends MX_Controller
     public function FSoCCallRptRenderHedaerExcel()
     {
         if (isset($this->aCompanyInfo) && count($this->aCompanyInfo)>0) {
-            $tFTAddV1Village = $this->aCompanyInfo['FTAddV1Village'];
-            $tFTCmpName = $this->aCompanyInfo['FTCmpName'];
-            $tFTAddV1No = $this->aCompanyInfo['FTAddV1No'];
-            $tFTAddV1Road = $this->aCompanyInfo['FTAddV1Road'];
-            $tFTAddV1Soi = $this->aCompanyInfo['FTAddV1Soi'];
-            $tFTSudName = $this->aCompanyInfo['FTSudName'];
-            $tFTDstName = $this->aCompanyInfo['FTDstName'];
-            $tFTPvnName = $this->aCompanyInfo['FTPvnName'];
-            $tFTAddV1PostCode = $this->aCompanyInfo['FTAddV1PostCode'];
-            $tFTAddV2Desc1 = $this->aCompanyInfo['FTAddV2Desc1'];
-            $tFTAddV2Desc2 = $this->aCompanyInfo['FTAddV2Desc2'];
-            $tFTAddVersion = $this->aCompanyInfo['FTAddVersion'];
-            $tFTBchName = $this->aCompanyInfo['FTBchName'];
-            $tFTAddTaxNo = $this->aCompanyInfo['FTAddTaxNo'];
-            $tFTCmpTel = $this->aCompanyInfo['FTAddTel'];
-            $tRptFaxNo = $this->aCompanyInfo['FTAddFax'];
+            $tFTAddV1Village                = $this->aCompanyInfo['FTAddV1Village'];
+            $tFTCmpName                     = $this->aCompanyInfo['FTCmpName'];
+            $tFTAddV1No                     = $this->aCompanyInfo['FTAddV1No'];
+            $tFTAddV1Road                   = $this->aCompanyInfo['FTAddV1Road'];
+            $tFTAddV1Soi                    = $this->aCompanyInfo['FTAddV1Soi'];
+            $tFTSudName                     = $this->aCompanyInfo['FTSudName'];
+            $tFTDstName                     = $this->aCompanyInfo['FTDstName'];
+            $tFTPvnName                     = $this->aCompanyInfo['FTPvnName'];
+            $tFTAddV1PostCode               = $this->aCompanyInfo['FTAddV1PostCode'];
+            $tFTAddV2Desc1                  = $this->aCompanyInfo['FTAddV2Desc1'];
+            $tFTAddV2Desc2                  = $this->aCompanyInfo['FTAddV2Desc2'];
+            $tFTAddVersion                  = $this->aCompanyInfo['FTAddVersion'];
+            $tFTBchName                     = $this->aCompanyInfo['FTBchName'];
+            $tFTAddTaxNo                    = $this->aCompanyInfo['FTAddTaxNo'];
+            $tFTCmpTel                      = $this->aCompanyInfo['FTAddTel'];
+            $tRptFaxNo                      = $this->aCompanyInfo['FTAddFax'];
         }else {
-            $tFTCmpTel = "";
-            $tFTCmpName = "";
-            $tFTAddV1No = "";
-            $tFTAddV1Road = "";
-            $tFTAddV1Soi = "";
-            $tFTSudName = "";
-            $tFTDstName = "";
-            $tFTPvnName = "";
-            $tFTAddV1PostCode = "";
-            $tFTAddV2Desc1 = "1"; $tFTAddV1Village = "";
-            $tFTAddV2Desc2 = "2";
-            $tFTAddVersion = "";
-            $tFTBchName = "";
-            $tFTAddTaxNo = "";
-            $tRptFaxNo = "";
+            $tFTCmpTel                      = "";
+            $tFTCmpName                     = "";
+            $tFTAddV1No                     = "";
+            $tFTAddV1Road                   = "";
+            $tFTAddV1Soi                    = "";
+            $tFTSudName                     = "";
+            $tFTDstName                     = "";
+            $tFTPvnName                     = "";
+            $tFTAddV1PostCode               = "";
+            $tFTAddV2Desc1                  = "1"; 
+            $tFTAddV1Village                = "";
+            $tFTAddV2Desc2                  = "2";
+            $tFTAddVersion                  = "";
+            $tFTBchName                     = "";
+            $tFTAddTaxNo                    = "";
+            $tRptFaxNo                      = "";
         }
         $oStyle = (new StyleBuilder())
             ->setFontBold()
@@ -477,8 +531,10 @@ class Rptanalyspurchase_controller extends MX_Controller
         $aMulltiRow[] = WriterEntityFactory::createRow($aCells, $oStyle);
 
         $tAddress = '';
+        $tAddress2 = '';
         if ($tFTAddVersion == '1') {
-            $tAddress = $tFTAddV1No . ' ' .$tFTAddV1Village. ' '.$tFTAddV1Road.' ' . $tFTAddV1Soi . ' ' . $tFTSudName . ' ' . $tFTDstName . ' ' . $tFTPvnName . ' ' . $tFTAddV1PostCode;
+            $tAddress = $tFTAddV1No . ' ' .$tFTAddV1Village;
+            $tAddress2 = $tFTAddV1Road.' ' . $tFTAddV1Soi . ' ' . $tFTSudName . ' ' . $tFTDstName . ' ' . $tFTPvnName . ' ' . $tFTAddV1PostCode;
         }
         if ($tFTAddVersion == '2') {
             $tAddress = $tFTAddV2Desc1 . ' ' . $tFTAddV2Desc2;
@@ -497,6 +553,22 @@ class Rptanalyspurchase_controller extends MX_Controller
         ];
 
         $aMulltiRow[] = WriterEntityFactory::createRow($aCells);
+
+        if($tAddress2 != '') {
+            $aCells = [
+                WriterEntityFactory::createCell($tAddress2),
+                WriterEntityFactory::createCell(NULL),
+                WriterEntityFactory::createCell(NULL),
+                WriterEntityFactory::createCell(NULL),
+                WriterEntityFactory::createCell(NULL),
+                WriterEntityFactory::createCell(NULL),
+                WriterEntityFactory::createCell(NULL),
+                WriterEntityFactory::createCell(NULL),
+                WriterEntityFactory::createCell(NULL),
+            ];
+    
+            $aMulltiRow[] = WriterEntityFactory::createRow($aCells);
+        }
 
         $aCells = [
             WriterEntityFactory::createCell($this->aText['tRptTel'] . ' ' . $tFTCmpTel . ' '.$this->aText['tRptFaxNo'] . ' ' . $tRptFaxNo),
@@ -581,7 +653,22 @@ class Rptanalyspurchase_controller extends MX_Controller
             WriterEntityFactory::createCell(NULL),
             WriterEntityFactory::createCell(NULL),
             WriterEntityFactory::createCell(NULL),
+            WriterEntityFactory::createCell(NULL),
+            WriterEntityFactory::createCell(NULL),
+            WriterEntityFactory::createCell(NULL),
+            WriterEntityFactory::createCell(NULL),
+            WriterEntityFactory::createCell(NULL),
+            WriterEntityFactory::createCell(NULL),
+            WriterEntityFactory::createCell(NULL),
+            WriterEntityFactory::createCell(NULL),
+            WriterEntityFactory::createCell(NULL),
+            WriterEntityFactory::createCell(NULL),
+            WriterEntityFactory::createCell(NULL),
+            WriterEntityFactory::createCell(NULL),
+            WriterEntityFactory::createCell(NULL),
             WriterEntityFactory::createCell($this->aText['tDatePrint'] . ' ' . date('d/m/Y') . ' ' . $this->aText['tTimePrint'] . ' ' . date('H:i:s')),
+            WriterEntityFactory::createCell(NULL),
+            WriterEntityFactory::createCell(NULL),
             WriterEntityFactory::createCell(NULL),
         ];
 
@@ -606,22 +693,39 @@ class Rptanalyspurchase_controller extends MX_Controller
 
         $oStyleColums = (new StyleBuilder())
             ->setBorder($oBorder)
+            ->setFontBold()
+            ->build();
+
+        $oStyleFont = (new StyleBuilder())
+            ->setFontBold()
             ->build();
 
         $aCells = [
-            WriterEntityFactory::createCell(language('report/report/report', 'tRptCol1')),
+            WriterEntityFactory::createCell(language('report/report/report', 'tRptAPCol1')),
+            WriterEntityFactory::createCell(null),
+            WriterEntityFactory::createCell(language('report/report/report', 'tRptAPCol2')),
+            WriterEntityFactory::createCell(null),
+            WriterEntityFactory::createCell(language('report/report/report', 'tRptAPCol3')),
             WriterEntityFactory::createCell(null),
             WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(language('report/report/report', 'tRptCol2')),
             WriterEntityFactory::createCell(null),
             WriterEntityFactory::createCell(null),
             WriterEntityFactory::createCell(null),
+            WriterEntityFactory::createCell(language('report/report/report', 'tRptAPCol4')),
             WriterEntityFactory::createCell(null),
+            WriterEntityFactory::createCell(language('report/report/report', 'tRptAPCol5')),
             WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(language('report/report/report', 'tRptCol3')),
+            WriterEntityFactory::createCell(language('report/report/report', '%')),
             WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(language('report/report/report', 'tRptCol4')),
-            WriterEntityFactory::createCell(null)
+            WriterEntityFactory::createCell(language('report/report/report', 'tRptAPCol7')),
+            WriterEntityFactory::createCell(null),
+            WriterEntityFactory::createCell(language('report/report/report', '%')),
+            WriterEntityFactory::createCell(null),
+            WriterEntityFactory::createCell(language('report/report/report', 'tRptAPCol9')),
+            WriterEntityFactory::createCell(null),
+            WriterEntityFactory::createCell(language('report/report/report', 'tRptAPCol10')),
+            WriterEntityFactory::createCell(null),
+            WriterEntityFactory::createCell(language('report/report/report', '%')),
         ];
 
         /** add a row at a time */
@@ -643,151 +747,223 @@ class Rptanalyspurchase_controller extends MX_Controller
         $oStyle = (new StyleBuilder())
             ->setCellAlignment(CellAlignment::RIGHT)
             ->build();
+
+        // $oStyleColums = (new StyleBuilder())
+        //     ->setBorder($oBorder)
+        //     ->setFontBold()
+        //     ->build();
+
+        // $oStyleFont = (new StyleBuilder())
+        //     ->setFontBold()
+        //     ->build();
         $nSumNetAfHD = 0;
         $nSumPShare = 0;
         if (isset($aDataReport['aRptData']) && !empty($aDataReport['aRptData'])) {
 
             foreach ($aDataReport['aRptData'] as $nKey => $aValue) {
-              $nSumNetAfHD += $aValue['FCXsdNetAfHD'];
-              $nSumPShare += $aValue['FCXsdPShare'];
-              $tsdGroupBy  = $aValue['FTXsdGroupBy'];
-              $tGroupBy = "";
-              switch ($tsdGroupBy) {
-                case "PTime":
-                  $tGroupBy = language('report/report/report', 'tRptConditonSub1');
-                  break;
-                case "PDate":
-                  $tGroupBy = language('report/report/report', 'tRptConditonSub2');
-                  break;
-                case "PMonth":
-                  $tGroupBy = language('report/report/report', 'tRptConditonSub3');
-                  break;
-                case "PYear":
-                  $tGroupBy = language('report/report/report', 'tRptConditonSub4');
-                  break;
-                case "PChain":
-                  $tGroupBy = language('report/report/report', 'tRptConditonSub5');
-                  break;
-                default:
-                  $tGroupBy = language('report/report/report', 'tRptConditonSub1');
-              }
-              if ($nKey==0) {
-                $values = [
-                  WriterEntityFactory::createCell($tGroupBy),
-                  WriterEntityFactory::createCell(null),
-                  WriterEntityFactory::createCell(null),
-                  WriterEntityFactory::createCell(null),
-                  WriterEntityFactory::createCell(null),
-                  WriterEntityFactory::createCell(null),
-                  WriterEntityFactory::createCell(null),
-                  WriterEntityFactory::createCell(null),
-                  WriterEntityFactory::createCell(null),
-                  WriterEntityFactory::createCell(null),
-                  WriterEntityFactory::createCell(null),
-                  WriterEntityFactory::createCell(null)
-                ];
 
-                $aRow = WriterEntityFactory::createRow($values);
-                $oWriter->addRow($aRow);
+                $tGroupBy = "";
+                if($aValue['FTXsdGrpName'] != '') {
+                    $tGroupBy = $aValue['FTXsdGrpName'];
+                }else {
+                    $tGroupBy = "อื่น ๆ ";
+                }
+            //   $nSumNetAfHD += $aValue['FCXsdNetAfHD'];
+            //   $nSumPShare += $aValue['FCXsdPShare'];
+            //   $tsdGroupBy  = $aValue['FTXsdGroupBy'];
+            //   $tGroupBy = "";
+            //   switch ($tsdGroupBy) {
+            //     case "PTime":
+            //       $tGroupBy = language('report/report/report', 'tRptConditonSub1');
+            //       break;
+            //     case "PDate":
+            //       $tGroupBy = language('report/report/report', 'tRptConditonSub2');
+            //       break;
+            //     case "PMonth":
+            //       $tGroupBy = language('report/report/report', 'tRptConditonSub3');
+            //       break;
+            //     case "PYear":
+            //       $tGroupBy = language('report/report/report', 'tRptConditonSub4');
+            //       break;
+            //     case "PChain":
+            //       $tGroupBy = language('report/report/report', 'tRptConditonSub5');
+            //       break;
+            //     default:
+            //       $tGroupBy = language('report/report/report', 'tRptConditonSub1');
+            //   }
+            //   if ($nKey==0) {
+                if ($aValue['PARTITION_Grp'] == 1) { 
+                    $values = [
+                        WriterEntityFactory::createCell($tGroupBy),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(null),
+                        // WriterEntityFactory::createCell(null),
+                    ];
 
-                $values = [
-                  WriterEntityFactory::createCell($aDataReport['aRptData'][0]['FTPdtCode']),
-                  WriterEntityFactory::createCell(null),
-                  WriterEntityFactory::createCell(null),
-                  WriterEntityFactory::createCell($aDataReport['aRptData'][0]['FTPdtName']),
-                  WriterEntityFactory::createCell(null),
-                  WriterEntityFactory::createCell(null),
-                  WriterEntityFactory::createCell(null),
-                  WriterEntityFactory::createCell(null),
-                  WriterEntityFactory::createCell(null),
-                  WriterEntityFactory::createCell(FCNnGetNumeric($aDataReport['aRptData'][0]['FCXsdNetAfHD'])),
-                  WriterEntityFactory::createCell(null),
-                  WriterEntityFactory::createCell(null),
-                  WriterEntityFactory::createCell(FCNnGetNumeric(($aDataReport['aRptData'][0]['FCXsdPShare']*100)))
-                ];
+                    $aRow = WriterEntityFactory::createRow($values,$oStyleFont);
+                    $oWriter->addRow($aRow);
 
-                $aRow = WriterEntityFactory::createRow($values);
-                $oWriter->addRow($aRow);
-              }else {
-                $values = [
-                  WriterEntityFactory::createCell($aValue['FTPdtCode']),
-                  WriterEntityFactory::createCell(null),
-                  WriterEntityFactory::createCell(null),
-                  WriterEntityFactory::createCell($aValue['FTPdtName']),
-                  WriterEntityFactory::createCell(null),
-                  WriterEntityFactory::createCell(null),
-                  WriterEntityFactory::createCell(null),
-                  WriterEntityFactory::createCell(null),
-                  WriterEntityFactory::createCell(null),
-                  WriterEntityFactory::createCell((FCNnGetNumeric($aValue['FCXsdNetAfHD']) == "" ? "-" : FCNnGetNumeric($aValue['FCXsdNetAfHD']))),
-                  WriterEntityFactory::createCell(null),
-                  WriterEntityFactory::createCell(null),
-                  WriterEntityFactory::createCell((FCNnGetNumeric($aValue['FCXsdPShare']) == "" ? "-" : FCNnGetNumeric(($aValue['FCXsdPShare']*100))))
-                ];
+                    $values = [
+                        WriterEntityFactory::createCell($aValue['PARTITION_Grp']),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell( $aValue['FTPdtCode']),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell($aValue['FTPdrName']),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(FCNnGetNumeric($aValue['FCXsdSetPrice']),$oStyle),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(FCNnGetNumeric($aValue['FCXsdQtyAll']),$oStyle),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(FCNnGetNumeric($aValue['FCXsdQtyAvgPct']),$oStyle),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(FCNnGetNumeric($aValue['FCXsdAmtB4DisChg']),$oStyle),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(FCNnGetNumeric($aValue['FCXsdAmtAvgPct']),$oStyle),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(FCNnGetNumeric($aValue['FCXsdDisChg']),$oStyle),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(FCNnGetNumeric($aValue['FCXsdNetAfHD']),$oStyle),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(FCNnGetNumeric($aValue['FCXsdNetAvgPct']),$oStyle)
+                    ];
 
-                $aRow = WriterEntityFactory::createRow($values);
-                $oWriter->addRow($aRow);
-              }
+                    $aRow = WriterEntityFactory::createRow($values);
+                    $oWriter->addRow($aRow);
+                }else {
+                    $values = [
+                        WriterEntityFactory::createCell($aValue['PARTITION_Grp']),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell( $aValue['FTPdtCode']),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell($aValue['FTPdrName']),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(FCNnGetNumeric($aValue['FCXsdSetPrice']),$oStyle),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(FCNnGetNumeric($aValue['FCXsdQtyAll']),$oStyle),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(FCNnGetNumeric($aValue['FCXsdQtyAvgPct']),$oStyle),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(FCNnGetNumeric($aValue['FCXsdAmtB4DisChg']),$oStyle),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(FCNnGetNumeric($aValue['FCXsdAmtAvgPct']),$oStyle),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(FCNnGetNumeric($aValue['FCXsdDisChg']),$oStyle),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(FCNnGetNumeric($aValue['FCXsdNetAfHD']),$oStyle),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(FCNnGetNumeric($aValue['FCXsdNetAvgPct']),$oStyle)
+                    ];
 
 
+                    $aRow = WriterEntityFactory::createRow($values);
+                    $oWriter->addRow($aRow);
+                }
+
+                if ($aValue['PARTITION_Grp'] == $aValue['MAX_Grp']) { 
+
+                    $values = [
+                        WriterEntityFactory::createCell("รวม : " . $tGroupBy),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(FCNnGetNumeric($aValue['FCXsdQtyAll_SUM']),$oStyle),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(FCNnGetNumeric($aValue['FCXsdQtyAvgPct_SUM']),$oStyle),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(FCNnGetNumeric($aValue['FCXsdAmtB4DisChg_SUM']),$oStyle),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(FCNnGetNumeric($aValue['FCXsdAmtAvgPct_SUM']),$oStyle),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(FCNnGetNumeric($aValue['FCXsdDisChg_SUM']),$oStyle),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(FCNnGetNumeric($aValue['FCXsdNetAfHD_SUM']),$oStyle),
+                        WriterEntityFactory::createCell(null),
+                        WriterEntityFactory::createCell(FCNnGetNumeric($aValue['FCXsdNetAvgPct_SUM']),$oStyle)
+                    ];
+
+                    $aRow = WriterEntityFactory::createRow($values,$oStyleColums);
+                    $oWriter->addRow($aRow);
+
+                }
 
 
-                // if (($nKey + 1) == FCNnHSizeOf($aDataReport['aRptData'])) { //SumFooter
-                //     $values = [
-                //         WriterEntityFactory::createCell(null),
-                //         WriterEntityFactory::createCell(null),
-                //         WriterEntityFactory::createCell(null),
-                //         WriterEntityFactory::createCell(null),
-                //         WriterEntityFactory::createCell("รวม"),
-                //         WriterEntityFactory::createCell(null),
-                //         WriterEntityFactory::createCell(null),
-                //         WriterEntityFactory::createCell(null),
-                //         WriterEntityFactory::createCell(null),
-                //         WriterEntityFactory::createCell(number_format($aDataTotal['FNScoValue5Total'], 4)),
-                //         WriterEntityFactory::createCell(null),
-                //         WriterEntityFactory::createCell(number_format($aDataTotal['FNScoValue4Total'], 4)),
-                //         WriterEntityFactory::createCell(null),
-                //         WriterEntityFactory::createCell(number_format($aDataTotal['FNScoValue3Total'], 4)),
-                //         WriterEntityFactory::createCell(null),
-                //         WriterEntityFactory::createCell(number_format($aDataTotal['FNScoValue2Total'], 4)),
-                //         WriterEntityFactory::createCell(null),
-                //         WriterEntityFactory::createCell(number_format($aDataTotal['FNScoValue1Total'], 4)),
-                //         WriterEntityFactory::createCell(null),
-                //         WriterEntityFactory::createCell(number_format($nScoreAvgTotal, 4)),
-                //         WriterEntityFactory::createCell(null),
-                //         WriterEntityFactory::createCell(language('report/report/report', $tCrtAvg)),
-                //         WriterEntityFactory::createCell(null),
-                //     ];
-                //     $aRow = WriterEntityFactory::createRow($values, $oStyleColums);
-                //     $oWriter->addRow($aRow);
-                // }
+                $nQtyAll            = FCNnGetNumeric($aValue['FCXsdQtyAllTotal_Footer']);
+                $nQtyAvgPct         = FCNnGetNumeric($aValue['FCXsdQtyAvgPctTotal_Footer']);
+                $nAmtB4DisChg       = FCNnGetNumeric($aValue['FCXsdAmtB4DisChgTotal_Footer']);
+                $nAmtAvgPct         = FCNnGetNumeric($aValue['FCXsdAmtAvgPctTotal_Footer']);
+                $nDisChg            = FCNnGetNumeric($aValue['FCXsdDisChgTotal_Footer']);
+                $nNetAfHD           = FCNnGetNumeric($aValue['FCXsdNetAfHDTotal_Footer']);
+                $nNetAvgPct         = FCNnGetNumeric($aValue['FCXsdNetAvgPctTotal_Footer']);
             }
+
+            $values = [
+                WriterEntityFactory::createCell("รวม "),
+                WriterEntityFactory::createCell(null),
+                WriterEntityFactory::createCell(null),
+                WriterEntityFactory::createCell(null),
+                WriterEntityFactory::createCell(null),
+                WriterEntityFactory::createCell(null),
+                WriterEntityFactory::createCell(null),
+                WriterEntityFactory::createCell(null),
+                WriterEntityFactory::createCell(null),
+                WriterEntityFactory::createCell(null),
+                WriterEntityFactory::createCell(null),
+                WriterEntityFactory::createCell(null),
+                WriterEntityFactory::createCell($nQtyAll),
+                WriterEntityFactory::createCell(null),
+                WriterEntityFactory::createCell($nQtyAvgPct),
+                WriterEntityFactory::createCell(null),
+                WriterEntityFactory::createCell($nAmtB4DisChg),
+                WriterEntityFactory::createCell(null),
+                WriterEntityFactory::createCell($nAmtAvgPct),
+                WriterEntityFactory::createCell(null),
+                WriterEntityFactory::createCell($nDisChg),
+                WriterEntityFactory::createCell(null),
+                WriterEntityFactory::createCell($nNetAfHD),
+                WriterEntityFactory::createCell(null),
+                WriterEntityFactory::createCell($nNetAvgPct)
+            ];
+            $aRow = WriterEntityFactory::createRow($values,$oStyleColums);
+            $oWriter->addRow($aRow);
         }
-
-        $values = [
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-        ];
-        $aRow = WriterEntityFactory::createRow($values);
-        $oWriter->addRow($aRow);
-
-
 
         $aMulltiRow = $this->FSoCCallRptRenderFooterExcel(); //เรียกฟังชั่นสร้างส่วนท้ายรายงาน
         $oWriter->addRows($aMulltiRow);

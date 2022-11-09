@@ -8,21 +8,21 @@ class Rptanalyspurchase_model extends CI_Model {
         // สาขา
         $tBchCodeSelect = ($paDataFilter['bBchStaSelectAll']) ? '' :  FCNtAddSingleQuote($paDataFilter['tBchCodeSelect']);
 
-        $tCallStore = "{ CALL SP_RPTxSaleGrpByCond(?,?,?,?,?,?,?,?,?) }";
+        $tCallStore = "{ CALL SP_RPTxAnalysPurchase(?,?,?,?,?,?,?,?,?) }";
         $aDataStore = array(
             'ptAgnCode'     => $paDataFilter['tAgnCodeSelect'],
             'ptUsrSession'  => $paDataFilter['tSessionID'],
-            'pnLangID'      => $paDataFilter['nLangID'],
+            'ptLangID'      => $paDataFilter['nLangID'],
             'ptBchCode'     => $tBchCodeSelect,
             'ptDocDateFrm'  => $paDataFilter['tDocDateFrom'],
             'ptDocDateTo'   => $paDataFilter['tDocDateTo'],
             'ptPdtCodeFrm'  => $paDataFilter['tPdtCodeFrom'],
             'ptPdtCodeTo'   => $paDataFilter['tPdtCodeTo'],
-            'ptRptGroup'   => $paDataFilter['tPdtRptConditonSub']
+            'ptRptGroup'    => $paDataFilter['tRptCondition']
         );
 
         $oQuery = $this->db->query($tCallStore, $aDataStore);
-        // print_r($oQuery);
+        // print_r($this->db->last_query());
         // exit();
         if ($oQuery !== FALSE) {
             unset($oQuery);
@@ -39,19 +39,19 @@ class Rptanalyspurchase_model extends CI_Model {
 
         $tSQL = "
             SELECT
-                COUNT(ADJSTK_TMP.FTPdtName) AS rnCountPage
-            FROM TRPTSaleGrpByCondTmp ADJSTK_TMP WITH(NOLOCK)
+                COUNT(AnlPur_TMP.FTPdtCode) AS rnCountPage
+            FROM TRPTxAnalysPurchaseTmp AnlPur_TMP WITH(NOLOCK)
             WHERE 1=1
-            AND ADJSTK_TMP.FTUsrSession = '$tUsrSession'
+            AND AnlPur_TMP.FTUsrSession = '$tUsrSession'
         ";
 
-        $oQuery = $this->db->query($tSQL);
-        $nRptAllRecord = $oQuery->row_array()['rnCountPage'];
-        $nPage = $paDataWhere['nPage'];
-        $nPerPage = $paDataWhere['nPerPage'];
-        $nPrevPage = $nPage - 1;
-        $nNextPage = $nPage + 1;
-        $nRowIDStart = (($nPerPage * $nPage) - $nPerPage); //RowId Start
+        $oQuery             = $this->db->query($tSQL);
+        $nRptAllRecord      = $oQuery->row_array()['rnCountPage'];
+        $nPage              = $paDataWhere['nPage'];
+        $nPerPage           = $paDataWhere['nPerPage'];
+        $nPrevPage          = $nPage - 1;
+        $nNextPage          = $nPage + 1;
+        $nRowIDStart        = (($nPerPage * $nPage) - $nPerPage); //RowId Start
         if ($nRptAllRecord <= $nPerPage) {
             $nTotalPage = 1;
         } else if (($nRptAllRecord % $nPerPage) == 0) {
@@ -94,19 +94,39 @@ class Rptanalyspurchase_model extends CI_Model {
 
         // Check ว่าเป็นหน้าสุดท้ายหรือไม่ ถ้าเป็นหน้าสุดท้ายให้ไป Sum footer ข้อมูลมา
         if ($nPage == $nTotalPage) {
-            $tJoinFoooter = " SELECT
-                    FTUsrSession            AS FTUsrSession_Footer
+            // $tJoinFoooter = " SELECT
+            //         FTUsrSession            AS FTUsrSession_Footer
 
-                FROM TRPTSaleGrpByCondTmp WITH(NOLOCK)
-                WHERE 1=1
-                AND FTUsrSession    = '$tUsrSession'
-                GROUP BY FTUsrSession ) T ON L.FTUsrSession = T.FTUsrSession_Footer
-            ";
+            //     FROM TRPTSaleGrpByCondTmp WITH(NOLOCK)
+            //     WHERE 1=1
+            //     AND FTUsrSession    = '$tUsrSession'
+            //     GROUP BY FTUsrSession ) T ON L.FTUsrSession = T.FTUsrSession_Footer
+            // ";
+            $tJoinFoooter = "SELECT 
+                                FTUsrSession			AS FTUsrSession_Footer,
+                                SUM(FCXsdQtyAll)		AS FCXsdQtyAllTotal_Footer,
+                                SUM(FCXsdQtyAvgPct)		AS FCXsdQtyAvgPctTotal_Footer,
+                                SUM(FCXsdAmtB4DisChg)	AS FCXsdAmtB4DisChgTotal_Footer,
+                                SUM(FCXsdAmtAvgPct)		AS FCXsdAmtAvgPctTotal_Footer,
+                                SUM(FCXsdDisChg)		AS FCXsdDisChgTotal_Footer,
+                                SUM(FCXsdNetAfHD)		AS FCXsdNetAfHDTotal_Footer,
+                                SUM(FCXsdNetAvgPct)		AS FCXsdNetAvgPctTotal_Footer
+                            FROM TRPTxAnalysPurchaseTmp WITH(NOLOCK)
+                            WHERE 1=1
+                            AND FTUsrSession    = '$tUsrSession'
+                            GROUP BY FTUsrSession ) T ON L.FTUsrSession = T.FTUsrSession_Footer";
         } else {
             // ถ้าไม่ใช่ให้ Select 0 เพื่อให้ Join ได้แต่จะไม่มีการ Sum
             $tJoinFoooter = "
                 SELECT
-                    '$tUsrSession'  AS FTUsrSession_Footer
+                    '$tUsrSession'  AS FTUsrSession_Footer,
+                    0		AS FCXsdQtyAllTotal_Footer,
+                    0		AS FCXsdQtyAvgPctTotal_Footer,
+                    0	    AS FCXsdAmtB4DisChgTotal_Footer,
+                    0		AS FCXsdAmtAvgPctTotal_Footer,
+                    0		AS FCXsdDisChgTotal_Footer,
+                    0		AS FCXsdNetAfHDTotal_Footer,
+                    0		AS FCXsdNetAvgPctTotal_Footer
                 ) T ON  L.FTUsrSession = T.FTUsrSession_Footer
             ";
         }
@@ -114,17 +134,34 @@ class Rptanalyspurchase_model extends CI_Model {
         // L = List ข้อมูลทั้งหมด
         // A = SaleDT
         // S = Misures Summary
-        $tSQL   = " SELECT
-                        L.*,
-                        T.*
-                    FROM (
-                        SELECT
-                            ROW_NUMBER() OVER(ORDER BY FTPdtName ASC) AS RowID ,
-                            A.*
-                        FROM TRPTSaleGrpByCondTmp A WITH(NOLOCK)
-                        WHERE A.FTUsrSession    = '$tUsrSession'
-                        /* End Calculate Misures */
-                    ) AS L
+        $tSQL   = " SELECT 
+                        L.*, T.*
+                    FROM 
+                        (
+                            SELECT 
+                                ROW_NUMBER() OVER(ORDER BY A.FTXsdGrpCode ASC, A.FTPdtCode ASC) AS RowID ,
+                                ROW_NUMBER () OVER (PARTITION BY A.FTXsdGrpCode ORDER BY A.FTXsdGrpCode ASC) AS PARTITION_Grp, 
+                                SUM(1) OVER (PARTITION BY A.FTXsdGrpCode ORDER BY A.FTXsdGrpCode ASC) AS MAX_Grp, 
+                                A.* , S.*
+                            FROM TRPTxAnalysPurchaseTmp A WITH(NOLOCK) 
+                            LEFT JOIN 
+                                ( 
+                                    SELECT 
+                                        FTXsdGrpCode            AS FTXsdGrpCode_SUM, 
+                                        COUNT(FTXsdGrpCode)     AS FNRptGroupMember,
+                                        SUM(ISNULL(FCXsdQtyAll, 0))			AS FCXsdQtyAll_SUM,
+                                        SUM(ISNULL(FCXsdQtyAvgPct, 0))		AS FCXsdQtyAvgPct_SUM,
+                                        SUM(ISNULL(FCXsdAmtB4DisChg, 0))	AS FCXsdAmtB4DisChg_SUM, 
+                                        SUM(ISNULL(FCXsdAmtAvgPct, 0))		AS FCXsdAmtAvgPct_SUM,
+                                        SUM(ISNULL(FCXsdDisChg, 0))			AS FCXsdDisChg_SUM,
+                                        SUM(ISNULL(FCXsdNetAfHD, 0))		AS FCXsdNetAfHD_SUM,
+                                        SUM(ISNULL(FCXsdNetAvgPct, 0))		AS FCXsdNetAvgPct_SUM
+                                    FROM TRPTxAnalysPurchaseTmp WITH(NOLOCK) 
+                                    WHERE 1=1 AND FTUsrSession = '$tUsrSession' 
+                                    GROUP BY FTXsdGrpCode 
+                                ) AS S ON ISNULL(A.FTXsdGrpCode, '') = ISNULL(S.FTXsdGrpCode_SUM , '')
+                            WHERE 1=1 AND FTUsrSession = '$tUsrSession' 
+                            ) AS L 
                     LEFT JOIN (
                     " . $tJoinFoooter . "
         ";
@@ -133,8 +170,10 @@ class Rptanalyspurchase_model extends CI_Model {
         $tSQL .= " WHERE L.RowID > $nRowIDStart AND L.RowID <= $nRowIDEnd ";
 
         //สั่ง Order by ตามข้อมูลหลัก
-        $tSQL .= " ORDER BY L.FTPdtName";
+        $tSQL .= " ORDER BY L.FTXsdGrpCode ASC , L.FTPdtCode ASC";
+        // print_r($tSQL); exit;
         $oQuery = $this->db->query($tSQL);
+        
         if ($oQuery->num_rows() > 0) {
             $aData = $oQuery->result_array();
         } else {
@@ -162,11 +201,11 @@ class Rptanalyspurchase_model extends CI_Model {
         $tSQL = "
             SELECT
                 COUNT(DTTMP.FTRptCode) AS rnCountPage
-            FROM TRPTSaleGrpByCondTmp AS DTTMP WITH(NOLOCK)
+            FROM TRPTxAnalysPurchaseTmp AS DTTMP WITH(NOLOCK)
             WHERE 1 = 1
             AND FTUsrSession    = '$tSessionID'
         ";
-        echo $tSQL;
+        // echo $tSQL;
         $oQuery = $this->db->query($tSQL);
         $nRptAllRecord = $oQuery->row_array()['rnCountPage'];
         unset($oQuery);

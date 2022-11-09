@@ -139,217 +139,250 @@ class Rptpurhistorypdt_controller extends MX_Controller
         $this->aText = [
             // Title
 
-              'tTitleReport' => language('report/report/report', 'tRptpurhistorypdtTitle'),
-              'tDatePrint' => language('report/report/report', 'tRptTaxSalePosDatePrint'),
-              'tTimePrint' => language('report/report/report', 'tRptTaxSalePosTimePrint'),
+              'tTitleReport'                    => language('report/report/report', 'tRptpurhistorypdtTitle'),
+              'tDatePrint'                      => language('report/report/report', 'tRptTaxSalePosDatePrint'),
+              'tTimePrint'                      => language('report/report/report', 'tRptTaxSalePosTimePrint'),
 
-              'tRptTaxSalePosNoData' =>"ไม่มีข้อมูล",
-              'tPdtnu'=> language('report/report/report', 'tPdtnu'),
-              'tPdtCode'=> language('report/report/report', 'tPdtCode'),
-              'tPdtName'=> language('report/report/report', 'tPdtName'),
-              'tPgpChainName'=> language('report/report/report', 'tPgpChainName'),
-              'tPtyName'=>language('report/report/report', 'tPtyName'),
-              'tPdtSaleType'=> language('report/report/report', 'tPdtSaleType'),
-              'tBarCode'=> language('report/report/report', 'tBarCode'),
-              'tPunCode'=> language('report/report/report', 'tPunCode'),
-              'tPunName'=> language('report/report/report', 'tPunName'),
-              'tPdtUnitFact'=> language('report/report/report', 'tPdtUnitFact'),
-              'tPdtPriceRET'=> language('report/report/report', 'tPdtPriceRET'),
-              'tPdtCostInPerUnit'=> language('report/report/report', 'tPdtCostInPerUnit'),
-              'tPdtCostInTotal'=> language('report/report/report', 'tPdtCostInTotal'),
-              'tPgdPriceRetTotal'=> language('report/report/report', 'tPgdPriceRetTotal'),
+              'tRptTaxSalePosNoData'            =>"ไม่มีข้อมูล",
+              'tPdtnu'                          => language('report/report/report', 'tPdtnu'),
+              'tPdtCode'                        => language('report/report/report', 'tPdtCode'),
+              'tPdtName'                        => language('report/report/report', 'tPdtName'),
+              'tPgpChainName'                   => language('report/report/report', 'tPgpChainName'),
+              'tPtyName'                        =>language('report/report/report', 'tPtyName'),
+              'tPdtSaleType'                    => language('report/report/report', 'tPdtSaleType'),
+              'tBarCode'                        => language('report/report/report', 'tBarCode'),
+              'tPunCode'                        => language('report/report/report', 'tPunCode'),
+              'tPunName'                        => language('report/report/report', 'tPunName'),
+              'tPdtUnitFact'                    => language('report/report/report', 'tPdtUnitFact'),
+              'tPdtPriceRET'                    => language('report/report/report', 'tPdtPriceRET'),
+              'tPdtCostInPerUnit'               => language('report/report/report', 'tPdtCostInPerUnit'),
+              'tPdtCostInTotal'                 => language('report/report/report', 'tPdtCostInTotal'),
+              'tPgdPriceRetTotal'               => language('report/report/report', 'tPgdPriceRetTotal'),
               // Filter Heard Report
-              'tRptBchFrom' => language('report/report/report', 'tRptBchFrom'),
-              'tRptBchTo' => language('report/report/report', 'tRptBchTo'),
-              'tRptShopFrom' => language('report/report/report', 'tRptShopFrom'),
-              'tRptShopTo' => language('report/report/report', 'tRptShopTo'),
-              'tRptDateFrom' => language('report/report/report', 'tRptDateFrom'),
-              'tRptDateTo' => language('report/report/report', 'tRptDateTo'),
+              'tRptBchFrom'                     => language('report/report/report', 'tRptBchFrom'),
+              'tRptBchTo'                       => language('report/report/report', 'tRptBchTo'),
+              'tRptShopFrom'                    => language('report/report/report', 'tRptShopFrom'),
+              'tRptShopTo'                      => language('report/report/report', 'tRptShopTo'),
+              'tRptDateFrom'                    => language('report/report/report', 'tRptDateFrom'),
+              'tRptDateTo'                      => language('report/report/report', 'tRptDateTo'),
 
             // Address Lang
-            'tRptAddrBuilding' => language('report/report/report', 'tRptAddrBuilding'),
-            'tRptAddrRoad' => language('report/report/report', 'tRptAddrRoad'),
-            'tRptAddrSoi' => language('report/report/report', 'tRptAddrSoi'),
-            'tRptAddrSubDistrict' => language('report/report/report', 'tRptAddrSubDistrict'),
-            'tRptAddrDistrict' => language('report/report/report', 'tRptAddrDistrict'),
-            'tRptAddrProvince' => language('report/report/report', 'tRptAddrProvince'),
-            'tRptAddrTel' => language('report/report/report', 'tRptAddrTel'),
-            'tRptAddrFax' => language('report/report/report', 'tRptAddrFax'),
-            'tRptAddrBranch' => language('report/report/report', 'tRptAddrBranch'),
-            'tRptAddV2Desc1' => language('report/report/report', 'tRptAddV2Desc1'),
-            'tRptAddV2Desc2' => language('report/report/report', 'tRptAddV2Desc2'),
-            'tRptTel' => language('report/report/report', 'tRptAddrTel'),
-            'tRptFaxNo' => language('report/report/report', 'tRptAddrFax'),
+            'tRptAddrBuilding'                  => language('report/report/report', 'tRptAddrBuilding'),
+            'tRptAddrRoad'                      => language('report/report/report', 'tRptAddrRoad'),
+            'tRptAddrSoi'                       => language('report/report/report', 'tRptAddrSoi'),
+            'tRptAddrSubDistrict'               => language('report/report/report', 'tRptAddrSubDistrict'),
+            'tRptAddrDistrict'                  => language('report/report/report', 'tRptAddrDistrict'),
+            'tRptAddrProvince'                  => language('report/report/report', 'tRptAddrProvince'),
+            'tRptAddrTel'                       => language('report/report/report', 'tRptAddrTel'),
+            'tRptAddrFax'                       => language('report/report/report', 'tRptAddrFax'),
+            'tRptAddrBranch'                    => language('report/report/report', 'tRptAddrBranch'),
+            'tRptAddV2Desc1'                    => language('report/report/report', 'tRptAddV2Desc1'),
+            'tRptAddV2Desc2'                    => language('report/report/report', 'tRptAddV2Desc2'),
+            'tRptTel'                           => language('report/report/report', 'tRptAddrTel'),
+            'tRptFaxNo'                         => language('report/report/report', 'tRptAddrFax'),
             // Table Label
 
-            'tRptAdjMerChantFrom' => language('report/report/report', 'tRptAdjMerChantFrom'),
-            'tRptAdjMerChantTo' => language('report/report/report', 'tRptAdjMerChantTo'),
-            'tRptAdjShopFrom' => language('report/report/report', 'tRptAdjShopFrom'),
-            'tRptAdjShopTo' => language('report/report/report', 'tRptAdjShopTo'),
-            'tRptAdjPosFrom' => language('report/report/report', 'tRptAdjPosFrom'),
-            'tRptAdjPosTo' => language('report/report/report', 'tRptAdjPosTo'),
-            'tRptBranch' => language('report/report/report', 'tRptBranch'),
-            'tRptTotal' => language('report/report/report', 'tRptTotal'),
-            'tRPCTaxNo' => language('report/report/report', 'tRPCTaxNo'),
-            'tRptConditionInReport' => language('report/report/report', 'tRptConditionInReport'),
-            'tRptMerFrom' => language('report/report/report', 'tRptMerFrom'),
-            'tRptMerTo' => language('report/report/report', 'tRptMerTo'),
-            'tRptShopFrom' => language('report/report/report', 'tRptShopFrom'),
-            'tRptShopTo' => language('report/report/report', 'tRptShopTo'),
-            'tRptPosFrom' => language('report/report/report', 'tRptPosFrom'),
-            'tRptPosTo' => language('report/report/report', 'tRptPosTo'),
-            'tPdtCodeTo' => language('report/report/report', 'tPdtCodeTo'),
-            'tPdtCodeFrom' => language('report/report/report', 'tPdtCodeFrom'),
-            'tPdtGrpFrom' => language('report/report/report', 'tPdtGrpFrom'),
-            'tPdtGrpTo' => language('report/report/report', 'tPdtGrpTo'),
-            'tPdtTypeFrom' => language('report/report/report', 'tPdtTypeFrom'),
-            'tPdtTypeTo' => language('report/report/report', 'tPdtTypeTo'),
-            'tRptAdjWahFrom' => language('report/report/report', 'tRptAdjWahFrom'),
-            'tRptAdjWahTo' => language('report/report/report', 'tRptAdjWahTo'),
-            'tRptAll' => language('report/report/report', 'tRptAll'),
-            'tRptPdtType1' => language('report/report/report', 'tRptPdtType1'),
-            'tRptPdtType2' => language('report/report/report', 'tRptPdtType2'),
-            'tRptPdtType3' => language('report/report/report', 'tRptPdtType3'),
-            'tRptPdtType4' => language('report/report/report', 'tRptPdtType4'),
-            'tRptPdtType6' => language('report/report/report', 'tRptPdtType6'),
-            'tRptBrandFrom'      => language('report/report/report', 'tRptBrandFrom'),
-            'tRptBrandTo'        => language('report/report/report', 'tRptBrandTo'),
-            'tRptModelFrom'      => language('report/report/report', 'tRptModelFrom'),
-            'tRptModelTo'        => language('report/report/report', 'tRptModelTo'),
+            'tRptAdjMerChantFrom'               => language('report/report/report', 'tRptAdjMerChantFrom'),
+            'tRptAdjMerChantTo'                 => language('report/report/report', 'tRptAdjMerChantTo'),
+            'tRptAdjShopFrom'                   => language('report/report/report', 'tRptAdjShopFrom'),
+            'tRptAdjShopTo'                     => language('report/report/report', 'tRptAdjShopTo'),
+            'tRptAdjPosFrom'                    => language('report/report/report', 'tRptAdjPosFrom'),
+            'tRptAdjPosTo'                      => language('report/report/report', 'tRptAdjPosTo'),
+            'tRptBranch'                        => language('report/report/report', 'tRptBranch'),
+            'tRptTotal'                         => language('report/report/report', 'tRptTotal'),
+            'tRPCTaxNo'                         => language('report/report/report', 'tRPCTaxNo'),
+            'tRptConditionInReport'             => language('report/report/report', 'tRptConditionInReport'),
+            'tRptMerFrom'                       => language('report/report/report', 'tRptMerFrom'),
+            'tRptMerTo'                         => language('report/report/report', 'tRptMerTo'),
+            'tRptShopFrom'                      => language('report/report/report', 'tRptShopFrom'),
+            'tRptShopTo'                        => language('report/report/report', 'tRptShopTo'),
+            'tRptPosFrom'                       => language('report/report/report', 'tRptPosFrom'),
+            'tRptPosTo'                         => language('report/report/report', 'tRptPosTo'),
+            'tPdtCodeTo'                        => language('report/report/report', 'tPdtCodeTo'),
+            'tPdtCodeFrom'                      => language('report/report/report', 'tPdtCodeFrom'),
+            'tPdtGrpFrom'                       => language('report/report/report', 'tPdtGrpFrom'),
+            'tPdtGrpTo'                         => language('report/report/report', 'tPdtGrpTo'),
+            'tPdtTypeFrom'                      => language('report/report/report', 'tPdtTypeFrom'),
+            'tPdtTypeTo'                        => language('report/report/report', 'tPdtTypeTo'),
+            'tRptAdjWahFrom'                    => language('report/report/report', 'tRptAdjWahFrom'),
+            'tRptAdjWahTo'                      => language('report/report/report', 'tRptAdjWahTo'),
+            'tRptAll'                           => language('report/report/report', 'tRptAll'),
+            'tRptPdtType1'                      => language('report/report/report', 'tRptPdtType1'),
+            'tRptPdtType2'                      => language('report/report/report', 'tRptPdtType2'),
+            'tRptPdtType3'                      => language('report/report/report', 'tRptPdtType3'),
+            'tRptPdtType4'                      => language('report/report/report', 'tRptPdtType4'),
+            'tRptPdtType6'                      => language('report/report/report', 'tRptPdtType6'),
+            'tRptBrandFrom'                     => language('report/report/report', 'tRptBrandFrom'),
+            'tRptBrandTo'                       => language('report/report/report', 'tRptBrandTo'),
+            'tRptModelFrom'                     => language('report/report/report', 'tRptModelFrom'),
+            'tRptModelTo'                       => language('report/report/report', 'tRptModelTo'),
 
-            'tRptPdtMoving1'        => language('report/report/report', 'tRptPdtMoving1'),
-            'tRptPdtMoving2'        => language('report/report/report', 'tRptPdtMoving2'),
-            'tRptTitlePdtMoving'        => language('report/report/report', 'tRptTitlePdtMoving'),
-            'tRptStaVat'        => language('report/report/report', 'tRptStaVat'),
-            'tRptStaVa1'        => language('report/report/report', 'tRptStaVa1'),
-            'tRptStaVa2'        => language('report/report/report', 'tRptStaVa2'),
+            'tRptPdtMoving1'                    => language('report/report/report', 'tRptPdtMoving1'),
+            'tRptPdtMoving2'                    => language('report/report/report', 'tRptPdtMoving2'),
+            'tRptTitlePdtMoving'                => language('report/report/report', 'tRptTitlePdtMoving'),
+            'tRptStaVat'                        => language('report/report/report', 'tRptStaVat'),
+            'tRptStaVa1'                        => language('report/report/report', 'tRptStaVa1'),
+            'tRptStaVa2'                        => language('report/report/report', 'tRptStaVa2'),
+            'tRptStaVa0'                        => language('report/report/report', 'tRptStaVa0'),
 
+            'tRptSplFrom'                       => language('report/report/report', 'tRptSplFrom'),
+            'tRptSplTo'                         => language('report/report/report', 'tRptSplTo'),
 
+            'tRptSplGrpForm'                    => language('report/report/report', 'tRptSplGrpForm'),
+            'tRptSplGrpTo'                      => language('report/report/report', 'tRptSplGrpTo'),
 
+            'tRptSplTypeForm'                   => language('report/report/report', 'tRptSplTypeForm'),
+            'tRptSplTypeTo'                     => language('report/report/report', 'tRptSplTypeTo'),
 
+            'tRptOpenJobStaDoc'                 => language('report/report/report', 'tRptOpenJobStaDoc'),
+            'tRptAll'                           => language('report/report/report', 'tRptAll'),
+            'tRptPhStaApv0'                     => language('report/report/report', 'tRptPhStaApv0'),
+            'tRptPhStaApv1'                     => language('report/report/report', 'tRptPhStaApv1'),
+            'tRptStaCrd3'                       => language('report/report/report', 'tRptStaCrd3'),
 
+            'tStapaid'                          => language('report/report/report', 'tStapaid'),
+            'tRptPhStaPaid1'                    => language('report/report/report', 'tRptPhStaPaid1'),
+            'tRptPhStaPaid2'                    => language('report/report/report', 'tRptPhStaPaid2'),
+            'tRptPhStaPaid3'                    => language('report/report/report', 'tRptPhStaPaid3'),
+
+            'tPdtSaleType'                      => language('report/report/report', 'tPdtSaleType'),
+            'tRptPdtType0'                      => language('report/report/report', 'tRptPdtType0'),
+            'tRptPdtType1'                      => language('report/report/report', 'tRptPdtType1'),
+            'tRptPdtType2'                      => language('report/report/report', 'tRptPdtType2'),
+            'tRptPdtType3'                      => language('report/report/report', 'tRptPdtType3'),
+            'tRptPdtType4'                      => language('report/report/report', 'tRptPdtType4'),
+            'tRptPdtType6'                      => language('report/report/report', 'tRptPdtType6'),
+            // No Data Report
+            'tRptAdjStkNoData'                              => language('common/main/main', 'tCMNNotFoundData')
 
         ];
 
-        $this->tSysBchCode = SYS_BCH_CODE;
-        $this->tBchCodeLogin = (!empty($this->session->userdata('tSesUsrBchCom')) ? $this->session->userdata('tSesUsrBchCom') : $this->session->userdata('tSesUsrBchCom'));
-        $this->nPerPage = 100;
-        $this->nOptDecimalShow = FCNxHGetOptionDecimalShow();
+        $this->tSysBchCode                = SYS_BCH_CODE;
+        $this->tBchCodeLogin              = (!empty($this->session->userdata('tSesUsrBchCom')) ? $this->session->userdata('tSesUsrBchCom') : $this->session->userdata('tSesUsrBchCom'));
+        $this->nPerPage                   = 100;
+        $this->nOptDecimalShow            = FCNxHGetOptionDecimalShow();
 
-        $tIP = $this->input->ip_address();
-        $tFullHost = gethostbyaddr($tIP);
-        $this->tCompName = $tFullHost;
+        $tIP                              = $this->input->ip_address();
+        $tFullHost                        = gethostbyaddr($tIP);
+        $this->tCompName                  = $tFullHost;
 
-        $this->nLngID = FCNaHGetLangEdit();
-        $this->tRptCode = $this->input->post('ohdRptCode');
-        $this->tRptGroup = $this->input->post('ohdRptGrpCode');
-        $this->tUserSessionID = $this->session->userdata('tSesSessionID');
-        $this->tRptRoute = $this->input->post('ohdRptRoute');
-        $this->tRptExportType = $this->input->post('ohdRptTypeExport');
-        $this->nPage = empty($this->input->post('ohdRptCurrentPage')) ? 1 : $this->input->post('ohdRptCurrentPage');
-        $this->tUserLoginCode = $this->session->userdata('tSesUsername');
+        $this->nLngID                     = FCNaHGetLangEdit();
+        $this->tRptCode                   = $this->input->post('ohdRptCode');
+        $this->tRptGroup                  = $this->input->post('ohdRptGrpCode');
+        $this->tUserSessionID             = $this->session->userdata('tSesSessionID');
+        $this->tRptRoute                  = $this->input->post('ohdRptRoute');
+        $this->tRptExportType             = $this->input->post('ohdRptTypeExport');
+        $this->nPage                      = empty($this->input->post('ohdRptCurrentPage')) ? 1 : $this->input->post('ohdRptCurrentPage');
+        $this->tUserLoginCode             = $this->session->userdata('tSesUsername');
 
         // Report Filter
         $this->aRptFilter = [
-            'tUserSession' => $this->tUserSessionID,
-            'tCompName' => $tFullHost,
-            'tRptCode' => $this->tRptCode,
-            'nLangID' => $this->nLngID,
+            'tUserSession'                       => $this->tUserSessionID,
+            'tCompName'                          => $tFullHost,
+            'tRptCode'                           => $this->tRptCode,
+            'nLangID'                            => $this->nLngID,
 
-            'tTypeSelect' => !empty($this->input->post('ohdTypeDataCondition')) ? $this->input->post('ohdTypeDataCondition') : "",
-            'tAgnCode'          => !empty($this->input->post('oetSpcAgncyCode')) ? $this->input->post('oetSpcAgncyCode') : '',
+            'tTypeSelect'                        => !empty($this->input->post('ohdTypeDataCondition')) ? $this->input->post('ohdTypeDataCondition') : "",
+            'tAgnCode'                           => !empty($this->input->post('oetSpcAgncyCode')) ? $this->input->post('oetSpcAgncyCode') : '',
             // สาขา
-            'tBchCodeFrom' => !empty($this->input->post('oetRptBchCodeFrom')) ? $this->input->post('oetRptBchCodeFrom') : "",
-            'tBchNameFrom' => !empty($this->input->post('oetRptBchNameFrom')) ? $this->input->post('oetRptBchNameFrom') : "",
-            'tBchCodeTo' => !empty($this->input->post('oetRptBchCodeTo')) ? $this->input->post('oetRptBchCodeTo') : "",
-            'tBchNameTo' => !empty($this->input->post('oetRptBchNameTo')) ? $this->input->post('oetRptBchNameTo') : "",
-            'tBchCodeSelect' => !empty($this->input->post('oetRptBchCodeSelect')) ? $this->input->post('oetRptBchCodeSelect') : "",
-            'tBchNameSelect' => !empty($this->input->post('oetRptBchNameSelect')) ? $this->input->post('oetRptBchNameSelect') : "",
-            'bBchStaSelectAll' => !empty($this->input->post('oetRptBchStaSelectAll')) && ($this->input->post('oetRptBchStaSelectAll') == 1) ? true : false,
+            'tBchCodeFrom'                       => !empty($this->input->post('oetRptBchCodeFrom')) ? $this->input->post('oetRptBchCodeFrom') : "",
+            'tBchNameFrom'                       => !empty($this->input->post('oetRptBchNameFrom')) ? $this->input->post('oetRptBchNameFrom') : "",
+            'tBchCodeTo'                         => !empty($this->input->post('oetRptBchCodeTo')) ? $this->input->post('oetRptBchCodeTo') : "",
+            'tBchNameTo'                         => !empty($this->input->post('oetRptBchNameTo')) ? $this->input->post('oetRptBchNameTo') : "",
+            'tBchCodeSelect'                     => !empty($this->input->post('oetRptBchCodeSelect')) ? $this->input->post('oetRptBchCodeSelect') : "",
+            'tBchNameSelect'                     => !empty($this->input->post('oetRptBchNameSelect')) ? $this->input->post('oetRptBchNameSelect') : "",
+            'bBchStaSelectAll'                   => !empty($this->input->post('oetRptBchStaSelectAll')) && ($this->input->post('oetRptBchStaSelectAll') == 1) ? true : false,
 
             // Filter Shop (ร้านค้า)
-            'tShpCodeFrom'      => (empty($this->input->post('oetRptShpCodeFrom'))) ? '' : $this->input->post('oetRptShpCodeFrom'),
-            'tShpNameFrom'      => (empty($this->input->post('oetRptShpNameFrom'))) ? '' : $this->input->post('oetRptShpNameFrom'),
-            'tShpCodeTo'        => (empty($this->input->post('oetRptShpCodeTo'))) ? '' : $this->input->post('oetRptShpCodeTo'),
-            'tShpNameTo'        => (empty($this->input->post('oetRptShpNameTo'))) ? '' : $this->input->post('oetRptShpNameTo'),
-            'tShpCodeSelect'    => !empty($this->input->post('oetRptShpCodeSelect')) ? $this->input->post('oetRptShpCodeSelect') : "",
-            'tShpNameSelect'    => !empty($this->input->post('oetRptShpNameSelect')) ? $this->input->post('oetRptShpNameSelect') : "",
-            'bShpStaSelectAll'  => !empty($this->input->post('oetRptShpStaSelectAll')) && ($this->input->post('oetRptShpStaSelectAll') == 1) ? true : false,
+            'tShpCodeFrom'                       => (empty($this->input->post('oetRptShpCodeFrom'))) ? '' : $this->input->post('oetRptShpCodeFrom'),
+            'tShpNameFrom'                       => (empty($this->input->post('oetRptShpNameFrom'))) ? '' : $this->input->post('oetRptShpNameFrom'),
+            'tShpCodeTo'                         => (empty($this->input->post('oetRptShpCodeTo'))) ? '' : $this->input->post('oetRptShpCodeTo'),
+            'tShpNameTo'                         => (empty($this->input->post('oetRptShpNameTo'))) ? '' : $this->input->post('oetRptShpNameTo'),
+            'tShpCodeSelect'                     => !empty($this->input->post('oetRptShpCodeSelect')) ? $this->input->post('oetRptShpCodeSelect') : "",
+            'tShpNameSelect'                     => !empty($this->input->post('oetRptShpNameSelect')) ? $this->input->post('oetRptShpNameSelect') : "",
+            'bShpStaSelectAll'                   => !empty($this->input->post('oetRptShpStaSelectAll')) && ($this->input->post('oetRptShpStaSelectAll') == 1) ? true : false,
 
             // Merchant Filter
-            'bFilterMerStaAll'  => (!empty($this->input->post('oetDSHSALFilterMerStaAll')) && ($this->input->post('oetDSHSALFilterMerStaAll') == 1)) ? true : false,
-            'tFilterMerCode'    => (!empty($this->input->post('oetDSHSALFilterMerCode'))) ? $this->input->post('oetDSHSALFilterMerCode') : "",
-            'tFilterMerName'    => (!empty($this->input->post('oetDSHSALFilterMerName'))) ? $this->input->post('oetDSHSALFilterMerName') : "",
+            'bFilterMerStaAll'                   => (!empty($this->input->post('oetDSHSALFilterMerStaAll')) && ($this->input->post('oetDSHSALFilterMerStaAll') == 1)) ? true : false,
+            'tFilterMerCode'                     => (!empty($this->input->post('oetDSHSALFilterMerCode'))) ? $this->input->post('oetDSHSALFilterMerCode') : "",
+            'tFilterMerName'                     => (!empty($this->input->post('oetDSHSALFilterMerName'))) ? $this->input->post('oetDSHSALFilterMerName') : "",
 
             //วันที่เอกสาร
-            'tRptDocDateFrom'    => (!empty($this->input->post('oetRptDocDateFrom'))) ? $this->input->post('oetRptDocDateFrom') : "",
-            'tRptDocDateTo'    => (!empty($this->input->post('oetRptDocDateTo'))) ? $this->input->post('oetRptDocDateTo') : "",
-
+            'tRptDocDateFrom'                    => (!empty($this->input->post('oetRptDocDateFrom'))) ? $this->input->post('oetRptDocDateFrom') : "",
+            'tRptDocDateTo'                      => (!empty($this->input->post('oetRptDocDateTo'))) ? $this->input->post('oetRptDocDateTo') : "",
 
             // กลุ่มสินค้า
-            'tPdtGrpCodeFrom'   => !empty($this->input->post('oetRptPdtGrpCodeFrom')) ? $this->input->post('oetRptPdtGrpCodeFrom') : "",
-            'tPdtGrpNameFrom'   => !empty($this->input->post('oetRptPdtGrpNameFrom')) ? $this->input->post('oetRptPdtGrpNameFrom') : "",
-            'tPdtGrpCodeTo'     => !empty($this->input->post('oetRptPdtGrpCodeTo')) ? $this->input->post('oetRptPdtGrpCodeTo') : "",
-            'tPdtGrpNameTo'     => !empty($this->input->post('oetRptPdtGrpNameTo')) ? $this->input->post('oetRptPdtGrpNameTo') : "",
+            'tPdtGrpCodeFrom'                    => !empty($this->input->post('oetRptPdtGrpCodeFrom')) ? $this->input->post('oetRptPdtGrpCodeFrom') : "",
+            'tPdtGrpNameFrom'                    => !empty($this->input->post('oetRptPdtGrpNameFrom')) ? $this->input->post('oetRptPdtGrpNameFrom') : "",
+            'tPdtGrpCodeTo'                      => !empty($this->input->post('oetRptPdtGrpCodeTo')) ? $this->input->post('oetRptPdtGrpCodeTo') : "",
+            'tPdtGrpNameTo'                      => !empty($this->input->post('oetRptPdtGrpNameTo')) ? $this->input->post('oetRptPdtGrpNameTo') : "",
 
             // ประเภทสินค้า
-            'tPdtTypeCodeFrom'  => !empty($this->input->post('oetRptPdtTypeCodeFrom')) ? $this->input->post('oetRptPdtTypeCodeFrom') : "",
-            'tPdtTypeNameFrom'  => !empty($this->input->post('oetRptPdtTypeNameFrom')) ? $this->input->post('oetRptPdtTypeNameFrom') : "",
-            'tPdtTypeCodeTo'    => !empty($this->input->post('oetRptPdtTypeCodeTo')) ? $this->input->post('oetRptPdtTypeCodeTo') : "",
-            'tPdtTypeNameTo'    => !empty($this->input->post('oetRptPdtTypeNameTo')) ? $this->input->post('oetRptPdtTypeNameTo') : "",
+            'tPdtTypeCodeFrom'                   => !empty($this->input->post('oetRptPdtTypeCodeFrom')) ? $this->input->post('oetRptPdtTypeCodeFrom') : "",
+            'tPdtTypeNameFrom'                   => !empty($this->input->post('oetRptPdtTypeNameFrom')) ? $this->input->post('oetRptPdtTypeNameFrom') : "",
+            'tPdtTypeCodeTo'                     => !empty($this->input->post('oetRptPdtTypeCodeTo')) ? $this->input->post('oetRptPdtTypeCodeTo') : "",
+            'tPdtTypeNameTo'                     => !empty($this->input->post('oetRptPdtTypeNameTo')) ? $this->input->post('oetRptPdtTypeNameTo') : "",
 
             // สินค้า
-            'tPdtCodeFrom'      => !empty($this->input->post('oetRptPdtCodeFrom')) ? $this->input->post('oetRptPdtCodeFrom') : "",
-            'tPdtNameFrom'      => !empty($this->input->post('oetRptPdtNameFrom')) ? $this->input->post('oetRptPdtNameFrom') : "",
-            'tPdtCodeTo'        => !empty($this->input->post('oetRptPdtCodeTo')) ? $this->input->post('oetRptPdtCodeTo') : "",
-            'tPdtNameTo'        => !empty($this->input->post('oetRptPdtNameTo')) ? $this->input->post('oetRptPdtNameTo') : "",
+            'tPdtCodeFrom'                       => !empty($this->input->post('oetRptPdtCodeFrom')) ? $this->input->post('oetRptPdtCodeFrom') : "",
+            'tPdtNameFrom'                       => !empty($this->input->post('oetRptPdtNameFrom')) ? $this->input->post('oetRptPdtNameFrom') : "",
+            'tPdtCodeTo'                         => !empty($this->input->post('oetRptPdtCodeTo')) ? $this->input->post('oetRptPdtCodeTo') : "",
+            'tPdtNameTo'                         => !empty($this->input->post('oetRptPdtNameTo')) ? $this->input->post('oetRptPdtNameTo') : "",
 
             // ยี่ห้อ
-            'tPdtBrandCodeFrom'  => !empty($this->input->post('oetRptBrandCodeFrom')) ? $this->input->post('oetRptBrandCodeFrom') : "",
-            'tPdtBrandNameFrom'  => !empty($this->input->post('oetRptBrandNameFrom')) ? $this->input->post('oetRptBrandNameFrom') : "",
-            'tPdtBrandCodeTo'    => !empty($this->input->post('oetRptBrandCodeTo')) ? $this->input->post('oetRptBrandCodeTo') : "",
-            'tPdtBrandNameTo'    => !empty($this->input->post('oetRptBrandNameTo')) ? $this->input->post('oetRptBrandNameTo') : "",
+            'tPdtBrandCodeFrom'                  => !empty($this->input->post('oetRptBrandCodeFrom')) ? $this->input->post('oetRptBrandCodeFrom') : "",
+            'tPdtBrandNameFrom'                  => !empty($this->input->post('oetRptBrandNameFrom')) ? $this->input->post('oetRptBrandNameFrom') : "",
+            'tPdtBrandCodeTo'                    => !empty($this->input->post('oetRptBrandCodeTo')) ? $this->input->post('oetRptBrandCodeTo') : "",
+            'tPdtBrandNameTo'                    => !empty($this->input->post('oetRptBrandNameTo')) ? $this->input->post('oetRptBrandNameTo') : "",
 
             // รุ่น
-            'tPdtModelCodeFrom'  => !empty($this->input->post('oetRptModelCodeFrom')) ? $this->input->post('oetRptModelCodeFrom') : "",
-            'tPdtModelNameFrom'  => !empty($this->input->post('oetRptModelNameFrom')) ? $this->input->post('oetRptModelNameFrom') : "",
-            'tPdtModelCodeTo'    => !empty($this->input->post('oetRptModelCodeTo')) ? $this->input->post('oetRptModelCodeTo') : "",
-            'tPdtModelNameTo'    => !empty($this->input->post('oetRptModelNameTo')) ? $this->input->post('oetRptModelNameTo') : "",
+            'tPdtModelCodeFrom'                  => !empty($this->input->post('oetRptModelCodeFrom')) ? $this->input->post('oetRptModelCodeFrom') : "",
+            'tPdtModelNameFrom'                  => !empty($this->input->post('oetRptModelNameFrom')) ? $this->input->post('oetRptModelNameFrom') : "",
+            'tPdtModelCodeTo'                    => !empty($this->input->post('oetRptModelCodeTo')) ? $this->input->post('oetRptModelCodeTo') : "",
+            'tPdtModelNameTo'                    => !empty($this->input->post('oetRptModelNameTo')) ? $this->input->post('oetRptModelNameTo') : "",
 
             //สถานะเคลื่อนไหว
-            'tPdtStaActive' => !empty($this->input->post('ocmRptPdtStaActive')) ? $this->input->post('ocmRptPdtStaActive') : "",
+            'tPdtStaActive'                      => !empty($this->input->post('ocmRptPdtStaActive')) ? $this->input->post('ocmRptPdtStaActive') : "",
             //ใช้ราคาขาย
-            'tPdtType' => !empty($this->input->post('ocmRptPdtType')) ? $this->input->post('ocmRptPdtType') : "",
+            'tPdtType'                           => !empty($this->input->post('ocmRptPdtType')) ? $this->input->post('ocmRptPdtType') : "",
 
             //วันที่เอกสาร
-            'tPdtDateFrom' => !empty($this->input->post('oetRptOneDateFrom')) ? $this->input->post('oetRptOneDateFrom') : "",
+            'tPdtDateFrom'                       => !empty($this->input->post('oetRptOneDateFrom')) ? $this->input->post('oetRptOneDateFrom') : "",
             //ผู้จำหน่าย
-            'tPdtSupplierCodeFrom' => !empty($this->input->post('oetRptSupplierCodeFrom')) ? $this->input->post('oetRptSupplierCodeFrom') : "",
-            'tPdtSupplierCodeTo' => !empty($this->input->post('oetRptSupplierCodeTo')) ? $this->input->post('oetRptSupplierCodeTo') : "",
-             //กลุ่มผู้จำหน่าย
-            'tPdtSgpCodeFrom' => !empty($this->input->post('oetRptSgpCodeFrom')) ? $this->input->post('oetRptSgpCodeFrom') : "",
-            'tPdtSgpCodeTo' => !empty($this->input->post('oetRptSgpCodeTo')) ? $this->input->post('oetRptSgpCodeTo') : "",
+            'tPdtSupplierCodeFrom'               => !empty($this->input->post('oetRptSupplierCodeFrom')) ? $this->input->post('oetRptSupplierCodeFrom') : "",
+            'tPdtSupplierNameFrom'               => !empty($this->input->post('oetRptSupplierNameFrom')) ? $this->input->post('oetRptSupplierNameFrom') : "",
+            'tPdtSupplierCodeTo'                 => !empty($this->input->post('oetRptSupplierCodeTo')) ? $this->input->post('oetRptSupplierCodeTo') : "",
+            'tPdtSupplierNameTo'                 => !empty($this->input->post('oetRptSupplierNameTo')) ? $this->input->post('oetRptSupplierNameTo') : "",
+            
+            //กลุ่มผู้จำหน่าย
+            'tPdtSgpCodeFrom'                   => !empty($this->input->post('oetRptSgpCodeFrom')) ? $this->input->post('oetRptSgpCodeFrom') : "",
+            'tPdtSgpNameFrom'                   => !empty($this->input->post('oetRptSgpNameFrom')) ? $this->input->post('oetRptSgpNameFrom') : "",
+            'tPdtSgpNameTo'                     => !empty($this->input->post('oetRptSgpNameTo')) ? $this->input->post('oetRptSgpNameTo') : "",
+            'tPdtSgpCodeTo'                     => !empty($this->input->post('oetRptSgpCodeTo')) ? $this->input->post('oetRptSgpCodeTo') : "",
+ 
             //ประเภทผู้จำหน่าย
-           'tPdtStyCodeFrom' => !empty($this->input->post('oetRptStyCodeFrom')) ? $this->input->post('oetRptStyCodeFrom') : "",
-           'tPdtStyCodeTo' => !empty($this->input->post('oetRptStyCodeTo')) ? $this->input->post('oetRptStyCodeTo') : "",
+            'tPdtStyCodeFrom'                   => !empty($this->input->post('oetRptStyCodeFrom')) ? $this->input->post('oetRptStyCodeFrom') : "",
+            'tPdtStyNameFrom'                   => !empty($this->input->post('oetRptStyNameFrom')) ? $this->input->post('oetRptStyNameFrom') : "",
+            'tPdtStyNameTo'                     => !empty($this->input->post('oetRptStyNameTo')) ? $this->input->post('oetRptStyNameTo') : "",
+            'tPdtStyCodeTo'                     => !empty($this->input->post('oetRptStyCodeTo')) ? $this->input->post('oetRptStyCodeTo') : "",
 
 
-            'tPdtRptPdtType' => !empty($this->input->post('ocmRptPdtType')) ? $this->input->post('ocmRptPdtType') : "",
+            'tPdtRptPdtType'                     => !empty($this->input->post('ocmRptPdtType')) ? $this->input->post('ocmRptPdtType') : "",
 
             //สถานะเอกสาร
-            'tPdtRptPhStaApv' => !empty($this->input->post('ocmRptPhStaApv')) ? $this->input->post('ocmRptPhStaApv') : "",
+            'tPdtRptPhStaApv'                    => !empty($this->input->post('ocmRptPhStaApv')) ? $this->input->post('ocmRptPhStaApv') : "",
 
             //สถานะ รับ/จ่ายเงิน
-            'tPdtRptPhStaPaid' => !empty($this->input->post('ocmRptPhStaPaid')) ? $this->input->post('ocmRptPhStaPaid') : "",
+            'tPdtRptPhStaPaid'                   => !empty($this->input->post('ocmRptPhStaPaid')) ? $this->input->post('ocmRptPhStaPaid') : "",
 
             //ภาษีขาย
-            'tPdtRptStaVat' => !empty($this->input->post('ocmRptStaVat')) ? $this->input->post('ocmRptStaVat') : ""
+            'tPdtRptStaVat'                      => !empty($this->input->post('ocmRptStaVat')) ? $this->input->post('ocmRptStaVat') : ""
         ];
 
         // ดึงข้อมูลบริษัทฯ
         $aCompInfoParams = [
-            'nLngID'    => $this->nLngID,
-            'tBchCode'  => $this->tBchCodeLogin
+            'nLngID'            => $this->nLngID,
+            'tBchCode'          => $this->tBchCodeLogin
         ];
         $this->aCompanyInfo = FCNaGetCompanyInfo($aCompInfoParams)['raItems'];
     }
@@ -363,10 +396,10 @@ class Rptpurhistorypdt_controller extends MX_Controller
             $this->Rptpurhistorypdt_model->FSnMExecStoreReport($this->aRptFilter);
             // Count Rows
             $aCountRowParams = [
-                'tCompName' => $this->tCompName,
-                'tRptCode' => $this->tRptCode,
-                'tSessionID' => $this->tUserSessionID,
-                'aDataFilter' => $this->aRptFilter
+                'tCompName'         => $this->tCompName,
+                'tRptCode'          => $this->tRptCode,
+                'tSessionID'        => $this->tUserSessionID,
+                'aDataFilter'       => $this->aRptFilter
             ];
             $this->nRows = $this->Rptpurhistorypdt_model->FSnMCountRowInTemp($aCountRowParams);
 
@@ -400,41 +433,41 @@ class Rptpurhistorypdt_controller extends MX_Controller
             /** =========== Begin Get Data =================================== */
             // ดึงข้อมูลจากฐานข้อมูล Temp
             $aDataReportParams = [
-                'nPerPage' => $this->nPerPage,
-                'nPage' => $this->nPage,
-                'tCompName' => $this->tCompName,
-                'tRptCode' => $this->tRptCode,
-                'tUsrSessionID' => $this->tUserSessionID,
-                'aDataFilter' => $this->aRptFilter
+                'nPerPage'          => $this->nPerPage,
+                'nPage'             => $this->nPage,
+                'tCompName'         => $this->tCompName,
+                'tRptCode'          => $this->tRptCode,
+                'tUsrSessionID'     => $this->tUserSessionID,
+                'aDataFilter'       => $this->aRptFilter
             ];
             $aDataReport = $this->Rptpurhistorypdt_model->FSaMGetDataReport($aDataReportParams);
             /** =========== End Get Data ===================================== */
             /** =========== Begin Render View ================================ */
             // Load View Advance Table
             $aDataViewRptParams = [
-                'nOptDecimalShow' => $this->nOptDecimalShow,
-                'aCompanyInfo' => $this->aCompanyInfo,
-                'aDataReport' => $aDataReport,
-                'aDataTextRef' => $this->aText,
-                'aDataFilter' => $this->aRptFilter
+                'nOptDecimalShow'   => $this->nOptDecimalShow,
+                'aCompanyInfo'      => $this->aCompanyInfo,
+                'aDataReport'       => $aDataReport,
+                'aDataTextRef'      => $this->aText,
+                'aDataFilter'       => $this->aRptFilter
             ];
             $tRptView = JCNoHLoadViewAdvanceTable('report/datasources/reportFitauto/', 'wRptpursplbypdthis', $aDataViewRptParams);
 
             // Data Viewer Center Report
             $aDataViewerParams = [
-                'tTitleReport' => $this->aText['tTitleReport'],
-                'tRptTypeExport' => $this->tRptExportType,
-                'tRptCode' => $this->tRptCode,
-                'tRptRoute' => $this->tRptRoute,
-                'tViewRenderKool' => $tRptView,
-                'aDataFilter' => $this->aRptFilter,
-                'aDataReport' => [
-                    'raItems' => $aDataReport['aRptData'],
-                    'rnAllRow' => $aDataReport['aPagination']['nTotalRecord'],
-                    'rnCurrentPage' => $aDataReport['aPagination']['nDisplayPage'],
-                    'rnAllPage' => $aDataReport['aPagination']['nTotalPage'],
-                    'rtCode' => '1',
-                    'rtDesc' => 'success'
+                'tTitleReport'      => $this->aText['tTitleReport'],
+                'tRptTypeExport'    => $this->tRptExportType,
+                'tRptCode'          => $this->tRptCode,
+                'tRptRoute'         => $this->tRptRoute,
+                'tViewRenderKool'   => $tRptView,
+                'aDataFilter'       => $this->aRptFilter,
+                'aDataReport'       => [
+                    'raItems'           => $aDataReport['aRptData'],
+                    'rnAllRow'          => $aDataReport['aPagination']['nTotalRecord'],
+                    'rnCurrentPage'     => $aDataReport['aPagination']['nDisplayPage'],
+                    'rnAllPage'         => $aDataReport['aPagination']['nTotalPage'],
+                    'rtCode'            => '1',
+                    'rtDesc'            => 'success'
                 ]
             ];
             $this->load->view('report/report/wReportViewer', $aDataViewerParams);
@@ -459,15 +492,15 @@ class Rptpurhistorypdt_controller extends MX_Controller
         $aDataFilter = json_decode($this->input->post('ohdRptDataFilter'), true);
         /** =========== End Init Variable ==================================== */
         $aDataWhere = array(
-            'tUserSession' => $this->tUserSessionID,
-            'tCompName' => $this->tCompName,
-            'tUserCode' => $this->tUserLoginCode,
-            'tRptCode' => $this->tRptCode,
-            'nPage' => $this->nPage,
-            'nRow' => $this->nPerPage,
-            'nPerPage' => $this->nPerPage,
-            'tUsrSessionID' => $this->tUserSessionID,
-            'aDataFilter' => $this->aRptFilter
+            'tUserSession'        => $this->tUserSessionID,
+            'tCompName'           => $this->tCompName,
+            'tUserCode'           => $this->tUserLoginCode,
+            'tRptCode'            => $this->tRptCode,
+            'nPage'               => $this->nPage,
+            'nRow'                => $this->nPerPage,
+            'nPerPage'            => $this->nPerPage,
+            'tUsrSessionID'       => $this->tUserSessionID,
+            'aDataFilter'         => $this->aRptFilter
         );
 
         // Get Data ReportFSaMGetDataReport

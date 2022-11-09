@@ -83,45 +83,18 @@ $nOptDecimalShow = FCNxHGetOptionDecimalShow();
                     <div class="text-center">
                         <label class="xCNRptTitle"><?php echo $aDataTextRef['tTitleReport']; ?></label>
                     </div>
-                    <?php if ((isset($aDataFilter['tDocDateFrom']) && !empty($aDataFilter['tDocDateFrom'])) && (isset($aDataFilter['tDocDateTo']) && !empty($aDataFilter['tDocDateTo']))) : ?>
-                        <!-- ============================ ฟิวเตอร์ข้อมูล วันที่สร้างเอกสาร ============================ -->
+
+                    <?php if((isset($aDataFilter['tDocDateFrom']) && !empty($aDataFilter['tDocDateFrom'])) && (isset($aDataFilter['tDocDateTo']) && !empty($aDataFilter['tDocDateTo']))): ?>
+                        <!-- ===== ฟิวเตอร์ข้อมูล วันที่สร้างเอกสาร ================= ========= -->
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <div class="text-center xCNRptFilter">
-                                    <label><span class="xCNRptFilterHead"><?php echo $aDataTextRef['tRptSaleByCashierAndPosFilterDocDateFrom']; ?> </span> <?php echo date("d/m/Y", strtotime($aDataFilter['tDocDateFrom'])); ?></label>
-                                    <label><span class="xCNRptFilterHead"><?php echo $aDataTextRef['tRptSaleByCashierAndPosFilterDocDateTo']; ?> </span> <?php echo date("d/m/Y", strtotime($aDataFilter['tDocDateTo'])); ?></label>
+                                <div class="text-center">
+                                    <label class="xCNRptFilterHead"><?php echo $aDataTextRef['tRptDateFrom']?></label>   <label><?=date('d/m/Y',strtotime($aDataFilter['tDocDateFrom']));?>  </label>&nbsp;
+                                    <label class="xCNRptFilterHead"><?php echo $aDataTextRef['tRptDateTo']?></label>     <label><?=date('d/m/Y',strtotime($aDataFilter['tDocDateTo']));?>    </label>
                                 </div>
-                                <?php
-                                //   //จัดฟอร์แมต DateFrom
-                                //   $tDocDateFrom = explode("-",$aDataFilter['tDocDateFrom']);
-                                //   //เซตปี คศ +543
-                                //   $tYearFrom    = $tDocDateFrom[0]+543;
-                                //   $tMonthFrom   = $tDocDateFrom[1];
-                                //   $tDayFrom     = $tDocDateFrom[2];
-                                //   //ตรวจสอบ เดือนที่เลือก
-                                //   $tMonth  = language('report/report/report', 'tRptMonth'.$tMonthFrom);
-                                //   //จัดฟอแมต วัน/เดือน/ปี
-                                //   $tFormatDateFrom =($aDataTextRef['tRptTaxSalePosDocDate'].' '.$tDayFrom.' '.$aDataTextRef['tRptTaxSalePosTaxMonth'].' '.$tMonth.' '.$aDataTextRef['tRptTaxSalePosYear'].' '.$tYearFrom);
-                                ?>
-                                <?php
-                                //   ////จัดฟอร์แมต DateTo
-                                //   $tDocDateFrom = explode("-",$aDataFilter['tDocDateTo']);
-                                //   //เซตปี คศ +543
-                                //   $tYearFromTo    = $tDocDateFrom[0]+543;
-                                //   $tMonthFromTo   = $tDocDateFrom[1];
-                                //   $tDayFromTo     = $tDocDateFrom[2];
-                                //   //ตรวจสอบ เดือนที่เลือก
-                                //   $tMonthFormTo  = language('report/report/report', 'tRptMonth'.$tMonthFromTo);
-                                //   //จัดฟอแมต วัน/เดือน/ปี
-                                //   $tFormatDateFromTo =($aDataTextRef['tRptTaxSalePosDocDate'].' '.$tDayFromTo.' '.$aDataTextRef['tRptTaxSalePosTaxMonth'].' '.$tMonthFormTo.' '.$aDataTextRef['tRptTaxSalePosYear'].' '.$tYearFromTo);
-                                ?>
-                                <!-- <div class="text-center xCNRptFilter">
-                                    <label><?php echo $tFormatDateFrom; ?></label>&nbsp;&nbsp;
-                                    <label><?php echo $aDataTextRef['tRptTaxSaleDateTo'] . ' ' . $tFormatDateFromTo; ?></label>
-                                </div> -->
                             </div>
                         </div>
-                    <?php endif; ?>
+                    <?php endif;?>
 
                     <?php if ((isset($aDataFilter['tBchCodeFrom']) && !empty($aDataFilter['tBchCodeFrom'])) && (isset($aDataFilter['tBchCodeTo']) && !empty($aDataFilter['tBchCodeTo']))) { ?>
                         <!-- ============================ ฟิวเตอร์ข้อมูล สาขา ============================ -->
@@ -166,6 +139,7 @@ $nOptDecimalShow = FCNxHGetOptionDecimalShow();
                             <th nowrap class="text-left xCNRptColumnHeader" style="vertical-align : middle;text-align:left; width:10%;" ><?php echo language('report/report/report', 'tRptAPCol2'); ?></th>
                             <th nowrap class="text-left xCNRptColumnHeader" style="vertical-align : middle;text-align:left; width:20%;" ><?php echo language('report/report/report', 'tRptAPCol3'); ?></th>
                             <th nowrap class="text-right xCNRptColumnHeader" style="vertical-align : middle;text-align:right; width:10%;" ><?php echo language('report/report/report', 'tRptAPCol4'); ?></th>
+                            <th nowrap class="text-right xCNRptColumnHeader" style="vertical-align : middle;text-align:right; width:10%;" ><?php echo language('report/report/report', 'tRptAPCol5'); ?></th>
                             <th nowrap class="text-right xCNRptColumnHeader" style="vertical-align : middle;text-align:right; width:5%;" > % </th>
                             <th nowrap class="text-right xCNRptColumnHeader" style="vertical-align : middle;text-align:right; width:10%;"><?php echo language('report/report/report', 'tRptAPCol7'); ?></th>
                             <th nowrap class="text-right xCNRptColumnHeader" style="vertical-align : middle;text-align:right; width:5%;"> % </th>
@@ -193,61 +167,146 @@ $nOptDecimalShow = FCNxHGetOptionDecimalShow();
                         //   )
                        ?>
                       <?php if(isset($aDataReport['aRptData']) && !empty($aDataReport['aRptData'])) { ?>
-                          <?php foreach ($aDataReport['aRptData'] as $nKey => $aValue) {
-                            $nSumNetAfHD += $aValue['FCXsdNetAfHD'];
-                            $nSumPShare += $aValue['FCXsdPShare'];
-                            $tsdGroupBy  = $aValue['FTXsdGroupBy'];
+                            
+                        <?php foreach ($aDataReport['aRptData'] as $nKey => $aValue) {
+                            // $nSumNetAfHD += $aValue['FCXsdNetAfHD'];
+                            // $nSumPShare += $aValue['FCXsdPShare'];
+                            // $tsdGroupBy  = $aValue['FTXsdGroupBy'];
                             $tGroupBy = "";
-                            switch ($tsdGroupBy) {
-                              case "PTime":
-                                $tGroupBy = language('report/report/report', 'tRptConditonSub1');
-                                break;
-                              case "PDate":
-                                $tGroupBy = language('report/report/report', 'tRptConditonSub2');
-                                break;
-                              case "PMonth":
-                                $tGroupBy = language('report/report/report', 'tRptConditonSub3');
-                                break;
-                              case "PYear":
-                                $tGroupBy = language('report/report/report', 'tRptConditonSub4');
-                                break;
-                              case "PChain":
-                                $tGroupBy = language('report/report/report', 'tRptConditonSub5');
-                                break;
-                              default:
-                                $tGroupBy = language('report/report/report', 'tRptConditonSub1');
+                            // switch ($tsdGroupBy) {
+                            //   case "PTime":
+                            //     $tGroupBy = language('report/report/report', 'tRptConditonSub1');
+                            //     break;
+                            //   case "PDate":
+                            //     $tGroupBy = language('report/report/report', 'tRptConditonSub2');
+                            //     break;
+                            //   case "PMonth":
+                            //     $tGroupBy = language('report/report/report', 'tRptConditonSub3');
+                            //     break;
+                            //   case "PYear":
+                            //     $tGroupBy = language('report/report/report', 'tRptConditonSub4');
+                            //     break;
+                            //   case "PChain":
+                            //     $tGroupBy = language('report/report/report', 'tRptConditonSub5');
+                            //     break;
+                            //   default:
+                            //     $tGroupBy = language('report/report/report', 'tRptConditonSub1');
+                            // }
+                            if($aValue['FTXsdGrpName'] != '') {
+                                $tGroupBy = $aValue['FTXsdGrpName'];
+                            }else {
+                                $tGroupBy = "อื่น ๆ ";
                             }
-                             ?>
-                             <?php if ($nKey==0) { ?>
+                            
+                            if ($aValue['PARTITION_Grp'] == 1) { 
+                        ?>
                                <tr>
-                                  <td class="text-left xCNRptGrouPing" ><?php echo $tGroupBy; ?></td>
-                                  <td class="text-left xCNRptGrouPing"></td>
+                                  <td class="text-left xCNRptGrouPing" colspan="11"><?php echo $tGroupBy; ?></td>
+                                  <!-- <td class="text-left xCNRptGrouPing"></td>
                                   <td class="text-right xCNRptDetail"></td>
-                                  <td class="text-right xCNRptDetail"></td>
+                                  <td class="text-right xCNRptDetail"></td> -->
                                 </tr>
                                 <tr>
-                                   <td class="text-left xCNRptDetail" style="text-indent:22px;"><?php echo $aDataReport['aRptData'][0]['FTPdtCode']; ?></td>
-                                   <td class="text-left xCNRptDetail"><?php echo $aDataReport['aRptData'][0]['FTPdtName']; ?></td>
-                                   <td class="text-right xCNRptDetail"><?php echo number_format($aDataReport['aRptData'][0]['FCXsdNetAfHD'],$nOptDecimalShow); ?></td>
-                                   <td class="text-right xCNRptDetail"><?php echo number_format(($aDataReport['aRptData'][0]['FCXsdPShare']*100),$nOptDecimalShow); ?></td>
-                                 </tr>
+                                <td class="text-left xCNRptDetail" style="text-indent:22px;"> <?php echo $aValue['PARTITION_Grp']; ?></td>
+                                  <td class="text-left xCNRptDetail"><?php echo $aValue['FTPdtCode']; ?></td>
+                                  <td class="text-left xCNRptDetail"><?php echo $aValue['FTPdrName']; ?></td>
+                                  <td class="text-right xCNRptDetail"><?php echo number_format($aValue['FCXsdSetPrice'],$nOptDecimalShow); ?></td>
+                                  <td class="text-right xCNRptDetail"><?php echo number_format($aValue['FCXsdQtyAll'],$nOptDecimalShow); ?></td>
+                                  <td class="text-right xCNRptDetail"><?php echo number_format($aValue['FCXsdQtyAvgPct'],$nOptDecimalShow); ?></td>
+                                  <td class="text-right xCNRptDetail"><?php echo number_format($aValue['FCXsdAmtB4DisChg'],$nOptDecimalShow); ?></td>
+                                  <td class="text-right xCNRptDetail"><?php echo number_format($aValue['FCXsdAmtAvgPct'],$nOptDecimalShow); ?></td>
+                                  <td class="text-right xCNRptDetail"><?php echo number_format($aValue['FCXsdDisChg'],$nOptDecimalShow); ?></td>
+                                  <td class="text-right xCNRptDetail"><?php echo number_format($aValue['FCXsdNetAfHD'],$nOptDecimalShow); ?></td>
+                                  <td class="text-right xCNRptDetail"><?php echo number_format($aValue['FCXsdNetAvgPct'],$nOptDecimalShow); ?></td>
+                                </tr>
                              <?php }else { ?>
                                <tr>
-                                  <td class="text-left xCNRptDetail" style="text-indent:22px;"> <?php echo $aValue['FTPdtCode']; ?></td>
-                                  <td class="text-left xCNRptDetail"><?php echo $aValue['FTPdtName']; ?></td>
+                                  <td class="text-left xCNRptDetail" style="text-indent:22px;"> <?php echo $aValue['PARTITION_Grp']; ?></td>
+                                  <td class="text-left xCNRptDetail"><?php echo $aValue['FTPdtCode']; ?></td>
+                                  <td class="text-left xCNRptDetail"><?php echo $aValue['FTPdrName']; ?></td>
+                                  <td class="text-right xCNRptDetail"><?php echo number_format($aValue['FCXsdSetPrice'],$nOptDecimalShow); ?></td>
+                                  <td class="text-right xCNRptDetail"><?php echo number_format($aValue['FCXsdQtyAll'],$nOptDecimalShow); ?></td>
+                                  <td class="text-right xCNRptDetail"><?php echo number_format($aValue['FCXsdQtyAvgPct'],$nOptDecimalShow); ?></td>
+                                  <td class="text-right xCNRptDetail"><?php echo number_format($aValue['FCXsdAmtB4DisChg'],$nOptDecimalShow); ?></td>
+                                  <td class="text-right xCNRptDetail"><?php echo number_format($aValue['FCXsdAmtAvgPct'],$nOptDecimalShow); ?></td>
+                                  <td class="text-right xCNRptDetail"><?php echo number_format($aValue['FCXsdDisChg'],$nOptDecimalShow); ?></td>
                                   <td class="text-right xCNRptDetail"><?php echo number_format($aValue['FCXsdNetAfHD'],$nOptDecimalShow); ?></td>
-                                  <td class="text-right xCNRptDetail"><?php echo number_format(($aValue['FCXsdPShare']*100),$nOptDecimalShow); ?></td>
+                                  <td class="text-right xCNRptDetail"><?php echo number_format($aValue['FCXsdNetAvgPct'],$nOptDecimalShow); ?></td>
                                 </tr>
                              <?php } ?>
 
-                          <?php }
-                        }?>
+                             <?php if ($aValue['PARTITION_Grp'] == $aValue['MAX_Grp']) { ?>
+                                <tr style="border-bottom: 1px solid #ddd !important; border-top: 1px solid #ddd !important;">
+                                    <td class="text-left xCNRptSumFooter" colspan="4"><?php echo "รวม : ". $tGroupBy; ?></td>
+                                    <td class="text-right xCNRptSumFooter"><?php echo number_format($aValue['FCXsdQtyAll_SUM'],$nOptDecimalShow); ?></td>
+                                    <td class="text-right xCNRptSumFooter"><?php echo number_format($aValue['FCXsdQtyAvgPct_SUM'],$nOptDecimalShow); ?></td>
+                                    <td class="text-right xCNRptSumFooter"><?php echo number_format($aValue['FCXsdAmtB4DisChg_SUM'],$nOptDecimalShow); ?></td>
+                                    <td class="text-right xCNRptSumFooter"><?php echo number_format($aValue['FCXsdAmtAvgPct_SUM'],$nOptDecimalShow); ?></td>
+                                    <td class="text-right xCNRptSumFooter"><?php echo number_format($aValue['FCXsdDisChg_SUM'],$nOptDecimalShow); ?></td>
+                                    <td class="text-right xCNRptSumFooter"><?php echo number_format($aValue['FCXsdNetAfHD_SUM'],$nOptDecimalShow); ?></td>
+                                    <td class="text-right xCNRptSumFooter"><?php echo number_format($aValue['FCXsdNetAvgPct_SUM'],$nOptDecimalShow); ?></td>
+                                </tr>
+                            <?php } 
+                                $nQtyAll            = number_format($aValue['FCXsdQtyAllTotal_Footer'],$nOptDecimalShow);
+                                $nQtyAvgPct         = number_format($aValue['FCXsdQtyAvgPctTotal_Footer'],$nOptDecimalShow);
+                                $nAmtB4DisChg       = number_format($aValue['FCXsdAmtB4DisChgTotal_Footer'],$nOptDecimalShow);
+                                $nAmtAvgPct         = number_format($aValue['FCXsdAmtAvgPctTotal_Footer'],$nOptDecimalShow);
+                                $nDisChg            = number_format($aValue['FCXsdDisChgTotal_Footer'],$nOptDecimalShow);
+                                $nNetAfHD           = number_format($aValue['FCXsdNetAfHDTotal_Footer'],$nOptDecimalShow);
+                                $nNetAvgPct         = number_format($aValue['FCXsdNetAvgPctTotal_Footer'],$nOptDecimalShow);
+                                $paFooterSumData    = array('รวม','N','N','N',$nQtyAll,$nQtyAvgPct, $nAmtB4DisChg,$nAmtAvgPct,$nDisChg,$nNetAfHD,$nNetAvgPct );
+                            
+                            ?>
+                          <?php } ?>
+
+                         <!--ล่าง-->
+                         <?php
+                                $nPageNo    = $aDataReport["aPagination"]["nDisplayPage"];
+                                $nTotalPage = $aDataReport["aPagination"]["nTotalPage"];
+
+                                if ($nPageNo == $nTotalPage) {
+                                    echo "<tr></tr><tr>";
+                                    for ($i = 0; $i < FCNnHSizeOf($paFooterSumData); $i++) {
+
+                                        if ($i == 0) {
+                                            $tStyle = 'text-align:left;border-top:1px solid #333;border-bottom:1px solid #333;/*background-color: #CFE2F3;*/';
+                                        } else {
+                                            $tStyle = 'text-align:right;border-top:1px solid #333;border-bottom:1px solid #333;/*background-color: #CFE2F3;*/';
+                                        }
+                                        if ($paFooterSumData[$i] != 'N') {
+                                            $tFooterVal = $paFooterSumData[$i];
+        
+                                        } else {
+                                            $tFooterVal = '';
+                                        }
+                                        if ($i == 0) {
+                                            echo "<td style='border-top: dashed 1px #333 !important;border-bottom: solid 1px #333 !important;' class='xCNRptSumFooter text-left'>" . $tFooterVal . "</td>";
+                                        } else {
+                                            echo "<td style='border-top: dashed 1px #333 !important;border-bottom: solid 1px #333 !important;' class='xCNRptSumFooter text-right'>" . $tFooterVal . "</td>";
+                                        }
+                                    }
+                                    echo "<tr>";
+                                }
+                                //FCNtHRPTSumFooter($nPageNo, $nTotalPage, $paFooterSumData);
+                            ?>
+
+                        <?php } else { ?>
+                            <tr><td class='text-center xCNTextDetail2' colspan='100%'><?php echo $aDataTextRef['tRptAdjStkNoData']; ?></td></tr>
+                        <?php } ?>
+                        <!-- <tr></tr>
                        <tr>
                           <td style='border-top: dashed 1px #333 !important;border-bottom: solid 1px #333 !important;' class="text-left xCNRptGrouPing" style="text-indent:22px;">รวม</td>
                           <td style='border-top: dashed 1px #333 !important;border-bottom: solid 1px #333 !important;' class="text-left xCNRptGrouPing"></td>
-                          <td style='border-top: dashed 1px #333 !important;border-bottom: solid 1px #333 !important;' class="text-right xCNRptGrouPing"><?php echo number_format($nSumNetAfHD,$nOptDecimalShow); ?></td>
-                          <td style='border-top: dashed 1px #333 !important;border-bottom: solid 1px #333 !important;' class="text-right xCNRptGrouPing"><?php echo number_format($nSumPShare,$nOptDecimalShow); ?></td>
-                       </tr>
+                          <td style='border-top: dashed 1px #333 !important;border-bottom: solid 1px #333 !important;' class="text-left xCNRptGrouPing"></td>
+                          <td style='border-top: dashed 1px #333 !important;border-bottom: solid 1px #333 !important;' class="text-left xCNRptGrouPing"></td>
+                          <td style='border-top: dashed 1px #333 !important;border-bottom: solid 1px #333 !important;' class="text-right xCNRptGrouPing"><?php echo number_format($aValue['FCXsdQtyAllTotal_Footer'],$nOptDecimalShow); ?></td>
+                          <td style='border-top: dashed 1px #333 !important;border-bottom: solid 1px #333 !important;' class="text-right xCNRptGrouPing"><?php echo number_format($aValue['FCXsdQtyAvgPctTotal_Footer'],$nOptDecimalShow); ?></td>
+                          <td style='border-top: dashed 1px #333 !important;border-bottom: solid 1px #333 !important;' class="text-right xCNRptGrouPing"><?php echo number_format($aValue['FCXsdAmtB4DisChgTotal_Footer'],$nOptDecimalShow); ?></td>
+                          <td style='border-top: dashed 1px #333 !important;border-bottom: solid 1px #333 !important;' class="text-right xCNRptGrouPing"><?php echo number_format($aValue['FCXsdAmtAvgPctTotal_Footer'],$nOptDecimalShow); ?></td>
+                          <td style='border-top: dashed 1px #333 !important;border-bottom: solid 1px #333 !important;' class="text-right xCNRptGrouPing"><?php echo number_format($aValue['FCXsdDisChgTotal_Footer'],$nOptDecimalShow); ?></td>
+                          <td style='border-top: dashed 1px #333 !important;border-bottom: solid 1px #333 !important;' class="text-right xCNRptGrouPing"><?php echo number_format($aValue['FCXsdNetAfHDTotal_Footer'],$nOptDecimalShow); ?></td>
+                          <td style='border-top: dashed 1px #333 !important;border-bottom: solid 1px #333 !important;' class="text-right xCNRptGrouPing"><?php echo number_format($aValue['FCXsdNetAvgPctTotal_Footer'],$nOptDecimalShow); ?></td>
+                       </tr> -->
                    </tbody>
                 </table>
             </div>
@@ -307,6 +366,86 @@ $nOptDecimalShow = FCNxHGetOptionDecimalShow();
                     </div>
                 </div>
             <?php endif; ?>
+
+            <?php if( (isset($aDataFilter['tRptCondition']) && !empty($aDataFilter['tRptCondition']))) { ?>
+                <!-- ===== ฟิวเตอร์ข้อมูล สถานะเคลื่อนไหว =========================================== -->
+                <div class="xCNRptFilterBox">
+                    <div class="text-left xCNRptFilter">
+                        <label class="xCNRptLabel xCNRptDisplayBlock"><span class="xCNRptFilterHead"><?php echo $aDataTextRef['tRptCondition'].' : </span>';
+                            switch ($aDataFilter['tRptCondition']) {
+                                case 'SPdtType' : 
+                                    echo $aDataTextRef['tRptGrpPdtType'];
+                                    break;
+                                case 'SPdtChain' : 
+                                    echo $aDataTextRef['tRptGrpPdtGroup'];
+                                    break;
+                                case 'SPdtBrand' : 
+                                    echo $aDataTextRef['tRptGrpPdtBrand'];
+                                    break;
+                                case 'SPdtModel' : 
+                                    echo $aDataTextRef['tRptGrpPdtModel'];
+                                    break;
+                                case 'SPdtSpl' : 
+                                    echo $aDataTextRef['tRptGrpPdtSpl'];
+                                    break;
+                                default :
+                                    echo $aDataTextRef['tRptGrpPdtType'];
+                                    break;
+                            }
+                            ?></label>
+                    </div>
+                </div>
+            <?php } ;?>
+
+            <?php if( (isset($aDataFilter['tPdtSupplierCodeFrom']) && !empty($aDataFilter['tPdtSupplierCodeFrom'])) && (isset($aDataFilter['tPdtSupplierCodeTo']) && !empty($aDataFilter['tPdtSupplierCodeTo']))) { ?>
+                <!-- ===== ฟิวเตอร์ข้อมูล ผู้จำหน่าย =================================== -->
+                <div class="xCNRptFilterBox">
+                    <div class="text-left xCNRptFilter">
+                        <label class="xCNRptLabel xCNRptDisplayBlock"><span class="xCNRptFilterHead"><?php echo $aDataTextRef['tRptSplFrom'].' : </span>'.$aDataFilter['tPdtSupplierNameFrom'];?></label>
+                        <label class="xCNRptLabel xCNRptDisplayBlock"><span class="xCNRptFilterHead"><?php echo $aDataTextRef['tRptSplTo'].' : </span>'.$aDataFilter['tPdtSupplierNameTo'];?></label>
+                    </div>
+                </div>
+            <?php } ;?>
+
+            <?php if ((isset($aDataFilter['tPdtTypeCodeFrom']) && !empty($aDataFilter['tPdtTypeCodeFrom'])) && (isset($aDataFilter['tPdtTypeCodeTo']) && !empty($aDataFilter['tPdtTypeCodeTo']))): ?>
+                <!-- ============================ ฟิวเตอร์ข้อมูล ประเภทสินค้า ============================ -->
+                <div class="xCNRptFilterBox">
+                    <div class="text-left xCNRptFilter">
+                        <label class="xCNRptLabel xCNRptDisplayBlock"><span class="xCNRptFilterHead"><?php echo $aDataTextRef['tPdtTypeFrom'].' : </span>'.$aDataFilter['tPdtTypeNameFrom'];?></label>
+                        <label class="xCNRptLabel xCNRptDisplayBlock"><span class="xCNRptFilterHead"><?php echo $aDataTextRef['tPdtTypeTo'].' : </span>'.$aDataFilter['tPdtTypeNameTo'];?></label>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+            <?php if( (isset($aDataFilter['tPdtCodeFrom']) && !empty($aDataFilter['tPdtCodeFrom'])) && (isset($aDataFilter['tPdtCodeTo']) && !empty($aDataFilter['tPdtCodeTo']))) { ?>
+                <!-- ===== ฟิวเตอร์ข้อมูล สินค้า =========================================== -->
+                <div class="xCNRptFilterBox">
+                    <div class="text-left xCNRptFilter">
+                        <label class="xCNRptLabel xCNRptDisplayBlock"><span class="xCNRptFilterHead"><?php echo $aDataTextRef['tPdtCodeFrom'].' : </span>'.$aDataFilter['tPdtNameFrom'];?></label>
+                        <label class="xCNRptLabel xCNRptDisplayBlock"><span class="xCNRptFilterHead"><?php echo $aDataTextRef['tPdtCodeTo'].' : </span>'.$aDataFilter['tPdtNameTo'];?></label>
+                    </div>
+                </div>
+            <?php } ;?>
+
+            <?php if( (isset($aDataFilter['tPdtBrandCodeFrom']) && !empty($aDataFilter['tPdtBrandCodeFrom'])) && (isset($aDataFilter['tPdtBrandCodeTo']) && !empty($aDataFilter['tPdtBrandCodeTo']))) { ?>
+                <!-- ===== ฟิวเตอร์ข้อมูล ยี่ห้อ =========================================== -->
+                <div class="xCNRptFilterBox">
+                    <div class="text-left xCNRptFilter">
+                        <label class="xCNRptLabel xCNRptDisplayBlock"><span class="xCNRptFilterHead"><?php echo $aDataTextRef['tRptBrandFrom'].' : </span>'.$aDataFilter['tPdtBrandNameFrom'];?></label>
+                        <label class="xCNRptLabel xCNRptDisplayBlock"><span class="xCNRptFilterHead"><?php echo $aDataTextRef['tRptBrandFrom'].' : </span>'.$aDataFilter['tPdtBrandNameTo'];?></label>
+                    </div>
+                </div>
+            <?php } ;?>
+
+            <?php if( (isset($aDataFilter['tPdtModelCodeFrom']) && !empty($aDataFilter['tPdtModelCodeFrom'])) && (isset($aDataFilter['tPdtModelCodeTo']) && !empty($aDataFilter['tPdtModelCodeTo']))) { ?>
+                <!-- ===== ฟิวเตอร์ข้อมูล รุ่น =========================================== -->
+                <div class="xCNRptFilterBox">
+                    <div class="text-left xCNRptFilter">
+                        <label class="xCNRptLabel xCNRptDisplayBlock"><span class="xCNRptFilterHead"><?php echo $aDataTextRef['tRptModelFrom'].' : </span>'.$aDataFilter['tPdtModelNameFrom'];?></label>
+                        <label class="xCNRptLabel xCNRptDisplayBlock"><span class="xCNRptFilterHead"><?php echo $aDataTextRef['tRptModelTo'].' : </span>'.$aDataFilter['tPdtModelNameTo'];?></label>
+                    </div>
+                </div>
+            <?php } ;?>
 
             <!-- ============================ ฟิวเตอร์ข้อมูล จุดขาย ============================ -->
             <!-- <?php if ((isset($aDataFilter['tPosCodeFrom']) && !empty($aDataFilter['tPosCodeFrom'])) && (isset($aDataFilter['tPosCodeTo']) && !empty($aDataFilter['tPosCodeTo']))) : ?>

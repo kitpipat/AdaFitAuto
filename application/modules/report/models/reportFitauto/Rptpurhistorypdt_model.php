@@ -11,14 +11,14 @@ class Rptpurhistorypdt_model extends CI_Model {
      * Return Type: Array
      */
     public function FSnMExecStoreReport($paDataFilter){
-        $nLangID = $paDataFilter['nLangID'];
-        $tComName = $paDataFilter['tCompName'];
-        $tRptCode = $paDataFilter['tRptCode'];
-        $tUserSession = $paDataFilter['tUserSession'];
+        $nLangID                = $paDataFilter['nLangID'];
+        $tComName               = $paDataFilter['tCompName'];
+        $tRptCode               = $paDataFilter['tRptCode'];
+        $tUserSession           = $paDataFilter['tUserSession'];
         // ร้านค้า
-        $tShpCodeSelect = ($paDataFilter['bShpStaSelectAll']) ? '' : FCNtAddSingleQuote($paDataFilter['tShpCodeSelect']);
+        $tShpCodeSelect         = ($paDataFilter['bShpStaSelectAll']) ? '' : FCNtAddSingleQuote($paDataFilter['tShpCodeSelect']);
         // สาขา
-        $tBchCodeSelect = ($paDataFilter['bBchStaSelectAll']) ? '' : FCNtAddSingleQuote($paDataFilter['tBchCodeSelect']);
+        $tBchCodeSelect         = ($paDataFilter['bBchStaSelectAll']) ? '' : FCNtAddSingleQuote($paDataFilter['tBchCodeSelect']);
         if ($paDataFilter['tPdtRptPdtType']=="0") {
           $tPdtRptPdtType = NULL;
         }else {
@@ -36,42 +36,42 @@ class Rptpurhistorypdt_model extends CI_Model {
         }
         $tCallStore = "{CALL SP_RPTxPurHisPdtBySpl(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
         $aDataStore = array(
-          'pnLngID' => $nLangID,
-          'pnComName' => $tComName,
-          'ptRptCode' => $tRptCode,
-          'ptUsrSession' => $tUserSession,
-          'pnFilterType' => $paDataFilter['tTypeSelect'],
-          'ptAgnL'=> $paDataFilter['tAgnCode'],
-          'ptBchL'=> $tBchCodeSelect,
-          'ptShpL'=> $tShpCodeSelect,
-          'ptStaApv' => $paDataFilter['tPdtRptPhStaApv'],
-          'ptStaPaid' => $paDataFilter['tPdtRptPhStaPaid'],
-          'ptSplF' => $paDataFilter['tPdtSupplierCodeFrom'],
-          'ptSplT' => $paDataFilter['tPdtSupplierCodeTo'],
-          'ptSgpF' => $paDataFilter['tPdtSgpCodeFrom'],
-          'ptSgpT' => $paDataFilter['tPdtSgpCodeTo'],
-          'ptStyF' => $paDataFilter['tPdtStyCodeFrom'],
-          'ptStyT' => $paDataFilter['tPdtStyCodeTo'],
-          'ptPdtF' => $paDataFilter['tPdtCodeFrom'],
-          'ptPdtT' => $paDataFilter['tPdtCodeTo'],
-          'ptPgpF' => $paDataFilter['tPdtGrpCodeFrom'],
-          'ptPgpT' => $paDataFilter['tPdtGrpCodeTo'],
-          'ptPtyF' => $paDataFilter['tPdtTypeCodeFrom'],
-          'ptPtyT' => $paDataFilter['tPdtTypeCodeTo'],
-          'ptPbnF' => $paDataFilter['tPdtBrandCodeFrom'],
-          'ptPbnT' => $paDataFilter['tPdtBrandCodeTo'],
-          'ptPmoF' => $paDataFilter['tPdtModelCodeFrom'],
-          'ptPmoT' => $paDataFilter['tPdtModelCodeTo'],
-          'ptSaleType' => $paDataFilter['tPdtType'],
-          'ptPdtActive' => $paDataFilter['tPdtStaActive'],
-          'PdtStaVat' => $paDataFilter['tPdtRptStaVat'],
-          'ptDocDateF' => $paDataFilter['tRptDocDateFrom'],
-          'ptDocDateT' => $paDataFilter['tRptDocDateTo'],
-          'FNResult' => 0,
+          'pnLngID'         => $nLangID,
+          'pnComName'       => $tComName,
+          'ptRptCode'       => $tRptCode,
+          'ptUsrSession'    => $tUserSession,
+          'pnFilterType'    => $paDataFilter['tTypeSelect'],
+          'ptAgnL'          => $paDataFilter['tAgnCode'],
+          'ptBchL'          => $tBchCodeSelect,
+          'ptShpL'          => $tShpCodeSelect,
+          'ptStaApv'        => $paDataFilter['tPdtRptPhStaApv'],
+          'ptStaPaid'       => $paDataFilter['tPdtRptPhStaPaid'],
+          'ptSplF'          => $paDataFilter['tPdtSupplierCodeFrom'],
+          'ptSplT'          => $paDataFilter['tPdtSupplierCodeTo'],
+          'ptSgpF'          => $paDataFilter['tPdtSgpCodeFrom'],
+          'ptSgpT'          => $paDataFilter['tPdtSgpCodeTo'],
+          'ptStyF'          => $paDataFilter['tPdtStyCodeFrom'],
+          'ptStyT'          => $paDataFilter['tPdtStyCodeTo'],
+          'ptPdtF'          => $paDataFilter['tPdtCodeFrom'],
+          'ptPdtT'          => $paDataFilter['tPdtCodeTo'],
+          'ptPgpF'          => $paDataFilter['tPdtGrpCodeFrom'],
+          'ptPgpT'          => $paDataFilter['tPdtGrpCodeTo'],
+          'ptPtyF'          => $paDataFilter['tPdtTypeCodeFrom'],
+          'ptPtyT'          => $paDataFilter['tPdtTypeCodeTo'],
+          'ptPbnF'          => $paDataFilter['tPdtBrandCodeFrom'],
+          'ptPbnT'          => $paDataFilter['tPdtBrandCodeTo'],
+          'ptPmoF'          => $paDataFilter['tPdtModelCodeFrom'],
+          'ptPmoT'          => $paDataFilter['tPdtModelCodeTo'],
+          'ptSaleType'      => $paDataFilter['tPdtType'],
+          'ptPdtActive'     => $paDataFilter['tPdtStaActive'],
+          'PdtStaVat'       => $paDataFilter['tPdtRptStaVat'],
+          'ptDocDateF'      => $paDataFilter['tRptDocDateFrom'],
+          'ptDocDateT'      => $paDataFilter['tRptDocDateTo'],
+          'FNResult'        => 0,
         );
         $oQuery = $this->db->query($tCallStore, $aDataStore);
-         // echo $this->db->last_query();
-         // exit();
+        //  echo $this->db->last_query();
+        //  exit();
         if($oQuery !== FALSE){
             unset($oQuery);
             return 1;

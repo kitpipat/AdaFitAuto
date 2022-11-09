@@ -3161,6 +3161,27 @@ if (FCNnHSizeOf($aCheckFltGroup) == 0) {
 
                                     break;
                                 }
+
+                                case '90': { // เงื่อนไขรายงาน
+                                    if ($aRptFilValue['FTRptFltStaFrm'] == '1') {
+                                        $tCoditionReportFrom    .= "
+                                        <div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>
+                                            <div class=''>
+                                                <div class='input-group xWInputGrpMonthFilter xCNNewUISelect' style='width:100%'>
+                                                    <select class='selectpicker xCNNewUISelectoption' id='ocmRptCondition' name='ocmRptCondition'>
+                                                        <option value='SPdtType' selected>" . language('report/report/report', 'tRptGrpPdtType') . "</option>
+                                                        <option value='SPdtChain'>" . language('report/report/report', 'tRptGrpPdtGroup') . "</option>
+                                                        <option value='SPdtBrand'>" . language('report/report/report', 'tRptGrpPdtBrand') . "</option>
+                                                        <option value='SPdtModel'>" . language('report/report/report', 'tRptGrpPdtModel') . "</option>
+                                                        <option value='SPdtSpl'>" . language('report/report/report', 'tRptGrpPdtSpl') . "</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ";
+                                    }
+                                    break;
+                                }
                             }
                             ?>
 

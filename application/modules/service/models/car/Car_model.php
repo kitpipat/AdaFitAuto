@@ -60,6 +60,7 @@ class Car_model extends CI_Model {
             LEFT JOIN TCNMImgObj		IMG		WITH (NOLOCK)	ON CAR.FTCarCode	= IMG.FTImgRefID AND FTImgTable = 'TSVMCar'
             WHERE CAR.FTCarCode = ".$this->db->escape($tCarCode)."
         ";
+        
         $oQuery = $this->db->query($tSQL);
         if ($oQuery->num_rows() > 0){
             $aDetail    = $oQuery->row_array();

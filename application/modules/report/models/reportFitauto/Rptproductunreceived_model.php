@@ -6,14 +6,15 @@ class Rptproductunreceived_model extends CI_Model {
 
     public function FSnMExecStoreReport($paDataFilter) {
         // สาขา
-        $tBchCodeSelect = ($paDataFilter['bBchStaSelectAll']) ? '' :  FCNtAddSingleQuote($paDataFilter['tBchCodeSelect']);
+        $tBchCodeSelect = ($paDataFilter['bBchStaSelectAll']) ? '' : FCNtAddSingleQuote($paDataFilter['tBchCodeSelect']);
+        $tAgnCodeSelect = ($paDataFilter['tAgnCodeSelect']) ? '' :  FCNtAddSingleQuote($paDataFilter['tAgnCodeSelect']);
 
         $tCallStore = "{ CALL SP_RPTxPurPoUnRcv(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) }";
         $aDataStore = array(
             'pnLangID'               => $paDataFilter['nLangID'],
             'ptUsrSession'           => $paDataFilter['tSessionID'],
             'pnFilterType'           => 2,
-            'ptAgnCode'              => $paDataFilter['tAgnCodeSelect'],
+            'ptAgnCode'              => $tAgnCodeSelect,
             'ptBchCode'              => $tBchCodeSelect,   
             'ptShpCode'              => '',
             'ptPdtSupplierCodeFrom'  => $paDataFilter['tPdtSupplierCodeFrom'], 
@@ -28,6 +29,8 @@ class Rptproductunreceived_model extends CI_Model {
         );
         
         $oQuery = $this->db->query($tCallStore, $aDataStore);
+        // print_r($this->db->last_query());
+        // exit;
         if ($oQuery !== FALSE) {
             unset($oQuery);
             return 1;
@@ -106,7 +109,7 @@ class Rptproductunreceived_model extends CI_Model {
                         (F.Grp_DocNo+L.MAX_DATE) AS ALLDocINDate
                     FROM (
                         SELECT
-                            ROW_NUMBER() OVER(ORDER BY FDXphDocDate DESC) AS RowID ,
+                            ROW_NUMBER() OVER(ORDER BY FDXphDocDate DESC, FTBchCode ASC, FTXphDocNo ASC) AS RowID ,
                             ROW_NUMBER ( ) OVER ( PARTITION BY FDXphDocDate ORDER BY FDXphDocDate DESC ) AS PARTITION_DATE,
                             SUM(1) OVER ( PARTITION BY FDXphDocDate ORDER BY FDXphDocDate DESC ) AS MAX_DATE,
                             ROW_NUMBER ( ) OVER ( PARTITION BY FTBchCode ORDER BY FTBchCode DESC ) AS PARTITION_BCH,
