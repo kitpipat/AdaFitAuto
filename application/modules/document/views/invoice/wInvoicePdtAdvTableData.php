@@ -199,7 +199,9 @@
         var tStatusDoc      = $('#ohdIVStaDoc').val();
         var tStatusApv      = $('#ohdIVStaApv').val();
         var tStatusPrcStk   = $('#ohdIVStaPrcDoc').val();
-        if(tStatusDoc == 3 || (tStatusDoc == 1 && tStatusApv == 1 && tStatusPrcStk == 1)){ //เอกสารยกเลิก + เอกสารอนุมัติแล้ว
+        
+        // if(tStatusDoc == 3 || (tStatusDoc == 1 && tStatusApv == 1 && tStatusPrcStk == 1)){ //เอกสารยกเลิก + เอกสารอนุมัติแล้ว
+        if(tStatusApv != '' || tStatusDoc == 3) {
             //อินพุต
             $('#oetSearchPdtHTML').attr('readonly', false);
 
@@ -288,9 +290,12 @@
             var oData           = aPackData[i];
 
             var oResult         = oData.packData;
-            oResult.NetAfHD     = (oResult.nCostSTD == '' || oResult.nCostSTD === undefined ? 0 : oResult.nCostSTD);
+            oResult.NetAfHD     = (oResult.Price == '' || oResult.Price === undefined ? 0 : oResult.Price);
             oResult.Qty         = (oResult.Qty == '' || oResult.Qty === undefined ? 1 : oResult.Qty);
-            oResult.Net         = (oResult.nCostSTD == '' || oResult.nCostSTD === undefined ? oResult.Price : oResult.nCostSTD);
+            oResult.Net         = (oResult.Price == '' || oResult.Price === undefined ? oResult.nCostSTD : oResult.Price);
+            // oResult.NetAfHD     = (oResult.nCostSTD == '' || oResult.nCostSTD === undefined ? 0 : oResult.nCostSTD);
+            // oResult.Qty         = (oResult.Qty == '' || oResult.Qty === undefined ? 1 : oResult.Qty);
+            // oResult.Net         = (oResult.nCostSTD == '' || oResult.nCostSTD === undefined ? oResult.Price : oResult.nCostSTD);
             oResult.tDisChgTxt  = (oResult.tDisChgTxt == '' || oResult.tDisChgTxt === undefined ? '' : oResult.tDisChgTxt);
             var tPdtforSys      = oResult.PDTSpc;           //ประเภทสินค้า
             var tBarCode        = oResult.Barcode;          //บาร์โค๊ด
@@ -299,7 +304,8 @@
             var tPunCode        = oResult.PUNCode;          //รหัสหน่วย
             var tUnitName       = oResult.PUNName;          //ชื่อหน่วยสินค้า
 
-            var nPrice          = (parseFloat(accounting.unformat(oResult.nCostSTD))).toFixed(2);                           //ราคา
+            // var nPrice          = (parseFloat(accounting.unformat(oResult.nCostSTD))).toFixed(2);                           //ราคา
+            var nPrice          = (parseFloat(accounting.unformat(oResult.Price))).toFixed(2);                           //ราคา
 
             var nAlwDiscount    = (oResult.AlwDis == '' || oResult.AlwDis === undefined ? 2 : oResult.AlwDis);           //อนุญาตคำนวณลด
             var nAlwVat         = (oResult.AlwVat == '' || oResult.AlwVat === undefined ? 0 : oResult.AlwVat);           //อนุญาตคำนวณภาษี

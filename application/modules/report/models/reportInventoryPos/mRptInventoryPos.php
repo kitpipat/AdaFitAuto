@@ -397,6 +397,92 @@ class mRptInventoryPos extends CI_Model {
         return $oQuery->num_rows();
     }
 
+    public function FSnMGetCostType(){
+        $tSesUsrAgnCode = $this->session->userdata('tSesUsrAgnCode');
+        $tSesUsrAgnType = $this->session->userdata('tAgnType');
+
+
+
+        // $tSQL = "SELECT FTSysApp, LEFT(FTCfgStaUsrValue, 1) AS FTCfgStaUsrValue
+        //         FROM TCNTConfigSpc 
+        //         WHERE FTSysCode = 'tCN_Cost' AND FTAgnCode = '$tAgnCode' AND FTSysApp = 'AP' AND FTSysSeq = '2'";
+
+        // $oQuery = $this->db->query($tSQL);
+        // if ($oQuery->num_rows() > 0) {
+        //     $oList = $oQuery->result();
+        //     $aResult = array(
+        //         'raItems' => $oList[0]->FTCfgStaUsrValue,
+        //         'rtCode' => '1',
+        //         'rtDesc' => 'success',
+        //     );
+        // } else {
+        //     //No Data
+        //     $aResult = array(
+        //         'raItems' => 0,
+        //         'rtCode' => '800',
+        //         'rtDesc' => 'data not found'
+        //     );
+        // }
+        // $jResult = json_encode($aResult);
+        // $aResult = json_decode($jResult, true);
+
+        // return $aResult;
+
+        if(isset($tSesUsrAgnCode) && !empty($tSesUsrAgnCode) && isset($tSesUsrAgnType) && $tSesUsrAgnType == 2){
+            $tSQL = "
+                SELECT 
+                    FTCfgStaUsrValue AS FTSysStaDefValue,
+                    LEFT(FTCfgStaUsrValue, 1) AS FTSysStaUsrValue
+                FROM  TCNTConfigSpc
+                WHERE FTSysCode = 'tCN_Cost' 
+                AND FTSysKey    = 'Company'
+                AND FTSysSeq    = '2'
+                AND FTSysApp    = 'AP'
+                AND FTAgnCode   = '$tSesUsrAgnCode'
+            ";
+        } else {
+            $tSQL = "
+                SELECT FTSysStaDefValue, LEFT(FTSysStaUsrValue, 1) AS FTSysStaUsrValue
+                FROM  TSysConfig WITH(NOLOCK)
+                WHERE 
+                FTSysCode = 'tCN_Cost' 
+                AND FTSysKey = 'Company' 
+                AND FTSysSeq = '2'
+                AND FTSysApp = 'AP'
+            ";
+        }
+
+        $oQuery = $this->db->query($tSQL);
+        if ($oQuery->num_rows() > 0) {
+            $oList = $oQuery->result();
+            if ($oList[0]->FTSysStaUsrValue != '') {
+                $aResult = array(
+                    'raItems' => $oList[0]->FTSysStaUsrValue,
+                    'rtCode' => '1',
+                    'rtDesc' => 'success',
+                );
+            }else {
+                $aResult = array(
+                    'raItems' => $oList[0]->FTSysStaDefValue,
+                    'rtCode' => '1',
+                    'rtDesc' => 'success',
+                );
+            }
+        } else {
+            //No Data
+            $aResult = array(
+                'raItems' => 0,
+                'rtCode' => '800',
+                'rtDesc' => 'data not found'
+            );
+        }
+        $jResult = json_encode($aResult);
+        $aResult = json_decode($jResult, true);
+
+        return $aResult;
+
+    }
+
 }
 
 

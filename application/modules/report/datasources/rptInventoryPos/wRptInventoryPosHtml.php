@@ -103,10 +103,22 @@
                         </tr>
                         <tr style="border-bottom : 1px solid black !important;">
                             <th nowrap class="text-right xCNRptColumnHeader" style="width:7%;"><?php echo $aDataTextRef['tRptPosVendingCount']; ?></th>
-                            <th nowrap class="text-right xCNRptColumnHeader" style="width:5%;"><?php echo $aDataTextRef['tRptCabinetCostAvg']; ?></th>
-                            <th nowrap class="text-right xCNRptColumnHeader" style="width:5%;"><?=language('report/report/report', 'tRptinventoryTotalAVG')?></th>
-                            <th nowrap class="text-right xCNRptColumnHeader" style="width:5%;"><?=language('report/report/report', 'tRptinventoryCostSTD')?></th>
-                            <th nowrap class="text-right xCNRptColumnHeader" style="width:5%;"><?=language('report/report/report', 'tRptinventoryCostSTDTotal')?></th>
+                            <?php if($nCostType == 0) { ?>
+                                <th nowrap class="text-right xCNRptColumnHeader" style="width:5%;"><?php echo $aDataTextRef['tRptCabinetCostAvg']; ?></th>
+                                <th nowrap class="text-right xCNRptColumnHeader" style="width:5%;"><?=language('report/report/report', 'tRptinventoryTotalAVG')?></th>
+                                <th nowrap class="text-right xCNRptColumnHeader" style="width:5%;"><?=language('report/report/report', 'tRptinventoryCostSTD')?></th>
+                                <th nowrap class="text-right xCNRptColumnHeader" style="width:5%;"><?=language('report/report/report', 'tRptinventoryCostSTDTotal')?></th>
+                            <?php } else { ?>
+                                <th nowrap class="text-right xCNRptColumnHeader" style="width:5%;"><?=language('report/report/report', 'tRptCabinetCost')?></th>
+                                <th nowrap class="text-right xCNRptColumnHeader" style="width:5%;"><?=language('report/report/report', 'tRptCabinetTotalcost')?></th>
+                                <!-- <?php if($nCostType == 1) { ?>
+                                    <th nowrap class="text-right xCNRptColumnHeader" style="width:5%;"><?php echo $aDataTextRef['tRptCabinetCostAvg']; ?></th>
+                                    <th nowrap class="text-right xCNRptColumnHeader" style="width:5%;"><?=language('report/report/report', 'tRptinventoryTotalAVG')?></th>
+                                <?php } else { ?>
+                                    <th nowrap class="text-right xCNRptColumnHeader" style="width:5%;"><?=language('report/report/report', 'tRptinventoryCostSTD')?></th>
+                                    <th nowrap class="text-right xCNRptColumnHeader" style="width:5%;"><?=language('report/report/report', 'tRptinventoryCostSTDTotal')?></th>
+                                <?php } ?> -->
+                            <?php } ?>
                         </tr>
                     </thead>
                     <tbody>
@@ -157,7 +169,7 @@
                                         }
                                         echo "</tr>";
                                         $tChainCodeName = $tChainCode;
-                                   }else{
+                                    }else{
                                          //echo "<tr><td>ไม่ขึ้นบรรทัดใหม่<td></tr>";
                                     }
 
@@ -202,10 +214,27 @@
                                                 echo "<td class='xCNRptGrouPing  text-left' style='padding-left: 0px !important;' colspan='1'>". $tPDTCat1 . "</td>";
                                                 echo "<td class='xCNRptGrouPing  text-left' style='padding-left: 0px !important;' colspan='1'>". $tPDTCat2 . "</td>";
                                                 echo "<td class='xCNRptGrouPing  text-right' style='padding-left: 30px !important;'>".number_format($nFCStkQty_SUM, $nOptDecimalShow)." ชิ้น</td>";
-                                                echo "<td class='xCNRptGrouPing  text-right' style='padding-left: 30px !important;'>".number_format($nFCPdtCostAVGEX_SUM, $nOptDecimalShow)."</td>";
-                                                echo "<td class='xCNRptGrouPing  text-right' style='padding-left: 30px !important;'>".number_format($nFCPdtCostTotal_SUM, $nOptDecimalShow)."</td>";
-                                                echo "<td class='xCNRptGrouPing  text-right' style='padding-left: 30px !important;'>".number_format($nFCPdtCostStd_SUM, $nOptDecimalShow)."</td>";
-                                                echo "<td class='xCNRptGrouPing  text-right' style='padding-left: 30px !important;'>".number_format($nFCPdtCostStdTotal_SUM, $nOptDecimalShow)."</td>";
+                                                if($nCostType == 0) { 
+                                                    echo "<td class='xCNRptGrouPing  text-right' style='padding-left: 30px !important;'>".number_format($nFCPdtCostAVGEX_SUM, $nOptDecimalShow)."</td>";
+                                                    echo "<td class='xCNRptGrouPing  text-right' style='padding-left: 30px !important;'>".number_format($nFCPdtCostTotal_SUM, $nOptDecimalShow)."</td>";
+                                                    echo "<td class='xCNRptGrouPing  text-right' style='padding-left: 30px !important;'>".number_format($nFCPdtCostStd_SUM, $nOptDecimalShow)."</td>";
+                                                    echo "<td class='xCNRptGrouPing  text-right' style='padding-left: 30px !important;'>".number_format($nFCPdtCostStdTotal_SUM, $nOptDecimalShow)."</td>";  
+                                                } else {
+                                                    switch ($nCostType) {
+                                                        case 1 :
+                                                            echo "<td class='xCNRptGrouPing  text-right' style='padding-left: 30px !important;'>".number_format($nFCPdtCostAVGEX_SUM, $nOptDecimalShow)."</td>";
+                                                            echo "<td class='xCNRptGrouPing  text-right' style='padding-left: 30px !important;'>".number_format($nFCPdtCostTotal_SUM, $nOptDecimalShow)."</td>";
+                                                            break;
+                                                        case 3 :
+                                                            echo "<td class='xCNRptGrouPing  text-right' style='padding-left: 30px !important;'>".number_format($nFCPdtCostStd_SUM, $nOptDecimalShow)."</td>";
+                                                            echo "<td class='xCNRptGrouPing  text-right' style='padding-left: 30px !important;'>".number_format($nFCPdtCostStdTotal_SUM, $nOptDecimalShow)."</td>";  
+                                                            break;
+                                                        default : 
+                                                            echo "<td class='xCNRptGrouPing  text-right' style='padding-left: 30px !important;'>".number_format($nFCPdtCostStd_SUM, $nOptDecimalShow)."</td>";
+                                                            echo "<td class='xCNRptGrouPing  text-right' style='padding-left: 30px !important;'>".number_format($nFCPdtCostStdTotal_SUM, $nOptDecimalShow)."</td>";  
+                                                            break;
+                                                    }
+                                                }                                                  
                                             } else {
                                                 echo "<td></td>";
                                             }
@@ -237,8 +266,8 @@
                                     <td nowrap class="text-right xCNRptDetail"><?php echo number_format($aValue["FCStkQty"], $nOptDecimalShow) ?></td>
                                     <td nowrap class="text-right xCNRptDetail"></td>
                                     <td nowrap class="text-right xCNRptDetail"></td>
-                                    <td nowrap class="text-right xCNRptDetail"></td>
-                                    <td nowrap class="text-right xCNRptDetail"></td>
+                                    <!-- <td nowrap class="text-right xCNRptDetail"></td>
+                                    <td nowrap class="text-right xCNRptDetail"></td> -->
                                 </tr>
 
                                 <?php
@@ -246,10 +275,26 @@
                                     $aSumFooter         = array($aDataTextRef['tRptTotal'], 'N' , $nSubSumQty);
                                     $nVal               = $nVal + $aValue["FCPdtCostTotal"];
                                     $nValSTD            = $nValSTD + $aValue["FCPdtCostStdTotal"];
-                                    $tFCPdtCostTotal    = number_format($nVal, $nOptDecimalShow);
-                                    $tFCPdtCostStdTotal = number_format($nValSTD, $nOptDecimalShow);
+                                    $tFCPdtCostTotal    = number_format($aValue["FCPdtCostTotal_Footer"], $nOptDecimalShow);
+                                    $tFCPdtCostStdTotal = number_format($aValue["FCPdtCostStdTotal_Footer"], $nOptDecimalShow);
+                                    // $tFCPdtCostTotal    = number_format($nVal, $nOptDecimalShow);
+                                    // $tFCPdtCostStdTotal = number_format($nValSTD, $nOptDecimalShow);
                                     $nSumCostExQtyQty   = number_format($aValue["FCStkQty_Footer"], $nOptDecimalShow);
-                                    $paFooterSumData    = array($aDataTextRef['tRptTotalFooter'],'N','N','N',$nSumCostExQtyQty,'N', $tFCPdtCostTotal,'N',$tFCPdtCostStdTotal);
+                                    if($nCostType == 0) { 
+                                        $paFooterSumData    = array($aDataTextRef['tRptTotalFooter'],'N','N','N',$nSumCostExQtyQty,'N', $tFCPdtCostTotal,'N',$tFCPdtCostStdTotal);
+                                    } else {
+                                        switch ($nCostType) {
+                                            case 1 :
+                                                $paFooterSumData    = array($aDataTextRef['tRptTotalFooter'],'N','N','N',$nSumCostExQtyQty,'N', $tFCPdtCostTotal,);
+                                                break;
+                                            case 3 :
+                                                $paFooterSumData    = array($aDataTextRef['tRptTotalFooter'],'N','N','N',$nSumCostExQtyQty,'N',$tFCPdtCostStdTotal);
+                                                break;
+                                            default : 
+                                                $paFooterSumData    = array($aDataTextRef['tRptTotalFooter'],'N','N','N',$nSumCostExQtyQty,'N',$tFCPdtCostStdTotal);
+                                                break;
+                                        }
+                                    }
                                 ?>
                             <?php } ?>
 
@@ -268,7 +313,7 @@
                                             $tStyle = 'text-align:right;border-top:1px solid #333;border-bottom:1px solid #333;/*background-color: #CFE2F3;*/';
                                         }
                                         if ($paFooterSumData[$i] != 'N') {
-                                            $tFooterVal = $paFooterSumData[$i];
+                                            $tFooterVal = $paFooterSumData[$i];        
                                         } else {
                                             $tFooterVal = '';
                                         }

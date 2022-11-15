@@ -379,13 +379,16 @@ class cRptInventoryPos extends MX_Controller
         );
         $aDataReport = $this->mRptInventoryPos->FSaMGetDataReport($aDataWhereRpt);
 
+        $nCostType = $this->mRptInventoryPos->FSnMGetCostType();
+
         // ข้อมูล Render Report
         $aDataViewPdt = array(
-            'aDataReport' => $aDataReport,
-            'aDataTextRef' => $this->aText,
-            'aCompanyInfo' => $this->aCompanyInfo,
-            'nOptDecimalShow' => $this->nOptDecimalShow,
-            'aDataFilter' => $paDataSwitchCase['paDataFilter'],
+            'aDataReport'       => $aDataReport,
+            'aDataTextRef'      => $this->aText,
+            'aCompanyInfo'      => $this->aCompanyInfo,
+            'nOptDecimalShow'   => $this->nOptDecimalShow,
+            'aDataFilter'       => $paDataSwitchCase['paDataFilter'],
+            'nCostType'         => $nCostType['raItems'],
         );
 
         // Load View Advance Table
@@ -393,19 +396,19 @@ class cRptInventoryPos extends MX_Controller
 
         // Data Viewer Center Report
         $aDataViewer = array(
-            'tTitleReport' => $this->aText['tTitleReport'],
-            'tRptTypeExport' => $this->tRptExportType,
-            'tRptCode' => $this->tRptCode,
-            'tRptRoute' => $this->tRptRoute,
-            'tViewRenderKool' => $tRptView,
-            'aDataFilter' => $paDataSwitchCase['paDataFilter'],
-            'aDataReport' => array(
-                'raItems' => $aDataReport['aRptData'],
-                'rnAllRow' => $aDataReport['aPagination']['nTotalRecord'],
-                'rnCurrentPage' => $aDataReport['aPagination']['nDisplayPage'],
-                'rnAllPage' => $aDataReport['aPagination']['nTotalPage'],
-                'rtCode' => '1',
-                'rtDesc' => 'success',
+            'tTitleReport'      => $this->aText['tTitleReport'],
+            'tRptTypeExport'    => $this->tRptExportType,
+            'tRptCode'          => $this->tRptCode,
+            'tRptRoute'         => $this->tRptRoute,
+            'tViewRenderKool'   => $tRptView,
+            'aDataFilter'       => $paDataSwitchCase['paDataFilter'],
+            'aDataReport'       => array(
+                'raItems'           => $aDataReport['aRptData'],
+                'rnAllRow'          => $aDataReport['aPagination']['nTotalRecord'],
+                'rnCurrentPage'     => $aDataReport['aPagination']['nDisplayPage'],
+                'rnAllPage'         => $aDataReport['aPagination']['nTotalPage'],
+                'rtCode'            => '1',
+                'rtDesc'            => 'success',
             ),
         );
         $this->load->view('report/report/wReportViewer', $aDataViewer);
@@ -427,21 +430,30 @@ class cRptInventoryPos extends MX_Controller
         /** =========== End Init Variable ==================================== */
         // ข้อมูลสำหรับดึงข้อมูลจากฐานข้อมูล
         $aDataWhereRpt = array(
-            'nPerPage' => $this->nPerPage,
-            'nPage' => $this->nPage,
-            'tCompName' => $this->tCompName,
-            'tRptCode' => $this->tRptCode,
+            'nPerPage'      => $this->nPerPage,
+            'nPage'         => $this->nPage,
+            'tCompName'     => $this->tCompName,
+            'tRptCode'      => $this->tRptCode,
             'tUsrSessionID' => $this->tUserSessionID,
         );
+
         $aDataReport = $this->mRptInventoryPos->FSaMGetDataReport($aDataWhereRpt);
+
+        $aDataWhereCostType = array(
+            'tSysApp'   => 'AP',
+            'tSysSeq'   => '2'
+        );
+
+        $nCostType = $this->mRptInventoryPos->FSnMGetCostType($aDataWhereCostType);
 
         // ข้อมูล Render Report
         $aDataViewPdt = array(
-            'aDataReport' => $aDataReport,
-            'aDataTextRef' => $this->aText,
-            'aCompanyInfo' => $this->aCompanyInfo,
-            'nOptDecimalShow' => $this->nOptDecimalShow,
-            'aDataFilter' => $aDataFilter,
+            'aDataReport'       => $aDataReport,
+            'aDataTextRef'      => $this->aText,
+            'aCompanyInfo'      => $this->aCompanyInfo,
+            'nOptDecimalShow'   => $this->nOptDecimalShow,
+            'aDataFilter'       => $aDataFilter,
+            'nCostType'         => $nCostType['raItems'],
         );
 
         // Load View Advance Table

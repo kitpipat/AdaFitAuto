@@ -172,6 +172,8 @@ class Invoice_controller extends MX_Controller {
 
     //เพิ่มสินค้าลงใน Temp
     public function FSoCIVAddPdtInDTTmp() {
+        $tAgnCode   = $this->session->userdata('tSesUsrAgnCode');
+
         try {
             $tIVDocNo           = $this->input->post('tIVDocNo');
             $tIVVATInOrEx       = $this->input->post('tIVVATInOrEx');
@@ -180,6 +182,9 @@ class Invoice_controller extends MX_Controller {
             $tSeqNo             = $this->input->post('tSeqNo');
             $aPdtData           = json_decode($this->input->post('oPdtData'));
             $this->db->trans_begin();
+
+            $nCostType = $this->Invoice_model->FSnMGetCostType();
+
             // ทำทีรายการ ตามรายการสินค้าที่เพิ่มเข้ามา
             for ($nI = 0; $nI < FCNnHSizeOf($aPdtData); $nI++) {
                 $tItemPdtCode   = $aPdtData[$nI]->pnPdtCode;
@@ -203,6 +208,50 @@ class Invoice_controller extends MX_Controller {
                 );
                 // Data Master Pdt ข้อมูลรายการสินค้าที่เพิ่มเข้ามา
                 $aDataPdtMaster = $this->Invoice_model->FSaMIVGetDataPdt($aDataPdtParams);
+
+                $nResultCost = '';
+                $nINDEXConfig       = explode(',',$nCostType);
+                if($aDataPdtMaster['raItem']['FTAgnCode'] == '' || $aDataPdtMaster['raItem']['FTAgnCode'] == null) {
+                    $aDataPdtMaster['raItem']['pcPriceUse'] = $nResultCost;
+                }else{
+                    for($i=0; $i<FCNnHSizeOf($nINDEXConfig); $i++){
+                        switch ($nINDEXConfig[$i]) {
+                            case 1 : 
+                                if($aDataPdtMaster['raItem']['FCPdtCostEx'] > 0) {
+                                    $nResultCost = $aDataPdtMaster['raItem']['FCPdtCostEx'];
+                                }else{
+                                    $nResultCost == '';
+                                }
+                                break;
+                            case 2 :
+                                $nResultCost == '';
+                                break;
+                            case 3 :
+                                if($aDataPdtMaster['raItem']['FCPdtCostStd'] > 0) {
+                                    $nResultCost = $aDataPdtMaster['raItem']['FCPdtCostStd'];
+                                }else{
+                                    $nResultCost == '';
+                                }
+                                break;
+                            case 4 :
+                                $nResultCost == '';
+                                break;
+                            default :
+                                $nResultCost = $aDataPdtMaster['raItem']['FCPdtCostStd'];
+                                break;
+                        }
+    
+                        if($nResultCost == '' || $nResultCost == null){
+                            if($i == FCNnHSizeOf($nINDEXConfig)-1) {
+                                $aDataPdtMaster['raItem']['pcPriceUse'] = $aDataPdtMaster['raItem']['FCPdtCostStd'];
+                                break;
+                            }
+                        }else{
+                            $aDataPdtMaster['raItem']['pcPriceUse'] = $nResultCost;
+                            break;
+                        }
+                    }
+                }
                 
                 // นำรายการสินค้าเข้า DT Temp
                 $this->Invoice_model->FSaMIVInsertPDTToTemp($aDataPdtMaster, $aDataPdtParams);
@@ -1285,12 +1334,18 @@ class Invoice_controller extends MX_Controller {
         $tIVSPLStaLocal     =  $this->input->post('tIVSPLStaLocal');
         $tIVTypeRefDoc      = $this->input->post('tIVTypeRefDoc');
 
+        $nCostType          = $this->Invoice_model->FSnMGetCostType();
+        $nResultCost = '';
+        $nINDEXConfig       = explode(',',$nCostType);
+        $nResultCost        = $nINDEXConfig[0];
+
         $aDataParam         = array(
             'tIVDocNo'       => $tIVDocNo,
             'tIVFrmBchCode'  => $tIVFrmBchCode,
             'tRefIntDocNo'   => $tRefIntDocNo,
             'tRefIntBchCode' => $tRefIntBchCode,
             'aSeqNo'         => $aSeqNo,
+            'nCostType'      => $nResultCost
         );
         $aDataParamUpdateSeq = array(
             'tIVDocNo'       => $tIVDocNo,
@@ -1298,6 +1353,7 @@ class Invoice_controller extends MX_Controller {
             'tRefIntDocNo'   => $tRefIntDocNo,
             'tRefIntBchCode' => $tRefIntBchCode,
             'aSeqNo'         => $aSeqNo,
+            'nCostType'      => $nResultCost
         );
 
         // if($tIVSPLStaLocal == 1){ 

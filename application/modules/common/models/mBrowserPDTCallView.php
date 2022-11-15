@@ -681,7 +681,7 @@ class mBrowserPDTCallView extends CI_Model
                 FTSysSeq = '$tSysseq'
             ";
         }
- 
+        
         $oQuery = $this->db->query($tSQL);
 
         if ($oQuery->num_rows() > 0) {

@@ -28,7 +28,7 @@
 
     .table>tbody>tr.xCNTrFooter{
         border-top: 1px solid black !important;
-        border-
+        border-bottom
          : 1px solid black !important;
     }
     .table tbody tr.xCNHeaderGroup, .table>tbody>tr.xCNHeaderGroup>td {
@@ -43,7 +43,7 @@
     @media print{@page {
         size: A4 portrait;
         margin: 5mm 5mm 5mm 5mm;
-        }}
+        }
     }
 </style>
 
@@ -163,10 +163,10 @@
                                         }
 
                                         //ต้นทุนเฉลี่ย
-                                        $nFCPdtCostAVGEX_SUM = $aValue["FCPdtCostEX"];
+                                        $nFCPdtCostAVGEX_SUM = $aValue["FCPdtCostEX_SUM"];
 
                                         //ทุนรวม
-                                        $FCPdtCostTotal_SUM = $aValue["FCPdtCostAmt"];
+                                        $FCPdtCostTotal_SUM = $aValue["FCPdtCostAmt_SUM"];
 
                                         $tNmaeLangWah = 'สินค้า';
                                         echo "<tr>";
@@ -189,8 +189,8 @@
                                 <tr>
                                     <td nowrap class="text-left xCNRptDetail" style="padding-left: 50px !important;" colspan="2">(<?php echo $aValue["FTWahCode"]; ?>) <?php echo $aValue["FTWahName"]; ?></td>
                                     <td nowrap class="text-right xCNRptDetail"><?php echo number_format($aValue["FCStkQty"], $nOptDecimalShow) ?></td>
-                                    <td nowrap class="text-right xCNRptDetail"></td>
-                                    <td nowrap class="text-right xCNRptDetail"></td>
+                                    <td nowrap class="text-right xCNRptDetail"><?php echo number_format($aValue["FCPdtCostEX"], $nOptDecimalShow) ?></td>
+                                    <td nowrap class="text-right xCNRptDetail"><?php echo number_format($aValue["FCPdtCostAmt"], $nOptDecimalShow) ?></td>
                                 </tr>
 
                                 <?php

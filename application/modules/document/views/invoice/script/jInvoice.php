@@ -32,7 +32,7 @@
             $("#odvBtnAddEdit").show();
             $('#odvBtnIVPageAddorEdit').hide();
             $('#obtIVApproveDoc').show();
-            $('#obtIVPrintDoc').show();
+            $('#obtIVPrintDoc').hide();
             $('#obtIVCancelDoc').show();
             $('.xCNBTNSaveDoc').show();
         }
@@ -261,9 +261,11 @@
                 timeout : 0,
                 success: function(tResult){
                     var aReturnData = JSON.parse(tResult);
+                    // console.log(aReturnData)
                     if(aReturnData['nStaEvent'] == '1'){
                         JSxIVNavDefult('showpage_edit');
                         $('#odvContentIV').html(aReturnData['tViewPageAdd']);
+
                         JCNxCloseLoading();
 
                         //โหลดสินค้าใน Temp

@@ -262,8 +262,10 @@ class cBrowserPDTCallView extends MX_Controller
             'tSNPDT'                => $tSNPDT
         );
         
+        // print_r("Product");
         //ค้นหาสินค้า
         $aProduct = $this->JSaCGetDataProduct($aDataSearch);
+        // print_r($aProduct);
         
         // GetAllRow
         if ($aProduct['nPDTAll'] == 0) {
@@ -298,6 +300,9 @@ class cBrowserPDTCallView extends MX_Controller
             }
         }
 
+        // echo "<pre>";
+        // print_r($aCheckPrice);
+        // echo "</pre>";
         $nOptDecimalShow    = FCNxHGetOptionDecimalShow();
         $aDataHTML          = array(
             'nPage'             => $this->input->post("nPage"),
@@ -394,13 +399,15 @@ class cBrowserPDTCallView extends MX_Controller
     }
 
     //GET Product
-    public function JSaCGetDataProduct($paData){
+    public function JSaCGetDataProduct($paData)
+    {
         $tFilter            = '';
         $tBchSession        = $this->session->userdata("tSesUsrBchCodeDefault");
         $tShpSession        = $this->session->userdata("tSesUsrShpCode");
         $tMerSession        = $this->session->userdata("tSesUsrMerCode");
         $tSelectTier        = $paData['tSelectTier'];
         $aDataParamExe      = array();
+
         $tWhere             = $paData['tWhere'];
         // echo "<pre>";
         // print_r($paData['tPdtSpcCtl']);
@@ -852,27 +859,30 @@ class cBrowserPDTCallView extends MX_Controller
         $tWhereParam = $tFilter;
 
         $aDataParamExe = array(
-            'ptFilterBy' => $tSearchSelect,
-            'ptSearch' => $tSearchText,
-            'ptWhere' => $tWhereParam,
-            'ptNotInPdtType' => $tNotInPdtTypeParam,
-            'ptNotInPdtType' => $tNotInPdtTypeParam,
-            'ptPdtCodeIgnorParam' => $tPdtCodeIgnorParam,
-            'ptPDTMoveon' => '1',
-            'ptPlcCodeConParam' => $tPlcCodeConParam ,
-            'ptDISTYPE' => $paData['nDISTYPE'] ,
-            'ptPagename' => $tPagename,
-            'ptNotinItemString' => $tNotinItemParam,
-            'ptSqlCode' => $paData['tSPL'],
-            'ptPriceType' => @$paData['aPriceType'][0],
-            'ptPplCode' => @$paData['aPriceType'][1],
-            'ptPdtSpcCtl' => $paData['tPdtSpcCtl']
+            'ptFilterBy'            => $tSearchSelect,
+            'ptSearch'              => $tSearchText,
+            'ptWhere'               => $tWhereParam,
+            'ptNotInPdtType'        => $tNotInPdtTypeParam,
+            'ptNotInPdtType'        => $tNotInPdtTypeParam,
+            'ptPdtCodeIgnorParam'   => $tPdtCodeIgnorParam,
+            'ptPDTMoveon'           => '1',
+            'ptPlcCodeConParam'     => $tPlcCodeConParam ,
+            'ptDISTYPE'             => $paData['nDISTYPE'] ,
+            'ptPagename'            => $tPagename,
+            'ptNotinItemString'     => $tNotinItemParam,
+            'ptSqlCode'             => $paData['tSPL'],
+            'ptPriceType'           => @$paData['aPriceType'][0],
+            'ptPplCode'             => @$paData['aPriceType'][1],
+            'ptPdtSpcCtl'           => $paData['tPdtSpcCtl']
         );
         // echo "<pre>";
         // print_r($aDataParamExe);
         // echo "</pre>";
 
         $aResultPDT = $this->mBrowserPDTCallView->FSaMGetProductBCH($tFilter, $tLeftJoinPrice, $paData, $nTotalResult,$aDataParamExe);
+        // echo "<pre>";
+        // print_r($aResultPDT);
+        // echo "</pre>";
 
         // switch ($tPermission) {
         //     case "HQ":
@@ -940,26 +950,35 @@ class cBrowserPDTCallView extends MX_Controller
         for($i=0; $i<FCNnHSizeOf($nINDEXConfig); $i++){
             switch ($nINDEXConfig[$i]) {
                 case 1: //ต้นทุนเฉลี่ย
-                    if($nVATSPL == 1){
-                        $nResultCost = $nCostAvgIn;
-                    }else if($nVATSPL == 2){
-                        $nResultCost = $nCostAvgEX;
+                    if($nCostAvgIn > 0 || $nCostAvgEX > 0) {
+                        if($nVATSPL == 1){
+                            $nResultCost = $nCostAvgIn;
+                        }else if($nVATSPL == 2){
+                            $nResultCost = $nCostAvgEX;
+                        }
                     }
                     $t = 'ต้นทุนเฉลี่ย';
                     break;
                 case 2: //ต้นทุนสุดท้าย
-                    $nResultCost = $nCostLast;
+                    if($nCostLast > 0) {
+                        $nResultCost = $nCostLast;
+                    }
+
                     $t = 'ต้นทุนสุดท้าย';
                     break;
                 case 3: //ต้นทุนมาตราฐาน
-                    $nResultCost = $nCostSTD;
+                    if($nCostSTD > 0) {
+                        $nResultCost = $nCostSTD;
+                    }
                     $t = 'ต้นทุนมาตราฐาน';
                     break;
                 case 4: //ต้นทุน FiFo
-                    if($nVATSPL == 1){
-                        $nResultCost = $nCostFiFoIn;
-                    }else if($nVATSPL == 2){
-                        $nResultCost = $nCostFiFoEx;
+                    if($nCostFiFoIn > 0 || $nCostFiFoEx > 0) {
+                        if($nVATSPL == 1){
+                            $nResultCost = $nCostFiFoIn;
+                        }else if($nVATSPL == 2){
+                            $nResultCost = $nCostFiFoEx;
+                        }
                     }
                     $t = 'ต้นทุน FiFo';
                     break;
@@ -968,7 +987,10 @@ class cBrowserPDTCallView extends MX_Controller
             }
 
             if($nResultCost == '' || $nResultCost == null){
-
+                if($i == FCNnHSizeOf($nINDEXConfig)-1) {
+                    $nResultCost = $nCostSTD;
+                    break;
+                }
             }else{
                 break;
             }

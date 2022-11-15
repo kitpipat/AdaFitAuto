@@ -1,4 +1,45 @@
 <script type="text/javascript">
+
+    $("document").ready(function () {
+        if($('#ohdIVStaApv').val() != ''){
+            $("#oliIVTitleAdd").hide();
+            $("#oliIVTitleEdit").show();
+
+            $("#odvBtnAddEdit").show();
+            $('#odvBtnIVPageAddorEdit').hide();
+            $('#obtIVApproveDoc').hide();
+            $('#obtIVPrintDoc').show();
+            $('#obtIVCancelDoc').show();
+            $('.xCNBTNSaveDoc').hide();
+
+            // $('input').attr('readonly', true);
+            // $('input.xCNQty').attr('readonly', true);
+            $('#obtIVDocBrowsePdt').hide();
+            $('#oetIVInsertBarcode').hide();
+            $('.xCNBTNMngTable ').hide();
+            $('.dropdown-toggle').attr('disabled',true);
+            $('.form-control').attr('readonly', true);
+        }else if($('#ohdIVStaDoc').val() == 3){
+            $("#oliIVTitleAdd").hide();
+            $("#oliIVTitleEdit").show();
+
+            $("#odvBtnAddEdit").show();
+            $('#odvBtnIVPageAddorEdit').hide();
+            $('#obtIVApproveDoc').hide();
+            $('#obtIVPrintDoc').hide();
+            $('#obtIVCancelDoc').hide();
+            $('.xCNBTNSaveDoc').hide();
+
+            // $('input').attr('readonly', true);
+            // $('input.xCNQty').attr('readonly', true);
+            $('#obtIVDocBrowsePdt').hide();
+            $('#oetIVInsertBarcode').hide();
+            $('.xCNBTNMngTable ').hide();
+            $('.dropdown-toggle').attr('disabled',true);
+            $('.form-control').attr('readonly', true);
+        }
+    });
+
     $('.selectpicker').selectpicker('refresh');
     $("#obtIVSubmitFromDoc").removeAttr("disabled");
 
@@ -714,7 +755,7 @@
         var aData;
         if (poDataNextFunc != "NULL") {
             var aData = JSON.parse(poDataNextFunc);
-            console.log(aData);
+            // console.log(aData);
 
             //โชว์ค่า
             $('#ohdIVAddrCode').val(aData[0]);
@@ -850,7 +891,7 @@
                 'ReturnType'          : "S",
                 'ShowCountRecord'     : 10,
 
-                'aPriceType'          : ["Cost","tCN_Cost","Company","1"],
+                'aPriceType'          : ["Cost","tCN_Cost","Company","2"],
 
                 'NextFunc'            : "",
                 'SelectTier'          : ["PDT"],
@@ -872,7 +913,6 @@
             success : function (tResult){
                 JCNxCloseLoading();
                 var oText = JSON.parse(tResult);
-                // console.log(oText);
                 if(oText == '800'){
                     $('#oetIVInsertBarcode').attr('readonly',false);
                     $('#odvIVModalPDTNotFound').modal('show');
@@ -963,7 +1003,7 @@
             url: "BrowseDataPDT",
             data: {
                 'Qualitysearch'   : [],
-                'PriceType'       : ["Cost", "tCN_Cost", "Company", "1"],
+                'PriceType'       : ["Cost", "tCN_Cost", "Company", "2"],
                 'SelectTier'      : ['PDT'],
                 'ShowCountRecord' : 10,
                 'NextFunc'        : 'JSxAfterChoosePDT',

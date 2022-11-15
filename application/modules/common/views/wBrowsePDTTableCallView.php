@@ -148,7 +148,9 @@
                     'nCostSTD'           => str_replace(",",'',$aValue['FCPdtCostStd'])
                 );
 
+                
                 $nCost = GetTotalByConfig($aDataFind); 
+                // print_r([$nCost]);
                 $nCost = $nCost * $aValue['FCPdtUnitFact']; 
 
                 $aPackData = array(
@@ -311,23 +313,31 @@
         for($i=0; $i<FCNnHSizeOf($nINDEXConfig); $i++){
             switch ($nINDEXConfig[$i]) {
                 case 1: //ต้นทุนเฉลี่ย
-                    if($nVATSPL == 1){
-                        $nResultCost = $nCostAvgIn;
-                    }else if($nVATSPL == 2){
-                        $nResultCost = $nCostAvgEX;
+                    if($nCostAvgIn > 0 || $nCostAvgEX > 0) {
+                        if($nVATSPL == 1){
+                            $nResultCost = $nCostAvgIn;
+                        }else if($nVATSPL == 2){
+                            $nResultCost = $nCostAvgEX;
+                        }
                     }
                     break;
                 case 2: //ต้นทุนสุดท้าย
-                    $nResultCost = $nCostLast;
+                    if($nCostLast > 0) {
+                        $nResultCost = $nCostLast;
+                    }
                     break;
                 case 3: //ต้นทุนมาตราฐาน
-                    $nResultCost = $nCostSTD;
+                    if($nCostSTD > 0) {
+                        $nResultCost = $nCostSTD;
+                    }
                     break;
                 case 4: //ต้นทุน FiFo
-                    if($nVATSPL == 1){
-                        $nResultCost = $nCostFiFoIn;
-                    }else if($nVATSPL == 2){
-                        $nResultCost = $nCostFiFoEx;
+                    if($nCostFiFoIn > 0 || $nCostFiFoEx > 0) {
+                        if($nVATSPL == 1){
+                            $nResultCost = $nCostFiFoIn;
+                        }else if($nVATSPL == 2){
+                            $nResultCost = $nCostFiFoEx;
+                        }
                     }
                     break;
                 default:
@@ -335,7 +345,10 @@
             }
 
             if($nResultCost == '' || $nResultCost == null){
-
+                if($i == FCNnHSizeOf($nINDEXConfig)-1) {
+                    $nResultCost = $nCostSTD;
+                    break;
+                }
             }else{
                 break;  
             }

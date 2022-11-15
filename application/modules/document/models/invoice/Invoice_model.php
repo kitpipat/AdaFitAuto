@@ -38,10 +38,10 @@ class Invoice_model extends CI_Model{
             FROM [TAPTPiHD] HD WITH (NOLOCK)
             LEFT JOIN TAPTPiHDDocRef    HDDocRef_in WITH (NOLOCK)   ON HD.FTXphDocNo    = HDDocRef_in.FTXshDocNo AND HDDocRef_in.FTXshRefType = 1
             LEFT JOIN TAPTPoHD          POHD        WITH (NOLOCK)   ON POHD.FTXphDocNo  = HDDocRef_in.FTXshRefDocNo
-            LEFT JOIN TAPTDoHD          DOHD        WITH ( NOLOCK ) ON DOHD.FTXphDocNo  = HDDocRef_in.FTXshRefDocNo
+            LEFT JOIN TAPTDoHD          DOHD        WITH (NOLOCK)   ON DOHD.FTXphDocNo  = HDDocRef_in.FTXshRefDocNo
             LEFT JOIN TCNMBranch_L      BCHL        WITH (NOLOCK)   ON HD.FTBchCode     = BCHL.FTBchCode    AND BCHL.FNLngID    = ".$this->db->escape($nLngID)." 
             LEFT JOIN TCNMBranch_L      POBCHL      WITH (NOLOCK)   ON POHD.FTXphBchTo  = POBCHL.FTBchCode  AND POBCHL.FNLngID  = ".$this->db->escape($nLngID)."
-            LEFT JOIN TCNMBranch_L      DOBCHL      WITH ( NOLOCK ) ON DOHD.FTBchCode   = DOBCHL.FTBchCode  AND DOBCHL.FNLngID  = 1
+            LEFT JOIN TCNMBranch_L      DOBCHL      WITH (NOLOCK)   ON DOHD.FTBchCode   = DOBCHL.FTBchCode  AND DOBCHL.FNLngID  = 1
             LEFT JOIN TCNMUser_L        USRL        WITH (NOLOCK)   ON HD.FTCreateBy    = USRL.FTUsrCode    AND USRL.FNLngID    = ".$this->db->escape($nLngID)."
             LEFT JOIN TCNMUser_L        USRLAPV     WITH (NOLOCK)   ON HD.FTXphApvCode  = USRLAPV.FTUsrCode AND USRLAPV.FNLngID = ".$this->db->escape($nLngID)."
             LEFT JOIN TCNMSpl_L         SPL_L       WITH (NOLOCK)   ON HD.FTSplCode     = SPL_L.FTSplCode   AND SPL_L.FNLngID   = ".$this->db->escape($nLngID)."
@@ -131,10 +131,6 @@ class Invoice_model extends CI_Model{
         }
 
         $tSQL .= ") AS c ORDER BY C.FDCreateOn DESC";
-
-        // echo "<pre>";
-        // print_r($tSQL);
-        // echo "</pre>";
 
         $oQuery = $this->db->query($tSQL);
         if ($oQuery->num_rows() > 0) {
@@ -319,9 +315,10 @@ class Invoice_model extends CI_Model{
                     BAR.FTPlcCode,
                     PDTLOCL.FTPlcName,
                     PDTSRL.FTSrnCode,
-                    CAVG.FCPdtCostStd,
+                    --CAVG.FCPdtCostStd,
                     CAVG.FCPdtCostEx,
                     CAVG.FCPdtCostIn,
+                    CAVG.FTAgnCode,
                     SPL.FCSplLastPrice
                 FROM TCNMPdt PDT WITH (NOLOCK)
                 LEFT JOIN TCNMPdt_L PDTL        WITH (NOLOCK)   ON PDT.FTPdtCode      = PDTL.FTPdtCode    AND PDTL.FNLngID    = $nLngID
@@ -387,9 +384,10 @@ class Invoice_model extends CI_Model{
                     BAR.FTPlcCode,
                     PDTLOCL.FTPlcName,
                     PDTSRL.FTSrnCode,
-                    PDT.FCPdtCostStd,
+                    --PDT.FCPdtCostStd,
                     CAVG.FCPdtCostEx,
                     CAVG.FCPdtCostIn,
+                    CAVG.FTAgnCode,
                     SPL.FCSplLastPrice
                 FROM TCNMPdt PDT WITH (NOLOCK)
                 LEFT JOIN TCNMPdt_L PDTL        WITH (NOLOCK)   ON PDT.FTPdtCode      = PDTL.FTPdtCode    AND PDTL.FNLngID    = $nLngID
@@ -421,20 +419,44 @@ class Invoice_model extends CI_Model{
         $oQuery = $this->db->query($tSQL);
 
         if ($oQuery->num_rows() > 0) {
-            $aDetail    = $oQuery->row_array();
-            $aResult    = array(
-                'raItem'    => $aDetail,
-                'rtCode'    => '1',
-                'rtDesc'    => 'success',
-            );
+            $aDetail    = $oQuery->result();
+            if($tAgnCode != '') {
+                for($nI = 0; $nI < FCNnHSizeOf($aDetail); $nI++) {
+                    if($aDetail[$nI]->FTAgnCode != '' && $aDetail[$nI]->FTAgnCode == $tAgnCode) {
+                        $aResult    = array(
+                            'raItem'    => $aDetail[$nI],
+                            'rtCode'    => '1',
+                            'rtDesc'    => 'success',
+                        );
+                        break;
+                    }else{
+                        $aResult    = array(
+                            'raItem'    => $aDetail[$nI],
+                            'rtCode'    => '1',
+                            'rtDesc'    => 'success',
+                        );
+                    }
+                }
+            }else {
+                $aResult    = array(
+                    'raItem'    => $aDetail[0],
+                    'rtCode'    => '1',
+                    'rtDesc'    => 'success',
+                );
+            }
         } else {
             $aResult = array(
                 'rtCode' => '800',
                 'rtDesc' => 'data not found.',
             );
         }
+
         unset($oQuery);
         unset($aDetail);
+
+        $jResult = json_encode($aResult);
+        $aResult = json_decode($jResult, true);
+
         return $aResult;
     }
 
@@ -492,11 +514,11 @@ class Invoice_model extends CI_Model{
                     'FCXtdVatRate'      => $paDataPdtParams['nVatRate'],
                     'FTXtdStaAlwDis'    => $paItemDataPdt['FTPdtStaAlwDis'],
                     'FTXtdSaleType'     => $paItemDataPdt['FTPdtSaleType'],
-                    'FCXtdSalePrice'    => $paItemDataPdt['FCPdtCostStd'],
+                    'FCXtdSalePrice'    => ($paItemDataPdt['pcPriceUse'] == '') ? 0 : $paItemDataPdt['pcPriceUse'],
                     'FTTmpStatus'       => $paItemDataPdt['FTPdtType'],
                     'FCXtdQty'          => 1,
                     'FCXtdQtyAll'       => 1 * $paItemDataPdt['FCPdtUnitFact'],
-                    'FCXtdSetPrice'     => $paItemDataPdt['FCPdtCostStd'] * 1,
+                    'FCXtdSetPrice'     => ($paItemDataPdt['pcPriceUse'] == '') ? 0 : $paItemDataPdt['pcPriceUse'] * 1,
                     'FTSessionID'       => $paDataPdtParams['tSessionID'],
                     'FDLastUpdOn'       => date('Y-m-d H:i:s'),
                     'FTLastUpdBy'       => $this->session->userdata('tSesUsername'),
@@ -534,11 +556,11 @@ class Invoice_model extends CI_Model{
                 'FCXtdVatRate'      => $paDataPdtParams['nVatRate'],
                 'FTXtdStaAlwDis'    => $paItemDataPdt['FTPdtStaAlwDis'],
                 'FTXtdSaleType'     => $paItemDataPdt['FTPdtSaleType'],
-                'FCXtdSalePrice'    => $paItemDataPdt['FCPdtCostStd'],
+                'FCXtdSalePrice'    => ($paItemDataPdt['pcPriceUse'] == '') ? 0 : $paItemDataPdt['pcPriceUse'],
                 'FTTmpStatus'       => $paItemDataPdt['FTPdtType'],
                 'FCXtdQty'          => 1,
                 'FCXtdQtyAll'       => 1 * $paItemDataPdt['FCPdtUnitFact'],
-                'FCXtdSetPrice'     => $paItemDataPdt['FCPdtCostStd'] * 1,
+                'FCXtdSetPrice'     => ($paItemDataPdt['pcPriceUse'] == '') ? 0 : $paItemDataPdt['pcPriceUse'] * 1,
                 'FTSessionID'       => $paDataPdtParams['tSessionID'],
                 'FDLastUpdOn'       => date('Y-m-d H:i:s'),
                 'FTLastUpdBy'       => $this->session->userdata('tSesUsername'),
@@ -3129,7 +3151,7 @@ class Invoice_model extends CI_Model{
         $tRefIntDocNo   = $paData['tRefIntDocNo'];
         $tRefIntBchCode = $paData['tRefIntBchCode'];
         $aSeqNo         = '(' . implode(',', $paData['aSeqNo']) . ')';
-
+        $nCostType      = $paData['nCostType'];
 
         // เช็ค Login ด้วย Agency ดึงต้นทุน Agency
         if(isset($tAgnCode) && !empty($tAgnCode) && isset($tAgnType) && $tAgnType == 2){
@@ -3160,10 +3182,16 @@ class Invoice_model extends CI_Model{
                     PDT.FTVatCode AS FTVatCode,
                     VAT.FCVatRate,
                     PDT.FTPdtSaleType       AS FTXpdSaleType,
-                    COSTAVG.FCPdtCostStd    AS FCXpdSalePrice,
+                    CASE 
+                        WHEN $nCostType = 1 THEN COSTAVG.FCPdtCostEx 
+                        ELSE COSTAVG.FCPdtCostStd 
+                    END AS FCXpdSalePrice,
                     (DT.FCXpdQty - ISNULL(CHKSUM.FCXpdQty,0)) AS FCXpdQty,
                     DT.FCXpdQtyAll,
-                    COSTAVG.FCPdtCostStd    AS FCXpdSetPrice,
+                    CASE 
+                        WHEN $nCostType = 1 THEN COSTAVG.FCPdtCostEx 
+                        ELSE COSTAVG.FCPdtCostStd 
+                    END AS FCXpdSetPrice,
                     0 AS FCXpdAmtB4DisChg,
                     '' AS FTXpdDisChgTxt,
                     0 as FCXpdQtyLef,
@@ -3230,10 +3258,16 @@ class Invoice_model extends CI_Model{
                     PDT.FTVatCode AS FTVatCode,
                     VAT.FCVatRate,
                     PDT.FTPdtSaleType   AS FTXpdSaleType,
-                    PDT.FCPdtCostStd    AS FCXpdSalePrice,
+                    CASE 
+                        WHEN $nCostType = 1 THEN COSTAVG.FCPdtCostEx 
+                        ELSE PDT.FCPdtCostStd 
+                    END AS FCXpdSalePrice,
                     (DT.FCXpdQty - ISNULL(CHKSUM.FCXpdQty,0)) AS FCXpdQty,
                     DT.FCXpdQtyAll,
-                    PDT.FCPdtCostStd    AS FCXpdSetPrice,
+                    CASE 
+                        WHEN $nCostType = 1 THEN COSTAVG.FCPdtCostEx 
+                        ELSE PDT.FCPdtCostStd 
+                    END AS FCXpdSetPrice,
                     0 AS FCXpdAmtB4DisChg,
                     '' AS FTXpdDisChgTxt,
                     0 as FCXpdQtyLef,
@@ -3253,6 +3287,7 @@ class Invoice_model extends CI_Model{
                     CONVERT(VARCHAR,'" . $this->session->userdata('tSesUsername') . "') AS FTCreateBy
                 FROM TAPTPoDT DT WITH (NOLOCK)
                 LEFT JOIN TCNMPdt PDT WITH (NOLOCK) ON DT.FTPdtCode = PDT.FTPdtCode
+                LEFT JOIN TCNMPdtCostAvg COSTAVG WITH(NOLOCK) ON DT.FTPdtCode = COSTAVG.FTPdtCode AND COSTAVG.FTAgnCode = ''
                 LEFT JOIN (
                     SELECT HDR.FTXshRefDocNo,DT.FTPdtCode,SUM(DT.FCXpdQty) AS FCXpdQty 
                     FROM TAPTPiDT DT WITH ( NOLOCK )
@@ -3301,6 +3336,7 @@ class Invoice_model extends CI_Model{
         $tRefIntDocNo   = $paData['tRefIntDocNo'];
         $tRefIntBchCode = $paData['tRefIntBchCode'];
         $aSeqNo         = '(' . implode(',', $paData['aSeqNo']) . ')';
+        $nCostType      = $paData['nCostType'];
 
         // เช็ค Login ด้วย Agency ดึงต้นทุน Agency
         if(isset($tAgnCode) && !empty($tAgnCode) && isset($tAgnType) && $tAgnType == 2){
@@ -3331,10 +3367,16 @@ class Invoice_model extends CI_Model{
                     PDT.FTVatCode AS FTVatCode,
                     VAT.FCVatRate,
                     PDT.FTPdtSaleType       AS FTXpdSaleType,
-                    COSTAVG.FCPdtCostStd    AS FCXpdSalePrice,
+                    CASE 
+                        WHEN $nCostType = 1 THEN COSTAVG.FCPdtCostEx 
+                        ELSE COSTAVG.FCPdtCostStd 
+                    END AS FCXpdSalePrice,
                     DT.FCXpdQty,
                     DT.FCXpdQtyAll,
-                    COSTAVG.FCPdtCostStd    AS FCXpdSetPrice,
+                    CASE 
+                        WHEN $nCostType = 1 THEN COSTAVG.FCPdtCostEx 
+                        ELSE COSTAVG.FCPdtCostStd 
+                    END AS FCXpdSetPrice,
                     0 AS FCXpdAmtB4DisChg,
                     '' AS FTXpdDisChgTxt,
                     0 as FCXpdQtyLef,
@@ -3394,10 +3436,16 @@ class Invoice_model extends CI_Model{
                     PDT.FTVatCode AS FTVatCode,
                     VAT.FCVatRate,
                     PDT.FTPdtSaleType AS FTXpdSaleType,
-                    PDT.FCPdtCostStd AS FCXpdSalePrice,
+                    CASE 
+                        WHEN $nCostType = 1 THEN COSTAVG.FCPdtCostEx 
+                        ELSE PDT.FCPdtCostStd 
+                    END AS FCXpdSalePrice,
                     DT.FCXpdQty,
                     DT.FCXpdQtyAll,
-                    PDT.FCPdtCostStd AS FCXpdSetPrice,
+                    CASE 
+                        WHEN $nCostType = 1 THEN COSTAVG.FCPdtCostEx 
+                        ELSE PDT.FCPdtCostStd 
+                    END AS AS FCXpdSetPrice,
                     0 AS FCXpdAmtB4DisChg,
                     '' AS FTXpdDisChgTxt,
                     0 as FCXpdQtyLef,
@@ -3417,6 +3465,7 @@ class Invoice_model extends CI_Model{
                     CONVERT(VARCHAR,'" . $this->session->userdata('tSesUsername') . "') AS FTCreateBy
                 FROM TAPTDoDT DT WITH (NOLOCK)
                 LEFT JOIN TCNMPdt PDT WITH (NOLOCK) ON DT.FTPdtCode = PDT.FTPdtCode
+                LEFT JOIN TCNMPdtCostAvg COSTAVG WITH(NOLOCK) ON DT.FTPdtCode = COSTAVG.FTPdtCode AND COSTAVG.FTAgnCode = ".$this->db->escape($tAgnCode)."
                 INNER JOIN (
                     SELECT A.* FROM(
                         SELECT  
@@ -3454,6 +3503,8 @@ class Invoice_model extends CI_Model{
         $tRefIntDocNo   = $paData['tRefIntDocNo'];
         $tRefIntBchCode = $paData['tRefIntBchCode'];
         $aSeqNo         = '(' . implode(',', $paData['aSeqNo']) . ')';
+        $nCostType      = $paData['nCostType'];
+
         $tSQL   = "INSERT INTO TCNTDocDTTmp (
                     FTBchCode, FTXthDocNo, FNXtdSeqNo, FTXthDocKey, FTPdtCode, FTXtdPdtName,
                     FTPunCode, FTPunName, FCXtdFactor, FTXtdBarCode, FTSrnCode,
@@ -3854,7 +3905,50 @@ class Invoice_model extends CI_Model{
     }
 
 
+    public function FSnMGetCostType(){
+        $tSesUsrAgnCode = $this->session->userdata('tSesUsrAgnCode');
+        $tSesUsrAgnType = $this->session->userdata('tAgnType');
 
+        if(isset($tSesUsrAgnCode) && !empty($tSesUsrAgnCode) && isset($tSesUsrAgnType) && $tSesUsrAgnType == 2){
+            $tSQL = "
+                SELECT 
+                    FTCfgStaUsrValue AS FTSysStaDefValue,
+                    FTCfgStaUsrValue AS FTSysStaUsrValue
+                FROM  TCNTConfigSpc
+                WHERE FTSysCode = 'tCN_Cost' 
+                AND FTSysKey    = 'Company'
+                AND FTSysSeq    = '2'
+                AND FTSysApp    = 'AP'
+                AND FTAgnCode   = '$tSesUsrAgnCode'
+            ";
+        } else {
+            $tSQL = "
+                SELECT FTSysStaDefValue,FTSysStaUsrValue
+                FROM  TSysConfig WITH(NOLOCK)
+                WHERE 
+                FTSysCode = 'tCN_Cost' 
+                AND FTSysKey = 'Company' 
+                AND FTSysSeq = '2'
+                AND FTSysApp = 'AP'
+            ";
+        }
+
+        $oQuery = $this->db->query($tSQL);
+
+        if ($oQuery->num_rows() > 0) {
+            $oRes  = $oQuery->result();
+            if ($oRes[0]->FTSysStaUsrValue != '') {
+                $tDataSavDec = $oRes[0]->FTSysStaUsrValue;
+            } else {
+                $tDataSavDec = $oRes[0]->FTSysStaDefValue;
+            }
+        } else {
+            //Decimal Default = 2 
+            $tDataSavDec = 2;
+        }
+        return $tDataSavDec;
+
+    }
 
 
 
