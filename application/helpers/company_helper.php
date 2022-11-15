@@ -147,3 +147,116 @@ Function FCNtGetCompanyGroupMember(){
 
     return $tCgpCode;
 }
+
+
+
+/**
+ * Functionality : แจ้งเตือนการยกเลิกการจองสินค้า
+ * Parameters : 
+ * Creator : 14/11/2022 Nale
+ * Last Modified : -
+ * Return : status
+*/
+function FCNaNotiCancelBookingStock(){
+    $ci = &get_instance();
+    
+    $tSQL="SELECT LCB.FDLcbDate
+            FROM TCNTLastCancelBookingTmp LCB WITH (NOLOCK) 
+            WHERE LCB.FNLcbType = 1 
+            AND CONVERT(VARCHAR(10),LCB.FDLcbDate,120) = CONVERT(VARCHAR(10),GETDATE(),120)
+            ";
+    $oQuery = $ci->db->query($tSQL);
+
+    if ($oQuery->num_rows() == 0) {//ถ้าตรวจสอบวันที่การซิงค์ของวันปัจจุบันยังไม่ถูกทำให้เข้าเงื่อนไข
+        
+        $tSQL1="SELECT
+                HD.FTBchCode,
+                BCH_L.FTBchName,
+                HD.FTXshDocNo,
+                HD.FDXshDocDate,
+                HD.FDXshBookDate,
+                HD.FDXshTimeStart,
+                HD.FDXshTimeStop
+            FROM
+                TSVTBookHD HD WITH (NOLOCK)
+            LEFT JOIN TCNMBranch_L BCH_L WITH (NOLOCK) ON HD.FTBchCode = BCH_L.FTBchCode AND BCH_L.FNLngID = 1
+            WHERE HD.FDXshTimeStop<CONVERT(VARCHAR(10),GETDATE(),120)
+            AND HD.FTXshStaApv = '1' ";
+            $oQuery1 = $ci->db->query($tSQL1);
+            //คิวรี่หาการจองที่ลูกค้าไม่มาตามนัดคือเลยวันนัดมาแล้ว
+            if ($oQuery1->num_rows() > 0) {//พบข้อมูลที่มีการจองแต่เลยนัด
+
+                $tNotiID = '';
+                foreach($oQuery1 as $aData){
+                    // ส่ง Massage Noti
+                    $aTCNTNotiSpc[] = array(
+                        "FNNotID"       => $tNotiID,
+                        "FTNotType"    => '1',
+                        "FTNotStaType" => '1',
+                        "FTAgnCode"    => '',
+                        "FTAgnName"    => '',
+                        "FTBchCode"    => $aData['FTBchCode'],
+                        "FTBchName"    => $aData['FTBchName'],
+                    );
+      
+                    $aMQParamsNoti = [
+                    "queueName" => "CN_SendToNoti",
+                    "tVhostType" => "NOT",
+                    "params"    => [
+                                    "oaTCNTNoti" => array(
+                                                    "FNNotID"       => $tNotiID,
+                                                    "FTNotCode"     => '00019',
+                                                    "FTNotKey"      => 'TSVTBookHD',
+                                                    "FTNotBchRef"    => $aData['FTBchCode'],
+                                                    "FTNotDocRef"   => $aData['FTXshDocNo'],
+                                    ),
+                                    "oaTCNTNoti_L" => array(
+                                                        0 => array(
+                                                            "FNNotID"       => $tNotiID,
+                                                            "FNLngID"       => 1,
+                                                            "FTNotDesc1"    => 'เอกสารการจองเลยกำหนด #'.$aData['FTXshDocNo'],
+                                                            "FTNotDesc2"    => 'รหัสสาขา '.$aData['FTBchCode'].' รอยกเลิกการจอง ',
+                                                        ),
+                                                        1 => array(
+                                                            "FNNotID"       => $tNotiID,
+                                                            "FNLngID"       => 2,
+                                                            "FTNotDesc1"    => 'Booking document late #'.$aData['FTXshDocNo'],
+                                                            "FTNotDesc2"    => 'Branch code '.$aData['FTBchCode'].' Wait Cancel Booking ',
+                                                        )
+                                    ),
+                                    "oaTCNTNotiAct" => array(
+                                                        0 => array( 
+                                                                "FNNotID"       => $tNotiID,
+                                                                "FDNoaDateInsert" => date('Y-m-d H:i:s'),
+                                                                "FTNoaDesc"          => 'รหัสสาขา '.$aData['FTBchCode'].' รอยกเลิกการจอง ',
+                                                                "FTNoaDocRef"    => $aData['FTXshDocNo'],
+                                                                "FNNoaUrlType"   =>  1,
+                                                                "FTNoaUrlRef"    => 'docBookingCalendar/0/0',
+                                                                ),
+                                        ), 
+                                    "oaTCNTNotiSpc" => $aTCNTNotiSpc,
+                        "ptUser"        => $this->session->userdata('tSesUsername'),
+                    ]
+                    ];
+                    FCNxCallRabbitMQ($aMQParamsNoti);
+                }
+                $ci->db->insert('TCNTLastCancelBookingTmp',array('FDLcbDate'=>date('Y-m-d') , 'FNLcbType'=> 1));
+                $aDataResult = array(
+                    'rtCode' => '200' ,
+                    'rtDesc' => 'Success CanCeled Bookking of '.date('Y-m-d')
+                );
+            }else{
+                $aDataResult = array(
+                    'rtCode' => '200' ,
+                    'rtDesc' => 'Not Found Data '
+                );
+            }
+    }else{
+            $aDataResult = array(
+                'rtCode' => '200' ,
+                'rtDesc' => 'CanCeled Bookking of '.date('Y-m-d')
+            );
+          
+    }
+    return $aDataResult;
+}
