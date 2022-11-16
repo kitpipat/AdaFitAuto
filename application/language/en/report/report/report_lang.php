@@ -2164,3 +2164,12 @@ $lang['tRptPoFormTitle']    = "รายงานสต๊อก รายวั
 $lang['tRptGrpAgencyF']    = "จากตัวแทนขาย/แฟรนไชส์";
 $lang['tRptCat1F']    = "จากหมวดหมู่สินค้าหลัก";
 
+// รายงาน - ใบแลกของพรีเมี่ยม
+$lang['tRptPremRedem']              = "Report - Premium Redem";
+$lang['tRptPremRedemBchCode']       = "Branch Code";
+$lang['tRptPremRedemBchName']       = "Branch Name";
+$lang['tRptPremRedemDocNo']         = "Doc No.";
+$lang['tRptPremRedemDocCreate']     = "Document Date Create";
+$lang['tRptPremRedemPdtCode']       = "Product Code";
+$lang['tRptPremRedemPdtName']       = "Product Name";
+$lang['tRptPremRedemRefDocExt']     = "External Reference Document";

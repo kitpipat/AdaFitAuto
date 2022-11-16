@@ -937,3 +937,7 @@ $route['rptTrfpmtinfExportFile']    = 'report/reportFitauto/RptTrfpmtinf_control
 // รายงาน - ข้อมูลการพิมพ์ซ้ำ
 $route['rptReprintDocument']            = 'report/reportFitauto/RptReprintDocument_controller/index';
 $route['rptReprintDocumentClickPage']   = 'report/reportFitauto/RptReprintDocument_controller/FSvCCallRptViewBeforePrintClickPage';
+
+// รายงาน - ข้อมูลการพิมพ์ซ้ำ
+$route['rptPremRedem']            = 'report/reportFitauto/RptPremRedem_controller/index';
+$route['rptPremRedemClickPage']   = 'report/reportFitauto/RptPremRedem_controller/FSvCCallRptViewBeforePrintClickPage';

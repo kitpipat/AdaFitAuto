@@ -2727,3 +2727,13 @@ $lang['tRptReprintDocDocNo']        = "เลขที่เอกสาร";
 $lang['tRptReprintDocDocCreate']    = "วันที่ทำรายการ";
 $lang['tRptReprintDocNumPrint']     = "พิมพ์ซ้ำครั้งที่";
 $lang['tRptReprintDocCashier']      = "ผู้ทำรายการ";
+
+// รายงาน - ใบแลกของพรีเมี่ยม
+$lang['tRptPremRedem']              = "รายงาน - ข้อมูลใบแลกของพรีเมี่ยม";
+$lang['tRptPremRedemBchCode']       = "รหัสสาขา";
+$lang['tRptPremRedemBchName']       = "ชื่อสาขา";
+$lang['tRptPremRedemDocNo']         = "เลขที่เอกสาร";
+$lang['tRptPremRedemDocCreate']     = "วันที่ทำรายการ";
+$lang['tRptPremRedemPdtCode']       = "รหัสสินค้า";
+$lang['tRptPremRedemPdtName']       = "ชื่อสินค้า";
+$lang['tRptPremRedemRefDocExt']     = "เอกสารอ้างอิงภายนอก";
