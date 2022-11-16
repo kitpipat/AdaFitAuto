@@ -94,7 +94,6 @@
             var nStartTime = nStartTime.format('YYYY-MM-DD HH:mm:00');
             var nEndTime   = nEndTime.format('YYYY-MM-DD HH:mm:00');
         }
-        
         $.ajax({
             type    : "POST",
             url     : "docBookingCalendarPageAdd",
@@ -107,21 +106,21 @@
 
                 //ปุ่มของลูกค้า
                 $('#obtBKBrowseCustomer').attr('disabled',true)
+                if(poValue != ''){
+                    //ลูกค้า
+                    $('#oetBKCusCode').val(poValue.FTCstCode);
+                    $('#oetBKCusName').val(poValue.FTCstName);
 
-                //ลูกค้า
-                $('#oetBKCusCode').val(poValue.FTCstCode);
-                $('#oetBKCusName').val(poValue.FTCstName);
+                    //รถ
+                    $('#oetBKCarCode').val(poValue.FTCarCode);
+                    $('#oetBKCarName').val(poValue.FTCarRegNo);
 
-                //รถ
-                $('#oetBKCarCode').val(poValue.FTCarCode);
-                $('#oetBKCarName').val(poValue.FTCarRegNo);
+                    //เบอร์
+                    $('#oetBKTelephone').val(poValue.FTCstTel);
 
-                //เบอร์
-                $('#oetBKTelephone').val(poValue.FTCstTel);
-
-                //อีเมล์
-                $('#oetBKEmail').val(poValue.FTCstEmail);
-
+                    //อีเมล์
+                    $('#oetBKEmail').val(poValue.FTCstEmail);
+                }
                 //โหลดข้อมูลรถ
                 JSxLoadInformationCar(poValue.FTCarCode);
 

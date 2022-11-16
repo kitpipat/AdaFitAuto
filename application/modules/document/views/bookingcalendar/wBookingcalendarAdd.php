@@ -506,13 +506,13 @@
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                             <label class="xCNLabelFrm"><span style="color:red">*</span><?=language('document/bookingcalendar/bookingcalendar','tBKTabRamark_TimeStart')?>
                                             </label>
-                                            <input class="xCNTimePicker" autocomplete="off" type="text" id="oetBookTimeStart" name="oetBookTimeStart" value="<?=$nStartTime[1];?>">
+                                            <input class="xCNTimePicker" autocomplete="off" type="text" id="oetBookTimeStart" name="oetBookTimeStart" value="<?=@$nStartTime[1];?>">
                                         </div>
 
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                             <label class="xCNLabelFrm"><span style="color:red">*</span><?=language('document/bookingcalendar/bookingcalendar','tBKTabRamark_TimeEnd')?> (ประมาณ)
                                             </label>
-                                            <input class="xCNTimePicker" autocomplete="off" type="text" id="oetBookTimeEnd" name="oetBookTimeEnd" value="<?=$nEndTime[1];?>">
+                                            <input class="xCNTimePicker" autocomplete="off" type="text" id="oetBookTimeEnd" name="oetBookTimeEnd" value="<?=@$nEndTime[1];?>">
                                         </div>
                                     </div>
 

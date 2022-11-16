@@ -40,6 +40,7 @@ class cLogin extends MX_Controller {
 	//Return Type: Redirect
 	public function FSaCLOGChkLogin(){
 		try {
+			FCNaNotiCancelBookingStock();
 			$tUsername	 = $this->input->post('oetUsername'); //ชื่อผู้ใช้
 			$tPassword	 = $this->input->post('oetPasswordhidden'); //รหัสผ่าน
 			$tUsrCode	 = $this->input->post('tUsrCode');
