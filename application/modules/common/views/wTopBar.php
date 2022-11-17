@@ -248,7 +248,7 @@
                                     </div>
                                 </div>
                                 <li class="divider"></li>
-                                <div class="notification-footer dropbtn" align="center" onclick="JCNxNTFJumpDocPageEdit('','mntDocSta/2','','')"><h4 class="menu-title"><?php echo language('common/main/main','tSeeAll')?> <i class="glyphicon glyphicon-circle-arrow-right"></i></h4></div>
+                                <div class="notification-footer dropbtn" align="center" onclick="JCNxNTFJumpDocPageEdit('','mntDocSta/2','','')"><h4 class="menu-title"><div><?php echo language('common/main/main','tSeeAll')?> <i class="glyphicon glyphicon-circle-arrow-right"></i></div></h4></div>
                             </ul>
                         </li>
                     </ul>

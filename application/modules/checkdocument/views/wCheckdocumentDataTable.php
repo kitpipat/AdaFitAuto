@@ -43,12 +43,13 @@
                             <td class='text-left xCNTextDetail2'>
                                 <?php if(!empty($aDataNotiDoc)){ ?>
                                     <?php foreach($aData['oBchCodeFrm'] as $nKey1 => $aData1){ 
-                                            if($nKey1==0){
+                                            if($aData['FTNotBchRef'] == $aData1['FTBchCode']){
                                                 $tChkBchCode = $aData1['FTBchCode'];
                                                 $tChkBchName = $aData1['FTBchName'];
+                                                echo $tChkBchName;
                                             }
-                                        ?>  
-                                        <?=$tChkBchName?><br>
+                                    ?>  
+                                    <!-- <br> -->
                                     <?php } ?>
                                 <?php } ?>
                             </td>

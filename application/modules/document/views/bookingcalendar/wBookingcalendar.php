@@ -66,3 +66,16 @@
 </div>
 
 <?php include('script/jBookingcalendar.php') ?>
+
+<script>
+	$("document").ready(function () {
+        var tFKBayService   = {
+                                'id' 		: '' , 
+                                'name' 		: '' , 
+                                'adcode' 	: '<?= $FTAgnCode ?>' , 
+                                'bchcode'   : '<?= $FTBchCode ?>' };
+                                
+        JSxPopupBookingCalendarList('<?= $FDXshTimeStart ?>','<?= $FDXshTimeStop ;?>',tFKBayService,'<?= $FTDocNo ?>','List','')
+
+    });
+</script>

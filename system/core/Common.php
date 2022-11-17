@@ -1,7 +1,7 @@
 <?php
 
 //เรียกไฟล์ helper ที่จะส่ง MQ_LOG 
-include('application/helpers/rabbitMQSSL_helper.php');
+// include('application/helpers/rabbitMQSSL_helper.php');
 /**
  * CodeIgniter
  *

@@ -16,10 +16,27 @@ class Bookingcalendar_controller extends MX_Controller{
     }
 
     public function index($nBKBrowseType, $tBKBrowseOption){
+
+        $tDocNo   = $this->input->post('tDocNo');
+        if($tDocNo){
+            $tAgnCode = $this->input->post('tAgnCode');
+            $tBchCode = $this->input->post('tBchCode');
+       
+            $aResult = $this->Bookingcalendar_model->FSaMBKGetBookingbyID($tDocNo); 
+
+            $aData = array(
+                'FTAgnCode' => $tAgnCode,
+                'FTBchCode' => $tBchCode,
+                'FTDocNo'   => $tDocNo,
+                'FDXshTimeStart'  => $aResult[0]['FDXshTimeStart'],
+                'FDXshTimeStop' => $aResult[0]['FDXshTimeStop']
+            );
+        }
         $aData['nBrowseType']       = $nBKBrowseType;
         $aData['tBrowseOption']     = $tBKBrowseOption;
         $aData['aPermission']       = FCNaHCheckAlwFunc('docBookingCalendar/0/0');
         $aData['vBtnSave']          = FCNaHBtnSaveActiveHTML('docBookingCalendar/0/0');
+
         $this->load->view('document/bookingcalendar/wBookingcalendar', $aData);
     }
 

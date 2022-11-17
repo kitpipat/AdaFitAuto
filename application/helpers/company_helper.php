@@ -181,11 +181,11 @@ function FCNaNotiCancelBookingStock(){
                 TSVTBookHD HD WITH (NOLOCK)
             LEFT JOIN TCNMBranch_L BCH_L WITH (NOLOCK) ON HD.FTBchCode = BCH_L.FTBchCode AND BCH_L.FNLngID = 1
             WHERE HD.FDXshTimeStop<CONVERT(VARCHAR(10),GETDATE(),120)
-            AND HD.FTXshStaApv = '1' ";
+            AND HD.FTXshStaApv = '1' AND HD.FTXshStaDoc = '1'";
             $oQuery1 = $ci->db->query($tSQL1);
             //คิวรี่หาการจองที่ลูกค้าไม่มาตามนัดคือเลยวันนัดมาแล้ว
             if ($oQuery1->num_rows() > 0) {//พบข้อมูลที่มีการจองแต่เลยนัด
-
+                $oQuery1 = $oQuery1->result_array();
                 $tNotiID = '';
                 foreach($oQuery1 as $aData){
                     // ส่ง Massage Noti
@@ -200,43 +200,43 @@ function FCNaNotiCancelBookingStock(){
                     );
       
                     $aMQParamsNoti = [
-                    "queueName" => "CN_SendToNoti",
-                    "tVhostType" => "NOT",
-                    "params"    => [
-                                    "oaTCNTNoti" => array(
-                                                    "FNNotID"       => $tNotiID,
-                                                    "FTNotCode"     => '00019',
-                                                    "FTNotKey"      => 'TSVTBookHD',
-                                                    "FTNotBchRef"    => $aData['FTBchCode'],
-                                                    "FTNotDocRef"   => $aData['FTXshDocNo'],
-                                    ),
-                                    "oaTCNTNoti_L" => array(
-                                                        0 => array(
-                                                            "FNNotID"       => $tNotiID,
-                                                            "FNLngID"       => 1,
-                                                            "FTNotDesc1"    => 'เอกสารการจองเลยกำหนด #'.$aData['FTXshDocNo'],
-                                                            "FTNotDesc2"    => 'รหัสสาขา '.$aData['FTBchCode'].' รอยกเลิกการจอง ',
-                                                        ),
-                                                        1 => array(
-                                                            "FNNotID"       => $tNotiID,
-                                                            "FNLngID"       => 2,
-                                                            "FTNotDesc1"    => 'Booking document late #'.$aData['FTXshDocNo'],
-                                                            "FTNotDesc2"    => 'Branch code '.$aData['FTBchCode'].' Wait Cancel Booking ',
-                                                        )
-                                    ),
-                                    "oaTCNTNotiAct" => array(
-                                                        0 => array( 
+                        "queueName" => "CN_SendToNoti",
+                        "tVhostType" => "NOT",
+                        "params"    => [
+                                        "oaTCNTNoti" => array(
+                                                        "FNNotID"       => $tNotiID,
+                                                        "FTNotCode"     => '00019',
+                                                        "FTNotKey"      => 'TSVTBookHD',
+                                                        "FTNotBchRef"    => $aData['FTBchCode'],
+                                                        "FTNotDocRef"   => $aData['FTXshDocNo'],
+                                        ),
+                                        "oaTCNTNoti_L" => array(
+                                                            0 => array(
                                                                 "FNNotID"       => $tNotiID,
-                                                                "FDNoaDateInsert" => date('Y-m-d H:i:s'),
-                                                                "FTNoaDesc"          => 'รหัสสาขา '.$aData['FTBchCode'].' รอยกเลิกการจอง ',
-                                                                "FTNoaDocRef"    => $aData['FTXshDocNo'],
-                                                                "FNNoaUrlType"   =>  1,
-                                                                "FTNoaUrlRef"    => 'docBookingCalendar/0/0',
-                                                                ),
-                                        ), 
-                                    "oaTCNTNotiSpc" => $aTCNTNotiSpc,
-                        "ptUser"        => $this->session->userdata('tSesUsername'),
-                    ]
+                                                                "FNLngID"       => 1,
+                                                                "FTNotDesc1"    => 'เอกสารการจองเลยกำหนด #'.$aData['FTXshDocNo'],
+                                                                "FTNotDesc2"    => 'รหัสสาขา '.$aData['FTBchCode'].' รอยกเลิกการจอง ',
+                                                            ),
+                                                            1 => array(
+                                                                "FNNotID"       => $tNotiID,
+                                                                "FNLngID"       => 2,
+                                                                "FTNotDesc1"    => 'Booking document late #'.$aData['FTXshDocNo'],
+                                                                "FTNotDesc2"    => 'Branch code '.$aData['FTBchCode'].' Wait Cancel Booking ',
+                                                            )
+                                        ),
+                                        "oaTCNTNotiAct" => array(
+                                                            0 => array( 
+                                                                    "FNNotID"       => $tNotiID,
+                                                                    "FDNoaDateInsert" => date('Y-m-d H:i:s'),
+                                                                    "FTNoaDesc"          => 'รหัสสาขา '.$aData['FTBchCode'].' รอยกเลิกการจอง ',
+                                                                    "FTNoaDocRef"    => $aData['FTXshDocNo'],
+                                                                    "FNNoaUrlType"   =>  1,
+                                                                    "FTNoaUrlRef"    => 'docBookingCalendar/0/0',
+                                                                    ),
+                                            ), 
+                                        "oaTCNTNotiSpc" => $aTCNTNotiSpc,
+                            "ptUser"  => $ci->session->userdata('tSesUsername'),
+                        ]
                     ];
                     FCNxCallRabbitMQ($aMQParamsNoti);
                 }
