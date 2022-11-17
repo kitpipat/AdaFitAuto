@@ -723,9 +723,7 @@ class Invoicecustomerbill_model extends CI_Model
                             PBDT.FTXpdRefDocNo AS FTPdtCode ,
                             PBDT.FTXpdRefDocType AS FTPunCode,
                             PBDT.FCXpdInvLeft AS FCXtdVatable ,
-                            -- PBDT.FCXpdInvPaid AS FCXtdSetPrice ,
-                            -- เนื่องจากการตัดชำระอยู่ที่ฝั่ง SAP
-                            0 AS FCXtdSetPrice ,
+                            PBDT.FCXpdInvPaid AS FCXtdSetPrice ,
                             PBDT.FDXpdDueDate AS FDAjdDateTimeC1 ,
                             PBDT.FDXpdRefDocDate AS FDAjdDateTimeC2 ,
                             PBDT.FDLastUpdOn ,
@@ -1328,8 +1326,11 @@ class Invoicecustomerbill_model extends CI_Model
                ,HDREF.FTXshDocNo
                ,HDREF.FDXshRefDocDate
                ,HD.FCXshAmtV
-               ,HD.FCXshPaid
-               ,HD.FCXshLeft
+               --,HD.FCXshPaid
+               --,HD.FCXshLeft
+               -- เนื่องจากการตัดชำระอยู่ที่ฝั่ง SAP
+               ,0 AS FCXshPaid
+               ,HD.FCXshAmtV AS FCXshLeft
                ,".$this->db->escape($tSessionID)."		AS FTSessionID
                ,HD.FDLastUpdOn
                ,HD.FDCreateOn
@@ -1426,7 +1427,8 @@ class Invoicecustomerbill_model extends CI_Model
             ,DT.FTXtdDocNoRef
             ,DT.FDAjdDateTimeC1
             ,DT.FCXtdAmt
-            ,DT.FCXtdSetPrice
+            //,DT.FCXtdSetPrice
+            ,0 AS FCXtdSetPrice
             ,DT.FCXtdVatable
             ,DT.FTSessionID
             ,DT.FDLastUpdOn
