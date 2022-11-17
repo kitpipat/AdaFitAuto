@@ -67,7 +67,6 @@ class Checkdocument_controller extends MX_Controller{
         $tMNTBchCode        = $this->input->post('tMNTBchCode');
         $aDataNumByNotCode  = array();
         $aDataNumByNotName  = array();
-
         if(!empty($aDataNotiDoc)){
             foreach($aDataNotiDoc as $nKey => $aData){
      
@@ -113,7 +112,7 @@ class Checkdocument_controller extends MX_Controller{
                 }
 
                 @$aDataNumByNotCode[$aData['FTNotCode']]++;
-                @$aDataNumByNotName[$aData['FTNotCode']] = $aData['FTNotTypeName'];
+                @$aDataNumByNotName[$aData['FTNotCode']] = array($aData['FTNotTypeName'],$aData['FTNotCode']);
             }
         }
 

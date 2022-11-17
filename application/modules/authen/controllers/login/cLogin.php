@@ -40,7 +40,6 @@ class cLogin extends MX_Controller {
 	//Return Type: Redirect
 	public function FSaCLOGChkLogin(){
 		try {
-			FCNaNotiCancelBookingStock();
 			$tUsername	 = $this->input->post('oetUsername'); //ชื่อผู้ใช้
 			$tPassword	 = $this->input->post('oetPasswordhidden'); //รหัสผ่าน
 			$tUsrCode	 = $this->input->post('tUsrCode');
@@ -428,8 +427,8 @@ class cLogin extends MX_Controller {
 						'nStaReturn'	=> 1,
 						'tMsgReturn'	=> 'Found Data'
 					);
-
 				}
+				FCNaNotiCancelBookingStock();
 			}else{
 				$aReturn = array(
 					'aItems'		=> $aDataUsr,
@@ -437,6 +436,7 @@ class cLogin extends MX_Controller {
 					'tMsgReturn'	=> 'Not Fround Data'
 				);
 			}
+			
 		}catch(Exception $e) {
 			$aReturn = array(
 				'aItems'		=> array(),
