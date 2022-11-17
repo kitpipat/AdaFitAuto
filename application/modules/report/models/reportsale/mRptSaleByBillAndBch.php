@@ -87,11 +87,12 @@ class mRptSaleByBillAndBch extends CI_Model {
                             S.FCXsdDis_SubTotal,
                             S.FCXsdNet_SubTotal,
                             S.FNCount_DT,
-                            S.FNCount_RC
+                            S.FNCount_RC,
+                            S.FTCstNameAll
                         FROM TRPTSalPdtBillTmp A WITH(NOLOCK)
                         LEFT JOIN (
                             SELECT
-                                FTXshDocNo AS FTXshDocNo_SUM,
+                                MAX(FTCstName) AS FTCstNameAll, FTXshDocNo AS FTXshDocNo_SUM,
                                 COUNT(FTXshDocNo) AS FNRptGroupMember,
                                 COUNT(
                                     CASE

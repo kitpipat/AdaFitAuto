@@ -582,7 +582,7 @@ class cRptSaleByBill extends MX_Controller
                     WriterEntityFactory::createCell(null),
                     WriterEntityFactory::createCell($tPosTypeText),
                     WriterEntityFactory::createCell(null),
-                    WriterEntityFactory::createCell($aValue['FTCstName']),
+                    WriterEntityFactory::createCell($aValue['FTCstNameAll']),
                     WriterEntityFactory::createCell(null),
                     WriterEntityFactory::createCell($aValue['FTPdtCode']),
                     WriterEntityFactory::createCell(null),

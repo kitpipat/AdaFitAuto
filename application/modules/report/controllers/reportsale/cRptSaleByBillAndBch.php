@@ -529,7 +529,7 @@ class cRptSaleByBillAndBch extends MX_Controller
                     WriterEntityFactory::createCell($tDocTypeText),
                     WriterEntityFactory::createCell($tDataTypeText),
                     WriterEntityFactory::createCell($tPosTypeText),
-                    WriterEntityFactory::createCell($aValue['FTCstName']),
+                    WriterEntityFactory::createCell($aValue['FTCstNameAll']),
                     WriterEntityFactory::createCell($aValue['FTPdtCode']),
                     WriterEntityFactory::createCell($aValue['FTPdtName']),
                     WriterEntityFactory::createCell(FCNnGetNumeric($nFCXsdQty)),
