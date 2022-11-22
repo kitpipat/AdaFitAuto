@@ -125,3 +125,40 @@ VALUES ('001001067', '001', '001001', 'rptPremRedem', NULL, NULL, '1,4,27,13', N
 INSERT [TSysReport_L] ([FTRptCode], [FNLngID], [FTRptName], [FTRptDes]) VALUES ('001001067', 1, 'รายงาน - ข้อมูลใบแลกของพรีเมี่ยม', NULL)
 
 INSERT [TSysReport_L] ([FTRptCode], [FNLngID], [FTRptName], [FTRptDes]) VALUES ('001001067', 2, 'Report - Premium Redem', NULL)
+
+
+
+-- ==================================================== เพิ่มเมนูใน TSysMenuAlbAct  ====================================================
+-- (รหัสเมนู) Module -> Group -> Menu 
+
+-- 1.(AD0002) เครื่องมือ -> การสำรองข้อมูลและการล้างข้อมูล
+INSERT INTO TSysMenuAlbAct (FTMnuCode, FTAutStaRead, FTAutStaAdd, FTAutStaEdit, FTAutStaDelete, FTAutStaCancel, FTAutStaAppv, FTAutStaPrint, FTAutStaPrintMore)
+VALUES ('AD0002', '1', '1', '1', '1', '0', '0', '0', '0')
+
+-- 2.(SUR007) เครื่องมือ -> ตั้งค่าการสำรองและการล้างข้อมูล
+INSERT INTO TSysMenuAlbAct (FTMnuCode, FTAutStaRead, FTAutStaAdd, FTAutStaEdit, FTAutStaDelete, FTAutStaCancel, FTAutStaAppv, FTAutStaPrint, FTAutStaPrintMore)
+VALUES ('SUR007', '1', '1', '1', '1', '1', '0', '0', '0')
+
+-- 3.(AP0017) การซื้อ -> จัดการ -> ใบสั่งสินค้าจากลูกค้า-สาขา
+INSERT INTO TSysMenuAlbAct (FTMnuCode, FTAutStaRead, FTAutStaAdd, FTAutStaEdit, FTAutStaDelete, FTAutStaCancel, FTAutStaAppv, FTAutStaPrint, FTAutStaPrintMore)
+VALUES ('AP0017', '1', '1', '1', '1', '1', '1', '1', '1')
+
+-- 4.(ARD010) การขาย -> เอกสาร -> ใบคำนวณยอดเรียกเก็บประจำเดือน - แฟรนไชส์
+INSERT INTO TSysMenuAlbAct (FTMnuCode, FTAutStaRead, FTAutStaAdd, FTAutStaEdit, FTAutStaDelete, FTAutStaCancel, FTAutStaAppv, FTAutStaPrint, FTAutStaPrintMore)
+VALUES ('ARD010', '1', '1', '1', '1', '1', '1', '1', '1')
+
+-- 5.(ARS010) การขาย -> เอกสาร -> ใบรับชำระ (ลูกหนี้)
+INSERT INTO TSysMenuAlbAct (FTMnuCode, FTAutStaRead, FTAutStaAdd, FTAutStaEdit, FTAutStaDelete, FTAutStaCancel, FTAutStaAppv, FTAutStaPrint, FTAutStaPrintMore)
+VALUES ('ARS010', '1', '1', '1', '1', '1', '1', '1', '1')
+
+-- 6.(TXO018) การขาย -> เอกสาร -> ใบขอซื้อจากลูกค้า - แฟรนไชส์
+INSERT INTO TSysMenuAlbAct (FTMnuCode, FTAutStaRead, FTAutStaAdd, FTAutStaEdit, FTAutStaDelete, FTAutStaCancel, FTAutStaAppv, FTAutStaPrint, FTAutStaPrintMore)
+VALUES ('TXO018', '1', '1', '1', '1', '1', '1', '1', '1')
+
+-- 7.(PDM005) สินค้าคงคลัง -> คลังสินค้า -> จัดการใบจัดสินค้า
+INSERT INTO TSysMenuAlbAct (FTMnuCode, FTAutStaRead, FTAutStaAdd, FTAutStaEdit, FTAutStaDelete, FTAutStaCancel, FTAutStaAppv, FTAutStaPrint, FTAutStaPrintMore)
+VALUES ('PDM005', '1', '1', '1', '1', '1', '1', '1', '1')
+
+-- 8.(PDM006) สินค้าคงคลัง -> คลังสินค้า -> ใบส่งของ
+INSERT INTO TSysMenuAlbAct (FTMnuCode, FTAutStaRead, FTAutStaAdd, FTAutStaEdit, FTAutStaDelete, FTAutStaCancel, FTAutStaAppv, FTAutStaPrint, FTAutStaPrintMore)
+VALUES ('PDM006', '1', '1', '1', '1', '1', '1', '1', '1')

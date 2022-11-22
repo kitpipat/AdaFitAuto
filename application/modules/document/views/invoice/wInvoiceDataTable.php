@@ -88,7 +88,8 @@
                                         }
                                     }
 
-                                    $bIsApvOrCancel     = !empty($aValue['FTXphStaApv']) || $aValue['FTXphStaDoc'] == 3 ? true : false;
+                                    $bIsApvOrCancel = (($aValue['FTXphStaApv'] == 1 || $aValue['FTXphStaApv'] == 2) || ($aValue['FTXphStaDoc'] == 3 )) && ($aValue['FTXphStaPrcDoc'] == 1);
+                                    // $bIsApvOrCancel     = !empty($aValue['FTXphStaApv']) || $aValue['FTXphStaDoc'] == 3 ? true : false;
                                 ?>
                                 <tr id="otrQT<?=$nKey?>" class="text-center xCNTextDetail2 otrQT" data-code="<?=$aValue['FTXphDocNo']?>" data-name="<?=$aValue['FTXphDocNo']?>">
                                     <?php  

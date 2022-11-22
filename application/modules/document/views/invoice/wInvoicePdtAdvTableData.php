@@ -200,8 +200,8 @@
         var tStatusApv      = $('#ohdIVStaApv').val();
         var tStatusPrcStk   = $('#ohdIVStaPrcDoc').val();
         
-        // if(tStatusDoc == 3 || (tStatusDoc == 1 && tStatusApv == 1 && tStatusPrcStk == 1)){ //เอกสารยกเลิก + เอกสารอนุมัติแล้ว
-        if(tStatusApv != '' || tStatusDoc == 3) {
+        if(tStatusDoc == 3 || (tStatusDoc == 1 && tStatusApv == 1 && tStatusPrcStk == 1)){ //เอกสารยกเลิก + เอกสารอนุมัติแล้ว
+        // if(tStatusApv != '' || tStatusDoc == 3) {
             //อินพุต
             $('#oetSearchPdtHTML').attr('readonly', false);
 

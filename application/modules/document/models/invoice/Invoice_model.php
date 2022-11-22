@@ -3445,7 +3445,7 @@ class Invoice_model extends CI_Model{
                     CASE 
                         WHEN $nCostType = 1 THEN COSTAVG.FCPdtCostEx 
                         ELSE PDT.FCPdtCostStd 
-                    END AS AS FCXpdSetPrice,
+                    END AS FCXpdSetPrice,
                     0 AS FCXpdAmtB4DisChg,
                     '' AS FTXpdDisChgTxt,
                     0 as FCXpdQtyLef,

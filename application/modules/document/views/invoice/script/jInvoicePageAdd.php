@@ -1,44 +1,44 @@
 <script type="text/javascript">
 
-    $("document").ready(function () {
-        if($('#ohdIVStaApv').val() != ''){
-            $("#oliIVTitleAdd").hide();
-            $("#oliIVTitleEdit").show();
+    // $("document").ready(function () {
+    //     if($('#ohdIVStaApv').val() != ''){
+    //         $("#oliIVTitleAdd").hide();
+    //         $("#oliIVTitleEdit").show();
 
-            $("#odvBtnAddEdit").show();
-            $('#odvBtnIVPageAddorEdit').hide();
-            $('#obtIVApproveDoc').hide();
-            $('#obtIVPrintDoc').show();
-            $('#obtIVCancelDoc').show();
-            $('.xCNBTNSaveDoc').hide();
+    //         $("#odvBtnAddEdit").show();
+    //         $('#odvBtnIVPageAddorEdit').hide();
+    //         $('#obtIVApproveDoc').hide();
+    //         $('#obtIVPrintDoc').show();
+    //         $('#obtIVCancelDoc').show();
+    //         $('.xCNBTNSaveDoc').hide();
 
-            // $('input').attr('readonly', true);
-            // $('input.xCNQty').attr('readonly', true);
-            $('#obtIVDocBrowsePdt').hide();
-            $('#oetIVInsertBarcode').hide();
-            $('.xCNBTNMngTable ').hide();
-            $('.dropdown-toggle').attr('disabled',true);
-            $('.form-control').attr('readonly', true);
-        }else if($('#ohdIVStaDoc').val() == 3){
-            $("#oliIVTitleAdd").hide();
-            $("#oliIVTitleEdit").show();
+    //         // $('input').attr('readonly', true);
+    //         // $('input.xCNQty').attr('readonly', true);
+    //         $('#obtIVDocBrowsePdt').hide();
+    //         $('#oetIVInsertBarcode').hide();
+    //         $('.xCNBTNMngTable ').hide();
+    //         $('.dropdown-toggle').attr('disabled',true);
+    //         $('.form-control').attr('readonly', true);
+    //     }else if($('#ohdIVStaDoc').val() == 3){
+    //         $("#oliIVTitleAdd").hide();
+    //         $("#oliIVTitleEdit").show();
 
-            $("#odvBtnAddEdit").show();
-            $('#odvBtnIVPageAddorEdit').hide();
-            $('#obtIVApproveDoc').hide();
-            $('#obtIVPrintDoc').hide();
-            $('#obtIVCancelDoc').hide();
-            $('.xCNBTNSaveDoc').hide();
+    //         $("#odvBtnAddEdit").show();
+    //         $('#odvBtnIVPageAddorEdit').hide();
+    //         $('#obtIVApproveDoc').hide();
+    //         $('#obtIVPrintDoc').hide();
+    //         $('#obtIVCancelDoc').hide();
+    //         $('.xCNBTNSaveDoc').hide();
 
-            // $('input').attr('readonly', true);
-            // $('input.xCNQty').attr('readonly', true);
-            $('#obtIVDocBrowsePdt').hide();
-            $('#oetIVInsertBarcode').hide();
-            $('.xCNBTNMngTable ').hide();
-            $('.dropdown-toggle').attr('disabled',true);
-            $('.form-control').attr('readonly', true);
-        }
-    });
+    //         // $('input').attr('readonly', true);
+    //         // $('input.xCNQty').attr('readonly', true);
+    //         $('#obtIVDocBrowsePdt').hide();
+    //         $('#oetIVInsertBarcode').hide();
+    //         $('.xCNBTNMngTable ').hide();
+    //         $('.dropdown-toggle').attr('disabled',true);
+    //         $('.form-control').attr('readonly', true);
+    //     }
+    // });
 
     $('.selectpicker').selectpicker('refresh');
     $("#obtIVSubmitFromDoc").removeAttr("disabled");

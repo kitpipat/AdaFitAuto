@@ -32,7 +32,7 @@
             $("#odvBtnAddEdit").show();
             $('#odvBtnIVPageAddorEdit').hide();
             $('#obtIVApproveDoc').show();
-            $('#obtIVPrintDoc').hide();
+            $('#obtIVPrintDoc').show();
             $('#obtIVCancelDoc').show();
             $('.xCNBTNSaveDoc').show();
         }
