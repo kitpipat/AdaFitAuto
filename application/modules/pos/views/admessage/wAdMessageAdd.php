@@ -161,7 +161,7 @@ $aStaUseItems = [
 
                 <!-- เพิ่ม AD Browser -->
                 <div class="form-group  <?php if( !FCNbGetIsAgnEnabled()) : echo 'xCNHide';  endif;?>">
-                    <label class="xCNLabelFrm"><span style="color:red">*</span><?php echo language('pos/admessage/admessage','tADVAgency')?></label>
+                    <label class="xCNLabelFrm"><?php echo language('pos/admessage/admessage','tADVAgency')?></label>
                     <div class="input-group"><input type="text" class="form-control xCNHide" id="oetAdvAgnCode" name="oetAdvAgnCode" maxlength="5" value="<?=$tAdvAgnCode;?>">
                     <input type="text" class="form-control xWPointerEventNone" id="oetAdvAgnName" name="oetAdvAgnName"
                         maxlength="100" placeholder="<?php echo language('interface/connectionsetting/connectionsetting','tTBAgency')?>" value="<?=$tAdvAgnName;?>"

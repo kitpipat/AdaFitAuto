@@ -56,6 +56,7 @@ function FCNnHAddImgObj($paImgData){
 				// ******* Image Multiple
 				$ci->db->trans_begin();
 				$aImgData = str_replace('%COMMA%',',',$paImgData['tImgObj']);
+				$aImgData = str_replace('[removed]','',$paImgData['tImgObj']);
 
 				$aImgDataNew = [];
 				foreach( $aImgData as $aValue ){
@@ -195,7 +196,7 @@ function FCNnHAddImgObj($paImgData){
 							'ptRef1'        => $tRefID,						//รหัส ad, comp
 							'ptRef2'        => $paImgData['tImgFolder']		//ชื่อหน้าจอ
 						);
-						// print_r($aParam);exit;
+						
 						$oReuslt = FCNaHCallAPIBasic($tUrlApi,'POST',$aParam,$aAPIKey);
 						if( $oReuslt['rtCode'] != "001" ){
 							$aReturn = array(
@@ -1028,7 +1029,19 @@ function FCNaHUploadMedia($paMediaData){
 			// $ci->upload->initialize($config);
 			// $ci->upload->do_upload($tKey);
 
-			$tFileType					= strtoupper(explode('.', $aFile['name'])[1]);
+			$aItems = explode('.', $aFile['name']);
+			$nItemCount = FCNnHSizeOf($aItems);
+
+			foreach($aItems as $key => $tItem){
+				if ($key+1 == $nItemCount) { // Last Item
+					$tFileType = strtoupper($tItem);
+				}else{
+					$tFileType = '';
+				}
+			}
+			// print_r($tFileType); exit;
+
+			// $tFileType					= strtoupper(explode('.', $aFile['name'])[1]);
 			// $tFullPathMedia				= $tPathFullComputer."/".$tSesUserCode."/".$tFilename.".".strtolower($tFileType);
 
 			$aParam     = array(

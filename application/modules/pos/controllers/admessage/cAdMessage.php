@@ -219,7 +219,6 @@ class cAdMessage extends MX_Controller {
    
 
     public function FSaADVAddEvent(){
-
         $tIsAutoGenCode = $this->input->post('ocbAdvAutoGenCode');
 
         // Setup Reason Code
@@ -336,7 +335,7 @@ class cAdMessage extends MX_Controller {
                         'nStaImageMulti'    => 1
                     );
                     // print_r($aImageUplode);exit;
-                    $aImgReturn = FCNnHAddImgObj($aImageUplode);
+                    $aImgReturn = @FCNnHAddImgObj($aImageUplode);
                     if( $aImgReturn['nStaEvent'] != 1 ){
                         $this->db->trans_rollback();
                         $aReturn = array(

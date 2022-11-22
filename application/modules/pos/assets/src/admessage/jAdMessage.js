@@ -271,10 +271,8 @@ function JSnAddEditAdMessage(ptRoute) {
                 oFormData.append('oetAdvMsg', '');
             }
 
-            // console.log(Array.from(oFormData));
             let tCSRFTokenName  = $('#csrf_token').attr("name");
             // let tCSRFTokenValue = $('#csrf_token').val();
-
             let tCSRFTokenValue = "";
             let value           = "; " + document.cookie;
             let parts           = value.split("; csrf_cookie_name=");
@@ -282,7 +280,8 @@ function JSnAddEditAdMessage(ptRoute) {
                 tCSRFTokenValue = parts.pop().split(";").shift();
             }
             oFormData.append(tCSRFTokenName,tCSRFTokenValue);
-
+            // console.log(Array.from(oFormData));
+            
             $.ajax({
                 type: "POST",
                 url: ptRoute,
