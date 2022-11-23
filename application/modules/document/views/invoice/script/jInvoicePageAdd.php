@@ -1188,10 +1188,12 @@
             onfocusout      : false,
             onkeyup         : false,
             rules           : {
-                oetIVRefDocNo    : {"required" : true}
+                oetIVRefDocNo           : {"required" : true},
+                oetIVDocRefIntName      : {"required" : true}
             },
             messages: {
-                oetIVRefDocNo    : {"required" : 'กรุณากรอกเลขที่เอกสารอ้างอิง'}
+                oetIVRefDocNo           : {"required" : 'กรุณากรอกเลขที่เอกสารอ้างอิง'},
+                oetIVDocRefIntName      : {"required" : 'กรุณากรอกเลขที่เอกสารอ้างอิง'}
             },
             errorElement    : "em",
             errorPlacement  : function (error, element) {
