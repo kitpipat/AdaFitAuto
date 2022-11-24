@@ -1017,42 +1017,81 @@ class Supplierpurchaserequisition_controller extends MX_Controller {
             $this->Supplierpurchaserequisition_model->FSaMPRSApproveDocument($aDataUpdate);
 
             //หาว่าเอกสารใบขอซื้อ ใบนี้ถูกสร้างมาจาก ใบจัดการสินค้าจากสาขาหรือเปล่า 
-            $aItemDoc = $this->Supplierpurchaserequisition_model->FSaMPRSFindPRBInDatabase($aDataUpdate);
-            if($aItemDoc['rtCode'] == 1){ //พบข้อมูล
-                $aItemDocSendMQ     = $aItemDoc['raItems'];
-                $tDocRefKeyReqSPL   = '';
-                for($k=0; $k<count($aItemDocSendMQ); $k++){
-                    $tDocRef            = $aItemDocSendMQ[$k]['FTXphDocNo'];
-                    $tDocRefKeyReqSPL   .= $tDocRef.',';
-                }
-                if($tDocRefKeyReqSPL != '' || $tDocRefKeyReqSPL != null){
-                    $tDocRefKeyReqSPL = rtrim($tDocRefKeyReqSPL, ", ");
-                }
+            // $aItemDoc = $this->Supplierpurchaserequisition_model->FSaMPRSFindPRBInDatabase($aDataUpdate);
+            // if($aItemDoc['rtCode'] == 1){ //พบข้อมูล
+            //     $aItemDocSendMQ     = $aItemDoc['raItems'];
+            //     $tDocRefKeyReqSPL   = '';
+            //     for($k=0; $k<count($aItemDocSendMQ); $k++){
+            //         $tDocRef            = $aItemDocSendMQ[$k]['FTXphDocNo'];
+            //         $tDocRefKeyReqSPL   .= $tDocRef.',';
+            //     }
+            //     if($tDocRefKeyReqSPL != '' || $tDocRefKeyReqSPL != null){
+            //         $tDocRefKeyReqSPL = rtrim($tDocRefKeyReqSPL, ", ");
+            //     }
 
-                $aMQParams = [
-                    "queueName" => "CN_QDocApprove",
-                    "params"    => [
-                        'ptFunction'    => 'TCNTPdtReqSplHD',
-                        'ptSource'      => 'AdaStoreBack',
-                        'ptDest'        => 'MQReceivePrc',
-                        'ptFilter'      => $tDocRefKeyReqSPL,
-                        'ptData'        => json_encode([
-                            "ptBchCode"     => $tBchCode,
-                            "ptDocNo"       => $tDocNo,
-                            "ptDocType"     => 2,
-                            "ptUser"        => $this->session->userdata("tSesUsername"),
-                        ])
-                    ]
-                ];
+            //     $aMQParams = [
+            //         "queueName" => "CN_QDocApprove",
+            //         "params"    => [
+            //             'ptFunction'    => 'TCNTPdtReqSplHD',
+            //             'ptSource'      => 'AdaStoreBack',
+            //             'ptDest'        => 'MQReceivePrc',
+            //             'ptFilter'      => $tDocRefKeyReqSPL,
+            //             'ptData'        => json_encode([
+            //                 "ptBchCode"     => $tBchCode,
+            //                 "ptDocNo"       => $tDocNo,
+            //                 "ptDocType"     => 2,
+            //                 "ptUser"        => $this->session->userdata("tSesUsername"),
+            //             ])
+            //         ]
+            //     ];
 
-                // เชื่อม Rabbit MQ
-                FCNxCallRabbitMQ($aMQParams);
-            }
+            //     // เชื่อม Rabbit MQ
+            //     FCNxCallRabbitMQ($aMQParams);
+            // }
 
             $aDataGetDataHD     =   $this->Supplierpurchaserequisition_model->FSaMPRSGetDataDocHD(array(
                 'FTXphDocNo'    => $tDocNo,
                 'FNLngID'       => $this->session->userdata("tLangEdit")
             ));
+
+            if($this->session->userdata('bIsHaveAgn') == true && $this->session->userdata('tAgnType') == 2){
+  
+                $nDocType = 11; //ใบขอซื้อ - แฟรนไชส์
+
+                 // Check Auto GenCode Document
+                $aStoreParam = array(
+                    "tTblName"    => 'TCNTPdtReqSplHD',                           
+                    "tDocType"    => $nDocType,                                          
+                    "tBchCode"    => $this->session->userdata('tUsrBchHQCode'),                                 
+                    "tShpCode"    => "",                               
+                    "tPosCode"    => "",                     
+                    "dDocDate"    => date("Y-m-d H:i:s")       
+                );
+                
+                $aAutogenHQ                   = FCNaHAUTGenDocNo($aStoreParam);
+                $aDataHQWhere['FTXphDocNo']   = $aAutogenHQ[0]["FTXxhDocNo"];
+                //echo $aDataHQWhere['FTXphDocNo'];
+                $aMQHQParams = [
+                    "queueName" => "CN_QDocApprove",
+                    "params"    => [
+                        'ptFunction'    => 'TCNTPdtReqSplHD',
+                        'ptSource'      => 'AdaStoreBack',
+                        'ptDest'        => 'MQReceivePrc',
+                        'ptFilter'      => '',
+                        'ptData'        => json_encode([
+                            "ptBchCode"     => $tBchCode,
+                            "ptDocNo"       => $tDocNo,
+                            "ptDocType"     => 2,
+                            "ptUser"        => $this->session->userdata("tSesUsername"),
+                            "ptConnstr"     => DB_CONNECT
+                        ])
+                    ]
+                ];
+
+                //print_r($aMQHQParams);
+
+                FCNxCallRabbitMQ($aMQHQParams);
+            }
 
             if($aDataGetDataHD['rtCode']=='1'){
 

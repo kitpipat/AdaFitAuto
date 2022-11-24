@@ -1204,6 +1204,7 @@ function JSvPOCallPageEditDoc(ptPODocNo){
             timeout: 0,
             success: function(tResult){
                 var aReturnData = JSON.parse(tResult);
+                // console.log('ptPODocNo', aReturnData)
                 if(aReturnData['nStaEvent'] == '1'){
                     if(nPOStaBrowseType == '1') {
                         $('#odvModalBodyBrowse .panel-body').css('padding-top', '0');
