@@ -201,7 +201,10 @@ function JSxBackStageToCarDetail(){
             $('.odvMainContent').html(tResult);
 
             localStorage.tCheckBackStage = '';
-            JSvCallPageCarEdit(tCarcode)
+            setTimeout(function(){
+                JSvCallPageCarEdit(tCarcode, 'CarOrderHis')
+            }, 500);
+
         },
         error: function (jqXHR, textStatus, errorThrown) {
             JCNxResponseError(jqXHR, textStatus, errorThrown);

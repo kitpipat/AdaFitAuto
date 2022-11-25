@@ -160,7 +160,7 @@ function JSvCallPageCarAdd() {
 //Update:
 //Return : View
 //Return Type : View
-function JSvCallPageCarEdit(ptCarCode) {
+function JSvCallPageCarEdit(ptCarCode, ptKey = '') {
     var nStaSession = JCNxFuncChkSessionExpired();
     if (typeof(nStaSession) !== 'undefined' && nStaSession == 1) {
         JCNxOpenLoading();
@@ -182,6 +182,12 @@ function JSvCallPageCarEdit(ptCarCode) {
                     $('.xCNDisable').attr('readonly', true);
                     $('.xCNiConGen').attr('disabled', true);
                     var tCarRegNo = $("#oetCarNoreq").val();
+
+                    if(ptKey == 'CarOrderHis'){
+                        setTimeout(function(){
+                            $("a[data-target='#odvInforAllHistoryTap']").trigger('click');
+                        }, 500);
+                    }
                 }
                 JCNxCloseLoading();
             },
