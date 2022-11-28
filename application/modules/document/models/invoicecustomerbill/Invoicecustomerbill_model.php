@@ -1427,7 +1427,7 @@ class Invoicecustomerbill_model extends CI_Model
             ,DT.FTXtdDocNoRef
             ,DT.FDAjdDateTimeC1
             ,DT.FCXtdAmt
-            //,DT.FCXtdSetPrice
+            --,DT.FCXtdSetPrice
             ,0 AS FCXtdSetPrice
             ,DT.FCXtdVatable
             ,DT.FTSessionID
