@@ -398,7 +398,7 @@ if (isset($aDataDocHD) && $aDataDocHD['rtCode'] == "1") {
                                 <label class="xCNLabelFrm"><?php echo language('common/main/main', 'เอกสาร'); ?></label>
                                 <select class="selectpicker form-control" id="ocbQTRefDoc" name="ocbQTRefDoc">
                                     <option value="1" selected><?php echo language('common/main/main', 'ใบรับรถ'); ?></option>
-                                    <option value="2"><?php echo language('common/main/main', 'ใบสั่งงาน'); ?></option>
+                                    <!-- <option value="2"><?php echo language('common/main/main', 'ใบสั่งงาน'); ?></option> -->
                                 </select>
                             </div>
                         </div>

@@ -97,7 +97,7 @@ class Managedocpurchaseorder_model extends CI_Model {
 
         $tSQL .= " ORDER BY A.FDCreateOn DESC , A.FTXphDocNo DESC ";
 
-        
+        // print_r($tSQL);
         $oQuery = $this->db->query($tSQL);
         if($oQuery->num_rows() > 0){
             $oDataList          = $oQuery->result_array();

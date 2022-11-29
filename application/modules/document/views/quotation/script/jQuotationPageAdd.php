@@ -403,10 +403,12 @@
             onfocusout      : false,
             onkeyup         : false,
             rules           : {
-                oetQTRefDocNo    : {"required" : true}
+                oetQTRefDocNo    : {"required" : true},
+                oetQTDocRefIntName    : {"required" : true}
             },
             messages: {
-                oetQTRefDocNo    : {"required" : 'กรุณากรอกเลขที่เอกสารอ้างอิง'}
+                oetQTRefDocNo    : {"required" : 'กรุณากรอกเลขที่เอกสารอ้างอิง'},
+                oetQTDocRefIntName    : {"required" : 'กรุณากรอกเลขที่เอกสารอ้างอิง'}
             },
             errorElement: "em",
             errorPlacement: function (error, element) {

@@ -144,7 +144,8 @@
                 url: "docQuotationSearchList",
                 data: {},
                 cache: false,
-                timeout: 5000,
+                timeout: 0,
+                async   : true,
                 success: function(tResult) {
                     $("#odvContentQT").html(tResult);
                     JSxQTNavDefult('showpage_list');
@@ -178,7 +179,8 @@
                     nPageCurrent: nPageCurrent
                 },
                 cache: false,
-                timeout: 5000,
+                timeout: 0,
+                async   : true,
                 success: function(oResult) {
                     var aReturnData = JSON.parse(oResult);
                     if (aReturnData['nStaEvent'] == '1') {

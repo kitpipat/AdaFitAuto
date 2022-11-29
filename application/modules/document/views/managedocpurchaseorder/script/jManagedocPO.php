@@ -101,7 +101,8 @@
                 nPageCurrent    : nPageCurrent
             },
             cache   : false,
-            timeout : 5000,
+            timeout: 0,
+            async   : true,
             success : function (oResult) {
 
                 var aReturnData = JSON.parse(oResult);

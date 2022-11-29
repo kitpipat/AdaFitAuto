@@ -205,6 +205,7 @@
                             <option value='1'><?=language('document/managedocpurchaseorder/managedocpurchaseorder', 'tMNPStatusWait'); ?></option>
                             <option value='2'><?=language('document/managedocpurchaseorder/managedocpurchaseorder', 'tMNPStatusConfrimAndWaitAprove'); ?></option>
                             <option value='3'><?=language('document/managedocpurchaseorder/managedocpurchaseorder', 'tMNPStatusAprove'); ?></option>
+                            <option value='5'><?=language('document/managedocpurchaseorder/managedocpurchaseorder', 'tMNPStatusCancel'); ?></option>
                         </select>
                     </div>
                 </div>

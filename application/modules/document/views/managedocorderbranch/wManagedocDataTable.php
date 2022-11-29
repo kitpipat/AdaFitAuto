@@ -199,6 +199,12 @@
                                                 $tTextRemark    = '-';
                                             }
                                         }
+                                        else if($aValue['MGTStaDoc'] == 3 ) {
+                                            $tCssDivStaDoc      = 'xWCSSRedBG';
+                                            $tCssTextStaDoc     = 'xWCSSRedColor';
+                                            $tTextStaDoc        = language('document/managedocpurchaseorder/managedocpurchaseorder','ยกเลิก');
+                                            $tTextRemark        = '-';
+                                        }
                                     }
                                 }else{
                                     $tCssDivStaDoc      = 'xWCSSBlackBG';
@@ -419,6 +425,7 @@
 
             if(tCheckEventClick == 1){
                 $('#obtMNGCreateDocRef').show(); //เปิดปุ่ม
+                $('#obtMNGCancelDoc').show(); //เปิดปุ่ม
                 $('.xCNCheckbox_WaitExport , .xCNCheckbox_WaitAprove , .xCNCheckbox_WaitGenFile').attr('disabled',true);
                 $('.xCNCheckbox_WaitExport , .xCNCheckbox_WaitAprove , .xCNCheckbox_WaitGenFile').parent().find('span').addClass('xCNDocDisabled');
 
@@ -426,6 +433,7 @@
                 JSxControlCheckBoxAll(ptClasscheckbox);
             }else{
                 $('#obtMNGCreateDocRef').hide(); //ปิดปุ่ม
+                $('#obtMNGCancelDoc').hide(); //ปิดปุ่ม
                 $('.xCNCheckbox_WaitExport , .xCNCheckbox_WaitAprove , .xCNCheckbox_WaitGenFile').attr('disabled',false);
                 $('.xCNCheckbox_WaitExport , .xCNCheckbox_WaitAprove , .xCNCheckbox_WaitGenFile').parent().find('span').removeClass('xCNDocDisabled');
             }
@@ -505,7 +513,7 @@
                 $('.xCNCheckbox_WaitExport , .xCNCheckbox_WaitConfirm , .xCNCheckbox_WaitAprove , .xCNCheckbox_WaitGenFile').parent().find('span').removeClass('xCNDocDisabled');
                 $('.ocmCENCheckDeleteAll').attr('disabled',true);
                 $('.xCNCENCheckDeleteAll').addClass('xCNDocDisabled');
-                $('#obtMNGCreateDocRef , #obtMNGApproveDoc , #obtMNGExportDoc , #obtMNGGenFileAgain').hide(); //ปิดปุ่ม
+                $('#obtMNGCreateDocRef , #obtMNGApproveDoc , #obtMNGExportDoc , #obtMNGGenFileAgain, #obtMNGCancelDoc').hide(); //ปิดปุ่ม
             }else{
                 $("."+ptClasscheckbox).each(function() {
                     $(this).prop('checked', true);

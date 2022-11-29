@@ -1562,6 +1562,7 @@ $route['docMngDocPreOrdBExport']                        = 'document/managedocord
 $route['docMngDocPreOrdBChkPdtStkBal']                  = 'document/managedocorderbranch/Managedocorderbranch_controller/FSvCMNGPageChkPdtStkBal';
 $route['docMngDocPreOrdBNoti']                          = 'document/managedocorderbranch/Managedocorderbranch_controller/FSxCMNGNoti';
 $route['docMngDocPreOrdBUpdateQTYAll']                  = 'document/managedocorderbranch/Managedocorderbranch_controller/FSxCMNGUpdateQTYAll';
+$route['docMngDocPreOrdBCancelDocRef']                  = 'document/managedocorderbranch/Managedocorderbranch_controller/FSvCMNGCancelDocRef';
 
 //========================================== ตารางงาน ใบสั่งงานรายวัน  ======================================//
 $route['docDWO/(:any)/(:any)']                          = 'document/dailyworkorder/Dailyworkorder_controller/index/$1/$2';

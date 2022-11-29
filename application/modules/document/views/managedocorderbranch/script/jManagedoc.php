@@ -22,6 +22,7 @@
 
         //ซ่อนปุ่ม
         $('#obtMNGBackStep').hide();
+        $('#obtMNGCancelDoc').hide();
         $('#obtMNGCreateDocRef').hide();
         $('#obtMNGApproveDoc').hide();
         $('#obtMNGExportDoc').hide();
@@ -132,6 +133,7 @@
 
             //ซ่อนปุ่ม
             $('#obtMNGBackStep').hide();
+            $('#obtMNGCancelDoc').hide();
             $('#obtMNGCreateDocRef').hide();
             $('#obtMNGApproveDoc').hide();
             $('#obtMNGExportDoc').hide();
@@ -146,7 +148,8 @@
                     'tMNGTypeDocument'  : $('#ohdMNGTypeDocument').val()
                 },
                 cache   : false,
-                timeout : 5000,
+                timeout : 0,
+                async   : true,
                 success : function (oResult) {
                     var aReturnData = JSON.parse(oResult);
                     if (aReturnData['nStaEvent'] == '1') {
@@ -274,6 +277,48 @@
         });
     }
 
+     //ยกเลิกการสร้างเอกสาร
+     function JSxMNGCancelDoc(){
+        var aItemDoc        = [];
+        var tConcatDocNoRef = '';
+        $(".xCNCheckbox_WaitConfirm:checked").each(function() {
+           var tDocNoRef    = $(this).parent().parent().parent().attr('data-docnoref');
+           tConcatDocNoRef += ',' + tDocNoRef;
+           aItemDoc.push(tDocNoRef);
+        //    console.log('test001',tConcatDocNoRef,'test002');
+        });
+        $('#odvMGTModalCancelDocNo').modal('show');
+        $('#odvMGTModalCancelDocNo #ospModalCancelDocNo').text('ยืนยันทำการยกเลิกเอกสารหมายเลข : ' + tConcatDocNoRef.substring(1));
+        //กดยืนยัน
+        $('#odvMGTModalCancelDocNo .xCNConfirmCreateDocNo').unbind().click(function(){
+            $.ajax({
+                type    : "POST",
+                url     : "docMngDocPreOrdBCancelDocRef",
+                data    : {
+                    aItemDoc : aItemDoc
+                },
+                cache   : false,
+                timeout : 5000,
+                success : function (oResult) {
+                    var aReturnData = JSON.parse(oResult);
+                    if (aReturnData['nStaEvent'] == '1') {
+                        // $('#odvMNGContentPageDocument').html(aReturnData['tViewDataTable']);
+                        // console.log('test003');
+                        JSvMNGCallPageDataTable(1);
+                    } else {
+                        var tMessageError = aReturnData['tStaMessg'];
+                        FSvCMNSetMsgErrorDialog(tMessageError);
+                    }
+                    JCNxCloseLoading();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    JCNxResponseError(jqXHR, textStatus, errorThrown);
+                }
+            });
+        });
+    }
+
+
     //อนุมัติเอกสาร
     function JSxMNGAproveDocRef(){
         var aItemDoc        = [];
@@ -301,9 +346,21 @@
                     cache   : false,
                     timeout : 5000,
                     success : function (oResult) {
-                        setTimeout(function(){
+                        // console.log(oResult)
+                        // JCNxOpenLoading();
+                        // if(oResult['nStaEvent'] == '1'){
+                        //     JSvMNGCallPageList();
+                        // }
+                        // setTimeout(function(){
+                        // }, 4500);
+                        var aReturnData = JSON.parse(oResult);
+                        if (aReturnData['nStaEvent'] == '1') {
                             JSvMNGCallPageList();
-                        }, 4500);
+                        } else {
+                            var tMessageError = aReturnData['tStaMessg'];
+                            FSvCMNSetMsgErrorDialog(tMessageError);
+                        }
+                        // JCNxCloseLoading();
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         JCNxResponseError(jqXHR, textStatus, errorThrown);

@@ -36,6 +36,9 @@
                 <div class="demo-button xCNBtngroup" style="width:100%;">
                     <div id="odvMNGBtnGrpAddEdit">
                         <div class="demo-button xCNBtngroup" style="width:100%;">
+                            <?php if ($aAlwEvent['tAutStaFull'] == 1 || ($aAlwEvent['tAutStaCancel'] == 1)): ?>
+                                <button id="obtMNGCancelDoc" class="btn xCNBTNDefult xCNBTNDefult2Btn" type="button" style="display:none;" onclick="JSxMNGCancelDoc()"> <?=language('common/main/main', 'tCancel'); ?></button>
+                            <?php endif; ?>
                             <?php if ($aAlwEvent['tAutStaFull'] == 1 || ($aAlwEvent['tAutStaAdd'] == 1 || $aAlwEvent['tAutStaEdit'] == 1)): ?>
                                 <button id="obtMNGBackStep" class="btn xCNBTNDefult xCNBTNDefult2Btn" type="button" style="display:none;" onclick="JSvMNGCallPageList()"><?=language('common/main/main','tBack');?></button>   
                                 <button id="obtMNGCreateDocRef" class="btn xCNBTNPrimery xCNBTNPrimery2Btn" type="button" style="display:none;" onclick="JSxMNGCreateDocRef()"><?=language('document/managedocpurchaseorder/managedocpurchaseorder','tMNPBTNConfirmDoc');?></button>   
@@ -95,6 +98,29 @@
         </div>
     </div>
 </div>
+
+<!--ยกเลิกการสร้างเอกสาร-->
+<div id="odvMGTModalCancelDocNo" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="xCNHeardModal modal-title" style="display:inline-block"><?=language('common/main/main', 'tMessageAlert')?></h5>
+            </div>
+            <div class="modal-body">
+                <p id="ospModalCancelDocNo"><?=language('document/managedocpurchaseorder/managedocpurchaseorder','tMNPWarningConfirmCancelDoc');?></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn xCNBTNPrimery xCNConfirmCreateDocNo" data-dismiss="modal" >
+                    <?=language('common/main/main', 'tCMNOK')?>
+                </button>
+                <button class="btn xCNBTNDefult xCNBTNDefult2Btn" type="button" data-dismiss="modal">
+                    <?=language('common/main/main', 'tModalCancel')?>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <!--อนุมัติเอกสาร-->
 <div class="modal fade xCNModalApprove" id="odvMGTPopupApv">

@@ -169,6 +169,7 @@
 
 <script>
 
+    $('#obtMNGCancelDoc').hide();
     $('#obtMNGCreateDocRef').hide();
     $('#obtMNGApproveDoc').hide();
     $('#obtMNGExportDoc').hide();

@@ -153,9 +153,15 @@
 
                                 <!--ถ้ายังไม่ได้สร้างจะแก้ไขได้-->
                                 <?php if($aValue['FTXrhStaDoc'] == 1 && ( $aValue['FTXrhStaPrcDoc'] == 1 )){ ?>
-                                    <td class="text-center"> 
-                                        <img class="xCNIconTable" src="<?=base_url().'/application/modules/common/assets/images/icons/view2.png'?>" onClick="JSxGotoPagePurchaseorder('<?=$aValue['FTXpdDocPo']?>')">
-                                    </td>
+                                    <?php if($aValue['FTXrhStaDoc'] == 1 && ( $aValue['FTXrhStaPrcDoc'] == 1 && $aValue['MGTStaApv'] == null)){ ?>
+                                        <td class="text-center"> 
+                                            <img class="xCNIconTable" src="<?=base_url().'/application/modules/common/assets/images/icons/view2.png'?>" onClick="JSvMNPCallPageEdit('<?=$aValue['FTXphDocNo']?>')">
+                                        </td>
+                                    <?php } else {?>
+                                        <td class="text-center"> 
+                                            <img class="xCNIconTable" src="<?=base_url().'/application/modules/common/assets/images/icons/view2.png'?>" onClick="JSxGotoPagePurchaseorder('<?=$aValue['FTXpdDocPo']?>')">
+                                        </td>
+                                    <?php } ?>
                                 <?php }else{ ?>
                                     <?php if($tKeepDocNo != $aValue['FTXphDocNo'] ) { ?>
                                         <td class="text-center" <?=$nRowspan?>> 
@@ -366,6 +372,7 @@
                 $(window).scrollTop(0);
                 $('.odvMainContent').html(tResult);
 
+                console.log('test', ptDocumentRef);
                 //เก็บเอาไว้ว่า มาจากหน้าจอจัดการใบสั่งสินค้าจากสาขา
                 localStorage.tCheckBackStage = 'PageMangeDocPO';
 

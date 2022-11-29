@@ -126,6 +126,7 @@
 
 <script type="text/javascript">
     $('#obtMNGBackStep').show();
+    $('#obtMNGCancelDoc').hide();
     $('#obtMNGCreateDocRef').hide();
     $('#obtMNGApproveDoc').hide();
     $('#obtMNGExportDoc').hide();

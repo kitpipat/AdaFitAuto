@@ -35,6 +35,16 @@ class Managedocorderbranch_model extends CI_Model {
             $tSysSplFC  = "";
         }
 
+        // สถานะอนุมัติ (ใบขอโอน , ใบขอซื้อ)
+        $tConditionPRSStatus = "";
+        if(isset($tSearchStaApv) && !empty($tSearchStaApv)){
+            if ($tSearchStaApv == 5) { //ยกเลิก
+                $tConditionPRSStatus = "";
+            } else{ 
+                $tConditionPRSStatus = " AND PRS.FTXphStaDoc  = '1' ";
+            } 
+        }
+
         $tSQL   = '';
         $tSQL   = "SELECT 
                     COUNT(A.FTXphDocNo) OVER (PARTITION BY A.FTXphDocNo) AS PARTITIONBYDOC ,
@@ -132,6 +142,8 @@ class Managedocorderbranch_model extends CI_Model {
                         $tConditionSQLStatus = " AND MGTHD.FTXrhStaPrcDoc >= 2 ";
                     } elseif ($tSearchStaApv == 4) { //เอกสารรอดำเนินการ
                         $tSQL .= " AND ISNULL(MGTHD.FNXrhDocType,'') = '' ";
+                    } elseif ($tSearchStaApv == 5) { //ยกเลิก
+                        $tSQL .= " AND MGTHD.FTXrhStaDoc = '3' ";
                     }
                 }
                 //ประเภทเอกสาร
@@ -203,6 +215,8 @@ class Managedocorderbranch_model extends CI_Model {
                     $tConditionSQLStatus = " AND MGTHD.FTXrhStaPrcDoc >= 2 ";
                 } elseif ($tSearchStaApv == 4) { //เอกสารรอดำเนินการ
                     $tSQL .= " AND ISNULL(MGTHD.FNXrhDocType,'') = '' ";
+                } elseif ($tSearchStaApv == 5) { //ยกเลิก
+                    $tSQL .= " AND MGTHD.FTXrhStaDoc = '3' ";
                 }
             }
 
@@ -302,6 +316,8 @@ class Managedocorderbranch_model extends CI_Model {
                     $tConditionSQLStatus = " AND MGTHD.FTXrhStaPrcDoc >= 2 ";
                 } elseif ($tSearchStaApv == 4) { //เอกสารรอดำเนินการ
                     $tSQL .= " AND ISNULL(MGTHD.FNXrhDocType,'') = '' ";
+                } elseif ($tSearchStaApv == 5) { //ยกเลิก
+                    $tSQL .= " AND MGTHD.FTXrhStaDoc = '3' ";
                 }
             }
 
@@ -347,11 +363,11 @@ class Managedocorderbranch_model extends CI_Model {
                 LEFT JOIN TCNTPdtReqMgtHD   MGTHD	WITH (NOLOCK) ON PRS.FTXphDocNo	= MGTHD.FTXrhDocPrBch AND MGTHD.FNXrhDocType != 3
                 LEFT JOIN TCNMBranch    	BCH		WITH (NOLOCK) ON PRS.FTBchCode 	= BCH.FTBchCode     
                 LEFT JOIN TCNMBranch_L  	BCHL	WITH (NOLOCK) ON PRS.FTBchCode 	= BCHL.FTBchCode AND BCHL.FNLngID = '1'
-                WHERE ISNULL(PRS.FTAgnCode,'') <> ''
-                AND PRS.FTXphStaDoc     = 1
+                WHERE ISNULL(PRS.FTAgnCode,'') <> '' " . $tConditionPRSStatus . "
                 AND PRS.FTXphStaApv     = 1
                 AND PRS.FNXphDocType    = 12
-            ";
+                ";
+            // AND PRS.FTXphStaDoc     = 1
             // Check Suppler Config FC Default
             if(isset($tSysSplFC) && !empty($tSysSplFC)){
                 $tSQL   .= " AND PRS.FTSplCode = '$tSysSplFC'";
@@ -413,6 +429,8 @@ class Managedocorderbranch_model extends CI_Model {
                     $tConditionSQLStatus = " AND MGTHD.FTXrhStaPrcDoc >= 2 ";
                 } elseif ($tSearchStaApv == 4) { //เอกสารรอดำเนินการ
                     $tSQL .= " AND ISNULL(MGTHD.FNXrhDocType,'') = '' ";
+                } elseif ($tSearchStaApv == 5) { //ยกเลิก
+                    $tSQL .= " AND MGTHD.FTXrhStaDoc = '3' ";
                 }
             }
 
@@ -463,7 +481,6 @@ class Managedocorderbranch_model extends CI_Model {
                     END ASC , 
                     MGTHD.FTXrhStaPrcDoc ASC 
         ";
-
         // print_r($tSQL);
         // exit;
 
@@ -749,6 +766,8 @@ class Managedocorderbranch_model extends CI_Model {
                 $tSQL .= " AND MGTHD.FTXrhStaDoc = '1' AND MGTHD.FTXrhStaPrcDoc >= 2 AND ISNULL(MGTHD.FNXrhDocType,'') != '' ";
             } elseif ($tSearchStaApv == 4) { //เอกสารรอดำเนินการ
                 $tSQL .= " AND ISNULL(MGTHD.FNXrhDocType,'') = '' ";
+            } elseif ($tSearchStaApv == 5) { //ยกเลิก
+                $tSQL .= " AND MGTHD.FTXrhStaDoc = '3' ";
             }
         }
 
@@ -1580,5 +1599,28 @@ class Managedocorderbranch_model extends CI_Model {
         return $aResult;
     }
 
+    public function FSaMMNGCancelDoc($paData){
+        $tTextDocRef    = $paData['tTextDocRef']; 
+        
+        $tSQL   = "UPDATE TCNTPdtReqMgtHD SET FTXrhStaDoc = '3' WHERE FTXrhDocPrBch IN ($tTextDocRef)";
+        $this->db->query($tSQL);
+
+        $tSQL1   = "UPDATE TCNTPdtReqSplHD SET FTXphStaDoc = '3' WHERE FTXphDocNo IN ($tTextDocRef)";
+        $this->db->query($tSQL1);
+
+        $tSQL2   = "UPDATE TAPTPoHD SET FTXphStaDoc = '3' WHERE FTXphDocNo IN ($tTextDocRef)";
+        $this->db->query($tSQL2);
+
+        $tSQL3   = "UPDATE TCNTPdtReqHqHD SET FTXphStaDoc = '3' WHERE FTXphDocNo IN ($tTextDocRef)";
+        $this->db->query($tSQL3);
+
+
+        $aStatus = array(
+            'rtCode' => '1',
+            'rtDesc' => 'Update Success.',
+        );
+
+        return $aStatus;
+    }
 
 }
