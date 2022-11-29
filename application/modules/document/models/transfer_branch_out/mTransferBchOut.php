@@ -1094,4 +1094,52 @@ class mTransferBchOut extends CI_Model
             echo $Error;
         }
     }
+
+    //เช็คข้อมูล ตลังสินค้า ว่ามีหรือไม่และตรงหรือไม่ ถ้าไม่มีให้ใช้ default คือ รหัส 00001 (คลังขาย)
+    public function FSaMBSChkWareHouse($paParam){
+        try{
+            $tBchCode       = $paParam['tBchCode'];
+            $tWhaCodeFrm    = $paParam['tWhaCodeFrm'];
+            $nLngID         = $this->session->userdata("tLangEdit");
+            $tWahStaWaste   = $paParam['tWahStaWaste'];
+
+            $tSQL = " SELECT TOP 1 * 
+            FROM TCNMWaHouse WAH WITH(NOLOCK)
+            LEFT JOIN TCNMWaHouse_L WAHL WITH(NOLOCK) ON WAH.FTWahCode = WAHL.FTWahCode AND  WAH.FTBchCode = WAHL.FTBchCode AND WAHL.FNLngID = $nLngID
+            WHERE 1=1 
+            AND WAH.FTBchCode = '$tBchCode' 
+            AND WAH.FTWahCode = '$tWhaCodeFrm'";
+            
+            if($tWahStaWaste == ""){
+                $tSQL .= " AND WAH.FTWahStaType IN('1','2') ";
+            }else{
+                $tSQL .= " AND WAH.FTWahStaType IN('1','2','10') ";
+            }
+
+            $oQuery = $this->db->query($tSQL);
+            if ($oQuery->num_rows() > 0){
+                $aResultData = $oQuery->row();
+                if($tWhaCodeFrm == $aResultData->FTWahCode){
+                    $aResult    = array(
+                        'rtWahCode' => $tWhaCodeFrm,
+                        'rtDesc'    => 'success',
+                    );
+                }else{
+                    $aResult    = array(
+                        'rtWahCode' => '00001',
+                        'rtDesc'    => 'Data Not Match',
+                    );
+                }
+            }else{
+                $aResult    = array(
+                    'rtWahCode' => '00001', //รหัส Default 
+                    'rtDesc'    => 'data not found.',
+                );
+            }
+            return $aResult;
+        }catch (Exception $Error) {
+            echo $Error;
+        }
+    }
+
 }

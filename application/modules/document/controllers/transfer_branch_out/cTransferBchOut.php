@@ -181,6 +181,14 @@ class cTransferBchOut extends MX_Controller
             $tDocDate = $this->input->post('oetTransferBchOutDocDate') . " " . $this->input->post('oetTransferBchOutDocTime');
             $tBchCode = $this->input->post('oetTransferBchOutBchCode');
 
+            $tWhaCodeFrm = $this->input->post('oetTransferBchOutXthWhFrmCode');
+
+            $aDataWah = array(
+                'tWhaCodeFrm' => $tWhaCodeFrm,
+                'tBchCode'    => $tBchCode
+            );
+            $tWahCode = $this->mTransferBchOut->FSaMBSChkWareHouse($aDataWah);
+
             $aEndOfBillParams = [
                 'tSplVatType' => '2', // ภาษีรวมใน
                 'tDocNo' => 'TBODOCTEMP',
@@ -204,7 +212,7 @@ class cTransferBchOut extends MX_Controller
                 'FTXthMerchantTo' => $this->input->post(''), // รหัสตัวแทน/เจ้าของดำเนินการ(ปลายทาง)
                 'FTXthShopFrm' => $this->input->post('oetTransferBchOutXthShopFrmCode'), // ร้านค้า(ต้นทาง)
                 'FTXthShopTo' => $this->input->post(''), // ร้านค้า(ปลายทาง)
-                'FTXthWhFrm' => $this->input->post('oetTransferBchOutXthWhFrmCode'), // รหัสคลัง(ต้นทาง)
+                'FTXthWhFrm' => $tWahCode['rtWahCode'], // รหัสคลัง(ต้นทาง)
                 'FTXthWhTo' => $this->input->post('oetTransferBchOutXthWhToCode'), // รหัสคลัง(ปลายทาง)
                 'FTUsrCode' => $tUserLoginCode, // พนักงาน Key
                 'FTSpnCode' => '', // พนักงานขาย
@@ -470,6 +478,16 @@ class cTransferBchOut extends MX_Controller
                 $tUserLevel = $this->session->userdata('tSesUsrLevel');
                 $tBchCode = $this->input->post('oetTransferBchOutBchCode');
 
+                $tWhaCodeFrm = $this->input->post('oetTransferBchOutXthWhFrmCode');
+                $tWahStaWaste = $this->input->post('ohdTWOnStaWasteWAH');
+        
+                $aDataWah = array(
+                    'tWhaCodeFrm' => $tWhaCodeFrm,
+                    'tBchCode'    => $tBchCode,
+                    'tWahStaWaste' => $tWahStaWaste
+                );
+                $tWahCode = $this->mTransferBchOut->FSaMBSChkWareHouse($aDataWah);
+
                 $aEndOfBillParams = [
                     'tSplVatType' => '2', // ภาษีรวมใน
                     'tDocNo' => 'TBODOCTEMP',
@@ -493,7 +511,7 @@ class cTransferBchOut extends MX_Controller
                     'FTXthMerchantTo' => $this->input->post(''), // รหัสตัวแทน/เจ้าของดำเนินการ(ปลายทาง)
                     'FTXthShopFrm' => $this->input->post('oetTransferBchOutXthShopFrmCode'), // ร้านค้า(ต้นทาง)
                     'FTXthShopTo' => $this->input->post(''), // ร้านค้า(ปลายทาง)
-                    'FTXthWhFrm' => $this->input->post('oetTransferBchOutXthWhFrmCode'), // รหัสคลัง(ต้นทาง)
+                    'FTXthWhFrm' => $tWahCode['rtWahCode'], // รหัสคลัง(ต้นทาง)
                     'FTXthWhTo' => $this->input->post('oetTransferBchOutXthWhToCode'), // รหัสคลัง(ปลายทาง)
                     'FTUsrCode' => $tUserLoginCode, // พนักงาน Key
                     'FTSpnCode' => '', // พนักงานขาย
