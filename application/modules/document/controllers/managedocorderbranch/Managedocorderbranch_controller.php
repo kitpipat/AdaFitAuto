@@ -281,9 +281,10 @@ class Managedocorderbranch_controller extends MX_Controller {
     // อนุมัติเอกสาร
     public function FSvCMNGAproveDocRef(){
         $aItemDoc    = $this->input->post('aItemDoc');
-        if(count($aItemDoc) > 0){
-            $tTextDocRef = "";
-            for($i=0; $i<count($aItemDoc); $i++){
+        // print_r($aItemDoc);
+        $tTextDocRef = "";
+        if(FCNnHSizeOf($aItemDoc) > 0){
+            for($i=0; $i<FCNnHSizeOf($aItemDoc); $i++){
                 $tTextDocRef .= " '$aItemDoc[$i]',";
             }
         }
@@ -293,11 +294,12 @@ class Managedocorderbranch_controller extends MX_Controller {
             'nRow'              => 1000000,
             'tTextDocRef'       => rtrim($tTextDocRef, ", ")
         );
+        // print_r($aData);exit;
         $aItemDoc   = $this->Managedocorderbranch_model->FSaMMNGListArray($aData);
-        if($aItemDoc['rtCode'] == 1){
+        if($aItemDoc['rtCode'] == '1'){
             $aItemDocSendMQ     = $aItemDoc['raItems'];
             $tDocRefKeyReqSPL   = '';
-            for($k=0; $k<count($aItemDocSendMQ); $k++){
+            for($k=0; $k<FCNnHSizeOf($aItemDocSendMQ); $k++){
                 $tDocType   = $aItemDocSendMQ[$k]['MGTDocType'];
                 $tDocStatus = $aItemDocSendMQ[$k]['MGTStaExport'];
                 if($tDocType != 3 && $tDocStatus == 1){
@@ -316,7 +318,7 @@ class Managedocorderbranch_controller extends MX_Controller {
             }
 
             $aDataMQ    = [];
-            for($i=0; $i<count($aItemDocSendMQ); $i++){
+            for($i=0; $i<FCNnHSizeOf($aItemDocSendMQ); $i++){
                 $tDocType   = $aItemDocSendMQ[$i]['MGTDocType'];
                 $tDocStatus = $aItemDocSendMQ[$i]['MGTStaExport'];
                 if(($tDocType == 2 || $tDocType == 4 || $tDocType == 6)){
@@ -331,18 +333,47 @@ class Managedocorderbranch_controller extends MX_Controller {
                     ]);
                 }
             }
-            $aMQParams = [
-                "queueName" => "CN_QDocApprove",
-                "params"    => [
-                    'ptFunction'    => 'TCNTPdtReqSplHD',
-                    'ptSource'      => 'AdaStoreBack',
-                    'ptDest'        => 'MQReceivePrc',
-                    'ptFilter'      => $tDocRefKeyReqSPL,
-                    'ptData'        => json_encode($aDataMQ)
-                ]
-            ];
-            // เชื่อม Rabbit MQ
-            FCNxCallRabbitMQ($aMQParams);
+
+            // print_r(json_encode($aDataMQ));exit;
+            try{
+                $aMQParams = [
+                    "queueName" => "CN_QDocApprove",
+                    "params"    => [
+                        'ptFunction'    => 'TCNTPdtReqSplHD',
+                        'ptSource'      => 'AdaStoreBack',
+                        'ptDest'        => 'MQReceivePrc',
+                        'ptFilter'      => $tDocRefKeyReqSPL,
+                        'ptData'        => json_encode($aDataMQ)
+                    ]
+                ];
+                // เชื่อม Rabbit MQ
+                $aStaReturn = FCNxCallRabbitMQ($aMQParams);
+                $aReturn = array(
+                    'nStaEvent'    => '1',
+                    'tStaMessg'    => 'ok'
+                );
+                echo json_encode($aReturn);
+            }catch(ErrorException $err){
+                $this->db->trans_rollback();
+                $aReturn = array(
+                    'nStaEvent'    => '900',
+                    'tStaMessg'    => language('common/main/main', 'tApproveFail')
+                );
+                echo json_encode($aReturn);
+                
+            }
+            // $aMQParams = [
+            //     "queueName" => "CN_QDocApprove",
+            //     "params"    => [
+            //         'ptFunction'    => 'TCNTPdtReqSplHD',
+            //         'ptSource'      => 'AdaStoreBack',
+            //         'ptDest'        => 'MQReceivePrc',
+            //         'ptFilter'      => $tDocRefKeyReqSPL,
+            //         'ptData'        => json_encode($aDataMQ)
+            //     ]
+            // ];
+            // // เชื่อม Rabbit MQ
+            // FCNxCallRabbitMQ($aMQParams);
 
             // for($i=0; $i<count($aItemDocSendMQ); $i++){
             //     $tDocType   = $aItemDocSendMQ[$i]['MGTDocType'];
@@ -396,18 +427,36 @@ class Managedocorderbranch_controller extends MX_Controller {
                     "ptUser"        => $this->session->userdata("tSesUsername"),
                 ]);
             }
-            $aMQParams = [
-                "queueName" => "CN_QGenDoc",
-                "params"    => [
-                    'ptFunction'    => "TCNTPdtReqMgtHD",
-                    'ptSource'      => 'AdaStoreBack',
-                    'ptDest'        => 'MQReceivePrc',
-                    'ptFilter'      => '',
-                    'ptData'        => json_encode($aDataSend)
-                ]
-            ];
+
             // เชื่อม Rabbit MQ
-            FCNxCallRabbitMQ($aMQParams);
+            try{
+                $aMQParams = [
+                    "queueName" => "CN_QGenDoc",
+                    "params"    => [
+                        'ptFunction'    => "TCNTPdtReqMgtHD",
+                        'ptSource'      => 'AdaStoreBack',
+                        'ptDest'        => 'MQReceivePrc',
+                        'ptFilter'      => '',
+                        'ptData'        => json_encode($aDataSend)
+                    ]
+                ];
+                // เชื่อม Rabbit MQ
+                $aStaReturn = FCNxCallRabbitMQ($aMQParams);
+                $aReturn = array(
+                    'nStaEvent'    => '1',
+                    'tStaMessg'    => 'ok'
+                );
+                echo json_encode($aReturn);
+            }catch(ErrorException $err){
+                $this->db->trans_rollback();
+                $aReturn = array(
+                    'nStaEvent'    => '900',
+                    'tStaMessg'    => language('common/main/main', 'สร้างเอกสารไม่สำเร็จ')
+                );
+                echo json_encode($aReturn);
+                
+            }
+            // FCNxCallRabbitMQ($aMQParams);
         }
     }
 
@@ -559,6 +608,33 @@ class Managedocorderbranch_controller extends MX_Controller {
 
             }
         }
+    }
+
+
+    // ยกเลิกเอกสาร
+    public function FSvCMNGCancelDocRef(){
+        $aItemDoc   = $this->input->post('aItemDoc');
+        if(count($aItemDoc) > 0){
+            $tTextDocRef = "";
+            for($i=0; $i<count($aItemDoc); $i++){
+                $tTextDocRef .= " '$aItemDoc[$i]',";
+            }
+        }
+        $aData  = array(
+            'FNLngID'           => $this->session->userdata("tLangEdit"),
+            'nPage'             => 1,
+            'nRow'              => 1000000,
+            'tTextDocRef'       => rtrim($tTextDocRef, ", ")
+        );
+
+        // print_r($aData);exit;
+
+        $aDocRef = $this->Managedocorderbranch_model->FSaMMNGCancelDoc($aData);
+        $aReturnData    = array(
+            'nStaEvent'         => '1',
+            'tStaMessg'         => 'Success'
+        );
+        echo json_encode($aReturnData);
     }
     
 }           
