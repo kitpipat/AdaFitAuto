@@ -2464,6 +2464,8 @@ $lang['tRptPhStaLeft1']              = "ยังไม่ชำระ";
 $lang['tRptCreditdebtorTitle']              = "รายงาน - อายุลูกหนี้";
 $lang['tRptdebtoroverdueTitle']              = "รายงาน - ลูกหนี้ค้างชำระ";
 
+$lang['tRptsumdebtoroverdueTitle']              = "รายงาน - ลูกหนี้ค้างชำระแบบสรุป";
+
 $lang['tRptdailypaymentTitle']              = "รายงาน - สรุปการจ่ายชำระประจำวัน";
 $lang['tRptsaleconditiongroupTitle']              = "รายงาน - ยอดขาย";
 
@@ -2583,6 +2585,14 @@ $lang['tRptdeptrodueCol4'] = "ยอดในบิล";
 $lang['tRptdeptrodueCol5'] = "ยอดชำระ";
 $lang['tRptdeptrodueCol6'] = "ยอดคงค้าง";
 
+//รายงาน - ลูกหนี้ค้างชำระแบบสรุป
+$lang['tRptsumdeptrodueCol1'] = "รหัสสาขา";
+$lang['tRptsumdeptrodueCol2'] = "ชื่อสาขา";
+$lang['tRptsumdeptrodueCol3'] = "ลูกหนี้";
+$lang['tRptsumdeptrodueCol4'] = "ชื่อ";
+$lang['tRptsumdeptrodueCol5'] = "ยอดในบิล";
+$lang['tRptsumdeptrodueCol6'] = "ยอดชำระ";
+$lang['tRptsumdeptrodueCol7'] = "ยอดคงค้าง";
 
 $lang['tRptdailypaymentCol1'] = "วันที่ชำระ";
 $lang['tRptdailypaymentCol2'] = "ผู้จำหน่าย";

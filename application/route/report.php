@@ -734,6 +734,10 @@ $route['rptCreditDebtorClickPage']                  = 'report/reportFitauto/Rptc
 $route['rptDebtorOverdue']                          = 'report/reportFitauto/Rptdebtoroverdue_controller/index';
 $route['rptDebtorOverdueClickPage']                 = 'report/reportFitauto/Rptdebtoroverdue_controller/FSvCCallRptViewBeforePrintClickPage';
 
+//รายงาน  - ยอดหนี้ตามลูกค้าแบบสรุป
+$route['rptSumDebtorOverdue']                       = 'report/reportFitauto/Rptsumdebtoroverdue_controller/index';
+$route['rptSumDebtorOverdueClickPage']              = 'report/reportFitauto/Rptsumdebtoroverdue_controller/FSvCCallRptViewBeforePrintClickPage';
+
 //รายงาน  - สรุปการจ่ายชำระประจำวัน
 $route['rptDailypayment']                           = 'report/reportFitauto/Rptdailypayment_controller/index';
 $route['rptDailypaymentClickPage']                  = 'report/reportFitauto/Rptdailypayment_controller/FSvCCallRptViewBeforePrintClickPage';
