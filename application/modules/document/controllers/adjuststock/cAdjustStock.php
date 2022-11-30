@@ -993,7 +993,7 @@ class cAdjustStock extends MX_Controller {
             
             // $tXthStaApv = $this->input->Post('tXthStaApv'); lnwza
 
-            // $aReturnUpdDTBal = $this->mAdjustStock->FSaMUpdateDTBal($tXthDocNo);
+            $aReturnUpdDTBal = $this->mAdjustStock->FSaMUpdateDTBal($tXthDocNo);
             // if( $aReturnUpdDTBal['tCode'] == '1' ){
                 $aDataUpdate = array(
                     'FTAjhDocNo'    => $tXthDocNo,

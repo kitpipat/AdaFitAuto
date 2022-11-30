@@ -1114,7 +1114,8 @@ class mAdjustStock extends CI_Model{
     // Last Update : Napat(Jame) 09/09/2020 เพิ่ม ISNULL ในกรณีที่ใน PdtStkBal ไม่มีข้อมูล
     public function FSaMUpdateDTBal($ptDocNo){
         $tSQL = "   UPDATE TCNTPdtAdjStkDT
-                    SET TCNTPdtAdjStkDT.FCAjdWahB4Adj = ISNULL(C.FCStkQty,0)
+                    SET TCNTPdtAdjStkDT.FCAjdWahB4Adj = ISNULL(C.FCStkQty,0),
+                        TCNTPdtAdjStkDT.FDAjdDateTimeC1 = CONVERT(VARCHAR, GETDATE(), 121)
                     FROM TCNTPdtAdjStkHD A WITH(NOLOCK)
                     INNER JOIN TCNTPdtAdjStkDT B ON A.FTAjhDocNo = B.FTAjhDocNo
                     LEFT JOIN TCNTPdtStkBal C ON A.FTAjhWhTo = C.FTWahCode AND A.FTBchCode = C.FTBchCode AND B.FTPdtCode = C.FTPdtCode
