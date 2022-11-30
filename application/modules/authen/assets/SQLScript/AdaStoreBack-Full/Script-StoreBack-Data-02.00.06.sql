@@ -111,23 +111,27 @@ IF NOT EXISTS(SELECT FTUphVersion FROM TCNTUpgradeHisTmp WHERE FTUphVersion=  '0
 END
 GO
 
+IF NOT EXISTS(SELECT FTUphVersion FROM TCNTUpgradeHisTmp WHERE FTUphVersion=  '00.00.26') BEGIN
+    IF NOT EXISTS(SELECT FTMnuCode FROM TSysMenuList WHERE FTMnuCode=  'TXO018') BEGIN
+    INSERT INTO TSysMenuList ([FTGmnCode], [FTMnuParent], [FTMnuCode], [FTLicPdtCode], [FNMnuSeq], [FTMnuCtlName], [FNMnuLevel], [FTMnuStaPosHpm], [FTMnuStaPosFhn], [FTMnuStaSmartHpm], 			  [FTMnuStaSmartFhn], [FTMnuStaMoreHpm], [FTMnuStaMoreFhn], [FTMnuType], [FTMnuStaAPIPos], [FTMnuStaAPISmart], [FTMnuStaUse], [FTMnuPath], [FTGmnModCode], [FTMnuImgPath]) 
+    VALUES ('ARD', 'ARD', 'TXO018', 'SB-ICTXO018', 12, 'docPrs/0/2', 1, 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', '1', 'Y', 'Y', '1', '', 'AR', '');
+    END
 
-IF NOT EXISTS(SELECT FTMnuCode FROM TSysMenuList WHERE FTMnuCode=  'TXO018') BEGIN
-INSERT INTO TSysMenuList ([FTGmnCode], [FTMnuParent], [FTMnuCode], [FTLicPdtCode], [FNMnuSeq], [FTMnuCtlName], [FNMnuLevel], [FTMnuStaPosHpm], [FTMnuStaPosFhn], [FTMnuStaSmartHpm], 			  [FTMnuStaSmartFhn], [FTMnuStaMoreHpm], [FTMnuStaMoreFhn], [FTMnuType], [FTMnuStaAPIPos], [FTMnuStaAPISmart], [FTMnuStaUse], [FTMnuPath], [FTGmnModCode], [FTMnuImgPath]) 
-VALUES ('ARD', 'ARD', 'TXO018', 'SB-ICTXO018', 12, 'docPrs/0/2', 1, 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', '1', 'Y', 'Y', '1', '', 'AR', '');
-END
+    IF NOT EXISTS(SELECT FTMnuCode FROM TSysMenuList_L WHERE FTMnuCode=  'TXO018') BEGIN
+    INSERT INTO TSysMenuList_L ([FTMnuCode], [FNLngID], [FTMnuName], [FTMnuRmk]) VALUES ('TXO018', 1, 'ใบขอซื้อจากลูกค้า - แฟรนไชส์', NULL);
+    INSERT INTO TSysMenuList_L ([FTMnuCode], [FNLngID], [FTMnuName], [FTMnuRmk]) VALUES ('TXO018', 2, 'Supplier Purchase Requisition - Franchise', '');
+    END
 
-IF NOT EXISTS(SELECT FTMnuCode FROM TSysMenuList_L WHERE FTMnuCode=  'TXO018') BEGIN
-INSERT INTO TSysMenuList_L ([FTMnuCode], [FNLngID], [FTMnuName], [FTMnuRmk]) VALUES ('TXO018', 1, 'ใบขอซื้อจากลูกค้า - แฟรนไชส์', NULL);
-INSERT INTO TSysMenuList_L ([FTMnuCode], [FNLngID], [FTMnuName], [FTMnuRmk]) VALUES ('TXO018', 2, 'Supplier Purchase Requisition - Franchise', '');
-END
+    IF NOT EXISTS(SELECT FTMnuCode FROM TSysMenuAlbAct WHERE FTMnuCode=  'TXO018') BEGIN
+    INSERT INTO TSysMenuAlbAct ([FTMnuCode], [FTAutStaRead], [FTAutStaAdd], [FTAutStaEdit], [FTAutStaDelete], [FTAutStaCancel], [FTAutStaAppv], [FTAutStaPrint], [FTAutStaPrintMore]) 
+    VALUES ('TXO018', '1', '1', '1', '1', '1', '1', '1', '1');
+    END
 
-IF NOT EXISTS(SELECT FTMnuCode FROM TSysMenuAlbAct WHERE FTMnuCode=  'TXO018') BEGIN
-INSERT INTO TSysMenuAlbAct ([FTMnuCode], [FTAutStaRead], [FTAutStaAdd], [FTAutStaEdit], [FTAutStaDelete], [FTAutStaCancel], [FTAutStaAppv], [FTAutStaPrint], [FTAutStaPrintMore]) 
-VALUES ('TXO018', '1', '1', '1', '1', '1', '1', '1', '1');
-END
+    IF NOT EXISTS(SELECT FTMnuCode FROM TCNTUsrMenu WHERE FTMnuCode=  'TXO018' AND FTRolCode = '00002') BEGIN
+    INSERT INTO TCNTUsrMenu ([FTRolCode], [FTGmnCode], [FTMnuParent], [FTMnuCode], [FTAutStaFull], [FTAutStaRead], [FTAutStaAdd], [FTAutStaEdit], [FTAutStaDelete], [FTAutStaCancel], [FTAutStaAppv], [FTAutStaPrint], [FTAutStaPrintMore], [FTAutStaFavorite], [FDLastUpdOn], [FTLastUpdBy], [FDCreateOn], [FTCreateBy]) VALUES ('00002', 'ARD', 'ARD', 'TXO018', '0', '1', '1', '1', '1', '1', '1', '1', '1', '0', '2022-06-16 15:00:23.000', '00002', '2022-06-16 15:00:23.000', '00002');
+    END
 
-IF NOT EXISTS(SELECT FTMnuCode FROM TCNTUsrMenu WHERE FTMnuCode=  'TXO018' AND FTRolCode = '00002') BEGIN
-INSERT INTO TCNTUsrMenu ([FTRolCode], [FTGmnCode], [FTMnuParent], [FTMnuCode], [FTAutStaFull], [FTAutStaRead], [FTAutStaAdd], [FTAutStaEdit], [FTAutStaDelete], [FTAutStaCancel], [FTAutStaAppv], [FTAutStaPrint], [FTAutStaPrintMore], [FTAutStaFavorite], [FDLastUpdOn], [FTLastUpdBy], [FDCreateOn], [FTCreateBy]) VALUES ('00002', 'ARD', 'ARD', 'TXO018', '0', '1', '1', '1', '1', '1', '1', '1', '1', '0', '2022-06-16 15:00:23.000', '00002', '2022-06-16 15:00:23.000', '00002');
+    INSERT INTO [TCNTUpgradeHisTmp] ([FTUphVersion], [FDCreateOn], [FTUphRemark], [FTCreateBy]) VALUES ( '00.00.26', getdate() , 'เพิ่ม เมนู', 'dev')
 END
+GO
 
