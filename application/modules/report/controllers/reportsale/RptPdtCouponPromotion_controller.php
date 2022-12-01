@@ -166,7 +166,7 @@ class RptPdtCouponPromotion_controller extends MX_Controller
             'tRptPmoQtyUnit'        => language('report/report/report', 'tRptPmoQtyUnit'),
             'tRptPmoPriceNormal'    => language('report/report/report', 'tRptPmoPriceNormal'),
             'tRptPmoDiscount'       => language('report/report/report', 'tRptPmoDiscount'),
-            'tRptPricePromotion'    => language('report/report/report', 'ราคา'),
+            'tRptPricePromotion'    => language('report/report/report', 'tRptPricePromotion'),
             'tRptPmoDocNo'          => language('report/report/report', 'tRptPmoDocNo'),
             'tRptPmoDate'           => language('report/report/report', 'tRptPmoDate'),
             'tRptPmoDisCountBath'   => language('report/report/report', 'tRptPmoDisCountBath'),
