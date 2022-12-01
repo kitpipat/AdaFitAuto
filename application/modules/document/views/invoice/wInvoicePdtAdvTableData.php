@@ -276,6 +276,7 @@
 
         var aPackData = JSON.parse(paData);
 
+        // console.log(aPackData);
         var tCheckIteminTableClass = $('#otbIVDocPdtAdvTableList tbody tr td').hasClass('xCNTextNotfoundDataPdtTable');
         if(tCheckIteminTableClass == true){
             $('#otbIVDocPdtAdvTableList tbody').html('');
@@ -290,6 +291,7 @@
             var oData           = aPackData[i];
 
             var oResult         = oData.packData;
+            // console.log('data', oResult);
             oResult.NetAfHD     = (oResult.Price == '' || oResult.Price === undefined ? 0 : oResult.Price);
             oResult.Qty         = (oResult.Qty == '' || oResult.Qty === undefined ? 1 : oResult.Qty);
             oResult.Net         = (oResult.Price == '' || oResult.Price === undefined ? oResult.nCostSTD : oResult.Price);
@@ -311,8 +313,8 @@
             var nAlwVat         = (oResult.AlwVat == '' || oResult.AlwVat === undefined ? 0 : oResult.AlwVat);           //อนุญาตคำนวณภาษี
             var nVat            = (oResult.nVat == ''   || oResult.nVat === undefined   ? 7 : parseFloat(oResult.nVat).toFixed(2));  //ภาษีจากผู้จำหน่าย
             var nQty            = parseInt(oResult.Qty);       //จำนวน
-            var nNetAfHD        = (parseFloat(oResult.NetAfHD)).toFixed(2);
-            var cNet            = (parseFloat(oResult.Net)).toFixed(2);
+            var nNetAfHD        = (parseFloat(accounting.unformat(oResult.NetAfHD))).toFixed(2);
+            var cNet            = (parseFloat(accounting.unformat(oResult.Net))).toFixed(2);
             var tDisChgTxt      = oResult.tDisChgTxt;
             var tDuplicate      = $('#otbIVDocPdtAdvTableList tbody tr').hasClass('otr'+tProductCode+tBarCode);
             var InfoOthReAddPdt = $('#ocmIVFrmInfoOthReAddPdt').val();
