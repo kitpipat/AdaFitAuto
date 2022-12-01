@@ -643,6 +643,7 @@ class mAdjustStock extends CI_Model{
                         FTPunCode,
                         FCPdtUnitFact, 
                         FTAjdPlcCode,
+                        FDAjdDateTimeC1,
                         FCAjdUnitQtyC1,
                         FCAjdQtyAllC1,
                         FNAjdLayRow,
@@ -665,6 +666,7 @@ class mAdjustStock extends CI_Model{
                         DOCTMP.FTPunCode,
                         DOCTMP.FCPdtUnitFact,
                         DOCTMP.FTAjdPlcCode,
+                        DOCTMP.FDAjdDateTimeC1,
                         DOCTMP.FCAjdUnitQtyC1,
                         DOCTMP.FCAjdQtyAllC1,
                         0,
@@ -842,13 +844,33 @@ class mAdjustStock extends CI_Model{
     //Return : Status Delete
     //Return Type : array
     public function FSaMUpdateDocDTInLine($paDataUpdInline, $paDataWhere){
-        $this->db->set('FCAjdUnitQtyC1', $paDataUpdInline['tValue'], FALSE);
-        $this->db->set('FCAjdQtyAllC1', 'FCPdtUnitFact * ' . $paDataUpdInline['tValue'], FALSE);
-        $this->db->where('FTXthDocNo', $paDataWhere['FTXthDocNo']);
-        $this->db->where('FTXthDocKey', $paDataWhere['FTXthDocKey']);
-        $this->db->where('FNXtdSeqNo', $paDataWhere['FNXtdSeqNo']);
-        $this->db->where('FTSessionID', $paDataWhere['FTSessionID']);
-        $this->db->update('TCNTDocDTTmp');
+        // $this->db->set('FCAjdUnitQtyC1', $paDataUpdInline['tValue'], FALSE);
+        // $this->db->set('FDAjdDateTimeC1',CONVERT(VARCHAR, GETDATE(), 121));
+        // $this->db->set('FCAjdQtyAllC1', 'FCPdtUnitFact * ' . $paDataUpdInline['tValue'], FALSE);
+        // $this->db->where('FTXthDocNo', $paDataWhere['FTXthDocNo']);
+        // $this->db->where('FTXthDocKey', $paDataWhere['FTXthDocKey']);
+        // $this->db->where('FNXtdSeqNo', $paDataWhere['FNXtdSeqNo']);
+        // $this->db->where('FTSessionID', $paDataWhere['FTSessionID']);
+        // $this->db->update('TCNTDocDTTmp');
+
+        $tValue = $paDataUpdInline['tValue'];
+        $tFTXthDocNo  = $paDataWhere['FTXthDocNo'];
+        $tFTXthDocKey = $paDataWhere['FTXthDocKey'];
+        $tFNXtdSeqNo  = $paDataWhere['FNXtdSeqNo'];
+        $tFTSessionID = $paDataWhere['FTSessionID'];
+
+        $tSQL = "  UPDATE TCNTDocDTTmp
+                    SET FCAjdUnitQtyC1 = $tValue,
+                    FDAjdDateTimeC1 = CONVERT(VARCHAR, GETDATE(), 121),
+                    FCAjdQtyAllC1   = FCPdtUnitFact * $tValue 
+                    WHERE
+                        FTXthDocNo = '$tFTXthDocNo' 
+                        AND FTXthDocKey = '$tFTXthDocKey' 
+                        AND FNXtdSeqNo  = '$tFNXtdSeqNo' 
+                        AND FTSessionID = '$tFTSessionID'
+                ";
+        $this->db->query($tSQL);
+        
         if ($this->db->trans_status() === FALSE) {
             $aDataReturn = array(
                 'nStaQuery' => 905,
@@ -1114,8 +1136,7 @@ class mAdjustStock extends CI_Model{
     // Last Update : Napat(Jame) 09/09/2020 เพิ่ม ISNULL ในกรณีที่ใน PdtStkBal ไม่มีข้อมูล
     public function FSaMUpdateDTBal($ptDocNo){
         $tSQL = "   UPDATE TCNTPdtAdjStkDT
-                    SET TCNTPdtAdjStkDT.FCAjdWahB4Adj = ISNULL(C.FCStkQty,0),
-                        TCNTPdtAdjStkDT.FDAjdDateTimeC1 = CONVERT(VARCHAR, GETDATE(), 121)
+                    SET TCNTPdtAdjStkDT.FCAjdWahB4Adj = ISNULL(C.FCStkQty,0)
                     FROM TCNTPdtAdjStkHD A WITH(NOLOCK)
                     INNER JOIN TCNTPdtAdjStkDT B ON A.FTAjhDocNo = B.FTAjhDocNo
                     LEFT JOIN TCNTPdtStkBal C ON A.FTAjhWhTo = C.FTWahCode AND A.FTBchCode = C.FTBchCode AND B.FTPdtCode = C.FTPdtCode
@@ -1259,7 +1280,7 @@ class mAdjustStock extends CI_Model{
                          FTBchCode,FTXthDocNo,FNXtdSeqNo,FTXthDocKey,FTPdtCode
                         ,FTXtdPdtName,FTPunCode,FTPunName,FTXtdBarCode
                         ,FCPdtUnitFact,FTPgpChain,FTAjdPlcCode
-                        ,FCAjdUnitQtyC1,FCAjdQtyAllC1,FCAjdQtyAllDiff,FCAjdWahB4Adj
+                        ,FDAjdDateTimeC1,FCAjdUnitQtyC1,FCAjdQtyAllC1,FCAjdQtyAllDiff,FCAjdWahB4Adj
                         ,FTSessionID,FDLastUpdOn,FDCreateOn,FTLastUpdBy,FTCreateBy,FCXtdQtyAll
                     )
                     SELECT 
@@ -1275,6 +1296,7 @@ class mAdjustStock extends CI_Model{
                         ,DT.FCPdtUnitFact
                         ,DT.FTPgpChain
                         ,DT.FTAjdPlcCode
+                        ,DT.FDAjdDateTimeC1
                         ,DT.FCAjdUnitQtyC1
                         ,DT.FCAjdQtyAllC1
                         ,DT.FCAjdQtyAllDiff
