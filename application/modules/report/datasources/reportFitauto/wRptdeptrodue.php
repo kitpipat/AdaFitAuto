@@ -182,6 +182,7 @@ $nOptDecimalShow = FCNxHGetOptionDecimalShow();
                             if ($aValue["FTCstCode"]=="") {
                               $aValue["FTCstCode"] = '999';
                               $aValue["FTCstName"] = 'ลูกค้าทั่วไป';
+                              $aValue['FTCstCode_CST_Footer'] = '999';
                             }else {
 
                             }
@@ -191,7 +192,7 @@ $nOptDecimalShow = FCNxHGetOptionDecimalShow();
                                </tr>
                             <?php } ?>
                             <tr>
-                              <td class="text-left xCNRptDetail"><?php echo $aValue['FDXshDocDate']; ?></td>
+                              <td class="text-left xCNRptDetail" style="text-indent: 15px;"><?php echo $aValue['FDXshDocDate']; ?></td>
                               <td class="text-left xCNRptDetail"><?php echo $aValue['FTXshDocNo']; ?></td>
                               <td class="text-left xCNRptDetail">(<?php echo $aValue['FTUsrCode']; ?>) <?php echo $aValue['FTUsrName']; ?></td>
                               <td class="text-right xCNRptDetail"><?php echo number_format($aValue['FCXshGrand'],$nOptDecimalShow ) ?></td>

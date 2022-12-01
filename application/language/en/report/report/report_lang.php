@@ -2029,7 +2029,7 @@ $lang['tRptPurCrOverDue']               = "Report - Creditor Overdue";
 
 $lang['tRptcreditordebt']               = "Report - Creditor Debt";
 $lang['tRptcreditordebtbyrcv']               = "Report - Creditor Debt By Rcv";
-$lang['tRptdebtorreceive']               = "Report - DebtorReceive";
+$lang['tRptdebtorreceive']               = "Report - Account Payable Payment";
 
 $lang['tRptdebtreceivable']               = "Report - Debt Receivable";
 
@@ -2041,6 +2041,7 @@ $lang['tRptreducedebtbybills']           = "Report - Reduce Debt By Bills";
 
 $lang['tRptreducedebtbytnf']               = "Report - Debtoy By Tnf";
 
+$lang['tRptdebtoroverdueTitle']               = "Report - Follow Debtor Overdue";
 
 
 $lang['tRptcreditordis']                = "Report - Creditor Discount";
@@ -2050,6 +2051,9 @@ $lang['tRptVatNoPay']                   = "VatNoPay";
 $lang['tRptCreditorName']               = "Creditor";
 $lang['tRptUsrDisCreditorForm']         = "Form User Discount";
 $lang['tRptUsrDisCreditorTo']           = "To User Discount";
+
+$lang['tRptdebtorreceiveClose']           = "Close";
+$lang['tRptdebtorreceivePartialPayment']  = "Partial Payment";
 
 
 

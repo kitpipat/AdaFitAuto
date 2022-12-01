@@ -2637,3 +2637,42 @@ IF NOT EXISTS(SELECT FTUphVersion FROM TCNTUpgradeHisTmp WHERE FTUphVersion=  '0
 	INSERT INTO [TCNTUpgradeHisTmp] ([FTUphVersion], [FDCreateOn], [FTUphRemark], [FTCreateBy]) VALUES ( '05.01.02', getdate() , 'เพิ่ม Report, FilterReport และ TCNTUsrFuncRpt', 'IcePun');
 END
 GO
+
+
+
+IF NOT EXISTS(SELECT FTUphVersion FROM TCNTUpgradeHisTmp WHERE FTUphVersion=  '05.01.03') BEGIN
+
+	-- ==================================================== Update ชื่อรายงาน รายงาน - การรับชำระลูกหนี้ ====================================================
+
+	UPDATE TSysReport_L SET FTRptName = 'รายงาน - การรับชำระลูกหนี้' WHERE FTRptCode = '010001010' AND FNLngID = 1
+
+	IF NOT EXISTS(SELECT * FROM TSysReport_L WHERE FTRptCode = '010001010' AND FNLngID = 2) BEGIN
+		INSERT [TSysReport_L] ([FTRptCode], [FNLngID], [FTRptName], [FTRptDes]) VALUES ('010001010', 2, 'Report - DebtorReceive', NULL)
+	END
+
+	-- ==================================================== Update ชื่อรายงาน รายงาน - การรับชำระลูกหนี้ ====================================================
+
+	UPDATE TSysReport_L SET FTRptName = 'รายงาน - ติดตามยอดหนี้คงค้าง' WHERE FTRptCode = '010001013' AND FNLngID = 1
+
+	IF NOT EXISTS(SELECT * FROM TSysReport_L WHERE FTRptCode = '010001013' AND FNLngID = 2) BEGIN
+		INSERT [TSysReport_L] ([FTRptCode], [FNLngID], [FTRptName], [FTRptDes]) VALUES ('010001013', 2, 'Report - Follow Debtor Overdue', NULL)
+	END
+
+	IF NOT EXISTS(SELECT * FROM TSysReport WHERE FTRptCode = '010001020' AND FTRptRoute = 'rptSumDebtorOverdue') BEGIN
+		INSERT [TSysReport] ([FTRptCode], [FTGrpRptModCode], [FTGrpRptCode], [FTRptRoute], [FTRptStaUseFrm], [FTRptTblView], [FTRptFilterCol], [FTRptFileName], [FTRptStaShwBch], [FTRptStaShwYear], [FTRptSeqNo], [FTRptStaUse], [FTLicPdtCode]) 
+		VALUES ('010001020','010','010001','rptSumDebtorOverdue',NULL,NULL,'1,2,4,27',NULL,'1','1','20','1','SB-RPT001003067')
+	END
+
+	IF NOT EXISTS(SELECT * FROM TSysReport_L WHERE FTRptCode = '010001020' AND FNLngID = 1) BEGIN
+		INSERT [TSysReport_L] ([FTRptCode], [FNLngID], [FTRptName], [FTRptDes]) VALUES ('010001020',1,'รายงาน - ยอดหนี้ตามลูกค้าแบบสรุป',NULL)
+	END
+
+	IF NOT EXISTS(SELECT * FROM TCNTUsrFuncRpt WHERE FTRolCode = '00002' AND FTUfrRef = '010001020') BEGIN
+		INSERT [TCNTUsrFuncRpt] ([FTRolCode], [FTUfrType], [FTUfrGrpRef], [FTUfrRef], [FTGhdApp], [FTUfrStaAlw], [FTUfrStaFavorite], [FDLastUpdOn], [FTLastUpdBy], [FDCreateOn], [FTCreateBy]) 
+		VALUES ('00002', '2', '010001', '010001020', NULL, '1', '0', GETDATE(), '00002', GETDATE(), '00002')
+	END
+
+--ทุกครั้งที่รันสคริปใหม่
+	INSERT INTO [TCNTUpgradeHisTmp] ([FTUphVersion], [FDCreateOn], [FTUphRemark], [FTCreateBy]) VALUES ( '05.01.03', getdate() , 'Update ชื่อรายงาน', 'IcePun');
+END
+GO

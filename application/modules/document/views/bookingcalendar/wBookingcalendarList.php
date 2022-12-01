@@ -376,7 +376,8 @@
             url     : "docBookingCalendarTable",
             data    : {'tADCode' : tADCode , 'tBCHCode' : tBCHCode},
             cache   : false,
-            timeout : 5000,
+            timeout : 0,
+            async   : true,
             success : function (tResult) {
                 $("#odvCalendar").html(tResult);
             },

@@ -112,7 +112,7 @@ class Rptdebtoroverdue_model extends CI_Model {
                         SELECT
                             ROW_NUMBER() OVER(ORDER BY FTCstCode ASC) AS RowID ,
                             ROW_NUMBER() OVER(PARTITION BY FTCstCode ORDER BY FTCstCode ASC) AS rtPartitionCST ,
-                            COUNT(FTCstCode) OVER(PARTITION BY FTCstCode ORDER BY FTCstCode ASC) AS rtPartitionCountCST ,
+                            COUNT(ISNULL(FTCstCode, '')) OVER(PARTITION BY FTCstCode ORDER BY FTCstCode ASC) AS rtPartitionCountCST ,
                             A.*
                         FROM TRPTAccruedReceiTmp A WITH(NOLOCK)
                         WHERE A.FTUsrSession    = '$tUsrSession'
@@ -128,7 +128,7 @@ class Rptdebtoroverdue_model extends CI_Model {
                         WHERE 1=1
                         AND FTUsrSession    = '$tUsrSession'
                         GROUP BY FTUsrSession , FTCstCode
-                    ) C ON L.FTUsrSession = C.FTUsrSession_CST_Footer AND L.FTCstCode = C.FTCstCode_CST_Footer
+                    ) C ON L.FTUsrSession = C.FTUsrSession_CST_Footer AND ISNULL(L.FTCstCode,'') = ISNULL(C.FTCstCode_CST_Footer, '')
                     LEFT JOIN (
                     " . $tJoinFoooter . "  ";
 
@@ -137,6 +137,8 @@ class Rptdebtoroverdue_model extends CI_Model {
 
         //สั่ง Order by ตามข้อมูลหลัก
         $tSQL .= " ORDER BY L.FTCstCode";
+
+        // print_r($tSQL);exit;
         $oQuery = $this->db->query($tSQL);
         if ($oQuery->num_rows() > 0) {
             $aData = $oQuery->result_array();

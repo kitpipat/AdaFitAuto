@@ -322,6 +322,7 @@
     $("#oliBookingByDayTab").unbind().click(function(){
         $("#obtSubmitInvExpExcel").addClass("xCNHide");
     });
+    
     //รายละเอียดของการจอง
     function JSxGoToPageBookingDetail(ptBookingID){
         $.ajax({

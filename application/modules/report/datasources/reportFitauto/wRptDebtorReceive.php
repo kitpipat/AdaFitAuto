@@ -100,23 +100,25 @@ $nOptDecimalShow    = FCNxHGetOptionDecimalShow();
                             <th nowrap class="text-left   xCNRptColumnHeader" style="width:10%;">ลูกค้า / ลูกหนี้</th>
                             <th nowrap class="text-left   xCNRptColumnHeader" style="width:10%;">เลขที่เอกสาร</th>
                             <th nowrap class="text-left   xCNRptColumnHeader" style="width:10%;"></th>
-                            <th nowrap class="text-center   xCNRptColumnHeader" style="width:10%;">วันครบกำหนด</th>
+                            <th nowrap class="text-left   xCNRptColumnHeader" style="width:10%;">วันครบกำหนด</th>
                             <th nowrap class="text-right   xCNRptColumnHeader" style="width:5%;"></th>
                             <th nowrap class="text-right   xCNRptColumnHeader" style="width:10%;"></th>
                             <th nowrap class="text-right   xCNRptColumnHeader" style="width:10%;"></th>
                             <th nowrap class="text-right   xCNRptColumnHeader" style="width:10%;"></th>
                             <th nowrap class="text-center   xCNRptColumnHeader" style="width:10%;"></th>
+                            <th nowrap class="text-center   xCNRptColumnHeader" style="width:10%;"></th>
                         </tr>
                         <tr>
                             <th nowrap class="text-left   xCNRptColumnHeader" style="width:10%;"></th>
-                            <th nowrap class="text-center   xCNRptColumnHeader" style="width:10%;">เอกสารอ้างอิง</th>
+                            <th nowrap class="text-left   xCNRptColumnHeader" style="width:10%;text-indent: 15px;">เอกสารอ้างอิง</th>
                             <th nowrap class="text-left   xCNRptColumnHeader" style="width:10%;">ประเภทเอกสาร</th>
-                            <th nowrap class="text-center   xCNRptColumnHeader" style="width:10%;">วันที่อ้างอิงเอกสาร</th>
+                            <th nowrap class="text-left   xCNRptColumnHeader" style="width:10%;text-indent: 15px;">วันที่อ้างอิงเอกสาร</th>
                             <th nowrap class="text-left   xCNRptColumnHeader" style="width:5%;">พนักงานรับชำระ</th>
                             <th nowrap class="text-right   xCNRptColumnHeader" style="width:10%;">ยอดหนี้รวม</th>
                             <th nowrap class="text-right   xCNRptColumnHeader" style="width:10%;">ยอดชำระก่อนหน้ารวม</th>
                             <th nowrap class="text-right   xCNRptColumnHeader" style="width:10%;">ยอดชำระในบิลนี้</th>
                             <th nowrap class="text-right   xCNRptColumnHeader" style="width:10%;">ยอดชำระครั้งถัดไป</th>
+                            <th nowrap class="text-left   xCNRptColumnHeader" style="width:5%;">สถานะ</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -137,29 +139,38 @@ $nOptDecimalShow    = FCNxHGetOptionDecimalShow();
 
                                 <?php if($aValue['PARTTITIONBYDOC_COUNT'] == '1'){ ?> 
                                 <tr class = 'xCNRptLastGroupTr'>
-                                    <td nowrap class="text-left   xCNRptDetail"><?php echo $aValue["FTCstName"]; ?></td>
-                                    <td nowrap class="text-left   xCNRptDetail"><?php echo $aValue["FTXphDocNo"]; ?></td>
+                                    <td nowrap class="text-left   xCNRptDetail xCNRptSumFooter"><?php echo $aValue["FTCstName"]; ?></td>
+                                    <td nowrap class="text-left   xCNRptDetail xCNRptSumFooter"><?php echo $aValue["FTXphDocNo"]; ?></td>
                                     <td nowrap class="text-left   xCNRptDetail"></td>
-                                    <td nowrap class="text-center   xCNRptDetail xCNRptSumFooter"><?php echo  date("d/m/Y", strtotime($aValue["FDXshDocDate"])); ?></td>
-                                    <td nowrap class="text-left   xCNRptDetail"><?php echo $aValue["FTUsrName"]; ?></td>
+                                    <td nowrap class="text-left   xCNRptDetail xCNRptSumFooter"><?php echo  date("d/m/Y", strtotime($aValue["FDXshDocDate"])); ?></td>
+                                    <td nowrap class="text-left   xCNRptDetail xCNRptSumFooter"><?php echo $aValue["FTUsrName"]; ?></td>
                                     <td nowrap class="text-right   xCNRptDetail xCNRptSumFooter"><?=number_format($aValue['FCXsdInvGrand_SUM'], $nOptDecimalShow); ?></td>
                                     <td nowrap class="text-right   xCNRptDetail xCNRptSumFooter"><?=number_format($aValue['FCXsdInvPaid_SUM'], $nOptDecimalShow); ?></td>
                                     <td nowrap class="text-right   xCNRptDetail xCNRptSumFooter"><?=number_format($aValue['FCXsdInvPay_SUM'], $nOptDecimalShow); ?></td>
                                     <td nowrap class="text-right   xCNRptDetail xCNRptSumFooter"><?=number_format($aValue['FCXsdInvRem_SUM'], $nOptDecimalShow); ?></td>
+                                    <td nowrap class="text-left   xCNRptDetail"></td>
                                 </tr>
                                 <?php 
                                 }?>
 
+                                <?php 
+                                    if($aValue['FCXsdInvRem'] == 0) {
+                                        $status = language('report/report/report', 'tRptdebtorreceiveClose');
+                                    }else {
+                                        $status = language('report/report/report', 'tRptdebtorreceivePartialPayment');
+                                    }
+                                ?>
                                 <tr>
                                     <td nowrap class="text-left   xCNRptDetail"></td>
-                                    <td nowrap class="text-center   xCNRptDetail"><?php echo $aValue["FTXsdInvNo"]; ?></td>
+                                    <td nowrap class="text-left   xCNRptDetail" style="text-indent: 15px;"><?php echo $aValue["FTXsdInvNo"]; ?></td>
                                     <td nowrap class="text-left   xCNRptDetail"><?php echo $aValue["FTXsdDocType"]; ?></td>
-                                    <td nowrap class="text-center   xCNRptDetail"><?php echo  date("d/m/Y", strtotime($aValue["FTXshRefDocDate"])); ?></td>
+                                    <td nowrap class="text-left   xCNRptDetail" style="text-indent: 15px;"><?php echo  date("d/m/Y", strtotime($aValue["FTXshRefDocDate"])); ?></td>
                                     <td nowrap class="text-left   xCNRptDetail"></td>
                                     <td nowrap class="text-right   xCNRptDetail"><?=number_format($aValue['FCXsdInvGrand'], $nOptDecimalShow)?></td>
                                     <td nowrap class="text-right   xCNRptDetail"><?=number_format($aValue['FCXsdInvPaid'], $nOptDecimalShow)?></td>
                                     <td nowrap class="text-right   xCNRptDetail"><?=number_format($aValue['FCXsdInvPay'], $nOptDecimalShow)?></td>
                                     <td nowrap class="text-right   xCNRptDetail"><?=number_format($aValue['FCXsdInvRem'], $nOptDecimalShow)?></td>
+                                    <td nowrap class="text-left   xCNRptDetail"><?=$status?></td>
                                 </tr>
                             
                                 <!--รวมยอดตามสาขา-->
@@ -170,6 +181,7 @@ $nOptDecimalShow    = FCNxHGetOptionDecimalShow();
                                         <td class="text-right xCNRptSumFooter"><?=number_format($aValue['FCXsdInvPaid_SubTotal'], $nOptDecimalShow); ?></td>
                                         <td class="text-right xCNRptSumFooter"><?=number_format($aValue['FCXsdInvPay_SubTotal'], $nOptDecimalShow); ?></td>
                                         <td class="text-right xCNRptSumFooter"><?=number_format($aValue['FCXsdInvRem_SubTotal'], $nOptDecimalShow); ?></td>
+                                        <td nowrap class="text-left   xCNRptDetail"></td>
                                     </tr>
                                     <tr class="xCNRptSumFooterTrBottom"></tr>
                                 <?php } ?>

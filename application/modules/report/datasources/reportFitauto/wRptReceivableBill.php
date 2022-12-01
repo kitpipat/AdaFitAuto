@@ -97,9 +97,9 @@ $nOptDecimalShow    = FCNxHGetOptionDecimalShow();
                 <table class="table">
                     <thead>
                         <tr>
-                            <th nowrap class="text-left   xCNRptColumnHeader" style="width:20%;">ลูกค้า / ลูกหนี้</th>
-                            <th nowrap class="text-left   xCNRptColumnHeader" style="width:30%;" colspan="2">เลขที่เอกสาร</th>
-                            <th nowrap class="text-left   xCNRptColumnHeader" style="width:20%;">วันครบกำหนด</th>
+                            <th nowrap class="text-left   xCNRptColumnHeader" style="width:20%;" >ลูกค้า / ลูกหนี้</th>
+                            <th nowrap class="text-left   xCNRptColumnHeader" style="width:25%;" colspan="2">เลขที่เอกสาร</th>
+                            <th nowrap class="text-left   xCNRptColumnHeader" style="width:15%;">วันครบกำหนด</th>
                             <th nowrap class="text-right   xCNRptColumnHeader" style="width:10%;" rowspan="2">ยอดหนี้</th>
                             <th nowrap class="text-right   xCNRptColumnHeader" style="width:10%;" rowspan="2">ยอดรวมชำระ</th>
                             <th nowrap class="text-right   xCNRptColumnHeader" style="width:10%;" rowspan="2">ต้องชำระครั้งถัดไป</th>
@@ -107,9 +107,9 @@ $nOptDecimalShow    = FCNxHGetOptionDecimalShow();
 
                         <tr>
                             <th nowrap class="text-left   xCNRptColumnHeader" style="width:10%;"></th>
-                            <th nowrap class="text-center   xCNRptColumnHeader" style="width:10%;">เอกสารอ้างอิง</th>
+                            <th nowrap class="text-left   xCNRptColumnHeader" style="width:15%; text-indent: 15px;">เอกสารอ้างอิง</th>
                             <th nowrap class="text-left   xCNRptColumnHeader" style="width:10%;">ประเภทเอกสาร</th>
-                            <th nowrap class="text-center   xCNRptColumnHeader" style="width:10%;">วันที่อ้างอิงเอกสาร</th>
+                            <th nowrap class="text-left   xCNRptColumnHeader" style="width:15%; text-indent: 15px;">วันที่อ้างอิงเอกสาร</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -142,7 +142,7 @@ $nOptDecimalShow    = FCNxHGetOptionDecimalShow();
 
                                 <tr>
                                     <td class="text-left xCNRptDetail"></td>
-                                    <td nowrap class="text-center   xCNRptDetail"><?php echo $aValue["FTXpdRefDocNo"]; ?></td>
+                                    <td nowrap class="text-left   xCNRptDetail" style="text-indent: 15px;"><?php echo $aValue["FTXpdRefDocNo"]; ?></td>
                                     <?php 
                                         switch ($aValue["FTXpdRefDocType"]) {
                                             case '1':
@@ -168,8 +168,8 @@ $nOptDecimalShow    = FCNxHGetOptionDecimalShow();
                                                 break;
                                         }
                                     ?>
-                                    <td nowrap class="text-center   xCNRptDetail"><?php echo $tDocRefTypeName; ?></td>
-                                    <td nowrap class="text-center   xCNRptDetail"><?php echo  date("d/m/Y", strtotime($aValue["FDXpdRefDocDate"])); ?></td>
+                                    <td nowrap class="text-left   xCNRptDetail"><?php echo $tDocRefTypeName; ?></td>
+                                    <td nowrap class="text-left   xCNRptDetail" style="text-indent: 15px;"><?php echo  date("d/m/Y", strtotime($aValue["FDXpdRefDocDate"])); ?></td>
                                     <td nowrap class="text-right   xCNRptDetail"><?=number_format($aValue['FCXpdInvLeft'], $nOptDecimalShow)?></td>
                                     <td nowrap class="text-right   xCNRptDetail"><?=number_format($aValue['FCXpdInvPaid'], $nOptDecimalShow)?></td>
                                     <td nowrap class="text-right   xCNRptDetail"><?=number_format($aValue['FCXpdInvRem'], $nOptDecimalShow)?></td>

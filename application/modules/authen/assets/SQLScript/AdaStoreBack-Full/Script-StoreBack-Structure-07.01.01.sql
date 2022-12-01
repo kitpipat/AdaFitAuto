@@ -891,8 +891,45 @@ PRIMARY KEY CLUSTERED
 	[FTUsrSession] ASC,
 	[FTComName] ASC,
 	[FTRptCode] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, FILLFACTOR = 70, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, FILLFACTOR = 70) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
 
+/******Script Structure 07.01.01******/
+
+/****** Object:  Table [dbo].[TRPTAdTmp]    Script Date: 30/11/2565 14:50:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TRPTAdTmp]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [dbo].[TRPTAdTmp](
+	[FTRptRowSeq] [bigint] IDENTITY(1,1) NOT NULL,
+	[FTComName] [varchar](50) NOT NULL,
+	[FTRptCode] [varchar](50) NOT NULL,
+	[FTUsrSession] [varchar](255) NOT NULL,
+	[FTBchCode] [varchar](5) NULL,
+	[FTBchName] [varchar](255) NULL,
+	[FTCstCode] [varchar](20) NULL,
+	[FTCstName] [varchar](255) NULL,
+	[FCXshGrand] [numeric](18, 4) NULL,
+	[FCXshPaid] [numeric](18, 4) NULL,
+	[FCXshLeft] [numeric](18, 4) NULL,
+	[FDTmpTxnDate] [datetime] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[FTRptRowSeq] ASC,
+	[FTComName] ASC,
+	[FTRptCode] ASC,
+	[FTUsrSession] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+END
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__TRPTAdTmp__FDTmp__0DC41ADF]') AND type = 'D')
+BEGIN
+ALTER TABLE [dbo].[TRPTAdTmp] ADD  DEFAULT (getdate()) FOR [FDTmpTxnDate]
+END
+GO
