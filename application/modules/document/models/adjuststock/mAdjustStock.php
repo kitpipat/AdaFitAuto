@@ -1531,7 +1531,7 @@ class mAdjustStock extends CI_Model{
         // $tPdtLoc    = $paDataInsert['FTAjdPlcCode'];
 
         if (isset($paDataCondition['oetASTFilterPdtCodeFrom']) && $paDataCondition['oetASTFilterPdtCodeFrom'] != "" && isset($paDataCondition['oetASTFilterPdtCodeTo']) && $paDataCondition['oetASTFilterPdtCodeTo'] != "") {
-            $tWhereDel  = "AND FTPdtCode BETWEEN '" . $paDataCondition['oetASTFilterPdtCodeFrom'] . "' AND '" . $paDataCondition['oetASTFilterPdtCodeTo'] . "' ";
+            $tWhereDel  = "AND FTPdtCode BETWEEN '" . $paDataCondition['oetASTFilterPdtCodeFrom'] . "' AND '" . $paDataCondition['oetASTFilterPdtCodeTo'] . "' OR FTPdtCode BETWEEN '" . $paDataCondition['oetASTFilterPdtCodeTo'] . "' AND '" . $paDataCondition['oetASTFilterPdtCodeFrom'] . "' ";
         }
 
         $tSQLDel   = "     DELETE FROM TCNTDocDTTmp 
@@ -1568,13 +1568,13 @@ class mAdjustStock extends CI_Model{
             }
         // Condition Product
         if (isset($paDataCondition['oetASTFilterPdtCodeFrom']) && $paDataCondition['oetASTFilterPdtCodeFrom'] != "" && isset($paDataCondition['oetASTFilterPdtCodeTo']) && $paDataCondition['oetASTFilterPdtCodeTo'] != "") {
-            $tCondition .= " AND PDT.FTPdtCode BETWEEN '" . $paDataCondition['oetASTFilterPdtCodeFrom'] . "' AND '" . $paDataCondition['oetASTFilterPdtCodeTo'] . "' ";
+            $tCondition .= " AND PDT.FTPdtCode BETWEEN '" . $paDataCondition['oetASTFilterPdtCodeFrom'] . "' AND '" . $paDataCondition['oetASTFilterPdtCodeTo'] . "' OR PDT.FTPdtCode BETWEEN '" . $paDataCondition['oetASTFilterPdtCodeTo'] . "' AND '" . $paDataCondition['oetASTFilterPdtCodeFrom'] . "' ";
         }
 
         // Condition Spuplier
         if (isset($paDataCondition['oetASTFilterSplCodeFrom']) && $paDataCondition['oetASTFilterSplCodeFrom'] != "" && isset($paDataCondition['oetASTFilterSplCodeTo']) && $paDataCondition['oetASTFilterSplCodeTo'] != "") {
             $tQueryJoin  .= " INNER JOIN TCNMPdtSpl PDLSPL WITH(NOLOCK) ON PDLSPL.FTPdtCode = PDT.FTPdtCode ";
-            $tCondition .= " AND PDLSPL.FTSplCode BETWEEN '" . $paDataCondition['oetASTFilterSplCodeFrom'] . "' AND '" . $paDataCondition['oetASTFilterSplCodeTo'] . "' ";
+            $tCondition .= " AND PDLSPL.FTSplCode BETWEEN '" . $paDataCondition['oetASTFilterSplCodeFrom'] . "' AND '" . $paDataCondition['oetASTFilterSplCodeTo'] . "' OR PDLSPL.FTSplCode BETWEEN '" . $paDataCondition['oetASTFilterSplCodeTo'] . "' AND '" . $paDataCondition['oetASTFilterSplCodeFrom'] . "'";
         }
 
         // Condition Product Group
