@@ -17,8 +17,10 @@ class mRptInventoryPdtGrp extends CI_Model {
         $tShpCodeSelect = ($paDataFilter['bShpStaSelectAll']) ? '' : FCNtAddSingleQuote($paDataFilter['tShpCodeSelect']);
         // กลุ่มธุรกิจ
         $tMerCodeSelect = ($paDataFilter['bMerStaSelectAll']) ? '' : FCNtAddSingleQuote($paDataFilter['tMerCodeSelect']);
+        $tAgnCode   = $paDataFilter['tAgnCodeSelect'];
         
-        $tCallStore = "{ CALL SP_RPTxPdtBalByPdtGrp(?,?,?,?,?,?,?,?,?,?,?) }";
+        $tCallStore = "{ CALL SP_RPTxPdtBalByPdtGrp(?,?,?,?,?,?,?,?,?,?) }";
+
         $aDataStore = array(
             'pnLngID'       => $paDataFilter['nLangID'],
             'ptComName'     => $paDataFilter['tCompName'],
@@ -26,15 +28,16 @@ class mRptInventoryPdtGrp extends CI_Model {
             'ptUsrSession'  => $paDataFilter['tUserSession'],
 
             'pnFilterType'  => $paDataFilter['tTypeSelect'],
+            'ptAgnCode'     => $tAgnCode,
             'ptBchL'        => $tBchCodeSelect,
             // 'ptBchF'        => $paDataFilter['tBchCodeFrom'],
             // 'ptBchT'        => $paDataFilter['tBchCodeTo'],
 
-            'ptMerL'        => $tMerCodeSelect,
+            // 'ptMerL'        => $tMerCodeSelect,
             // 'ptMerF'        => $paDataFilter['tMerCodeFrom'],
             // 'ptMerT'        => $paDataFilter['tMerCodeTo'],
 
-            'ptShpL'        => $tShpCodeSelect,
+            // 'ptShpL'        => $tShpCodeSelect,
             // 'ptShpF'        => $paDataFilter['tShpCodeFrom'],
             // 'ptShpT'        => $paDataFilter['tShpCodeTo'],
 
@@ -45,6 +48,7 @@ class mRptInventoryPdtGrp extends CI_Model {
         );
 
         $oQuery = $this->db->query($tCallStore, $aDataStore);
+        // print_r($this->db->last_query());
 
         if ($oQuery != FALSE) {
             unset($oQuery);
@@ -82,108 +86,48 @@ class mRptInventoryPdtGrp extends CI_Model {
         // Set Priority
         $this->FMxMRPTSetPriorityGroup($tComName, $tRptCode, $tUsrSession);
 
-        // L = List ข้อมูลทั้งหมด
-        // A = SaleDT
-        // S = Misures Summary
-        // Check ว่าเป็นหน้าสุดท้ายหรือไม่ ถ้าเป็นหน้าสุดท้ายให้ไป Sum footer ข้อมูลมา 
-        if ($nPage == $nTotalPage) {
-            $tJoinFoooter = "   
-                SELECT 
-                    FTUsrSession        AS FTUsrSession_Footer,
-                    SUM(FCStkQty)       AS FCStkQty_Footer,
-                    SUM(FCPdtCostAmt)  AS FCPdtCostTotal_Footer
-                FROM TRPTPdtBalByPdtGrpTmp WITH(NOLOCK)
-                WHERE 1=1
-                AND FTComName       = '$tComName'
-                AND FTRptCode       = '$tRptCode'
-                AND FTUsrSession    = '$tUsrSession'
-                GROUP BY FTUsrSession ) T ON L.FTUsrSession = T.FTUsrSession_Footer
-            ";
-        } else {
-            // ถ้าไม่ใช่ให้ Select 0 เพื่อให้ Join ได้แต่จะไม่มีการ Sum 
-            $tJoinFoooter = "   
-                SELECT
-                    '$tUsrSession'  AS FTUsrSession_Footer,
-                    0               AS FCStkQty_Footer,
-                    0               AS FCPdtCostTotal_Footer
-                ) T ON  L.FTUsrSession = T.FTUsrSession_Footer
-            ";
-        }
-
-        // L = List ข้อมูลทั้งหมด
-        // A = SaleDT
-        // S = Misures Summary
-        $tSQL = "   
-                SELECT
-                    L.*,
-                    D.*,
-                    T.FCPdtCostTotal_Footer,
-                    T.FCStkQty_Footer,
-                    T.FCPdtCostTotal_Footer
-                FROM (
-                    SELECT  
-                        ROW_NUMBER() OVER(ORDER BY A.FTPgpChainName ASC , FTPdtCode ASC , FTWahCode ASC) AS RowID ,
+        $tSQL = "SELECT L.*,
+                    ISNULL(L.FCStkQty_SubTotal,0) * ISNULL(L.FCPdtCostStd,0) AS FCSumCostStd,
+                    ISNULL(L.FCStkQty_SubTotal,0) * ISNULL(L.FCPdtCostAVGEX,0) AS FCSumCostAvg
+                    FROM
+                    
+                    (SELECT ROW_NUMBER() OVER(ORDER BY A.FTPgpChain ASC , ISNULL(A.FTAgnCode,'') ASC, A.FTPdtCode ASC , A.FTBchCode ASC, A.FTWahCode ASC) AS RowID,
+                        ROW_NUMBER() OVER(PARTITION BY ISNULL(A.FTPgpChain,'') ORDER BY A.FTPgpChain ASC) AS FNRowPartChainID, 
+                        ROW_NUMBER() OVER(PARTITION BY ISNULL(A.FTPgpChain,''), ISNULL(A.FTAgnCode,'') ORDER BY A.FTAgnCode ASC) AS FNRowPartAgnID, 
+                        ROW_NUMBER() OVER(PARTITION BY ISNULL(A.FTPgpChain,''), ISNULL(A.FTAgnCode,'') , A.FTPdtCode ORDER BY A.FTPdtCode ASC) AS FNRowPartPdtID, 
+                        ROW_NUMBER() OVER(PARTITION BY ISNULL(A.FTPgpChain,''), ISNULL(A.FTAgnCode,'') , A.FTPdtCode, A.FTBchCode ORDER BY A.FTBchCode ASC) AS FNRowPartBchID, 
                         A.*,
                         S.FNRptGroupMember,
                         S.FCStkQty_SubTotal
                     FROM TRPTPdtBalByPdtGrpTmp A WITH(NOLOCK)
-                    
-                    LEFT JOIN (
-                        SELECT
-                            FTWahCode          AS FTWahCode_SUM,
-                            COUNT(FTWahCode)   AS FNRptGroupMember,
-                            SUM(FCStkQty)      AS FCStkQty_SubTotal
-                        FROM TRPTPdtBalByPdtGrpTmp WITH(NOLOCK)
-                        WHERE 1=1
-                        AND FTComName       = '$tComName'
-                        AND FTRptCode       = '$tRptCode'
-                        AND FTUsrSession    = '$tUsrSession'
-                        GROUP BY FTWahCode
-                    ) AS S ON A.FTWahCode = S.FTWahCode_SUM
-
-                    LEFT JOIN (
-                        SELECT
-                            FTPgpChainName          AS FTPgpChainName,
-                            COUNT(FTPgpChainName)   AS FTPgpChainName_SUM
-                        FROM TRPTPdtBalByPdtGrpTmp WITH(NOLOCK)
-                        WHERE 1=1
-                        AND FTComName       = '$tComName'
-                        AND FTRptCode       = '$tRptCode'
-                        AND FTUsrSession    = '$tUsrSession'
-                        GROUP BY FTPgpChainName
-                    ) AS C ON C.FTPgpChainName = A.FTPgpChainName 
-
-                    WHERE A.FTComName       = '$tComName'
-                    AND   A.FTRptCode       = '$tRptCode'
-                    AND   A.FTUsrSession    = '$tUsrSession'
-                ) AS L 
-
-                LEFT JOIN (
-                    SELECT
-                        FTPgpChainName        AS FTPgpChainName_NEW ,
-                        FTPdtCode             AS FTPdtCode_SUM,
-                        SUM(FCStkQty)         AS FCStkQty_SUM,
-                        SUM(FCPdtCostEX)   AS FCPdtCostEX_SUM,
-                        SUM(FCPdtCostAmt)   AS FCPdtCostAmt_SUM
+                    LEFT JOIN
+                    (SELECT  ISNULL(FTPgpChain,'') AS ChainGrp, 
+                            ISNULL(FTAgnCode, '') AS AgnGrp,
+                            FTPdtCode AS FTPdtCode,
+                            COUNT(FTWahCode) AS FNRptGroupMember,
+                            SUM(ISNULL(FCStkQty,0)) AS FCStkQty_SubTotal
                     FROM TRPTPdtBalByPdtGrpTmp WITH(NOLOCK)
                     WHERE 1=1
-                    AND FTComName       = '$tComName'
-                    AND FTRptCode       = '$tRptCode'
-                    AND FTUsrSession    = '$tUsrSession'
-                    GROUP BY FTPdtCode , FTPgpChainName
-                ) AS D ON L.FTPdtCode = D.FTPdtCode_SUM 
+                        AND FTComName       = '$tComName'
+                        AND FTRptCode       = '$tRptCode'
+                        AND FTUsrSession    = '$tUsrSession'
+                    GROUP BY ISNULL(FTPgpChain,''), ISNULL(FTAgnCode, ''), FTPdtCode) AS S ON ISNULL(A.FTPgpChain, '') = S.ChainGrp AND ISNULL(A.FTAgnCode, '') = S.AgnGrp AND A.FTPdtCode = S.FTPdtCode
+                    WHERE 1=1
+                        AND FTComName       = '$tComName'
+                        AND FTRptCode       = '$tRptCode'
+                        AND FTUsrSession    = '$tUsrSession'
+                ) AS L
 
-                LEFT JOIN (
-                " . $tJoinFoooter . "
-            ";
-
-        // WHERE เงื่อนไข Page
-        $tSQL .= "   WHERE L.RowID > $nRowIDStart AND L.RowID <= $nRowIDEnd ";
-
-        //สั่ง Order by ตามข้อมูลหลัก
-        $tSQL .= "   ORDER BY L.FTPgpChainName ASC , L.FTPdtCode ASC , len(L.FTWahCode) ASC";
-
-
+                WHERE 1=1
+                        AND FTComName       = '$tComName'
+                        AND FTRptCode       = '$tRptCode'
+                        AND FTUsrSession    = '$tUsrSession'
+                        AND L.RowID > $nRowIDStart AND L.RowID <= $nRowIDEnd
+                ORDER BY L.FTPgpChainName ASC,
+                    L.FTPdtCode ASC,
+                    len(L.FTWahCode) ASC 
+                ";
+        // print_r($tSQL);exit;
         $oQuery = $this->db->query($tSQL);
         
         if ($oQuery->num_rows() > 0) {
@@ -208,6 +152,7 @@ class mRptInventoryPdtGrp extends CI_Model {
 
 
     public function FMxMRPTSetPriorityGroup($ptComName, $ptRptCode, $ptUsrSession){
+
         $tSQL = "
             UPDATE TRPTPdtBalByPdtGrpTmp 
                 SET FNRowPartID = B.PartID
@@ -216,9 +161,9 @@ class mRptInventoryPdtGrp extends CI_Model {
                     ROW_NUMBER() OVER(PARTITION BY FTPgpChainName , FTPdtCode ORDER BY FTPgpChainName ASC , FTPdtCode ASC , FTWahCode ASC) AS PartID, 
                     FTRptRowSeq  
                 FROM TRPTPdtBalByPdtGrpTmp TMP WITH(NOLOCK)
-                WHERE TMP.FTComName = '$ptComName' 
-                AND TMP.FTRptCode = '$ptRptCode'
-                AND TMP.FTUsrSession = '$ptUsrSession'
+                WHERE TMP.FTComName     = '$ptComName' 
+                AND TMP.FTRptCode       = '$ptRptCode'
+                AND TMP.FTUsrSession    = '$ptUsrSession'
             ) B
             WHERE TRPTPdtBalByPdtGrpTmp.FTRptRowSeq = B.FTRptRowSeq 
             AND TRPTPdtBalByPdtGrpTmp.FTComName     = '$ptComName' 
@@ -248,9 +193,9 @@ class mRptInventoryPdtGrp extends CI_Model {
             SELECT
                 TT_TMP.FTWahCode
             FROM TRPTPdtBalByPdtGrpTmp TT_TMP WITH(NOLOCK)
-            WHERE TT_TMP.FTComName = '$tComName'
-            AND TT_TMP.FTRptCode = '$tRptCode'
-            AND TT_TMP.FTUsrSession = '$tUsrSession'
+            WHERE TT_TMP.FTComName      = '$tComName'
+            AND TT_TMP.FTRptCode        = '$tRptCode'
+            AND TT_TMP.FTUsrSession     = '$tUsrSession'
         ";
 
         // echo '<pre>'.$tSQL; exit();s
@@ -288,6 +233,66 @@ class mRptInventoryPdtGrp extends CI_Model {
         unset($oQuery);
         return $aRptMemberDet;
     }
+
+    public function FSnMGetCostType(){
+        $tSesUsrAgnCode = $this->session->userdata('tSesUsrAgnCode');
+        $tSesUsrAgnType = $this->session->userdata('tAgnType');
+
+        if(isset($tSesUsrAgnCode) && !empty($tSesUsrAgnCode) && isset($tSesUsrAgnType) && $tSesUsrAgnType == 2){
+            $tSQL = "
+                SELECT 
+                    FTCfgStaUsrValue AS FTSysStaDefValue,
+                    LEFT(FTCfgStaUsrValue, 1) AS FTSysStaUsrValue
+                FROM  TCNTConfigSpc
+                WHERE FTSysCode = 'tCN_Cost' 
+                AND FTSysKey    = 'Company'
+                AND FTSysSeq    = '2'
+                AND FTSysApp    = 'AP'
+                AND FTAgnCode   = '$tSesUsrAgnCode'
+            ";
+        } else {
+            $tSQL = "
+                SELECT FTSysStaDefValue, LEFT(FTSysStaUsrValue, 1) AS FTSysStaUsrValue
+                FROM  TSysConfig WITH(NOLOCK)
+                WHERE 
+                FTSysCode = 'tCN_Cost' 
+                AND FTSysKey = 'Company' 
+                AND FTSysSeq = '2'
+                AND FTSysApp = 'AP'
+            ";
+        }
+
+        $oQuery = $this->db->query($tSQL);
+        if ($oQuery->num_rows() > 0) {
+            $oList = $oQuery->result();
+            if ($oList[0]->FTSysStaUsrValue != '') {
+                $aResult = array(
+                    'raItems' => $oList[0]->FTSysStaUsrValue,
+                    'rtCode' => '1',
+                    'rtDesc' => 'success',
+                );
+            }else {
+                $aResult = array(
+                    'raItems' => $oList[0]->FTSysStaDefValue,
+                    'rtCode' => '1',
+                    'rtDesc' => 'success',
+                );
+            }
+        } else {
+            //No Data
+            $aResult = array(
+                'raItems' => 0,
+                'rtCode' => '800',
+                'rtDesc' => 'data not found'
+            );
+        }
+        $jResult = json_encode($aResult);
+        $aResult = json_decode($jResult, true);
+
+        return $aResult;
+
+    }
+
   
 }
 

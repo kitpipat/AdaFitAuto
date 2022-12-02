@@ -162,7 +162,12 @@ class cRptInventoryPdtGrp extends MX_Controller
             'tRptPdtInventory'  => language('report/report/report', 'tRptPdtInventory'),
             'tRptPdtGrpAmt'     => language('report/report/report', 'tRptPdtGrpAmt'),
             'tRptAvgcost'       => language('report/report/report', 'tRptAvgcost'),
+            'tRptCost'       => language('report/report/report', 'ต้นทุน'),
             'tRptTotalCap'      => language('report/report/report', 'tRptTotalCap'),
+            'tRptPdtChain'      => language('report/report/report', 'กลุ่มสินค้า'),
+            'tRptAgnName'      => language('report/report/report', 'ตัวแทนขาย'),
+            'tRptBchName'      => language('report/report/report', 'สาขา'),
+            'tRptWahName'      => language('report/report/report', 'คลังสินค้า'),
 
             // No Data Report
             'tRptAdjStkNoData'  => language('common/main/main', 'tCMNNotFoundData'),
@@ -257,6 +262,8 @@ class cRptInventoryPdtGrp extends MX_Controller
             'tPdtGrpNameFrom'   => (empty($this->input->post('oetRptPdtGrpNameFrom'))) ? '' : $this->input->post('oetRptPdtGrpNameFrom'),
             'tPdtGrpCodeTo'     => (empty($this->input->post('oetRptPdtGrpCodeTo'))) ? '' : $this->input->post('oetRptPdtGrpCodeTo'),
             'tPdtGrpNameTo'     => (empty($this->input->post('oetRptPdtGrpNameTo'))) ? '' : $this->input->post('oetRptPdtGrpNameTo'),
+
+            'tAgnCodeSelect' => !empty($this->input->post('oetSpcAgncyCode')) ? $this->input->post('oetSpcAgncyCode') : "",
         ];
 
         // ดึงข้อมูลบริษัทฯ
@@ -316,6 +323,7 @@ class cRptInventoryPdtGrp extends MX_Controller
 
         $aDataReport = $this->mRptInventoryPdtGrp->FSaMGetDataReport($aDataWhereRpt);
 
+        $nCostType = $this->mRptInventoryPdtGrp->FSnMGetCostType();
 
         // ข้อมูล Render Report
         $aDataViewPdt = array(
@@ -324,6 +332,7 @@ class cRptInventoryPdtGrp extends MX_Controller
             'aCompanyInfo'    => $this->aCompanyInfo,
             'aDataFilter'     => $this->aRptFilter,
             'nOptDecimalShow' => $this->nOptDecimalShow,
+            'nCostType'       => $nCostType['raItems'],
         );
 
         // Load View Advance Table
@@ -373,7 +382,7 @@ class cRptInventoryPdtGrp extends MX_Controller
         );
 
         $aDataReport    = $this->mRptInventoryPdtGrp->FSaMGetDataReport($aDataWhereRpt);
-
+        $nCostType = $this->mRptInventoryPdtGrp->FSnMGetCostType();
         // ข้อมูล Render Report
         $aDataViewPdt = array(
             'aDataReport'       => $aDataReport,
@@ -381,6 +390,7 @@ class cRptInventoryPdtGrp extends MX_Controller
             'aCompanyInfo'      => $this->aCompanyInfo,
             'nOptDecimalShow'   => $this->nOptDecimalShow,
             'aDataFilter'       => $aDataFilter,
+            'nCostType'       => $nCostType['raItems'],
         );
 
         $tRptView = JCNoHLoadViewAdvanceTable('report/datasources/rptInventoryPdtGrp', 'wRptInventoryPdtGrpHtml', $aDataViewPdt);

@@ -90,14 +90,22 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th nowrap class="text-left xCNRptColumnHeader" style="vertical-align : middle;text-align:left; width:5%;" rowspan="2"><?php echo $aDataTextRef['tRptPdtCode']; ?></th>
-                            <th nowrap class="text-left xCNRptColumnHeader" style="vertical-align : middle;text-align:left; width:40%;" rowspan="2"><?php echo $aDataTextRef['tRptPdtName']; ?></th>
-                            <th nowrap class="text-center xCNRptColumnHeader" colspan="3" style='border-bottom: dashed 1px #333 !important;'><?php echo $aDataTextRef['tRptPdtInventory'];?></th>
+                            <th nowrap class="text-left xCNRptColumnHeader" style="vertical-align : middle;text-align:left; width:10%;" rowspan="2"><?php echo $aDataTextRef['tRptPdtChain']; ?></th>
+                            <th nowrap class="text-left xCNRptColumnHeader" style="vertical-align : middle;text-align:left; width:20%;" rowspan="2"><?php echo $aDataTextRef['tRptAgnName']; ?></th>
+                            <th nowrap class="text-left xCNRptColumnHeader" style="vertical-align : middle;text-align:right; width:5%;" rowspan="2"><?php echo $aDataTextRef['tRptPdtCode']; ?></th>
+                            <th nowrap class="text-left xCNRptColumnHeader" style="vertical-align : middle;text-align:left; width:20%;" rowspan="2"><?php echo $aDataTextRef['tRptPdtName']; ?></th>
+                            <th nowrap class="text-left xCNRptColumnHeader" style="vertical-align : middle;text-align:left; width:20%;" rowspan="2"><?php echo $aDataTextRef['tRptBchName']; ?></th>
+                            <th nowrap class="text-left xCNRptColumnHeader" style="vertical-align : middle;text-align:left; width:20%;" rowspan="2"><?php echo $aDataTextRef['tRptWahName']; ?></th>
+                            <th nowrap class="text-center xCNRptColumnHeader" colspan="3" style='border-bottom: dashed 1px #333 !important;  width:20%;'><?php echo $aDataTextRef['tRptPdtInventory'];?></th>
                         </tr>
                         <tr style="border-bottom : 1px solid black !important;">
                             <th nowrap class="text-right xCNRptColumnHeader" style="width:7%;"><?php echo $aDataTextRef['tRptPdtGrpAmt']; ?></th>
-                            <th nowrap class="text-right xCNRptColumnHeader" style="width:5%;"><?php echo $aDataTextRef['tRptAvgcost']; ?></th>
+                            <th nowrap class="text-right xCNRptColumnHeader" style="width:5%;"><?php echo $aDataTextRef['tRptCost']; ?></th>
                             <th nowrap class="text-right xCNRptColumnHeader" style="width:5%;"><?php echo $aDataTextRef['tRptTotalCap'];   ?></th>
+                        </tr>
+
+                        <tr>
+
                         </tr>
                     </thead>
                     <tbody>
@@ -110,129 +118,202 @@
 
                             <!--กลาง-->
                             <?php foreach ($aDataReport['aRptData'] as $nKey => $aValue) { ?>
+
                                 <?php
                                     // Step 1 เตรียม Parameter สำหรับการ Groupping
-                                    $tWahCode       = $aValue["FTWahName"];
-                                    $tPDTCode       = $aValue["FTPdtCode"];
-                                    $tPDTName       = $aValue["FTPdtName"];
-                                    $nGroupMember   = $aValue["FNRptGroupMember"];
-                                    $nRowPartID     = $aValue["FNRowPartID"];
-                                ?>
-                                <?php
-                                    // Step 2 Groupping data
-                                    $tChainCode         = $aValue["FTPgpChainName"];
-                                    $aGroupChain        = array($tChainCode);
-                                    if($tChainCodeName != $tChainCode ){
-                                        echo "<tr>";
-                                        for ($i = 0; $i < FCNnHSizeOf($aGroupChain); $i++) {
-                                            if ($aGroupChain[$i] !== 'N') {
-                                                if($aGroupChain[$i] == ''){
-                                                    $tGrounp = 'อื่นๆ';
-                                                }else{
-                                                    $tGrounp = $aGroupChain[$i];
-                                                }
+                                    // $tWahCode       = $aValue["FTWahName"];
+                                    // $tPDTCode       = $aValue["FTPdtCode"];
+                                    // $tPDTName       = $aValue["FTPdtName"];
+                                    // $nGroupMember   = $aValue["FNRptGroupMember"];
+                                    $nRowPartID     = $aValue["FNRowPartChainID"];
+                                    $nRowAgnID      = $aValue["FNRowPartAgnID"];
+                                    $nRowPdtID     = $aValue["FNRowPartPdtID"];
+                                    $nRowBchID     = $aValue["FNRowPartBchID"];
 
-                                                $tNmaeLang = $aDataTextRef['tRptPdtGrp'];
-                                                echo "<tr><td class='xCNRptGrouPing' colspan='5' style='border-top: dashed 1px #333 !important;'></td></tr>";
-                                                echo "<td class='xCNRptGrouPing  text-left' style='padding: 5px;' colspan='4'>".$tNmaeLang." : " . $tGrounp . "</td>";
-                                            } else {
-                                                echo "<td></td>";
-                                            }
-                                        }
-                                        echo "</tr>";
-                                        $tChainCodeName = $tChainCode;
-                                   }else{
-                                         //echo "<tr><td>ไม่ขึ้นบรรทัดใหม่<td></tr>";
-                                    }
-
-                                    //สินค้า
-                                    $tPDTCodeOnly   = $aValue["FTPdtCode"];
-
-                                    if($tPDTCodeOld == $tPDTCodeOnly){
-                                        // echo "<tr><td>ไม่ขึ้นบรรทัดใหม่<td></tr>";
+                                    if($nRowPartID != 1) {
+                                        $tPgpChain = '';
+                                        $tPgpChainName = '';
                                     }else{
-
-                                        $aGrouppingData     = array($tPDTName);
-
-                                        //จำนวนสินค้า
-                                        $nFCStkQty_SUM      = $aValue["FCStkQty_SUM"];
-                                        if($nFCStkQty_SUM == null){
-                                            $nFCStkQty_SUM  = $aValue["FCStkQty_SUM"];
-                                        }else{
-                                            $nFCStkQty_SUM  = $aValue["FCStkQty_SUM"];
+                                        if($aValue["FTPgpChain"] == null || $aValue["FTPgpChain"] ==  ''){
+                                            $tPgpChain = '';
+                                        }else {
+                                            $tPgpChain = '(' . $aValue["FTPgpChain"] . ')';
                                         }
-
-                                        //ต้นทุนเฉลี่ย
-                                        $nFCPdtCostAVGEX_SUM = $aValue["FCPdtCostEX_SUM"];
-
-                                        //ทุนรวม
-                                        $FCPdtCostTotal_SUM = $aValue["FCPdtCostAmt_SUM"];
-
-                                        $tNmaeLangWah = 'สินค้า';
-                                        echo "<tr>";
-                                        for ($i = 0; $i < FCNnHSizeOf($aGrouppingData); $i++) {
-                                            if ($aGrouppingData[$i] !== 'N') {
-                                                echo "<td class='xCNRptGrouPing  text-left' style='padding-left: 30px !important;' colspan='1'>".$tPDTCode. "</td>";
-                                                echo "<td class='xCNRptGrouPing  text-left' style='padding-left: 0px !important;' colspan='1'>". $aGrouppingData[$i] . "</td>";
-                                                echo "<td class='xCNRptGrouPing  text-right' style='padding-left: 30px !important;'>".number_format($nFCStkQty_SUM, $nOptDecimalShow)." ชิ้น</td>";
-                                                echo "<td class='xCNRptGrouPing  text-right' style='padding-left: 30px !important;'>".number_format($nFCPdtCostAVGEX_SUM, $nOptDecimalShow)."</td>";
-                                                echo "<td class='xCNRptGrouPing  text-right' style='padding-left: 30px !important;'>".number_format($FCPdtCostTotal_SUM, $nOptDecimalShow)."</td>";
-                                            } else {
-                                                echo "<td></td>";
-                                            }
+    
+                                        if($aValue["FTPgpChainName"] == null || $aValue["FTPgpChainName"] ==  ''){
+                                            $tPgpChainName = 'อื่น ๆ';
+                                        }else {
+                                            $tPgpChainName = $aValue["FTPgpChainName"];
                                         }
-                                        echo "</tr>";
-                                        $tPDTCodeOld = $tPDTCodeOnly;
                                     }
-                                ?>
 
-                                <tr>
-                                    <td nowrap class="text-left xCNRptDetail" style="padding-left: 50px !important;" colspan="2">(<?php echo $aValue["FTWahCode"]; ?>) <?php echo $aValue["FTWahName"]; ?></td>
-                                    <td nowrap class="text-right xCNRptDetail"><?php echo number_format($aValue["FCStkQty"], $nOptDecimalShow) ?></td>
-                                    <td nowrap class="text-right xCNRptDetail"><?php echo number_format($aValue["FCPdtCostEX"], $nOptDecimalShow) ?></td>
-                                    <td nowrap class="text-right xCNRptDetail"><?php echo number_format($aValue["FCPdtCostAmt"], $nOptDecimalShow) ?></td>
-                                </tr>
+
+                                    if($nRowAgnID != 1) {
+                                        $tAgnID = '';
+                                        $tAgnName = '';
+                                    }else{
+                                        if($aValue["FTAgnCode"] == null || $aValue["FTAgnCode"] ==  ''){
+                                            $tAgnID = '';
+                                        }else {
+                                            $tAgnID = '(' . $aValue["FTAgnCode"] . ')';
+                                        }
+    
+                                        if($aValue["FTAgnName"] == null || $aValue["FTAgnName"] ==  ''){
+                                            $tAgnName = '';
+                                        }else {
+                                            $tAgnName = $aValue["FTAgnName"];
+                                        }
+                                    }
+
+                                    if($nRowPdtID != 1) {
+                                        $tPdtID = '';
+                                        $tPdtName = '';
+                                    }else{
+                                        // if($aValue["FTPdtCode"] == null || $aValue["FTPdtCode"] ==  ''){
+                                        //     $tPdtID = '';
+                                        // }else {
+                                            $tPdtID = $aValue["FTPdtCode"];
+                                        // }
+    
+                                        if($aValue["FTPdtName"] == null || $aValue["FTPdtName"] ==  ''){
+                                            $tPdtName = '';
+                                        }else {
+                                            $tPdtName = $aValue["FTPdtName"];
+                                        }
+                                    }
+
+                                    if($nRowBchID != 1) {
+                                        $tBchID = '';
+                                        $tBchName = '';
+                                    }else{
+                                        // if($aValue["FTBchCode"] == null || $aValue["FTBchCode"] ==  ''){
+                                        //     $tBchID = '';
+                                        // }else {
+                                            $tBchID = '(' . $aValue["FTBchCode"] . ')';
+                                        // }
+    
+                                        if($aValue["FTBchName"] == null || $aValue["FTBchName"] ==  ''){
+                                            $tBchName = '';
+                                        }else {
+                                            $tBchName = $aValue["FTBchName"];
+                                        }
+                                    }
+
+                
+                                ?>
 
                                 <?php
-                                    $nSubSumQty = number_format($aValue["FCStkQty_SubTotal"], $nOptDecimalShow);
-                                    $aSumFooter = array($aDataTextRef['tRptTotal'], 'N' , $nSubSumQty);
-
-                                    $nVal = $nVal + $aValue["FCPdtCostTotal_Footer"];
-                                    // $tFCPdtCostTotal    = number_format($nVal, $nOptDecimalShow);
-                                    $tFCPdtCostTotal   = number_format($aValue["FCPdtCostTotal_Footer"], $nOptDecimalShow);
-                                    $nSumCostExQtyQty   = number_format($aValue["FCStkQty_Footer"], $nOptDecimalShow);
-                                    $paFooterSumData    = array($aDataTextRef['tRptTotalFooter'],'N',$nSumCostExQtyQty,'N', $tFCPdtCostTotal);
+                                    if($nCostType == 0) { 
+                                        $nPdtCost = $aValue["FCPdtCostStd"] ;
+                                        $nSumPdtCost = $aValue["FCSumCostStd"] ;
+                                        $nWahCost = $aValue["FCPdtCostStd"] ;
+                                        $nSumWahCost = $aValue["FTPdtCostStdAmt"];
+                                    } else {
+                                        switch ($nCostType) {
+                                            case 1 :
+                                                $nPdtCost = $aValue["FCPdtCostAVGEX"] ;
+                                                $nSumPdtCost = $aValue["FCSumCostAvg"] ;
+                                                $ntWahCost = $aValue["FCPdtCostAVGEX"] ;
+                                                $nSumWahCost = $aValue["FCPdtCostTotal"];
+                                                break;
+                                            case 3 :
+                                                $nPdtCost = $aValue["FCPdtCostStd"] ;
+                                                $nSumPdtCost = $aValue["FCSumCostStd"] ;
+                                                $nWahCost = $aValue["FCPdtCostStd"] ;
+                                                $nSumWahCost = $aValue["FTPdtCostStdAmt"];
+                                                break;
+                                            default : 
+                                                $nPdtCost = $aValue["FCPdtCostStd"] ;
+                                                $nSumPdtCost = $aValue["FCSumCostStd"] ;
+                                                $nWahCost = $aValue["FCPdtCostStd"] ;
+                                                $nSumWahCost = $aValue["FTPdtCostStdAmt"]; 
+                                                break;
+                                        }
+                                    }                         
                                 ?>
+
+                                <?php 
+                                    if ($nRowPdtID == 1) {
+                                        if ($nRowAgnID == 1 && $nRowPartID == 1) {
+                                            echo "<tr>";
+                                            echo "    <td nowrap style='border-top: solid 1px #333 !important;' class='text-left xCNRptGrouPing' >". $tPgpChain . $tPgpChainName. "</td>";
+                                            echo "    <td nowrap style='border-top: solid 1px #333 !important;' class='text-left xCNRptGrouPing' >". $tAgnID . ' ' .$tAgnName. "</td>";
+                                            echo "    <td nowrap style='border-top: solid 1px #333 !important;' class='text-right xCNRptGrouPing' >". $tPdtID. "</td>";
+                                            echo "    <td nowrap style='border-top: solid 1px #333 !important;' class='text-left xCNRptGrouPing' >". $tPdtName. "</td>";
+                                            echo "    <td nowrap style='border-top: solid 1px #333 !important;' class='text-left xCNRptGrouPing' ></td>";
+                                            echo "    <td nowrap style='border-top: solid 1px #333 !important;' class='text-left xCNRptGrouPing' ></td>";
+                                            echo "    <td nowrap style='border-top: solid 1px #333 !important;' class='text-right xCNRptGrouPing'>".number_format($aValue['FCStkQty_SubTotal'], $nOptDecimalShow) ."</td>";
+                                            echo "    <td nowrap style='border-top: solid 1px #333 !important;' class='text-right xCNRptGrouPing'>".number_format($nPdtCost, $nOptDecimalShow) ."</td>";
+                                            echo "    <td nowrap style='border-top: solid 1px #333 !important;' class='text-right xCNRptGrouPing'>".number_format($nSumPdtCost, $nOptDecimalShow) ."</td>";
+                                            echo "</tr>";
+                                        } else if ($nRowAgnID == 1 && $nRowPartID != 1) {
+                                            echo "<tr>";
+                                            echo "    <td nowrap class='text-left xCNRptGrouPing' ></td>";
+                                            echo "    <td nowrap style='border-top: dashed 1px #333 !important;' class='text-left xCNRptGrouPing' >". $tAgnID . ' ' .$tAgnName. "</td>";
+                                            echo "    <td nowrap style='border-top: dashed 1px #333 !important;' class='text-right xCNRptGrouPing' >". $tPdtID. "</td>";
+                                            echo "    <td nowrap style='border-top: dashed 1px #333 !important;' class='text-left xCNRptGrouPing' >". $tPdtName. "</td>";
+                                            echo "    <td nowrap style='border-top: dashed 1px #333 !important;' class='text-left xCNRptGrouPing' ></td>";
+                                            echo "    <td nowrap style='border-top: dashed 1px #333 !important;' class='text-left xCNRptGrouPing' ></td>";
+                                            echo "    <td nowrap style='border-top: dashed 1px #333 !important;' class='text-right xCNRptGrouPing'>".number_format($aValue['FCStkQty_SubTotal'], $nOptDecimalShow) ."</td>";
+                                            echo "    <td nowrap style='border-top: dashed 1px #333 !important;' class='text-right xCNRptGrouPing'>".number_format($nPdtCost, $nOptDecimalShow) ."</td>";
+                                            echo "    <td nowrap style='border-top: dashed 1px #333 !important;' class='text-right xCNRptGrouPing'>".number_format($nSumPdtCost, $nOptDecimalShow) ."</td>";
+                                            echo "</tr>";
+                                        } else {
+                                            echo "<tr>";
+                                            echo "    <td nowrap class='text-left xCNRptGrouPing' ></td>";
+                                            echo "    <td nowrap class='text-left xCNRptGrouPing' ></td>";
+                                            echo "    <td nowrap style='border-top: dashed 1px #333 !important;' class='text-right xCNRptGrouPing' >". $tPdtID. "</td>";
+                                            echo "    <td nowrap style='border-top: dashed 1px #333 !important;' class='text-left xCNRptGrouPing' >". $tPdtName. "</td>";
+                                            echo "    <td nowrap style='border-top: dashed 1px #333 !important;' class='text-left xCNRptGrouPing' ></td>";
+                                            echo "    <td nowrap style='border-top: dashed 1px #333 !important;' class='text-left xCNRptGrouPing' ></td>";
+                                            echo "    <td nowrap style='border-top: dashed 1px #333 !important;' class='text-right xCNRptGrouPing'>".number_format($aValue['FCStkQty_SubTotal'], $nOptDecimalShow) ."</td>";
+                                            echo "    <td nowrap style='border-top: dashed 1px #333 !important;' class='text-right xCNRptGrouPing'>".number_format($nPdtCost, $nOptDecimalShow) ."</td>";
+                                            echo "    <td nowrap style='border-top: dashed 1px #333 !important;' class='text-right xCNRptGrouPing'>".number_format($nSumPdtCost, $nOptDecimalShow) ."</td>";
+                                            echo "</tr>";
+                                        }
+                                    } else {
+                                        // echo "<tr>";
+                                        // echo "    <td nowrap class='text-left xCNRptDetail' >". $tPgpChain . $tPgpChainName. "</td>";
+                                        // echo "    <td nowrap class='text-left xCNRptDetail' >". $tAgnID . ' ' .$tAgnName. "</td>";
+                                        // echo "    <td nowrap class='text-left xCNRptDetail' >". $tPdtID. "</td>";
+                                        // echo "    <td nowrap class='text-left xCNRptDetail' >". $tPdtName. "</td>";
+                                        // echo "    <td nowrap class='text-left xCNRptDetail' >(". $aValue["FTBchCode"] . ') ' .$aValue["FTBchName"] ."</td>";
+                                        // echo "    <td nowrap class='text-left xCNRptDetail' >(". $aValue["FTWahCode"] . ') ' .$aValue["FTWahName"] ."</td>";
+                                        // echo "    <td nowrap class='text-right xCNRptDetail'>".number_format($aValue['FCStkQty'], $nOptDecimalShow) ."</td>";
+                                        // echo "    <td nowrap class='text-right xCNRptDetail'>".number_format(20.00, $nOptDecimalShow) ."</td>";
+                                        // echo "    <td nowrap class='text-right xCNRptDetail'>".number_format(20.00, $nOptDecimalShow) ."</td>";
+                                        // echo "</tr>";
+                                    }
+                                ?>
+                                <tr>
+                                    <!-- <td nowrap class="text-left xCNRptDetail" ><?php echo $tPgpChain . $tPgpChainName; ?></td> -->
+                                    <!-- <td nowrap class="text-left xCNRptDetail" ><?php echo $tAgnID . ' ' .$tAgnName; ?></td> -->
+                                    <!-- <td nowrap class="text-left xCNRptDetail" ><?php echo $tPdtID; ?></td> -->
+                                    <!-- <td nowrap class="text-left xCNRptDetail" ><?php echo $tPdtName; ?></td> -->
+                                    <td nowrap class="text-left xCNRptDetail" ></td>
+                                    <td nowrap class="text-left xCNRptDetail" ></td>
+                                    <td nowrap class="text-left xCNRptDetail" ></td>
+                                    <td nowrap class="text-left xCNRptDetail" ></td>
+                                    <td nowrap class="text-left xCNRptDetail" ><?php echo $aValue["FTBchCode"] . ' ' .$aValue["FTBchName"]; ?></td>
+                                    <td nowrap class="text-left xCNRptDetail" >(<?php echo $aValue["FTWahCode"]; ?>) <?php echo $aValue["FTWahName"]; ?></td>
+                                    <td nowrap class="text-right xCNRptDetail"><?php echo number_format($aValue["FCStkQty"], $nOptDecimalShow) ?></td>
+                                    <td nowrap class="text-right xCNRptDetail"><?php echo number_format($nWahCost, $nOptDecimalShow) ?></td>
+                                    <td nowrap class="text-right xCNRptDetail"><?php echo number_format($nSumWahCost, $nOptDecimalShow) ?></td>
+                                </tr>
+                                
+                                <?php
+                                    // Step 1 เตรียม Parameter สำหรับการ Groupping
+                                    // $tWahCode       = $aValue["FTWahName"];
+                                    // $tPDTCode       = $aValue["FTPdtCode"];
+                                    // $tPDTName       = $aValue["FTPdtName"];
+                                    // $nGroupMember   = $aValue["FNRptGroupMember"];
+                                    // $nRowPartID     = $aValue["FNRowPartID"];
+                                ?>
+
+                        
                             <?php } ?>
 
-                            <!--ล่าง-->
-                            <?php
-                                $nPageNo    = $aDataReport["aPagination"]["nDisplayPage"];
-                                $nTotalPage = $aDataReport["aPagination"]["nTotalPage"];
-
-                                if ($nPageNo == $nTotalPage) {
-                                    echo "<tr class='xCNTrFooter'>";
-                                    for ($i = 0; $i < FCNnHSizeOf($paFooterSumData); $i++) {
-
-                                        if ($i == 0) {
-                                            $tStyle = 'text-align:left;border-top:1px solid #333;border-bottom:1px solid #333;/*background-color: #CFE2F3;*/';
-                                        } else {
-                                            $tStyle = 'text-align:right;border-top:1px solid #333;border-bottom:1px solid #333;/*background-color: #CFE2F3;*/';
-                                        }
-                                        if ($paFooterSumData[$i] != 'N') {
-                                            $tFooterVal = $paFooterSumData[$i];
-                                        } else {
-                                            $tFooterVal = '';
-                                        }
-                                        if ($i == 0) {
-                                            echo "<td class='xCNRptSumFooter text-left'>" . $tFooterVal . "</td>";
-                                        } else {
-                                            echo "<td class='xCNRptSumFooter text-right'>" . $tFooterVal . "</td>";
-                                        }
-                                    }
-                                    echo "<tr>";
-                                }
-                            ?>
+                            <tr><td class='text-center xCNTrSubFooter' colspan='100%'></td></tr>
                         <?php } else { ?>
                             <tr><td class='text-center xCNTextDetail2' colspan='100%'><?php echo $aDataTextRef['tRptAdjStkNoData']; ?></td></tr>
                         <?php } ?>
