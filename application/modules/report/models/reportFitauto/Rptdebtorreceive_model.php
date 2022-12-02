@@ -102,7 +102,7 @@ class Rptdebtorreceive_model extends CI_Model
                 SELECT
                 ROW_NUMBER() OVER(
                     ORDER BY FTCstCode ASC,FDXphDocDate ASC) AS RowID, 
-                    COUNT (FTCstCode) OVER (PARTITION BY FTCstCode ORDER BY FTCstCode ASC) AS PARTTITIONBYCST,
+                    COUNT(ISNULL(FTCstCode, '')) OVER (PARTITION BY FTCstCode ORDER BY FTCstCode ASC) AS PARTTITIONBYCST,
                     ROW_NUMBER () OVER (PARTITION BY FTCstCode ORDER BY FTCstCode ASC) AS PARTTITIONBYCST_COUNT,
                     ROW_NUMBER () OVER (PARTITION BY FTXphDocNo ORDER BY FTXphDocNo ASC) AS PARTTITIONBYDOC_COUNT,
                     A.*, 
@@ -124,7 +124,7 @@ class Rptdebtorreceive_model extends CI_Model
                         AND FTUsrSession = '$tUsrSession' 
                     GROUP BY
                         FTCstCode,FTUsrSession
-                ) AS S ON A.FTCstCode = S.FTCstCode_SubTotal AND A.FTUsrSession = S.FTUsrSession_SubTotal
+                ) AS S ON ISNULL(A.FTCstCode,'') = ISNULL(S.FTCstCode_SubTotal, '') AND ISNULL(A.FTCstCode,'') = ISNULL(S.FTCstCode_SubTotal, '')
                 LEFT JOIN (
                     SELECT
                         FTXphDocNo AS FTDocCode_SUM,
@@ -157,7 +157,7 @@ class Rptdebtorreceive_model extends CI_Model
         // WHERE เงื่อนไข Page
         // $tSQL   .= " WHERE L.RowID > $nRowIDStart AND L.RowID <= $nRowIDEnd ";
         // สั่ง Order by ตามข้อมูลหลัก
-        $tSQL   .= " ORDER BY  L.FTCstCode ASC , L.FNRowPartID ASC";
+        $tSQL   .= " ORDER BY  L.FTCstCode ASC , L.RowID ASC";
 
         // print_r($tSQL);
         // die();

@@ -212,6 +212,10 @@ class Rptdebtoroverdue_controller extends MX_Controller
             'tRptTaxSalePosFilterDocDateTo' => language('report/report/report', 'tRptTaxSalePosFilterDocDateTo'),
             'tRptTaxSalePosTaxId' => language('report/report/report', 'tRptTaxSalePosTaxId'),
 
+            
+            'tRptCstFrom'                       => language('report/report/report', 'tRptCstFrom'),
+            'tRptCstTo'                         => language('report/report/report', 'tRptCstTo'),
+
         ];
 
         $this->tSysBchCode = SYS_BCH_CODE;
@@ -498,14 +502,9 @@ class Rptdebtoroverdue_controller extends MX_Controller
             WriterEntityFactory::createCell($tFTCmpName),
             WriterEntityFactory::createCell(NULL),
             WriterEntityFactory::createCell(NULL),
-            WriterEntityFactory::createCell(NULL),
-            WriterEntityFactory::createCell(NULL),
-            WriterEntityFactory::createCell(NULL),
-            WriterEntityFactory::createCell(NULL),
-            WriterEntityFactory::createCell(NULL),
-            // WriterEntityFactory::createCell(NULL),
-            // WriterEntityFactory::createCell(NULL),
             WriterEntityFactory::createCell($this->aText['tTitleReport']),
+            WriterEntityFactory::createCell(NULL),
+            WriterEntityFactory::createCell(NULL),
         ];
 
         $aMulltiRow[] = WriterEntityFactory::createRow($aCells, $oStyle);
@@ -596,13 +595,6 @@ class Rptdebtoroverdue_controller extends MX_Controller
                 WriterEntityFactory::createCell(NULL),
                 WriterEntityFactory::createCell(NULL),
                 WriterEntityFactory::createCell(NULL),
-                WriterEntityFactory::createCell(NULL),
-                WriterEntityFactory::createCell(NULL),
-                WriterEntityFactory::createCell(NULL),
-                WriterEntityFactory::createCell(NULL),
-                WriterEntityFactory::createCell(NULL),
-                // WriterEntityFactory::createCell(NULL),
-                // WriterEntityFactory::createCell(NULL),
                 WriterEntityFactory::createCell($this->aText['tRptAdjDateFrom'] . ' ' . date('d/m/Y', strtotime($this->aRptFilter['tDocDateFrom'])) . ' ' . $this->aText['tRptAdjDateTo'] . ' ' . date('d/m/Y', strtotime($this->aRptFilter['tDocDateTo']))),
                 WriterEntityFactory::createCell(NULL),
                 WriterEntityFactory::createCell(NULL),
@@ -614,21 +606,6 @@ class Rptdebtoroverdue_controller extends MX_Controller
             WriterEntityFactory::createCell(NULL),
             WriterEntityFactory::createCell(NULL),
             WriterEntityFactory::createCell(NULL),
-            WriterEntityFactory::createCell(NULL),
-            WriterEntityFactory::createCell(NULL),
-            WriterEntityFactory::createCell(NULL),
-            WriterEntityFactory::createCell(NULL),
-            WriterEntityFactory::createCell(NULL),
-            WriterEntityFactory::createCell(NULL),
-            WriterEntityFactory::createCell(NULL),
-            WriterEntityFactory::createCell(NULL),
-            WriterEntityFactory::createCell(NULL),
-            WriterEntityFactory::createCell(NULL),
-            WriterEntityFactory::createCell(NULL),
-            WriterEntityFactory::createCell(NULL),
-            // WriterEntityFactory::createCell(NULL),
-            // WriterEntityFactory::createCell(NULL),
-            // WriterEntityFactory::createCell(NULL),
             WriterEntityFactory::createCell(NULL),
             WriterEntityFactory::createCell($this->aText['tDatePrint'] . ' ' . date('d/m/Y') . ' ' . $this->aText['tTimePrint'] . ' ' . date('H:i:s')),
             WriterEntityFactory::createCell(NULL),
@@ -655,30 +632,16 @@ class Rptdebtoroverdue_controller extends MX_Controller
 
         $oStyleColums = (new StyleBuilder())
             ->setBorder($oBorder)
+            ->setFontBold()
             ->build();
 
         $aCells = [
-            WriterEntityFactory::createCell(null),
             WriterEntityFactory::createCell(language('report/report/report','tRptdeptrodueCol1')),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
             WriterEntityFactory::createCell(language('report/report/report','tRptdeptrodueCol2')),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            // WriterEntityFactory::createCell(null),
-            // WriterEntityFactory::createCell(null),
             WriterEntityFactory::createCell(language('report/report/report','tRptdeptrodueCol3')),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
             WriterEntityFactory::createCell(language('report/report/report','tRptdeptrodueCol4')),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
             WriterEntityFactory::createCell(language('report/report/report','tRptdeptrodueCol5')),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
             WriterEntityFactory::createCell(language('report/report/report','tRptdeptrodueCol6')),
-            WriterEntityFactory::createCell(null)
         ];
 
         /** add a row at a time */
@@ -700,6 +663,11 @@ class Rptdebtoroverdue_controller extends MX_Controller
         $oStyle = (new StyleBuilder())
             ->setCellAlignment(CellAlignment::RIGHT)
             ->build();
+            
+        $oStyleText = (new StyleBuilder())
+        ->setFontBold()
+        ->build();
+
 
         if (isset($aDataReport['aRptData']) && !empty($aDataReport['aRptData'])) {
             $nSumGrands = 0;
@@ -714,74 +682,36 @@ class Rptdebtoroverdue_controller extends MX_Controller
                 }
                 if($aValue['rtPartitionCST'] == 1){
                   $values = [
-                      WriterEntityFactory::createCell("ลูกหนี้ ".$aValue['FTCstCode']." ".$aValue['FTCstName']),
+                      WriterEntityFactory::createCell("ลูกหนี้ ".$aValue['FTCstCode']." ".$aValue['FTCstName'], $oStyleText),
                       WriterEntityFactory::createCell(null),
                       WriterEntityFactory::createCell(null),
                       WriterEntityFactory::createCell(null),
                       WriterEntityFactory::createCell(null),
                       WriterEntityFactory::createCell(null),
-                      WriterEntityFactory::createCell(null),
-                      WriterEntityFactory::createCell(null),
-                      WriterEntityFactory::createCell(null),
-                      WriterEntityFactory::createCell(null),
-                      WriterEntityFactory::createCell(null),
-                      WriterEntityFactory::createCell(null)
                   ];
                   $aRow = WriterEntityFactory::createRow($values);
                   $oWriter->addRow($aRow);
               }
               $values = [
-                  WriterEntityFactory::createCell(null),
                   WriterEntityFactory::createCell($aValue['FDXshDocDate']),
-                  WriterEntityFactory::createCell(null),
-                  WriterEntityFactory::createCell(null),
                   WriterEntityFactory::createCell($aValue['FTXshDocNo']),
-                  WriterEntityFactory::createCell(null),
-                  WriterEntityFactory::createCell(null),
                   WriterEntityFactory::createCell($aValue['FTUsrCode']." ".$aValue['FTUsrName']),
-                  WriterEntityFactory::createCell(null),
-                  WriterEntityFactory::createCell(null),
-                  WriterEntityFactory::createCell(null),
-                //   WriterEntityFactory::createCell(null),
-                //   WriterEntityFactory::createCell(null),
                   WriterEntityFactory::createCell(FCNnGetNumeric($aValue['FCXshGrand'])),
-                  WriterEntityFactory::createCell(null),
-                  WriterEntityFactory::createCell(null),
                   WriterEntityFactory::createCell(FCNnGetNumeric($aValue['FCXshPaid'])),
-                  WriterEntityFactory::createCell(null),
-                  WriterEntityFactory::createCell(null),
                   WriterEntityFactory::createCell(FCNnGetNumeric($aValue['FCXshLeft'])),
-                  WriterEntityFactory::createCell(null),
-                  WriterEntityFactory::createCell(null),
               ];
               $aRow = WriterEntityFactory::createRow($values);
               $oWriter->addRow($aRow);
               if($aValue['rtPartitionCST'] == $aValue['rtPartitionCountCST']){
                 $values = [
-                    WriterEntityFactory::createCell(null),
                     WriterEntityFactory::createCell("รวมลูกหนี้ ".$aValue['FTCstName']),
                     WriterEntityFactory::createCell(null),
                     WriterEntityFactory::createCell(null),
-                    WriterEntityFactory::createCell(null),
-                    WriterEntityFactory::createCell(null),
-                    WriterEntityFactory::createCell(null),
-                    WriterEntityFactory::createCell(null),
-                    WriterEntityFactory::createCell(null),
-                    WriterEntityFactory::createCell(null),
-                    WriterEntityFactory::createCell(null),
-                    // WriterEntityFactory::createCell(null),
-                    // WriterEntityFactory::createCell(null),
                     WriterEntityFactory::createCell(FCNnGetNumeric($aValue['FCXshGrand_CST_Footer'])),
-                    WriterEntityFactory::createCell(null),
-                    WriterEntityFactory::createCell(null),
                     WriterEntityFactory::createCell(FCNnGetNumeric($aValue['FCXshPaid_CST_Footer'])),
-                    WriterEntityFactory::createCell(null),
-                    WriterEntityFactory::createCell(null),
                     WriterEntityFactory::createCell(FCNnGetNumeric($aValue['FCXshLeft_CST_Footer'])),
-                    WriterEntityFactory::createCell(null),
-                    WriterEntityFactory::createCell(null),
                 ];
-                $aRow = WriterEntityFactory::createRow($values);
+                $aRow = WriterEntityFactory::createRow($values, $oStyleColums);
                 $oWriter->addRow($aRow);
               }
               $nSumGrands = $aValue['FCXshGrand_Footer'];
@@ -794,96 +724,14 @@ class Rptdebtoroverdue_controller extends MX_Controller
                 WriterEntityFactory::createCell("รวม "),
                 WriterEntityFactory::createCell(null),
                 WriterEntityFactory::createCell(null),
-                WriterEntityFactory::createCell(null),
-                WriterEntityFactory::createCell(null),
-                WriterEntityFactory::createCell(null),
-                WriterEntityFactory::createCell(null),
-                WriterEntityFactory::createCell(null),
-                WriterEntityFactory::createCell(null),
-                WriterEntityFactory::createCell(null),
-                WriterEntityFactory::createCell(null),
-                // WriterEntityFactory::createCell(null),
-                // WriterEntityFactory::createCell(null),
                 WriterEntityFactory::createCell(FCNnGetNumeric($nSumGrands)),
-                WriterEntityFactory::createCell(null),
-                WriterEntityFactory::createCell(null),
                 WriterEntityFactory::createCell(FCNnGetNumeric($nSumPaids)),
-                WriterEntityFactory::createCell(null),
-                WriterEntityFactory::createCell(null),
                 WriterEntityFactory::createCell(FCNnGetNumeric($nSumLefts)),
-                WriterEntityFactory::createCell(null),
-                WriterEntityFactory::createCell(null),
             ];
-            $aRow = WriterEntityFactory::createRow($values);
+            $aRow = WriterEntityFactory::createRow($values, $oStyleColums);
             $oWriter->addRow($aRow);
 
         }
-
-        $values = [
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            // WriterEntityFactory::createCell(null),
-            // WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null)
-        ];
-        $aRow = WriterEntityFactory::createRow($values);
-        $oWriter->addRow($aRow);
-
-        $values = [
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            // WriterEntityFactory::createCell(null),
-            // WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null)
-        ];
-        $aRow = WriterEntityFactory::createRow($values);
-        $oWriter->addRow($aRow);
-
-        $values = [
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            // WriterEntityFactory::createCell(null),
-            // WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null)
-        ];
-        $aRow = WriterEntityFactory::createRow($values);
-        $oWriter->addRow($aRow);
 
         $aMulltiRow = $this->FSoCCallRptRenderFooterExcel(); //เรียกฟังชั่นสร้างส่วนท้ายรายงาน
         $oWriter->addRows($aMulltiRow);
@@ -898,6 +746,12 @@ class Rptdebtoroverdue_controller extends MX_Controller
             ->build();
 
         $aCells = [
+            WriterEntityFactory::createCell(null),
+        ];
+
+        $aMulltiRow[] = WriterEntityFactory::createRow($aCells, $oStyleFilter);
+
+        $aCells = [
             WriterEntityFactory::createCell($this->aText['tRptConditionInReport']),
         ];
 
@@ -907,6 +761,14 @@ class Rptdebtoroverdue_controller extends MX_Controller
             $tBchSelect =  ($this->aRptFilter['bBchStaSelectAll']) ? $this->aText['tRptAll'] : $this->aRptFilter['tBchNameSelect'];
             $aCells = [
                 WriterEntityFactory::createCell($this->aText['tRptBchFrom'] . ' : ' . $tBchSelect),
+            ];
+            $aMulltiRow[] = WriterEntityFactory::createRow($aCells);
+        }
+
+         // ลูกค้า
+         if (!empty($this->aRptFilter['tCstCodeFrom']) && !empty($this->aRptFilter['tCstCodeTo'])) {
+            $aCells = [
+                WriterEntityFactory::createCell($this->aText['tRptCstFrom'] . ' : ' . $this->aRptFilter['tCstCodeFrom'] . '     ' . $this->aText['tRptCstTo'] . ' : ' . $this->aRptFilter['tCstCodeTo']),
             ];
             $aMulltiRow[] = WriterEntityFactory::createRow($aCells);
         }

@@ -354,6 +354,7 @@ class Rptdebtorreceive_controller extends MX_Controller
             WriterEntityFactory::createCell('ยอดชำระก่อนหน้ารวม'),
             WriterEntityFactory::createCell('ยอดชำระในบิลนี้'),
             WriterEntityFactory::createCell('ยอดชำระครั้งถัดไป'),
+            WriterEntityFactory::createCell('สถานะ'),
         ];
 
         /** add a row at a time */
@@ -368,6 +369,19 @@ class Rptdebtorreceive_controller extends MX_Controller
         // Check Data Report
         if (isset($aDataReport['aRptData']) && !empty($aDataReport['aRptData'])) {
             foreach ($aDataReport['aRptData'] as $nKey => $aValue) {
+                if ($aValue["FTCstCode"]=="") {
+                    $aValue["FTCstCode"] = '999';
+                    $aValue["FTCstName"] = 'ลูกค้าทั่วไป';
+                }else {
+
+                }
+
+                if($aValue['FCXsdInvRem'] == 0) {
+                    $status = language('report/report/report', 'tRptdebtorreceiveClose');
+                }else {
+                    $status = language('report/report/report', 'tRptdebtorreceivePartialPayment');
+                }
+
                 $values = [
                     WriterEntityFactory::createCell($aValue['FTCstName']),
                     WriterEntityFactory::createCell($aValue['FTXphDocNo']),
@@ -380,10 +394,12 @@ class Rptdebtorreceive_controller extends MX_Controller
                     WriterEntityFactory::createCell(FCNnGetNumeric($aValue['FCXsdInvPaid'])),
                     WriterEntityFactory::createCell(FCNnGetNumeric($aValue['FCXsdInvPay'])),
                     WriterEntityFactory::createCell(FCNnGetNumeric($aValue['FCXsdInvRem'])),
+                    WriterEntityFactory::createCell($status),
                 ];
                 $aRow   = WriterEntityFactory::createRow($values);
                 $oWriter->addRow($aRow);
-                if($aValue['PARTTITIONBYCST_COUNT'] == $aValue['PARTTITIONBYCST']){
+
+                if($aValue['PARTTITIONBYCST'] == $aValue['PARTTITIONBYCST_COUNT']){
                     $values = [
                         WriterEntityFactory::createCell('ยอดรวม : ' . $aValue['FTCstName']),
                         WriterEntityFactory::createCell(null),
@@ -396,9 +412,10 @@ class Rptdebtorreceive_controller extends MX_Controller
                         WriterEntityFactory::createCell(FCNnGetNumeric($aValue['FCXsdInvPaid_SubTotal'])),
                         WriterEntityFactory::createCell(FCNnGetNumeric($aValue['FCXsdInvPay_SubTotal'])),
                         WriterEntityFactory::createCell(FCNnGetNumeric($aValue['FCXsdInvRem_SubTotal'])),
+                        WriterEntityFactory::createCell(null),
                     ];
-                $aRow   = WriterEntityFactory::createRow($values);
-                $oWriter->addRow($aRow);
+                    $aRow   = WriterEntityFactory::createRow($values, $oStyleColums);
+                    $oWriter->addRow($aRow);
                 }
             }
         }
@@ -452,11 +469,11 @@ class Rptdebtorreceive_controller extends MX_Controller
             WriterEntityFactory::createCell(null),
             WriterEntityFactory::createCell(null),
             WriterEntityFactory::createCell(null),
+            WriterEntityFactory::createCell($this->aText['tTitleReport']),
             WriterEntityFactory::createCell(null),
             WriterEntityFactory::createCell(null),
             WriterEntityFactory::createCell(null),
             WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell($this->aText['tTitleReport'])
         ];
         $aMulltiRow[] = WriterEntityFactory::createRow($aCells, $oStyle);
 
@@ -521,6 +538,18 @@ class Rptdebtorreceive_controller extends MX_Controller
         ];
         $aMulltiRow[] = WriterEntityFactory::createRow($aCells);
 
+        $aCells = [
+            WriterEntityFactory::createCell(NULL),
+            WriterEntityFactory::createCell(NULL),
+            WriterEntityFactory::createCell(NULL),
+            WriterEntityFactory::createCell(NULL),
+            WriterEntityFactory::createCell(NULL),
+            WriterEntityFactory::createCell(NULL),
+            WriterEntityFactory::createCell(NULL),
+        ];
+
+        $aMulltiRow[] = WriterEntityFactory::createRow($aCells);
+
         // Fillter DocDate (วันที่สร้างเอกสาร)
         if ((isset($this->aRptFilter['tDocDateFrom']) && !empty($this->aRptFilter['tDocDateFrom'])) && (isset($this->aRptFilter['tDocDateTo']) && !empty($this->aRptFilter['tDocDateTo']))) {
             $aCells = [
@@ -539,19 +568,6 @@ class Rptdebtorreceive_controller extends MX_Controller
 
         $aCells = [
             WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-        ];
-        $aMulltiRow[] = WriterEntityFactory::createRow($aCells);
-
-        $aCells = [
             WriterEntityFactory::createCell(null),
             WriterEntityFactory::createCell(null),
             WriterEntityFactory::createCell(null),

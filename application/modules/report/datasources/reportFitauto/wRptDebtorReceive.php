@@ -135,7 +135,15 @@ $nOptDecimalShow    = FCNxHGetOptionDecimalShow();
                             ?>
                             <?php foreach ($aDataReport['aRptData'] as $nKey => $aValue) : ?>
                                 <!--  Step 2 แสดงข้อมูลใน TD  -->
-                      
+                                <?php
+                                    if ($aValue["FTCstCode"]=="") {
+                                        $aValue["FTCstCode"] = '999';
+                                        $aValue["FTCstName"] = 'ลูกค้าทั่วไป';
+                                        $aValue['FTCstCode_CST_Footer'] = '999';
+                                    }else {
+
+                                    }
+                                ?>
 
                                 <?php if($aValue['PARTTITIONBYDOC_COUNT'] == '1'){ ?> 
                                 <tr class = 'xCNRptLastGroupTr'>

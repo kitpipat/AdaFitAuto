@@ -430,7 +430,7 @@ class Rptreceivablebill_controller extends MX_Controller
                         WriterEntityFactory::createCell(FCNnGetNumeric($aValue['FCXpdInvPaid_SubTotal'])),
                         WriterEntityFactory::createCell(FCNnGetNumeric($aValue['FCXpdInvRem_SubTotal'])),
                     ];
-                $aRow   = WriterEntityFactory::createRow($values);
+                $aRow   = WriterEntityFactory::createRow($values, $oStyleColums);
                 $oWriter->addRow($aRow);
                 }
             }
@@ -617,7 +617,7 @@ class Rptreceivablebill_controller extends MX_Controller
         // ผู้จำหน่าย
         if (!empty($this->aRptFilter['tPdtSupplierCodeFrom']) && !empty($this->aRptFilter['tPdtSupplierCodeTo'])) {
             $aCells = [
-                WriterEntityFactory::createCell($this->aText['tRptSplFrom'] . ' : ' . $this->aRptFilter['tPdtSupplierNameFrom'] . '     ' . $this->aText['tRptSplTo'] . ' : ' . $this->aRptFilter['tPdtSupplierNameTo']),
+                WriterEntityFactory::createCell($this->aText['tRptSplFrom'] . ' : ' . $this->aRptFilter['tPdtSupplierCodeFrom'] . '     ' . $this->aText['tRptSplTo'] . ' : ' . $this->aRptFilter['tPdtSupplierCodeTo']),
             ];
             $aMulltiRow[] = WriterEntityFactory::createRow($aCells);
         }
@@ -625,7 +625,7 @@ class Rptreceivablebill_controller extends MX_Controller
         // //กลุ่มผู้จำหน่าย
         if (!empty($this->aRptFilter['tPdtSgpCodeFrom']) || !empty($this->aRptFilter['tPdtSgpCodeTo'])) {
             $aCells = [
-                WriterEntityFactory::createCell($this->aText['tRptSplGrpForm'] . ' : ' . $this->aRptFilter['tPdtSgpNameFrom'] . '     ' . $this->aText['tRptSplGrpTo'] . ' : ' . $this->aRptFilter['tPdtSgpNameTo']),
+                WriterEntityFactory::createCell($this->aText['tRptSplGrpForm'] . ' : ' . $this->aRptFilter['tPdtSgpCodeFrom'] . '     ' . $this->aText['tRptSplGrpTo'] . ' : ' . $this->aRptFilter['tPdtSgpCodeTo']),
             ];
             $aMulltiRow[] = WriterEntityFactory::createRow($aCells);
         }
@@ -633,7 +633,7 @@ class Rptreceivablebill_controller extends MX_Controller
         // //ประเภทผู้จำหน่าย
         if (!empty($this->aRptFilter['tPdtStyCodeFrom']) || !empty($this->aRptFilter['tPdtStyCodeTo'])) {
             $aCells = [
-                WriterEntityFactory::createCell($this->aText['tRptSplTypeForm'] . ' : ' . $this->aRptFilter['tPdtStyNameFrom'] . '     ' . $this->aText['tRptSplTypeTo'] . ' : ' . $this->aRptFilter['tPdtStyNameTo']),
+                WriterEntityFactory::createCell($this->aText['tRptSplTypeForm'] . ' : ' . $this->aRptFilter['tPdtStyCodeFrom'] . '     ' . $this->aText['tRptSplTypeTo'] . ' : ' . $this->aRptFilter['tPdtStyCodeTo']),
             ];
             $aMulltiRow[] = WriterEntityFactory::createRow($aCells);
         }
@@ -657,7 +657,7 @@ class Rptreceivablebill_controller extends MX_Controller
         //กลุ่มลูกค้า
         if (!empty($this->aRptFilter['tCstGrpCodeFrom']) || !empty($this->aRptFilter['tCstGrpCodeTo'])) {
             $aCells = [
-                WriterEntityFactory::createCell($this->aText['tRptCstGrpForm'] . ' : ' . $this->aRptFilter['tCstGrpNameFrom'] . '     ' . $this->aText['tRptCstGrpTo'] . ' : ' . $this->aRptFilter['tCstGrpNameTo']),
+                WriterEntityFactory::createCell($this->aText['tRptCstGrpForm'] . ' : ' . $this->aRptFilter['tCstGrpCodeFrom'] . '     ' . $this->aText['tRptCstGrpTo'] . ' : ' . $this->aRptFilter['tCstGrpCodeTo']),
             ];
             $aMulltiRow[] = WriterEntityFactory::createRow($aCells);
         }
@@ -665,7 +665,7 @@ class Rptreceivablebill_controller extends MX_Controller
         //ประเภทลูกค้า
         if (!empty($this->aRptFilter['tCstTypeCodeFrom']) || !empty($this->aRptFilter['tCstTypeCodeTo'])) {
             $aCells = [
-                WriterEntityFactory::createCell($this->aText['tRptSplTypeForm'] . ' : ' . $this->aRptFilter['tCstTypeNameFrom'] . '     ' . $this->aText['tRptSplTypeTo'] . ' : ' . $this->aRptFilter['tCstTypeNameTo']),
+                WriterEntityFactory::createCell($this->aText['tRptSplTypeForm'] . ' : ' . $this->aRptFilter['tCstTypeCodeFrom'] . '     ' . $this->aText['tRptSplTypeTo'] . ' : ' . $this->aRptFilter['tCstTypeCodeTo']),
             ];
             $aMulltiRow[] = WriterEntityFactory::createRow($aCells);
         }

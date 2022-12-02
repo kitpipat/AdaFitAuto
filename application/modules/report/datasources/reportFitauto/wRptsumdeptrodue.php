@@ -276,35 +276,23 @@ $nOptDecimalShow = FCNxHGetOptionDecimalShow();
                 </div>
             <?php endif; ?>
 
-            <!-- ============================ ฟิวเตอร์ข้อมูล จุดขาย ============================ -->
-            <!-- <?php if ((isset($aDataFilter['tPosCodeFrom']) && !empty($aDataFilter['tPosCodeFrom'])) && (isset($aDataFilter['tPosCodeTo']) && !empty($aDataFilter['tPosCodeTo']))) : ?>
+
+            <!-- ============================ ฟิวเตอร์ข้อมูล ลูกค้า ============================ -->
+            <?php if ((isset($aDataFilter['tCstCodeFrom']) && !empty($aDataFilter['tCstCodeFrom'])) && (isset($aDataFilter['tCstCodeTo']) && !empty($aDataFilter['tCstCodeTo']))) : ?>
                 <div class="xCNRptFilterBox">
-                    <div class="text-left xCNRptFilter">
-                        <label class="xCNRptLabel xCNRptDisplayBlock"><span class="xCNRptFilterHead"><?php echo $aDataTextRef['tRptAdjPosFrom'] . ' : </span>' . $aDataFilter['tPosCodeFrom']; ?></label>
-                        <label class="xCNRptLabel xCNRptDisplayBlock"><span class="xCNRptFilterHead"><?php echo $aDataTextRef['tRptAdjPosTo'] . ' : </span>' . $aDataFilter['tPosCodeTo']; ?></label>
+                    <div class="xCNRptFilter">
+                        <label class="xCNRptDisplayBlock"><span class="xCNRptFilterHead"><?php echo $aDataTextRef['tRptCstFrom']; ?> : </span> <?php echo $aDataFilter['tCstNameFrom']; ?></label>
+                        <label class="xCNRptDisplayBlock"><span class="xCNRptFilterHead"><?php echo $aDataTextRef['tRptCstTo']; ?> : </span> <?php echo $aDataFilter['tCstNameTo']; ?></label>
                     </div>
                 </div>
             <?php endif; ?>
-            <?php if (isset($aDataFilter['tPosCodeSelect']) && !empty($aDataFilter['tPosCodeSelect'])) : ?>
+            <?php if (isset($aDataFilter['tCstCodeSelect']) && !empty($aDataFilter['tCstCodeSelect'])) : ?>
                 <div class="xCNRptFilterBox">
                     <div class="xCNRptFilter">
-                        <label class="xCNRptDisplayBlock"><span class="xCNRptFilterHead"><?php echo $aDataTextRef['tRptPosFrom']; ?> : </span> <?php echo ($aDataFilter['bPosStaSelectAll']) ? $aDataTextRef['tRptAll'] : $aDataFilter['tPosCodeSelect']; ?></label>
+                        <label class="xCNRptDisplayBlock"><span class="xCNRptFilterHead"><?php echo $aDataTextRef['tRptCstFrom']; ?> : </span> <?php echo ($aDataFilter['bCstStaSelectAll']) ? $aDataTextRef['tRptAll'] : $aDataFilter['tCstNameSelect']; ?></label>
                     </div>
                 </div>
-            <?php endif; ?> -->
-
-            <!-- ============================ ฟิวเตอร์ข้อมูล ประเภทจุดขาย ============================ -->
-            <!-- <?php if (isset($aDataFilter['tPosType'])) {
-                    ?>
-
-            <div class="xCNRptFilterBox">
-                    <div class="text-left xCNRptFilter">
-                        <label class="xCNRptDisplayBlock"><span class="xCNRptFilterHead"><?php echo $aDataTextRef['tRptPosTypeName'] . ' : </span>' . $aDataTextRef['tRptPosType' . $aDataFilter['tPosType']]; ?></label>
-                    </div>
-                </div>
-
-            <?php }
-            ?> -->
+            <?php endif; ?>
 
         </div>
         <div class="xCNFooterPageRpt">
