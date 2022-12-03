@@ -465,7 +465,7 @@
                     cache   : false,
                     timeout : 0,
                     success : function(tResult){
-
+                        console.log(aDisChgItems);
                         $('#odvIVDisChgPanel').modal('hide');
 
                         //หลังจากบันทึกข้อมูลเเล้ว
@@ -485,10 +485,11 @@
 
                         if(cAfterDisChg == 0){
                             var nQty    = $('#ohdQty'+nSeq).val();
-                            var cPrice  = $('#ohdPrice'+nSeq).val();
+                            var cPrice  = $('#ospPrice'+nSeq).text().replace(/,/g, '');
                             cAfterDisChg = parseFloat(nQty * cPrice);
                         }
-                        $('#ospGrandTotal'+nSeq).text(numberWithCommas(parseFloat(cAfterDisChg).toFixed(2)));
+                        $('#ospGrandTotal'+nSeq).val(numberWithCommas(parseFloat(cAfterDisChg).toFixed(2)));
+                        // $('#ospGrandTotal'+nSeq).val(numberWithCommas(parseFloat(parseFloat($('#ospGrandTotal'+nSeq).val()) + parseFloat(cAfterDisChg)).toFixed(2)));
                         $('.xWPdtItemList'+nSeq).attr('data-net',parseFloat(cAfterDisChg).toFixed(2));
                         if($('#olbDisChgHD').text() == ''){
                             $('#ospnetAfterHD'+nSeq).text(parseFloat(cAfterDisChg).toFixed(2));

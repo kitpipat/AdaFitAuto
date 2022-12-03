@@ -99,9 +99,12 @@
                                 </div>
                             </td>
                             <td class="otdPrice">
-                                <div class="xWEditInLine<?=$nKey?>">
+                                <!-- <div class="xWEditInLine<?=$nKey?>">
                                     <input type="text" class="xCNPrice form-control xCNInputNumericWithDecimal xCNPdtEditInLine text-right xWValueEditInLine<?=$nKey?> " id="ohdPrice<?=$nKey?>" name="ohdPrice<?=$nKey?>" maxlength="10" data-alwdis="<?=$aDataTableVal['FTXtdStaAlwDis'];?>" data-seq="<?=$nKey?>" value="<?=str_replace(",","",number_format($aDataTableVal['FCXtdSetPrice'],2));?>" autocomplete="off">
-                                </div> 
+                                </div>  -->
+                                <div class="text-right">
+                                    <span class="xCNUnitPrice" id="ospPrice<?=$nKey?>"><?=str_replace(",","",number_format($aDataTableVal['FCXtdSetPrice'],2));?></span>
+                                </div>
                             </td>
                             <td>
                                 <?php if($aDataTableVal['FTXtdStaAlwDis'] == 1){ ?>
@@ -113,8 +116,14 @@
                                     <label><?=language('document/purchaseorder/purchaseorder','tPODiscountisnotallowed');?></label>
                                 <?php } ?>
                             </td>
-                            <td class="text-right">
-                                <span id="ospGrandTotal<?=$nKey?>"><?=number_format($aDataTableVal['FCXtdNet'],2);?></span>
+                            <td class="otdTotal text-right">
+                                <!-- <span id="ospGrandTotal<?=$nKey?>"><?=number_format($aDataTableVal['FCXtdNet'],2);?></span>
+                                <span id="ospnetAfterHD<?=$nKey?>" style="display: none;"><?=number_format($aDataTableVal['FCXtdNetAfHD'],2);?></span> -->
+                                <div class="xWEditInLine<?=$nKey?>">
+                                    <input type="text" class="xCNPrice form-control xCNInputNumericWithDecimal xCNPdtEditInLine text-right xWValueEditInLine<?=$nKey?>"
+                                        id="ospGrandTotal<?=$nKey?>" name="ospGrandTotal<?=$nKey?>" maxlength="10" data-seq="<?=$nKey?>" data-alwdis="<?=$aDataTableVal['FTXtdStaAlwDis'];?>" value="<?=number_format($aDataTableVal['FCXtdNet'],2);?>"
+                                        autocomplete="off">
+                                </div>
                                 <span id="ospnetAfterHD<?=$nKey?>" style="display: none;"><?=number_format($aDataTableVal['FCXtdNetAfHD'],2);?></span>
                             </td>
                             <td  class="text-center xCNHideWhenCancelOrApprove">
@@ -155,6 +164,8 @@
 </div>
 
 <script type="text/javascript">
+    var nDecimalShow    = $('#ohdIVDecimalShow').val();
+
      $(document).on("keypress", 'form', function (e) {
         var code = e.keyCode || e.which;
         if (code == 13) {
@@ -269,6 +280,7 @@
     function JSxIVEventRenderTemp(paData){
         
         JCNxCloseLoading();
+        var nDecimalShow    = $('#ohdIVDecimalShow').val();
 
         //ช่องสแกนต้องเปิดเมื่อมีรายการใหม่เพิ่มขึ้นไป
         $('#oetIVInsertBarcode').attr('readonly',false);
@@ -330,7 +342,7 @@
 
                 //ถ้าสินค้าซ้ำ ให้เอา Qty +1
                 var nValOld     = $('.otr'+tProductCode+tBarCode).find('.xCNQty').val();
-                var nNewValue   = parseInt(nValOld) + parseInt(1);
+                var nNewValue   = parseFloat(nValOld) + parseFloat(1);
                 var tCname      = 'otr'+tProductCode+tBarCode;
                 $('.'+tCname).each(function (e) {
                     if(e == '0'){
@@ -338,10 +350,16 @@
                     }
                 });
 
-                var nGrandOld   = $('.otr'+tProductCode+tBarCode).find('.xCNPrice').val();
-                var nGrand      = parseInt(nNewValue) * parseFloat(nGrandOld);
+                var nGrandOld   = $('.otr'+tProductCode+tBarCode).find('.xCNUnitPrice').text().replace(/,/g, '');;
+                var nGrand      = parseFloat(accounting.unformat(nNewValue)) * parseFloat(accounting.unformat(nGrandOld));
                 var nSeqOld     = $('.otr'+tProductCode+tBarCode).find('.xCNPrice').attr('data-seq');
-                $('#ospGrandTotal'+nSeqOld).text(numberWithCommas(nGrand.toFixed(2)));
+                // $('#ospGrandTotal'+nSeqOld).val(numberWithCommas(nGrand.toFixed(2)));
+                $('#ospGrandTotal'+nSeqOld).val(numberWithCommas(parseFloat(nGrand).toFixed(nDecimalShow)));
+
+                // console.log(nValOld);
+                // console.log(nGrandOld);
+                // console.log(nNewValue);
+                // console.log(nGrand);
             }else{
                 //ถ้าสินค้าไม่ซ้ำ ก็บวกเพิ่มต่อเลย
                 if(nAlwDiscount == 1){ //อนุญาตลด
@@ -353,20 +371,25 @@
                     var oAlwDis = 'ไม่อนุญาตให้ส่วนลด';
                 }
 
-                //ราคา
-                var oPrice = '<div class="xWEditInLine'+nKey+'">';
-                    oPrice += '<input ';
-                    oPrice += 'type="text" ';
-                    oPrice += 'class="xCNPrice form-control xCNInputNumericWithDecimal xCNPdtEditInLine text-right xWValueEditInLine'+nKey+' "';
-                    oPrice += 'id="ohdPrice'+nKey+'" ';
-                    oPrice += 'name="ohdPrice'+nKey+'" ';
-                    oPrice += 'maxlength="10" ';
-                    oPrice += 'data-alwdis='+nAlwDiscount+' ';
-                    oPrice += 'data-seq='+nKey+' ';
-                    oPrice += 'value="'+nPrice+'"';
-                    oPrice += 'autocomplete="off" >';
+                //ราคาต่อหน่วย แบบเก่า
+                // var oPrice = '<div class="xWEditInLine'+nKey+'">';
+                //     oPrice += '<input ';
+                //     oPrice += 'type="text" ';
+                //     oPrice += 'class="xCNPrice form-control xCNInputNumericWithDecimal xCNPdtEditInLine text-right xWValueEditInLine'+nKey+' "';
+                //     oPrice += 'id="ohdPrice'+nKey+'" ';
+                //     oPrice += 'name="ohdPrice'+nKey+'" ';
+                //     oPrice += 'maxlength="10" ';
+                //     oPrice += 'data-alwdis='+nAlwDiscount+' ';
+                //     oPrice += 'data-seq='+nKey+' ';
+                //     oPrice += 'value="'+nPrice+'"';
+                //     oPrice += 'autocomplete="off" >';
+                //     oPrice += '</div>';
+                //ราคาต่อหน่วย แบบใหม่
+                var oPrice = '<div class="text-right">';
+                    oPrice += '<span class="xCNUnitPrice" id="ospPrice'+nKey+'">'+numberWithCommas(parseFloat(nPrice).toFixed(nDecimalShow))+'</span>';
                     oPrice += '</div>';
 
+                // มูลค่าลดชาร์จ
                 var oQty = '<div class="xWEditInLine'+nKey+'">';
                     oQty += '<input ';
                     oQty += 'type="text" ';
@@ -426,21 +449,33 @@
                         tHTML += 'autocomplete="off" >';
                         tHTML += tProductName+'</div></td>';  
                     }
-                    
-                    tHTML += '<td>'+tBarCode+'</td>';
-                    tHTML += '<td>'+tUnitName+'</td>';
-                    tHTML += '<td class="otdQty text-right" >'+oQty+'</td>';
-                    tHTML += '<td class="otdPrice">'+oPrice+'</td>';
-                    tHTML += '<td>'+oAlwDis+'</td>';
-                    tHTML += '<td class="text-right"><span id="ospGrandTotal'+nKey+'">'+cNet+'</span>';
-                    tHTML += '    <span id="ospnetAfterHD'+nKey+'" style="display: none;">'+nNetAfHD+'</span>';
-                    tHTML += '</td>';
-                    tHTML += '<td nowrap class="text-center">';
-                    tHTML += '  <label class="xCNTextLink">';
-                    tHTML += '      <img class="xCNIconTable" src="application/modules/common/assets/images/icons/delete.png" title="Remove" onclick="JSnRemoveDTRow(this)">';
-                    tHTML += '  </label>';
-                    tHTML += '</td>';
-                    tHTML += '</tr>';
+
+                //จำนวนเงิน 
+                var oGrandTotal = '<div class="xWEditInLine'+nKey+'">';
+                    oGrandTotal += '<input type="text"';
+                    oGrandTotal += 'class="xCNPrice form-control xCNInputNumericWithDecimal xCNPdtEditInLine text-right xWValueEditInLine'+nKey+' "';
+                    oGrandTotal += 'id="ospGrandTotal'+nKey+'" name="ospGrandTotal'+nKey+'" maxlength="10" data-seq='+nKey+' data-alwdis='+nAlwDiscount+' value="'+numberWithCommas(parseFloat(cNet).toFixed(nDecimalShow))+'"';
+                    oGrandTotal += 'autocomplete="off"></div>'
+                    oGrandTotal += '<span id="ospnetAfterHD'+nKey+'" style="display: none;">'+nNetAfHD+'</span>';
+                
+                tHTML += '<td>'+tBarCode+'</td>';
+                tHTML += '<td>'+tUnitName+'</td>';
+                tHTML += '<td class="otdQty text-right" >'+oQty+'</td>';
+                tHTML += '<td class="otdPrice">'+oPrice+'</td>';
+                tHTML += '<td>'+oAlwDis+'</td>';
+                tHTML += '<td class="otdTotal text-right">'+oGrandTotal+'</td>';
+
+                //จำนวนเงิน แบบเก่า
+                // tHTML += '<td class="text-right"><span id="ospGrandTotal'+nKey+'">'+cNet+'</span>';
+                // tHTML += '    <span id="ospnetAfterHD'+nKey+'" style="display: none;">'+nNetAfHD+'</span>';
+                // tHTML += '</td>';
+                
+                tHTML += '<td nowrap class="text-center">';
+                tHTML += '  <label class="xCNTextLink">';
+                tHTML += '      <img class="xCNIconTable" src="application/modules/common/assets/images/icons/delete.png" title="Remove" onclick="JSnRemoveDTRow(this)">';
+                tHTML += '  </label>';
+                tHTML += '</td>';
+                tHTML += '</tr>';
                 nKey++;
             }
         }
@@ -462,17 +497,32 @@
     function JSxRendercalculate(){
         var nTotal              = 0;
         var nTotal_alwDiscount  = 0;
+
         $(".xCNPrice").each(function(e) {
             var nSeq    = $(this).attr('data-seq');
-            var nValue  = $('#ospGrandTotal'+nSeq).text();
-            var nValue  = nValue.replace(/,/g, '');
-            nTotal      = parseFloat(nTotal) + parseFloat(nValue);
+            // var nValue  = $('#ospGrandTotal'+nSeq).text();
+            var nValue  = $('#ospGrandTotal'+nSeq).val();
+            // nValue  = nValue.replace(/,/g, '');
+            // var nQty = $('#ohdQty'+nSeq).val();
+            // var nPrice = $('#ospPrice'+nSeq).text().replace(/,/g, '');
+            // var nValue = parseFloat(accounting.unformat(nQty)) * parseFloat(accounting.unformat(nPrice));
+            nTotal     = parseFloat(accounting.unformat(nTotal)) + parseFloat(accounting.unformat(nValue));
+
             if($(this).attr('data-alwdis') == 1){
-                nTotal_alwDiscount  = parseFloat(nTotal_alwDiscount) + parseFloat(nValue);
+                nTotal_alwDiscount  = parseFloat(accounting.unformat(nTotal_alwDiscount)) + parseFloat(accounting.unformat(nValue));
             };
-           
+
+            // ภาษี
+            $('#ospnetAfterHD'+nSeq).text(parseFloat(accounting.unformat(nValue)).toFixed(2));
+
         });
-        
+
+        // // // ภาษี
+        // $('#otbIVDocPdtAdvTableList tbody tr').each(function(){
+        //     var nKey        = $(this).attr('data-seqno');
+        //     $('#ospnetAfterHD'+nKey).text(numberWithCommas(parseFloat(nTotal).toFixed(2)));
+        // });
+
         //จำนวนเงินรวม
         $('#olbIVSumFCXtdNet').text(numberWithCommas(parseFloat(nTotal).toFixed(2)));
 
@@ -544,9 +594,11 @@
 
             var nSeq    = $(this).attr('data-seq');
             var alwdis  = $(this).attr('data-alwdis');
-            var nValue  = $('#ospGrandTotal'+nSeq).text();
-            var nValue  = parseFloat(nValue.replace(/,/g, ''));
-            var nProrate = (pnSumDiscount * nValue) / pnSum;
+            // var nValue  = $('#ospGrandTotal'+nSeq).val();
+            var nValue      = parseFloat(accounting.unformat($('#ospGrandTotal'+nSeq).val()));
+
+            // var nValue  = parseFloat(nValue.replace(/,/g, ''));
+            var nProrate = (pnSumDiscount * nValue) / accounting.unformat(pnSum);
             var netAfterHD = 0 ;
             if(alwdis==1){
                 nSumProrate     = parseFloat(nSumProrate) + parseFloat(nProrate);
@@ -558,7 +610,7 @@
                     nProrate = nProrate;
                     netAfterHD =  nValue + nProrate;
                 }
-                $('#ospnetAfterHD'+nSeq).text(numberWithCommas(parseFloat(nValue+nProrate).toFixed(2)));
+                $('#ospnetAfterHD'+nSeq).text(numberWithCommas(parseFloat(parseFloat(nValue)+parseFloat(nProrate)).toFixed(2)));
             }
         });
     }
@@ -572,7 +624,6 @@
         var tIVVatCal   = parseFloat($('#ohdIVVatCal').val());
 
 
-        var nDecimalShow    = $('#ohdIVDecimalShow').val();
         var tVatList        = '';
         var aVat            = [];
         var cXphAmtV        = 0;
@@ -583,20 +634,24 @@
             var nKey        = $(this).attr('data-seqno');
             var tTypeVat    = $('#ocmIVfoVatInOrEx').val();
             // Get Amt Value 
-            var nValue  = $('#ospGrandTotal'+nKey).text();
-            nValue      = nValue.replace(/,/g, '');
+            // var nValue  = $('#ospGrandTotal'+nKey).val();
+            // nValue  = parseFloat(nValue.replace(/,/g, ''));
+            var nQty = $('#ohdQty'+nKey).val();
+            var nPrice = $('#ospPrice'+nKey).text().replace(/,/g, '');
+            var nValue = parseInt(nQty) * parseFloat(nPrice);
+
             if(nAlwVat == 1){
                 //อนุญาตคิด VAT
                 if(tTypeVat == 1){
                     // ภาษีรวมใน tSoot = net - ((net * 100) / (100 + rate));
                     var net       = parseFloat($('#ospnetAfterHD'+nKey).text().replace(/,/g, ''));
                     var nTotalVat = net - (net * 100 / (100 + nVat));
-                    var nResult   = parseFloat(nTotalVat).toFixed(nDecimalShow);
+                    var nResult   = parseFloat(accounting.unformat(nTotalVat)).toFixed(nDecimalShow);
                 }else if(tTypeVat == 2){
                     // ภาษีแยกนอก tSoot = net - (net * (100 + 7) / 100) - net;
                     var net       = parseFloat($('#ospnetAfterHD'+nKey).text().replace(/,/g, ''));
                     var nTotalVat = (net * (100 + nVat) / 100) - net;
-                    var nResult   = parseFloat(nTotalVat).toFixed(nDecimalShow);
+                    var nResult   = parseFloat(accounting.unformat(nTotalVat)).toFixed(nDecimalShow);
                 }
                 var oVat    = { VAT: nVat , VALUE: nResult };
                 aVat.push(oVat);
@@ -617,7 +672,6 @@
         var aSumVat         = [];
         for(var i=0; i<aVat.length; i++){
 
-
             if(nVATStart == aVat[i].VAT){
                 nSumValueVat = nSumValueVat + parseFloat(aVat[i].VALUE);
                 aSumVat.pop();
@@ -627,12 +681,7 @@
                 nVATStart    = aVat[i].VAT;
             }
 
-
-
             var oSum = { VAT: nVATStart , VALUE: nSumValueVat };
-
-
-
 
             aSumVat.push(oSum);
         }
@@ -641,6 +690,7 @@
         //เอา VAT ไปทำในตาราง
         
         if(tIVVat == tIVVatCal){
+
             var nSumVatHD   = parseFloat($('#ohdIVSumFCXtdVat').val());
             var nSumVat     = 0;
             var nCount      = 1;
@@ -655,7 +705,6 @@
                 nSumVat     += parseFloat(aSumVat[j].VALUE);
                 nCount++;
             }
-
             // Vat Table List
             $('#oulIVDataListVat').html(tVatList);
 
@@ -667,14 +716,13 @@
             $('#oetIVSumFCXtdVat').val(numberWithCommas(parseFloat(nSumVat).toFixed(nDecimalShow)));
             $('#ohdIVSumFCXtdVat').val(nSumVat.toFixed(nDecimalShow));
         }else{
-
             // ยอดรวมภาษีมูลค่าเพิ่ม
             $('#olbIVVatSum').text(numberWithCommas(parseFloat(tIVVat).toFixed(nDecimalShow)));
 
             $('#oetIVSumFCXtdVat').val(numberWithCommas(parseFloat(tIVVat).toFixed(nDecimalShow)));
             $('#ohdIVSumFCXtdVat').val(tIVVat.toFixed(nDecimalShow));
         }
-        
+
         //สรุปราคารวม
         var tTypeVat = $('#ocmIVfoVatInOrEx').val();
         if(tTypeVat == 1){ //คิดแบบรวมใน
@@ -703,7 +751,6 @@
 
     //คำนวณท้ายบิล
     function JSxIVSetFooterEndOfBill(poParams){
-        console.log(poParams);
         /* ================================================= Left End Of Bill ================================================= */
         var tTextBath   = poParams.tTextBath;
         $('#odvIVDataTextBath').text(tTextBath);
@@ -778,9 +825,9 @@
         $('.xCNPdtEditInLine').click(function(){
             $(this).focus().select();
         });
-
         $('.xCNPdtEditInLine').off().on('change keyup',function(e){
             if(e.type === 'change' || e.keyCode === 13){
+
                 var nSeq    = $(this).attr('data-seq');
                 var nQty    = $('.xWPdtItemList'+nSeq).attr('data-qty');
                 var cPrice  = $('.xWPdtItemList'+nSeq).attr('data-setprice');
@@ -788,7 +835,7 @@
                 // ตรวจสอบลดรายการ
                 var tDisChgDTTmp = $('#xWDisChgDTTmp'+nSeq).text().replace(/,/g, '');
                 if(tDisChgDTTmp == ''){
-                    JSxGetDisChgList(nSeq,0);
+                    JSxGetDisChgList(nSeq,0,$(this).attr('id'));
                     $(':input:eq(' + ($(':input').index(this) + 1) +')').focus().select();
                 }else{
                     // มีลด/ชาร์จ
@@ -801,7 +848,7 @@
                     $('#odvIVModalConfirmDeleteDTDis #obtIVConfirmDeleteDTDis').off('click');
                     $('#odvIVModalConfirmDeleteDTDis #obtIVConfirmDeleteDTDis').on('click',function(){
                         $('#odvIVModalConfirmDeleteDTDis').modal('hide');
-                        JSxGetDisChgList(nSeq,1);
+                        JSxGetDisChgList(nSeq,1,$(this).attr('id'));
                         $(':input:eq(' + ($(':input').index(this) + 1) +')').focus().select();
                     });
 
@@ -813,7 +860,7 @@
                         nQty    = nQty.replace(/,/g, '');
                         cPrice  = cPrice.replace(/,/g, '');
                         $('#ohdQty'+nSeq).val(parseFloat(nQty).toFixed(2));
-                        $('#ohdPrice'+nSeq).val(parseFloat(cPrice).toFixed(2));
+                        $('#ospPrice'+nSeq).text(parseFloat(cPrice).toFixed(2));
                     });
                 }
             }
@@ -821,32 +868,58 @@
     }
 
     //เเก้ไขจำนวน และ ราคา
-    function JSxGetDisChgList(pnSeq,pnStaDelDis){
+    function JSxGetDisChgList(pnSeq,pnStaDelDis,ptObjID){
         // ptStaDelDis = 1 ลบ DTDis
         // ptStaDelDis = 0 ไม่ลบ DTDis
-
         var tChgDT      = $('#xWDisChgDTTmp'+pnSeq).text().replace(/,/g, '');
-        var cPrice      = $('#ohdPrice'+pnSeq).val();
+        var cPrice      = $('#ospPrice'+pnSeq).text().replace(/,/g, '');
         var nQty        = $('#ohdQty'+pnSeq).val();
-        var tName        = $('#ohdPdtName'+pnSeq).val();
-        var cResult     = parseFloat(cPrice * nQty);
+        var tName       = $('#ohdPdtName'+pnSeq).val();
+        var cTotal      = parseFloat(accounting.unformat($('#ospGrandTotal'+pnSeq).val()));
+        // cTotal          = cTotal.replace(/,/g, '');
+        var cResult     = parseFloat(cTotal / nQty);
+
+        var cResult1    = parseFloat(cPrice * nQty);
+        
+        if(ptObjID == ('ospGrandTotal'+pnSeq)){
+            $('#ospPrice'+pnSeq).text(parseFloat(cResult).toFixed(2));
+
+            $('.xWPdtItemList'+pnSeq).attr('data-setprice',parseFloat(cResult).toFixed(2));
+            $('.xWPdtItemList'+pnSeq).attr('data-net',parseFloat(cResult).toFixed(2));
+          
+        }
+
+        if(ptObjID == ('ohdQty'+pnSeq)){
+            $('#ospGrandTotal'+pnSeq).val(parseFloat(cResult1).toFixed(2));
+            // $('.xWPdtItemList'+pnSeq).attr('data-setprice',parseFloat(cResult1).toFixed(2));
+            // $('.xWPdtItemList'+pnSeq).attr('data-net',parseFloat(cResult1).toFixed(2));
+            $('.xWPdtItemList'+pnSeq).attr('data-setprice',parseFloat(cPrice).toFixed(2));
+            $('.xWPdtItemList'+pnSeq).attr('data-net',parseFloat(cPrice).toFixed(2));
+        }
+
+        $('.xWPdtItemList'+pnSeq).attr('data-qty',nQty);
 
         // Fixed ราคาต่อหน่วย 2 ตำแหน่ง
-        $('#ohdPrice'+pnSeq).val(parseFloat(cPrice).toFixed(2));
+        // $('#ospPrice'+pnSeq).text(parseFloat(cPrice).toFixed(2));
 
         // Update Value
-        $('#ospGrandTotal'+pnSeq).text(numberWithCommas(parseFloat(cResult).toFixed(2)));
-        $('.xWPdtItemList'+pnSeq).attr('data-qty',nQty);
-        $('.xWPdtItemList'+pnSeq).attr('data-setprice',parseFloat(cPrice).toFixed(2));
-        $('.xWPdtItemList'+pnSeq).attr('data-net',parseFloat(cResult).toFixed(2));
-
+        // $('#ospPrice'+pnSeq).text(numberWithCommas(parseFloat(cResult).toFixed(2)));
+        // $('.xWPdtItemList'+pnSeq).attr('data-qty',nQty);
+        // $('.xWPdtItemList'+pnSeq).attr('data-setprice',parseFloat(cResult).toFixed(2));
+        // $('.xWPdtItemList'+pnSeq).attr('data-net',parseFloat(cResult).toFixed(2));
         if(pnStaDelDis == 1){
             $('#xWDisChgDTTmp'+pnSeq).text('');
         }
 
+        // // ถ้าไม่มีลดท้ายบิล ให้ปรับ NetAfHD
+        // if($('#olbIVDisChgHD').text() == ''){
+        //     $('#ospnetAfterHD'+pnSeq).text(parseFloat(cTotal).toFixed(2));
+        //     $('.xWPdtItemList'+pnSeq).attr('data-netafhd',parseFloat(cResult).toFixed(2));
+        // }
+
         // ถ้าไม่มีลดท้ายบิล ให้ปรับ NetAfHD
         if($('#olbIVDisChgHD').text() == ''){
-            $('#ospnetAfterHD'+pnSeq).text(parseFloat(cResult).toFixed(2));
+            $('#ospnetAfterHD'+pnSeq).text(parseFloat(cTotal).toFixed(2));
             $('.xWPdtItemList'+pnSeq).attr('data-netafhd',parseFloat(cResult).toFixed(2));
         }
 
@@ -854,6 +927,8 @@
 
         var tIVDocNo        = $("#oetIVDocNo").val();
         var tIVBchCode      = $("#ohdIVBchCode").val();
+        setTimeout(() => {
+            
         if(pnSeq != undefined){
             $.ajax({
                 type    : "POST",
@@ -864,8 +939,8 @@
                     'nIVSeqNo'          : pnSeq,
                     'nQty'              : nQty,
                     'FTXtdPdtName'      : tName,
-                    'cPrice'            : cPrice,
-                    'cNet'              : cResult,
+                    'cPrice'            : $('#ospPrice'+pnSeq).text().replace(/,/g, ''),
+                    'cNet'              : parseFloat(accounting.unformat($('#ospGrandTotal'+pnSeq).val())),
                     'nStaDelDis'        : pnStaDelDis
                 },
                 catch   : false,
@@ -874,6 +949,8 @@
                 error   : function (jqXHR, textStatus, errorThrown) { }
             });
         }
+    }, 500);
+
     }
 
     //Hi-light คอลัมส์สุดท้าย
