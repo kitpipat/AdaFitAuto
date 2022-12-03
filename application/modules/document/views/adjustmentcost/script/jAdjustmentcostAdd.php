@@ -451,7 +451,7 @@
                 JSxADCShowTable(aResult)
                 $('#odvADCFilterDataCondition').modal('hide');
                 JCNxCloseLoading();
-
+                JSvAdPdtPriDataTable();
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 JCNxResponseError(jqXHR, textStatus, errorThrown);
@@ -644,6 +644,11 @@
         }
     }
 
+    function JSxChangeCost(data) {
+        JSvAdPdtPriDataTable('','',data.value);
+    }
+
+    
 
     // Functionality : ลบข้อมูลแบบ Single
     // Parameter : function parameters
@@ -1117,6 +1122,7 @@
         }
 
         var aDataFilter = [tPdtCodeFrom, tPdtCodeTo, tBarCodeFrom, tBarCodeCodeTo]
+        //JSvAdPdtPriDataTable();
         JSxADCGetPdtFromFilter(aDataFilter)
     });
 
@@ -1128,6 +1134,100 @@
             JCNxShowMsgSessionExpired();
         }
     });
+
+    //function: Call Product Price Data List
+//Parameters: Ajax Success Event 
+//Creator:	18/02/2019 Napat(Jame)
+//Return: View
+//Return Type: View
+// ptFocusType = 1 focus input , 2 focus scaner
+function JSvAdPdtPriDataTable(pnPage, ptFocusType, pCostType) {
+    var nStaSession = 1;
+    if (typeof(nStaSession) !== 'undefined' && nStaSession == 1) {
+        var tSearchAll  = $('#oetSearchSpaPdtPri').val();
+        var FTXphDocNo  = $('#oetXphDocNo').val();
+        var tFocusType  = (ptFocusType === undefined || ptFocusType == '') ? '1' : ptFocusType;
+        var tCostType  = (pCostType === undefined || pCostType == '') ? '12' : pCostType;
+        if ($('#ofmADCFormAdd tr.otrSpaPdtPri').length == 0) {
+            if (pnPage != undefined) {
+                pnPage = pnPage - 1;
+            }
+        }
+        nPageCurrent    = (pnPage === undefined || pnPage == '' || pnPage <= 0) ? '1' : pnPage;
+        $.ajax({
+            type    : "POST",
+            url     : "docADCPdtPriDataTable",
+            data    : {
+                tSearchAll      : tSearchAll,
+                nPageCurrent    : nPageCurrent,
+                FTXphDocNo      : FTXphDocNo,
+                tCostType       : tCostType,
+            },
+            cache: false,
+            Timeout: 0,
+            success: function(tResult) {
+                $('#ostAdDataPdtPri').html(tResult);
+                let oParameterSend = {
+                    "FunctionName": "JSxSpaSaveInLine",
+                    "DataAttribute": ["dataSEQ", "dataPRICE", "dataPAGE"],
+                    "TableID": "otbAdDataList",
+                    "NotFoundDataRowClass": "xWTextNotfoundDataSalePriceAdj",
+                    "EditInLineButtonDeleteClass": "xWDeleteBtnEditButton",
+                    "LabelShowDataClass": "xWShowInLine",
+                    "DivHiddenDataEditClass": "xWEditInLine"
+                };
+                // JCNxSetNewEditInline(oParameterSend);
+                if (tFocusType == '1') {
+                    $(".xWEditInlineElement").eq(nIndexInputEditInline).focus(function() {
+                        this.select();
+                    });
+                    setTimeout(function() {
+                        $(".xWEditInlineElement").eq(nIndexInputEditInline).focus();
+                    }, 300);
+                }
+                $(".xWEditInlineElement").removeAttr("disabled");
+                let oElement = $(".xWEditInlineElement");
+                for (let nI = 0; nI < oElement.length; nI++) {
+                    $(oElement.eq(nI)).val($(oElement.eq(nI)).val().trim());
+                }
+
+                $(".xWEditInlineElement").css({
+                    "padding": "0px",
+                    "text-align": "right"
+                });
+
+                var tSPAFitstPdtCode = $('#oetSPAFitstPdtCode').val();
+                if (tSPAFitstPdtCode != '') {
+                    var tAttrIdPdtCodeFirst = $('#ohdSPAFrtPdtCode' + tSPAFitstPdtCode).val();
+                    if ($('#' + tAttrIdPdtCodeFirst).val() != '' && $('#' + tAttrIdPdtCodeFirst).val() != undefined) {
+
+                        var tValueNext = parseFloat($('#' + tAttrIdPdtCodeFirst).val().replace(/,/g, ''));
+                        $('#' + tAttrIdPdtCodeFirst).val(tValueNext);
+                        if (tFocusType == '1') {
+                            $('#' + tAttrIdPdtCodeFirst).focus();
+                            $('#' + tAttrIdPdtCodeFirst).select();
+                        }
+                    }
+                }
+
+                // JSxSpaNavDefult();
+                JCNxLayoutControll();
+                // JStCMMGetPanalLangHTML('TCNMPdtSize_L'); //โหลดภาษาใหม่
+                //JSxDisableInput();
+                JCNxCloseLoading();
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                JCNxResponseError(jqXHR, textStatus, errorThrown);
+            }
+        });
+
+    } else {
+
+        JCNxShowMsgSessionExpired();
+
+    }
+
+}
 
     // Functionality : พิมพ์เอกสาร 
     // Parameter : Event Next Func Modal

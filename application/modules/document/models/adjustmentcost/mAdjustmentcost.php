@@ -111,6 +111,7 @@ class mAdjustmentcost extends CI_Model{
                 ) Base) AS c WHERE c.FNRowID > ".$this->db->escape($aRowLen[0])." AND c.FNRowID <= ".$this->db->escape($aRowLen[1])."
         ";
         $oQuery = $this->db->query($tSQL);
+        //echo $this->db->last_query();
         if ($oQuery->num_rows() > 0) {
             $aDataList  = $oQuery->result_array();
             $aFoundRow  = $this->FSnMADCGetPageAll($paDataCondition);
@@ -555,6 +556,7 @@ class mAdjustmentcost extends CI_Model{
         }
         $tSQL  .= ") A WHERE A.FNRowID = 1 AND FNUnitFactRank = 1 ORDER BY A.FTPdtCode DESC";
         $oQuery = $this->db->query($tSQL);
+        //echo $this->db->last_query();
         if ($oQuery->num_rows() > 0) {
             $oList      = $oQuery->result_array();
             $aResult    = array(
@@ -673,6 +675,50 @@ class mAdjustmentcost extends CI_Model{
         return $aResult;
     }
 
+    //Functionality : Checkduplicate Sale Price Adj
+    //Parameters : function parameters
+    //Creator : 21/02/2019 Napat(Jame)
+    //Return : data
+    //Return Type : Array
+    public function FSnMADCheckDuplicate($ptXphDocNo){
+        $tSQL = "
+            SELECT 
+                COUNT(PPH.FTXchDocNo) AS counts
+            FROM TCNTPdtAdjCostHD PPH 
+            WHERE PPH.FTXchDocNo = ".$this->db->escape($ptXphDocNo)."
+        ";
+        $oQuery = $this->db->query($tSQL);
+        if ($oQuery->num_rows() > 0) {
+            return $oQuery->row_array();
+        } else {
+            return FALSE;
+        }
+    }
+
+    public function FSaMADAddUpdateDocNoInDocTemp($aDataWhere){
+        try {
+            $this->db->set('FTXthDocNo', $aDataWhere['FTXchDocNo']);
+            $this->db->where('FTSessionID', $aDataWhere['FTSessionID']);
+            $this->db->where('FTXthDocKey', $aDataWhere['FTXthDocKey']);
+            $this->db->update('TCNTDocDTTmp');
+
+            if ($this->db->affected_rows() > 0) {
+                $aStatus = array(
+                    'rtCode' => '1',
+                    'rtDesc' => 'OK',
+                );
+            } else {
+                $aStatus = array(
+                    'rtCode' => '903',
+                    'rtDesc' => 'Not Update',
+                );
+            }
+            return $aStatus;
+        } catch (Exception $Error) {
+            return $Error;
+        }
+    }
+
     // Functionality : INSERT DT
     // Parameters : Function Parameter
     // Creator : 25/02/2021 Sooksanti(Nont)
@@ -706,6 +752,82 @@ class mAdjustmentcost extends CI_Model{
         $this->db->delete('TCNTPdtAdjCostDT');
     }
 
+    //Function Delete all data where docno from TCNTPdtAdjPriDT
+    public function FSaMADDelAllProductDT($paData)
+    {
+        try {
+            $this->db->trans_begin();
+            $this->db->where('FTXchDocNo', $paData['FTXchDocNo']);
+            $this->db->delete('TCNTPdtAdjCostDT');
+
+            if ($this->db->trans_status() === FALSE) {
+                $this->db->trans_rollback();
+                $aStatus = array(
+                    'rtCode' => '905',
+                    'rtDesc' => 'Delete Unsuccess.'
+                );
+            } else {
+                $this->db->trans_commit();
+                $aStatus = array(
+                    'rtCode' => '1',
+                    'rtDesc' => 'Delete Success.'
+                );
+            }
+            return $aStatus;
+        } catch (Exception $Error) {
+            echo $Error;
+        }
+    }
+
+    //Function Select DocTmp and Insert into PdtPriDT
+    public function FSoMADTmptoDT($paData){
+        $FTXchDocNo     = $paData['FTXchDocNo'];
+        $FTSessionID    = $paData['FTSessionID'];
+        $FTXthDocKey    = $paData['FTXthDocKey'];
+        $FDLastUpdOn    = $paData['FDLastUpdOn'];
+        $FDCreateOn     = $paData['FDCreateOn'];
+        $FTLastUpdBy    = $paData['FTLastUpdBy'];
+        $FTCreateBy     = $paData['FTCreateBy'];
+        $FTBchCode      = $paData['FTBchCode'];
+        $tSQL           = "
+            INSERT INTO TCNTPdtAdjCostDT (
+                FTBchCode,FTXchDocNo,FNXcdSeqNo,FTPdtCode,FTPdtName,FCXcdCostOld,FCXcdDiff,FCXcdCostNew,
+                FTPunCode,FCXcdFactor,FTXcdBarScan,FDLastUpdOn,FTLastUpdBy,FDCreateOn,FTCreateBy
+            )
+            SELECT 
+                '$FTBchCode' AS FTBchCode,
+                '$FTXchDocNo' AS FTXchDocNo,
+                ROW_NUMBER() OVER(ORDER BY FNXtdSeqNo ASC) AS FNXcdSeqNo,
+                FTPdtCode,
+                FTPdtName,
+                FCXtdVatRate AS FCXcdCostOld,
+                FCXtdQtyOrd AS FCXcdDiff,
+                FCXtdAmt AS FCXcdCostNew,
+                FTPunCode,
+                FCXtdFactor AS FCXcdFactor,
+                FTXtdBarCode AS FTXcdBarScan,
+                '$FDLastUpdOn' AS FDLastUpdOn,
+                '$FTLastUpdBy' AS FTLastUpdBy,
+                '$FDCreateOn' AS FDCreateOn,
+                '$FTCreateBy' AS FTCreateBy
+            FROM TCNTDocDTTmp WITH(NOLOCK)
+            WHERE FTTmpStatus = '1' AND FTSessionID = '$FTSessionID' AND FTXthDocKey = '$FTXthDocKey'
+        ";
+        $oQuery = $this->db->query($tSQL);
+
+        if ($oQuery > 0) {
+            $aStatus = array(
+                'rtCode' => '1',
+                'rtDesc' => 'Insert Doc Temp to DT Success'
+            );
+        } else {
+            $aStatus = array(
+                'rtCode' => '905',
+                'rtDesc' => 'Error Cannot Insert Product to DT'
+            );
+        }
+        return $aStatus;
+    }
 
 
     // Functionality : INSERT HD
@@ -737,6 +859,7 @@ class mAdjustmentcost extends CI_Model{
             'FDCreateOn'        => date('Y-m-d H:i:s'),
             'FTCreateBy'        => $this->session->userdata('tSesUserCode')
         ));
+        //echo $this->db->last_query();
         if ($this->db->affected_rows() > 0) {
             $aResult = array(
                 'rtCode' => '1',
@@ -935,6 +1058,423 @@ class mAdjustmentcost extends CI_Model{
             return $aStatus;
         } catch (Exception $Error) {
             return $Error;
+        }
+    }
+
+    //Function Check Duplicate Data from Tmemp
+    public function FSaMSPACheckDataSeq($paData)
+    {
+
+        try {
+            $FTSessionID  = $paData['FTSessionID'];
+            $FTXthDocKey  = $paData['FTXthDocKey'];
+
+            $tSQL = "SELECT MAX(FNXtdSeqNo) AS nSeq
+                     FROM TCNTDocDTTmp
+                     WHERE FTSessionID = '$FTSessionID' AND FTXthDocKey = '$FTXthDocKey'";
+            $oQuery = $this->db->query($tSQL);
+
+            if ($oQuery->num_rows() > 0) {
+
+                return $oQuery->result_array();
+            } else {
+
+                return FALSE;
+            }
+        } catch (Exception $Error) {
+            echo $Error;
+        }
+    }
+    
+    //Function Delete data from TCNTDocDTTmp
+    public function FSaMAdDelPdtTmp($paData)
+    {
+        try {
+            $this->db->trans_begin();
+            $this->db->where('FTXthDocKey', $paData['FTXthDocKey']);
+            $this->db->where('FTSessionID', $paData['FTSessionID']);
+            $this->db->delete('TCNTDocDTTmp');
+
+            if ($this->db->trans_status() === FALSE) {
+                $this->db->trans_rollback();
+                $aStatus = array(
+                    'rtCode' => '905',
+                    'rtDesc' => 'Delete Unsuccess.',
+                );
+            } else {
+                $this->db->trans_commit();
+                $aStatus = array(
+                    'rtCode' => '1',
+                    'rtDesc' => 'Delete Success.',
+                );
+            }
+            return $aStatus;
+        } catch (Exception $Error) {
+            echo $Error;
+        }
+    }
+
+    //Functionality : Add Product to Doc Temp
+    //Parameters : function parameters
+    //Creator : 27/02/2019 Napat(Jame)
+    //Return : Status Add Event
+    //Return Type : array
+    public function FSaMSPAAddPdtDocTmp($paData)
+    {
+        try {
+            if($paData['FCXtdQtyOrd'] == ''){
+                $paData['FCXtdQtyOrd'] = 0;
+            }
+
+            if($paData['FCStkQty'] == ''){
+                $paData['FCStkQty'] = 0;
+            }
+            // Add TCNTDocDTTmp
+            $this->db->insert('TCNTDocDTTmp', array(
+                'FNXtdSeqNo'      => $paData['FNXtdSeqNo'],
+                'FTBchCode'       => $paData['FTBchCode'],
+                'FTXthDocNo'      => $paData['FTXthDocNo'],
+                'FTXthDocKey'     => $paData['FTXthDocKey'],
+                'FTPdtCode'      => $paData['FTPdtCode'],
+                'FTPdtName'      => $paData['FTPdtName'],
+                'FTPunName'       => $paData['FTPunName'],
+                'FCXtdVatRate'       => $paData['FCXtdVatRate'],               
+                'FCXtdQty'   => $paData['FCXtdQty'],
+                'FTPunCode'   => $paData['FTPunCode'],
+                'FCXtdFactor'       => $paData['FCXtdFactor'],
+                'FTXtdBarCode'       => $paData['FTXtdBarCode'],               
+                'FTXtdPdtParent'   => $paData['FTXtdPdtParent'],
+                'FCStkQty'       => $paData['FCStkQty'],
+                'FCXtdQtyOrd'       => $paData['FCXtdQtyOrd'],               
+                'FTSessionID'     => $paData['FTSessionID'],
+                'FDLastUpdOn'     => $paData['FDLastUpdOn'],
+                'FDCreateOn'      => $paData['FDCreateOn'],
+                'FTLastUpdBy'     => $paData['FTLastUpdBy'],
+                'FTCreateBy'      => $paData['FTCreateBy'],
+                'FTTmpStatus'     => '1'
+            ));
+
+            if ($this->db->affected_rows() > 0) {
+                $aStatus = array(
+                    'rtCode' => '1',
+                    'rtDesc' => 'Add Product to tmp Success',
+                );
+            } else {
+                $aStatus = array(
+                    'rtCode' => '905',
+                    'rtDesc' => 'Error Cannot Add/Edit Product to tmp',
+                );
+            }
+            return $aStatus;
+        } catch (Exception $Error) {
+            echo $Error;
+        }
+    }
+
+     //Function Check Duplicate Data from Tmemp
+     public function FSaMSPACheckDataTempDuplicate($paData){
+        try {
+            $FTXthDocNo   = $paData['FTXthDocNo'];
+            $FTPdtCode    = $paData['FTPdtCode'];
+            $FTPunCode    = $paData['FTPunCode'];
+            $FTSessionID  = $paData['FTSessionID'];
+            $FTXthDocKey  = $paData['FTXthDocKey'];
+            $tSQL   = "
+                SELECT *
+                FROM TCNTDocDTTmp WITH(NOLOCK)
+                WHERE FTXthDocNo    = ".$this->db->escape($FTXthDocNo)."
+                AND FTPdtCode       = ".$this->db->escape($FTPdtCode)."
+                AND FTPunCode       = ".$this->db->escape($FTPunCode)."
+                AND FTSessionID     = ".$this->db->escape($FTSessionID)."
+                AND FTXthDocKey     = ".$this->db->escape($FTXthDocKey)."
+            ";
+            $oQuery = $this->db->query($tSQL);
+            if ($oQuery->num_rows() > 0) {
+                return $oQuery->row_array();
+            } else {
+                return FALSE;
+            }
+        } catch (Exception $Error) {
+            echo $Error;
+        }
+    }
+
+    //Functionality : All Page Of Product Size
+    //Parameters : function parameters
+    //Creator :  25/02/2019 Napat(Jame)
+    //Return : object Count All Product Model
+    //Return Type : Object
+    public function FSoMSPAGetPdtPriPageAll($ptSearchList, $ptXphDocNo, $FTSessionID, $nLngID, $FTXthDocKey){
+        try {
+            $tSQL   = "
+                SELECT 
+                    COUNT (DTP.FTSessionID) AS counts
+                FROM TCNTDocDTTmp DTP WITH(NOLOCK)
+                LEFT JOIN TCNMPdt_L PDT_L      ON DTP.FTPdtCode = PDT_L.FTPdtCode AND PDT_L.FNLngID  = ".$this->db->escape($nLngID)."
+                LEFT JOIN TCNMPdtUnit_L PUN_L  ON DTP.FTPunCode = PUN_L.FTPunCode AND PUN_L.FNLngID  = ".$this->db->escape($nLngID)."
+                LEFT JOIN TCNMShop_L SHP_L     ON DTP.FTXtdShpTo = SHP_L.FTShpCode AND DTP.FTBchCode = SHP_L.FTBchCode AND SHP_L.FNLngID = ".$this->db->escape($nLngID)."
+                LEFT JOIN TCNMBranch_L BCH_L   ON DTP.FTXtdBchTo = BCH_L.FTBchCode AND BCH_L.FNLngID = ".$this->db->escape($nLngID)."
+                WHERE DTP.FTSessionID = ".$this->db->escape($FTSessionID)." AND DTP.FTXthDocKey = ".$this->db->escape($FTXthDocKey)."
+                AND (DTP.FTTmpStatus = 1 OR ISNULL(DTP.FTTmpStatus,'') = '')
+            ";
+            if (isset($ptSearchList) && !empty($ptSearchList)) {
+                $tSQL   .= " AND (DTP.FTPdtCode  LIKE '%".$this->db->escape_like_str($ptSearchList)."%'";
+                $tSQL   .= " OR PDT_L.FTPdtName  LIKE '%".$this->db->escape_like_str($ptSearchList)."%'";
+                $tSQL   .= " OR PUN_L.FTPunName  LIKE '%".$this->db->escape_like_str($ptSearchList)."%'";
+                $tSQL   .= " OR SHP_L.FTShpName  LIKE '%".$this->db->escape_like_str($ptSearchList)."%'";
+                $tSQL   .= " OR BCH_L.FTBchName  LIKE '%".$this->db->escape_like_str($ptSearchList)."%')";
+            }
+            $oQuery = $this->db->query($tSQL);
+            if ($oQuery->num_rows() > 0) {
+                return $oQuery->result();
+            } else {
+                return false;
+            }
+        } catch (Exception $Error) {
+            echo $Error;
+        }
+    }
+
+    //Functionality : list Product Price Data Table
+    //Parameters : function parameters
+    //Creator :  18/02/2019 Napat(Jame)
+    //Return : data
+    //Return Type : Array
+    public function FSaMSPAPdtAdPriList($paData){
+        try {
+            $aRowLen        = FCNaHCallLenData($paData['nRow'],$paData['nPage']);
+            $nLngID         = $paData['FNLngID'];
+            $tSearchList    = $paData['tSearchAll'];
+            $FTXthDocKey    = $paData['FTXthDocKey'];
+            $FTXphDocNo     = $paData['FTXphDocNo'];
+            $FTSessionID    = $paData['FTSessionID'];
+            $tCostType      = $paData['tCostType'];
+            $tCostCondition = '';
+            if($tCostType == 12){
+                $tCostCondition = 'DTP.FCXtdVatRate AS FCPdtCostStd,';
+            }else{
+                $tCostCondition = 'DTP.FCXtdQty AS FCPdtCostEx,';
+            }
+            ////เช็คตัวที่ไม่มี puncode
+            // Last Update : Napat(Jame) 29/08/2022 เปลี่ยนเป็นค้นหาตาม error text ให้หาหน่วยเล็กสุด เฉพาะเคสที่ กรอกหน่วยผิด
+            $tSQL2          = "
+                SELECT
+                    TMP.FTPunCode AS FTPunCodeTemp,
+                    TMP.FTPdtCode AS FTPdtCodeTemp,
+                    ISNULL( MAS.FTPunCode, MAS.FTPunCode ) AS FTPunCode,
+                    ISNULL( MAS.FTPdtCode, MAS.FTPdtCode ) AS FTPdtCode
+                FROM TCNTDocDTTmp TMP WITH(NOLOCK)
+                LEFT JOIN TCNMPdtPackSize MAS WITH ( NOLOCK ) ON MAS.FTPdtCode = TMP.FTPdtCode AND MAS.FCPdtUnitFact = 1
+                WHERE TMP.FTSessionID = ".$this->db->escape($FTSessionID)."
+                AND FTTmpRemark = 'ไม่พบหน่วยสินค้าในระบบ'
+                AND MAS.FTPunCode != ''
+            ";
+            
+            $oQuery2  = $this->db->query($tSQL2);
+            $aList2   = $oQuery2->result_array();
+            foreach($aList2 as $key => $aval){
+                $this->db->where('FTSessionID', $paData['FTSessionID']);
+                $this->db->where('FTPunCode', $aval['FTPunCodeTemp']);
+                $this->db->where('FTPdtCode', $aval['FTPdtCodeTemp']);
+                $this->db->update('TCNTDocDTTmp', array(
+                    'FTPunCode'         => $aval['FTPunCode'],
+                    'FTTmpStatus'       => 1,
+                    'FTTmpRemark'       => '',
+                ));
+            }
+
+            ////จบเช็คตัวที่ไม่มี puncode
+            $tSQL   = "
+                SELECT c.* FROM(
+                SELECT  ROW_NUMBER() OVER(ORDER BY FNXtdSeqNo ASC) AS rtRowID,* 
+                FROM (
+                    SELECT 
+                        DTP.FTXthDocNo AS FTXthDocNo,
+                        DTP.FNXtdSeqNo AS FNXtdSeqNo,
+                        DTP.FTPdtCode AS FTPdtCode,
+                        DTP.FTPunCode AS FTPunCode,
+                        ".$tCostCondition."
+                        DTP.FCXtdQtyOrd AS FCXcdDiff,
+                        DTP.FCStkQty AS FCXcdCostNew,
+                        DTP.FCXtdFactor AS FCXcdFactor,
+                        PDT_L.FTPdtName AS FTPdtName,
+                        PUN_L.FTPunName AS FTPunName,
+                        BCH_L.FTBchName AS FTBchName,
+                        SHP_L.FTShpName AS FTShpName,
+                        DTP.FCXtdPriceRet AS FCXtdPriceRet,
+                        DTP.FCXtdPriceWhs AS FCXtdPriceWhs,
+                        DTP.FCXtdPriceNet AS FCXtdPriceNet,
+                        DTP.FTXthDocNo AS FTDefalutPrice,
+                        DTP.FTXtdShpTo AS FTXtdShpTo,
+                        DTP.FTXtdBchTo AS FTXtdBchTo,
+                        DTP.FTTmpRemark AS FTTmpRemark,
+                        DTP.FTTmpStatus AS FTTmpStatus,
+                        convert(varchar, DTP.FDCreateOn,103) AS FDDateIns,
+                        convert(varchar, DTP.FDLastUpdOn,103) AS FDDateUpd,
+                        STUFF( (    SELECT DISTINCT ',' + cast(PAC.FTPunCode as varchar(max))
+                                FROM TCNTDocDTTmp DTP
+                                                LEFT JOIN TCNMPdtPackSize PAC ON PAC.FTPdtCode = DTP.FTPdtCode
+                                                WHERE DTP.FTSessionID = ".$this->db->escape($FTSessionID)." 
+                                                AND DTP.FTXthDocKey = ".$this->db->escape($FTXthDocKey)."
+                                for xml path ('')
+                                ), 1, 1, '' ) AS FTAllPunCode,
+
+                        STUFF( (    SELECT DISTINCT ',' + cast(UNITL.FTPunName as varchar(max))
+                                    FROM TCNTDocDTTmp DTP
+                                                    LEFT JOIN TCNMPdtPackSize PAC ON DTP.FTPdtCode = PAC.FTPdtCode  
+                                                    LEFT JOIN TCNMPdtUnit_L UNITL ON PAC.FTPunCode = UNITL.FTPunCode AND UNITL.FNLngID = ".$this->db->escape($nLngID)."
+                                                    WHERE DTP.FTSessionID = ".$this->db->escape($FTSessionID)." 
+                                                    AND DTP.FTXthDocKey = ".$this->db->escape($FTXthDocKey)."
+                                    for xml path ('')
+                                ), 1, 1, '' ) AS FTAllPunName
+                        /*STRING_AGG(PAC.FTPunCode,',') AS FTAllPunCode,
+                        STRING_AGG ( UNITL.FTPunName, ',' ) AS FTAllPunName*/
+                    FROM TCNTDocDTTmp DTP WITH(NOLOCK)
+                    LEFT JOIN TCNMPdt_L PDT_L WITH(NOLOCK) ON DTP.FTPdtCode = PDT_L.FTPdtCode AND PDT_L.FNLngID      = ".$this->db->escape($nLngID)."
+                    LEFT JOIN TCNMPdtUnit_L PUN_L WITH(NOLOCK) ON DTP.FTPunCode = PUN_L.FTPunCode AND PUN_L.FNLngID  = ".$this->db->escape($nLngID)."
+                    LEFT JOIN TCNMShop_L SHP_L WITH(NOLOCK) ON DTP.FTXtdShpTo = SHP_L.FTShpCode AND DTP.FTBchCode = SHP_L.FTBchCode  AND SHP_L.FNLngID   = ".$this->db->escape($nLngID)."
+                    LEFT JOIN TCNMBranch_L BCH_L WITH(NOLOCK) ON DTP.FTXtdBchTo = BCH_L.FTBchCode AND BCH_L.FNLngID = ".$this->db->escape($nLngID)."
+                    INNER JOIN TCNMPdtPackSize PAC WITH(NOLOCK) ON PAC.FTPdtCode = DTP.FTPdtCode  AND PAC.FTPunCode = DTP.FTPunCode
+                    LEFT JOIN TCNMPdtUnit_L UNITL WITH(NOLOCK) ON PAC.FTPunCode = UNITL.FTPunCode AND UNITL.FNLngID = ".$this->db->escape($nLngID)."
+                    WHERE DTP.FDCreateOn <> '' 
+                    AND DTP.FTSessionID     = ".$this->db->escape($FTSessionID)." 
+                    AND DTP.FTXthDocKey     = ".$this->db->escape($FTXthDocKey)."
+            ";
+           
+            if (isset($tSearchList) && !empty($tSearchList)) {
+                $tSQL   .= " AND (DTP.FTPdtCode LIKE '%".$this->db->escape_like_str($tSearchList)."%'";
+                $tSQL   .= " OR PDT_L.FTPdtName LIKE '%".$this->db->escape_like_str($tSearchList)."%'";
+                $tSQL   .= " OR PUN_L.FTPunName LIKE '%".$this->db->escape_like_str($tSearchList)."%'";
+                $tSQL   .= " OR SHP_L.FTShpName LIKE '%".$this->db->escape_like_str($tSearchList)."%'";
+                $tSQL   .= " OR BCH_L.FTBchName LIKE '%".$this->db->escape_like_str($tSearchList)."%')";
+            }
+
+            $tSQL   .= "
+                GROUP BY 
+                    DTP.FTPdtCode,
+                    DTP.FTXthDocNo,
+                    DTP.FNXtdSeqNo,
+                    DTP.FTPunCode,
+                    PAC.FTPunCode,
+                    UNITL.FTPunName,
+                    PDT_L.FTPdtName,
+                    PUN_L.FTPunName,
+                    BCH_L.FTBchName,
+                    SHP_L.FTShpName,
+                    DTP.FCXtdPriceRet,
+                    DTP.FCXtdPriceWhs,
+                    DTP.FCXtdPriceNet,
+                    DTP.FTXthDocNo,
+                    DTP.FTXtdShpTo,
+                    DTP.FTXtdBchTo,
+                    DTP.FTTmpRemark,
+                    DTP.FTTmpStatus,
+                    DTP.FDCreateOn,
+                    DTP.FDLastUpdOn,
+                    DTP.FCXtdQty,
+                    DTP.FCXtdQtyOrd,
+                    DTP.FCStkQty,
+                    DTP.FCXtdFactor,
+                    DTP.FCXtdVatRate
+            ";
+            $tSQL   .= ") Base) AS c WHERE c.rtRowID > ".$this->db->escape($aRowLen[0])." AND c.rtRowID <= ".$this->db->escape($aRowLen[1])."";
+
+            $oQuery  = $this->db->query($tSQL);
+            if ($oQuery->num_rows() > 0) {
+                $aList      = $oQuery->result_array();
+                $oFoundRow  = $this->FSoMSPAGetPdtPriPageAll($tSearchList, $FTXphDocNo, $FTSessionID, $nLngID, $FTXthDocKey);
+                $nFoundRow  = $oFoundRow[0]->counts;
+                $nPageAll   = ceil($nFoundRow / $paData['nRow']); //หา Page All จำนวน Rec หาร จำนวนต่อหน้า
+                $aResult    = array(
+                    'raItems'       => $aList,
+                    'rnAllRow'      => $nFoundRow,
+                    'rnCurrentPage' => $paData['nPage'],
+                    'rnAllPage'     => $nPageAll,
+                    'rtCode'        => '1',
+                    'rtDesc'        => 'success',
+                );
+            } else {
+                //No Data
+                $aResult    = array(
+                    'rnAllRow'      => 0,
+                    'rnCurrentPage' => $paData['nPage'],
+                    "rnAllPage"     => 0,
+                    'rtCode'        => '800',
+                    'rtDesc'        => 'data not found',
+                );
+            }
+            return $aResult;
+        } catch (Exception $Error) {
+            echo $Error;
+        }
+    }
+
+    //Function Updated Product Price for Table Doc Temp
+    public function FSaMAdUpdatePriceTemp($paData)
+    {
+        try {
+        
+            $this->db->set('FCXtdAmt', $paData['tValue']);
+
+            if ($paData['tSeq'] != 'N') {
+                $this->db->where('FNXtdSeqNo', $paData['tSeq']);
+            }
+
+            $this->db->where('FTSessionID', $paData['FTSessionID']);
+
+            $this->db->update('TCNTDocDTTmp');
+
+            if ($this->db->affected_rows() > 0) {
+                $aStatus = array(
+                    'rtCode' => '1',
+                    'rtDesc' => 'Updated Price Temp Success',
+                );
+            } else {
+                $aStatus = array(
+                    'rtCode' => '905',
+                    'rtDesc' => 'Error Cannot Updated Price Temp',
+                );
+            }
+
+            return $aStatus;
+        } catch (Exception $Error) {
+            echo $Error;
+        }
+    }
+
+     //Functionality : Delete Product Temp
+    //Parameters : function parameters
+    //Creator : 27/02/2019 Napat(Jame)
+    //Return : Status Delete
+    //Return Type : array
+    public function FSaMADCPdtTmpDelAll($paData)
+    {
+        try {
+            $this->db->trans_begin();
+            // $this->db->where('FTXthDocNo', $paData['FTXphDocNo']);
+            // $this->db->where('FTPdtCode', $paData['FTPdtCode']);
+            // $this->db->where('FTPunCode', $paData['FTPunCode']);
+            $this->db->where('FTXthDocKey', $paData['FTXthDocKey']);
+            $this->db->where('FTSessionID', $paData['FTSessionID']);
+            $this->db->where('FNXtdSeqNo', $paData['FNXtdSeqNo']);
+            $this->db->delete('TCNTDocDTTmp');
+
+            if ($this->db->trans_status() === FALSE) {
+                $this->db->trans_rollback();
+                $aStatus = array(
+                    'rtCode' => '905',
+                    'rtDesc' => 'Delete Unsuccess.',
+                );
+            } else {
+                $this->db->trans_commit();
+                $aStatus = array(
+                    'rtCode' => '1',
+                    'rtDesc' => 'Delete Success.',
+                );
+            }
+            return $aStatus;
+        } catch (Exception $Error) {
+            echo $Error;
         }
     }
 }

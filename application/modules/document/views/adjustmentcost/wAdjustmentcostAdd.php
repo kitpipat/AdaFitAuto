@@ -47,7 +47,7 @@ if (isset($aDataDocHD) && $aDataDocHD['rtCode'] == "1") {
     $nStaUploadFile        = 1;
 }
 $tASTUserType = $this->session->userdata("tSesUsrLevel");
-
+$nDecimalShow   =  get_cookie('tOptDecimalShow');
 if ($tADCStaDoc == 3) {
     $tNewProcess =  language('document/adjustmentcost/adjustmentcost', 'tADCStaDoc3'); //ยกเลิก
     $tClassStaDoc = 'text-danger';
@@ -268,7 +268,7 @@ if ($tADCStaDoc == 3) {
                         <div class="form-group">
                             <label class="xCNLabelFrm"><?= language('document/adjustmentcost/adjustmentcost', 'tADCEffectiveDocType'); ?></label>
                             <input type="hidden" id="ohdADCDocType" name="ohdADCDocType" value="<?= $tADCDocType ?>">
-                            <select class="selectpicker form-control xControlForm" id="ocmADCDocType" name="ocmADCDocType" maxlength="1">
+                            <select class="selectpicker form-control xControlForm" id="ocmADCDocType" onchange="JSxChangeCost(this)" name="ocmADCDocType" maxlength="1">
                                 <option value="12" <?= $tADCDocType == "12" ? "selected" : ""; ?>><?= language('document/adjustmentcost/adjustmentcost', 'tADCEffectiveDocTypeStd') ?></option>
                                 <option value="10" <?= $tADCDocType == "10" ? "selected" : ""; ?>><?= language('document/adjustmentcost/adjustmentcost', 'tADCEffectiveDocTypeAvg') ?></option>
                             </select>
@@ -462,7 +462,7 @@ if ($tADCStaDoc == 3) {
                                                 </button>
                                                 <ul class="dropdown-menu" role="menu">
                                                     <li id="oliADCBtnDeleteMulti" class="disabled">
-                                                        <a data-toggle="modal" data-target="#odvTWIModalDelPdtInDTTempMultiple"><?= language('common/main/main', 'tDelAll') ?></a>
+                                                        <a data-toggle="modal" data-target="#odvModalDelAdPdtPri"><?= language('common/main/main', 'tDelAll') ?></a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -478,7 +478,7 @@ if ($tADCStaDoc == 3) {
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row" id="odvADCPdtTablePanal" style="padding: 15px;">
+                                <!-- <div class="row" id="odvADCPdtTablePanal" style="padding: 15px;">
                                     <div class="table-responsive">
                                         <table class="table xWPdtTableFont" id="otbDOCPdtTable">
                                             <thead>
@@ -514,7 +514,10 @@ if ($tADCStaDoc == 3) {
                                             </tbody>
                                         </table>
                                     </div>
-                                </div>
+                                </div> -->
+
+                                <section id="ostAdDataPdtPri"></section>
+
                             </div>
                         </div>
                     </div>

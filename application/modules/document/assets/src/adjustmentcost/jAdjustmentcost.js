@@ -167,6 +167,7 @@ function JSvADCCallPageAdd() {
                     }
                     JSxADCNumberRows($("#odvADCTable"));
                     JCNxADCControlObjAndBtn()
+                    JSvAdPdtPriDataTable()
                     JCNxCloseLoading();
                 } else {
                     var tMessageError = aReturnData['tStaMessg'];
@@ -236,6 +237,7 @@ function JSvADCCallPageEdit(ptXchDocNo, pnXchDocType, pnXchStaPrcDoc) {
 
             $('#odvADCContentPage').html(aReturnData['tViewPageAdd']);
             JSxADCGetPdtFromDT()
+            JSvAdPdtPriDataTable()
             JCNxADCControlObjAndBtn(pnXchStaPrcDoc, pnXchDocType)
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -363,29 +365,6 @@ function JSxValidateFormAddADC() {
                 "required": $('#ohdADCBchName').attr('data-validate-required')
             }
         },
-        errorElement: "em",
-        errorPlacement: function (error, element) {
-            error.addClass("help-block");
-            if (element.prop("type") === "checkbox") {
-                error.appendTo(element.parent("label"));
-            } else {
-                var tCheck = $(element.closest('.form-group')).find('.help-block').length;
-                if (tCheck == 0) {
-                    error.appendTo(element.closest('.form-group')).trigger('change');
-                }
-            }
-        },
-        highlight: function (element, errorClass, validClass) {
-            $(element).closest('.form-group').addClass("has-error");
-        },
-        unhighlight: function (element, errorClass, validClass) {
-            $(element).closest('.form-group').removeClass("has-error");
-        },
-        invalidHandler: function (event, validator) {
-            if ($("#ohdCheckADCSubmitByButton").val() == 1) {
-                FSvCMNSetMsgWarningDialog("<p>โปรดระบุข้อมูลให้สมบูรณ์</p>");
-            }
-        },
         submitHandler: function (form) {
             if ($("#ohdADCRoute").val() == "docADCEventAdd") {
                 if (!$('#ocbADCStaAutoGenCode').is(':checked')) {
@@ -416,14 +395,8 @@ function JSxValidateFormAddADC() {
 //Return : -
 //Return Type : -
 function JSxADCSubmitEventByButton() {
-    var aDataInsert = JSxADCGetDataFromTableInsert();
-    if(aDataInsert.length == $("#ohdADCCountDocRemark").val()){
-        FSvCMNSetMsgWarningDialog("<p>กรุณาตรวจสอบข้อมูล</p>");
-    }else{
-        JCNxOpenLoading();
-        JSxADCInsertDT();
-    }
-
+    JCNxOpenLoading();
+    JSxADCInsertDT();
 }
 
 function JSxADCInsertDT(){
@@ -440,7 +413,6 @@ function JSxADCInsertDT(){
             oetADCRefIntDate: $('#oetADCRefIntDate').val(),
             otaADCRmk: $('#otaADCRmk').val(),
             ocmADCDocType : $("#ocmADCDocType").val(),
-            aDataInsert: JSxADCGetDataFromTableInsert()
         },
         cache: false,
         timeout: 0,
@@ -960,9 +932,340 @@ function JSxADCGetDataFromTableInsert() {
             }
 
         }
+        console.log(aData);
 
     });
     return aData;
+}
+
+//function: Call Product Price Data List
+//Parameters: Ajax Success Event 
+//Creator:	18/02/2019 Napat(Jame)
+//Return: View
+//Return Type: View
+// ptFocusType = 1 focus input , 2 focus scaner
+function JSvAdPdtPriDataTable(pnPage, ptFocusType) {
+    var nStaSession = 1;
+    if (typeof(nStaSession) !== 'undefined' && nStaSession == 1) {
+        var tSearchAll  = $('#oetSearchSpaPdtPri').val();
+        var FTXphDocNo  = $('#oetXphDocNo').val();
+        var tFocusType  = (ptFocusType === undefined || ptFocusType == '') ? '1' : ptFocusType;
+        if ($('#ofmADCFormAdd tr.otrSpaPdtPri').length == 0) {
+            if (pnPage != undefined) {
+                pnPage = pnPage - 1;
+            }
+        }
+        nPageCurrent    = (pnPage === undefined || pnPage == '' || pnPage <= 0) ? '1' : pnPage;
+        $.ajax({
+            type    : "POST",
+            url     : "docADCPdtPriDataTable",
+            data    : {
+                tSearchAll      : tSearchAll,
+                nPageCurrent    : nPageCurrent,
+                FTXphDocNo      : FTXphDocNo,
+            },
+            cache: false,
+            Timeout: 0,
+            success: function(tResult) {
+                $('#ostAdDataPdtPri').html(tResult);
+                let oParameterSend = {
+                    "FunctionName": "JSxSpaSaveInLine",
+                    "DataAttribute": ["dataSEQ", "dataPRICE", "dataPAGE"],
+                    "TableID": "otbAdDataList",
+                    "NotFoundDataRowClass": "xWTextNotfoundDataSalePriceAdj",
+                    "EditInLineButtonDeleteClass": "xWDeleteBtnEditButton",
+                    "LabelShowDataClass": "xWShowInLine",
+                    "DivHiddenDataEditClass": "xWEditInLine"
+                };
+                // JCNxSetNewEditInline(oParameterSend);
+                if (tFocusType == '1') {
+                    $(".xWEditInlineElement").eq(nIndexInputEditInline).focus(function() {
+                        this.select();
+                    });
+                    setTimeout(function() {
+                        $(".xWEditInlineElement").eq(nIndexInputEditInline).focus();
+                    }, 300);
+                }
+                $(".xWEditInlineElement").removeAttr("disabled");
+                let oElement = $(".xWEditInlineElement");
+                for (let nI = 0; nI < oElement.length; nI++) {
+                    $(oElement.eq(nI)).val($(oElement.eq(nI)).val().trim());
+                }
+
+                $(".xWEditInlineElement").css({
+                    "padding": "0px",
+                    "text-align": "right"
+                });
+
+                // var oParameterEditInLine    = {
+                //     "DocModules"                    : "",
+                //     "FunctionName"                  : "JSxPISaveEditInline",
+                //     "DataAttribute"                 : ['data-field', 'data-seq'],
+                //     "TableID"                       : "otbPIDocPdtAdvTableList",
+                //     "NotFoundDataRowClass"          : "xWPITextNotfoundDataPdtTable",
+                //     "EditInLineButtonDeleteClass"   : "xWPIDeleteBtnEditButtonPdt",
+                //     "LabelShowDataClass"            : "xWShowInLine",
+                //     "DivHiddenDataEditClass"        : "xWEditInLine"
+                // }
+                // JCNxSetNewEditInline(oParameterSend);
+                // $(".xWEditInlineElement").eq(nIndexInputEditInline).focus();
+                // $(".xWEditInlineElement").eq(nIndexInputEditInline).select();
+                // $(".xWEditInlineElement").removeAttr("disabled");
+
+                // let oElement = $(".xWEditInlineElement");
+                // for(let nI=0;nI<oElement.length;nI++){
+                //     $(oElement.eq(nI)).val($(oElement.eq(nI)).val().trim());
+                // }
+
+                var tSPAFitstPdtCode = $('#oetSPAFitstPdtCode').val();
+                if (tSPAFitstPdtCode != '') {
+                    var tAttrIdPdtCodeFirst = $('#ohdSPAFrtPdtCode' + tSPAFitstPdtCode).val();
+                    if ($('#' + tAttrIdPdtCodeFirst).val() != '' && $('#' + tAttrIdPdtCodeFirst).val() != undefined) {
+
+                        var tValueNext = parseFloat($('#' + tAttrIdPdtCodeFirst).val().replace(/,/g, ''));
+                        $('#' + tAttrIdPdtCodeFirst).val(tValueNext);
+                        if (tFocusType == '1') {
+                            $('#' + tAttrIdPdtCodeFirst).focus();
+                            $('#' + tAttrIdPdtCodeFirst).select();
+                        }
+                    }
+                }
+
+                // JSxSpaNavDefult();
+                JCNxLayoutControll();
+                // JStCMMGetPanalLangHTML('TCNMPdtSize_L'); //โหลดภาษาใหม่
+                //JSxDisableInput();
+                JCNxCloseLoading();
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                JCNxResponseError(jqXHR, textStatus, errorThrown);
+            }
+        });
+
+    } else {
+
+        JCNxShowMsgSessionExpired();
+
+    }
+
+}
+
+//พวกตัวเลขใส่ comma ให้มัน
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+}
+
+//Function Save product price list inline
+function JSxSpaSaveInLine(oEvent, oElm) {
+    // var nStaSession = 1;
+    var nStaSession = 1;
+    if (typeof(nStaSession) !== 'undefined' && nStaSession == 1) {
+
+        // var nSeq        = oElm.DataAttribute[0]['dataSEQ'];
+        // var tPrice      = oElm.DataAttribute[1]['dataPRICE'];
+        // var nPage       = oElm.DataAttribute[2]['dataPAGE'];
+        // var tValue      = oElm.VeluesInline;
+        var nDecimalShow = $('#nDecimalShow').val();
+        var nSeq = $(oElm).attr('seq');
+        var tPrice = $(oElm).attr('columname');
+        var tColValidate = $(oElm).attr('col-validate');
+        var nPage = $(oElm).attr('page');
+        var b4value = parseFloat($(oElm).attr('b4value'));
+        var tValue = ($(oElm).val() == "") ? 0 : parseFloat($(oElm).val().replace(/,/g, ''));
+        // alert(tValue);
+        console.log(b4value);
+        console.log(tValue);
+        //console.log(oElm);
+        // if(tValue == ""){
+        //     alert('Value is null');
+        //     JSvSpaPdtPriDataTable();
+        // }else{
+        // var tRet = parseFloat($('#ohdFCXtdPriceRet'+pnSeq).val());
+        // var tWhs = parseFloat($('#ohdFCXtdPriceWhs'+pnSeq).val());
+        // var tNet = parseFloat($('#ohdFCXtdPriceNet'+pnSeq).val());
+
+        var tDocNo = $('#otrSpaPdtPri' + nSeq).data('doc');
+        var tPdtCode = $('#otrSpaPdtPri' + nSeq).data('code');
+        var tPunCode = $('#otrSpaPdtPri' + nSeq).data('pun');
+        var tSeq = $('#otrSpaPdtPri' + nSeq).data('seq');
+        var oetSearchSpaPdtPri = $('#oetSearchSpaPdtPri').val();
+        // $('.xWShowValueFCXtdPriceRet'+pnSeq).text(tRet.toFixed(nDecimalShow));
+        // $('.xWShowValueFCXtdPriceWhs'+pnSeq).text(tWhs.toFixed(nDecimalShow));
+        // $('.xWShowValueFCXtdPriceNet'+pnSeq).text(tNet.toFixed(nDecimalShow));
+
+        // $('.xWEditInLine'+pnSeq).addClass('xCNHide');
+        // $('.xWShowInLine'+pnSeq).removeClass('xCNHide');
+        // $('.xWShowIconSaveInLine'+pnSeq).addClass('xCNHide');
+        // $('.xWShowIconEditInLine'+pnSeq).removeClass('xCNHide');
+        // $('.xWShowIconCancelInLine'+pnSeq).addClass('xCNHide');
+
+        // JCNxOpenLoading();
+
+        console.log('tDocNo:',tDocNo,'tPdtCode:',tPdtCode,'tPunCode:',tPunCode,'tPrice:',tPrice,'tValue:',tValue)
+            // $(oElm).addClass('xCNHide');
+            $.ajax({
+                type: "POST",
+                url: "docADCPdtPriEventUpdPriTmp",
+                data: {
+                    'FTXthDocNo': tDocNo,
+                    'FTPdtCode': tPdtCode,
+                    'FTPunCode': tPunCode,
+                    'ptPrice': tPrice,
+                    'ptValue': tValue,
+                    'tSearchSpaPdtPri': oetSearchSpaPdtPri,
+                    'tSeq': tSeq,
+                    'tColValidate': tColValidate
+                },
+                cache: false,
+                success: function(pResutl) {
+                    var objResult = JSON.parse(pResutl);
+                    // $(oElm).removeClass('xCNHide');
+                    $(oElm).val(numberWithCommas(tValue.toFixed(nDecimalShow)));
+                    $(oElm).attr('b4value', tValue);
+                    // $('#otdSPATotalPrice').text(objResult['cSpaTotalPrice']);
+
+                    var tStatus = $(oElm).parents(".otrSpaPdtPri").data("status");
+                    if (tStatus == "3") {
+                        $(oElm).parents(".otrSpaPdtPri").find(".xCNAdjPriceStaRmk").text("").removeClass("text-danger");
+                    }
+                    // JSvSpaPdtPriDataTable(nPage);
+                    // JCNxCloseLoading();
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    JCNxResponseError(jqXHR, textStatus, errorThrown);
+                }
+            });
+
+        //}
+        if (oEvent.keyCode == 13) {
+            var tNextElement = $(oElm).closest('form').find('input[type=text]');
+            var tNextElementID = tNextElement.eq(tNextElement.index(oElm) + 1).attr('id');
+            // console.log(tNextElementID);
+            var tValueNext = parseFloat($('#' + tNextElementID).val().replace(/,/g, ''));
+            $('#' + tNextElementID).val(tValueNext);
+            $('#' + tNextElementID).focus();
+            $('#' + tNextElementID).select();
+
+        }
+    } else {
+        JCNxShowMsgSessionExpired();
+    }
+}
+
+//Functionality : Event Single Delete
+//Parameters : Event Icon Delete
+//Creator : 25/02/2019 Napat(Jame)
+//Return : object Status Delete
+//Return Type : object
+function JSoAdPdtPriDel(pnPage, ptDocNo, ptPdtCode, ptPunCode, pnSeq, ptSta, ptName) {
+
+    var nStaSession = 1;
+    if (typeof(nStaSession) !== 'undefined' && nStaSession == 1) {
+
+        $('#odvModalDelAdPdtPri').modal('show');
+        $('#ospConfirmDelete').html($('#oetTextComfirmDeleteSingle').val() + ptPdtCode + '(' + ptName + ')');
+        $('#osmConfirm').off('click');
+        $('#osmConfirm').on('click', function() {
+            $.ajax({
+                type: "POST",
+                url: "docADCdtPriEventDelete",
+                data: {
+                    'tDocNo': ptDocNo,
+                    'tPdtCode': ptPdtCode,
+                    'tPunCode': ptPunCode,
+                    'tSeq': pnSeq,
+                    'tSta': ptSta
+                },
+                cache: false,
+                success: function(tResult) {
+                    $('#odvModalDelAdPdtPri').modal('hide');
+                    $('#ospConfirmDelete').text($('#oetTextComfirmDeleteSingle').val());
+                    $('#ohdConfirmPdtDelete').val('');
+                    $('#ohdConfirmPunDelete').val('');
+                    $('#ohdConfirmDocDelete').val('');
+                    localStorage.removeItem('LocalItemData');
+                    $('.modal-backdrop').remove();
+                    JCNxOpenLoading();
+                    JSvAdPdtPriDataTable(pnPage);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    JCNxResponseError(jqXHR, textStatus, errorThrown);
+                    //ส่งขอมูลไปรวบรวมที่ Center ก่อนส่ง MQ เพื่อเก็บ LOG (TYPE:ERROR)
+                    if (jqXHR.status != 404){
+                        var tLogFunction = 'ERROR';
+                        var tDisplayEvent = 'ลบใบปรับราคาขาย ';
+                        var tErrorStatus = jqXHR.status;
+                        var tHtmlError = $(jqXHR.responseText);
+                        var tMsgErrorBody = tHtmlError.find('p:nth-child(3)').text();
+                        var tLogDocNo   = ptDocNo;
+                        JCNxPackDataToMQLog(tMsgErrorBody,tErrorStatus,tDisplayEvent,tLogFunction,tLogDocNo);
+                    }else{
+                        //JCNxSendMQPageNotFound(jqXHR,ptPODocNo);
+                    }
+                }
+            });
+        });
+
+    } else {
+
+        JCNxShowMsgSessionExpired();
+
+    }
+}
+
+//Functionality: Event Multi Delete
+//Parameters: Event Button Delete All
+//Creator: 25/02/2019 Napat(Jame)
+//Return:  object Status Delete
+//Return Type: object
+function JSoAdPdtPriDelChoose(pnPage) {
+    var nStaSession = 1;
+    if (typeof(nStaSession) !== 'undefined' && nStaSession == 1) {
+
+        JCNxOpenLoading();
+        var aDocData = $('#oetXphDocNo').val();
+
+        var oPdtDataItem = JSON.parse(localStorage.getItem('LocalItemData'));
+        var nPdtDataItemLength = oPdtDataItem.length;
+
+        if (nPdtDataItemLength > 1) {
+            localStorage.StaDeleteArray = '1';
+            $.ajax({
+                type: "POST",
+                format: "JSON",
+                url: "docADCdtPriEventDelete",
+                data: {
+                    'tDocNo': aDocData,
+                    'tDelType': "M",
+                    'tPdtDataItem': JSON.stringify(oPdtDataItem)
+                },
+                success: function(tResult) {
+                    setTimeout(function() {
+                        $('#odvModalDelAdPdtPri').modal('hide');
+                        JCNxCloseLoading();
+                        JSvAdPdtPriDataTable(pnPage);
+                        $('#ospConfirmDelete').text($('#oetTextComfirmDeleteSingle').val());
+                        $('#ohdConfirmSeqDelete').val('');
+                        $('#ohdConfirmPdtDelete').val('');
+                        $('#ohdConfirmPunDelete').val('');
+                        $('#ohdConfirmDocDelete').val('');
+                        localStorage.removeItem('LocalItemData');
+                        $('.obtChoose').hide();
+                        $('.modal-backdrop').remove();
+                    }, 1000);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    JCNxResponseError(jqXHR, textStatus, errorThrown);
+                }
+            });
+        } else {
+            localStorage.StaDeleteArray = '0';
+            return false;
+        }
+    } else {
+        JCNxShowMsgSessionExpired();
+    }
+
 }
 
 // Functionality: เปลี่ยนหน้า Pagenation หน้า Table List Document
@@ -991,6 +1294,222 @@ function JSvADCClickPage(ptPage) {
         JSvADCCallPageDataTable(nPageCurrent);
     } else {
         JCNxShowMsgSessionExpired();
+    }
+}
+
+//Functionality : เปลี่ยนหน้า pagenation product price temp
+//Parameters : Event Click Pagenation
+//Creator : 03/05/2019 Napat(Jame)
+//Return : View
+//Return Type : View
+function JSvAdPdtPriClickPage(ptPage) {
+
+    var nStaSession = 1;
+    if (typeof(nStaSession) !== 'undefined' && nStaSession == 1) {
+
+        var nPageCurrent = '';
+        switch (ptPage) {
+            case 'next': //กดปุ่ม Next
+                $('.xWBtnNext').addClass('disabled');
+                nPageOld = $('.xWPagePdtPri .active').text(); // Get เลขก่อนหน้า
+                nPageNew = parseInt(nPageOld, 10) + 1; // +1 จำนวน
+                nPageCurrent = nPageNew
+                break;
+            case 'previous': //กดปุ่ม Previous
+                nPageOld = $('.xWPagePdtPri .active').text(); // Get เลขก่อนหน้า
+                nPageNew = parseInt(nPageOld, 10) - 1; // -1 จำนวน
+                nPageCurrent = nPageNew
+                break;
+            default:
+                nPageCurrent = ptPage
+        }
+        JCNxOpenLoading();
+        JSvAdPdtPriDataTable(nPageCurrent);
+
+    } else {
+
+        JCNxShowMsgSessionExpired();
+
+    }
+
+}
+
+//Function Disabled Input On User Approve
+function JSxDisableInput() {
+
+    var tUsrApv = $('#oetStaApv').val();
+    var tStaDoc = $('#oetStaDoc').val();
+    var tStaPrcDoc = $('#oetStaPrcDoc').val();
+    if (tUsrApv != "") {
+        if (tStaPrcDoc == '') {
+            $('#obtSubmit').show();
+            $('.xWBtnGrpSaveRight').show();
+            $('#obtBtnSpaCancel').show();
+        } else {
+            $('#obtSubmit').show();
+            $('.xWBtnGrpSaveRight').show();
+            $('#obtBtnSpaCancel').hide();
+        }
+
+        //============= Create by Witsarut 27/08/2019 =============
+        $('#obtBtnSpaApv').hide();
+        $('#obtBtnPrint').attr('disabled', false);
+        $('.otdListItem').hide();
+        $(".xCNPIBeHideMQSS").hide();
+
+        //============= Create by Witsarut 27/08/2019 =============
+
+        $('.xWEditInlineElement').attr('disabled', true);
+        $('#oetXphDocDate').attr('disabled', true);
+        $('#oetXphDocTime').attr('disabled', true);
+        $('#obtXphDocDate').attr('disabled', true);
+        $('#obtXphDocTime').attr('disabled', true);
+        $('#ocmXphDocType').attr('disabled', true);
+        $('#ocmXphStaAdj').attr('disabled', true);
+        $('#oetValue').attr('disabled', true);
+        $('#ocmChangePrice').attr('disabled', true);
+        $('#obtAdjAll').attr('disabled', true);
+        $('#btnBrowseZone').attr('disabled', true);
+        $('#btnBrowseBranch').attr('disabled', true);
+        $('#btnBrowseMerChrant').attr('disabled', true);
+        $('#btnBrowsePdtPriList').attr('disabled', true);
+        $('#btnBrowseMerchant').attr('disabled', true);
+        $('#oetXphDStart').attr('disabled', true);
+        $('#obtXphDStart').attr('disabled', true);
+        $('#oetXphDStop').attr('disabled', true);
+        $('#obtXphDStop').attr('disabled', true);
+
+        $('#oetXphTStart').attr('disabled', true);
+        $('#obtXphTStart').attr('disabled', true);
+
+        $('#oetXphTStop').attr('disabled', true);
+        $('#obtXphTStop').attr('disabled', true);
+
+        $('#oetXphName').attr('disabled', true);
+        $('#oetXphRefInt').attr('disabled', true);
+        $('#oetXphRefIntDate').attr('disabled', true);
+        $('#obtXphRefIntDate').attr('disabled', true);
+
+        $('#btnBrowseAgency').attr('disabled', true);
+        $('#ocmXphPriType').attr('disabled', true);
+        $('#ocbXphStaDocAct').attr('disabled', true);
+        $('#otaXphRmk').removeAttr('disabled', true);
+
+        $('#obtAddPdt').attr('disabled', true);
+        $('#obtAddPdt').addClass('xCNBrowsePdtdisabled');
+        $('#obtAddPdt').hide();
+        $('.ocbListItem').attr('disabled', true);
+        $('.ospListItem').addClass('xCNDocDisabled');
+        $('.xCNDeleteInLineClick').attr('disabled', true);
+        $('.xCNDeleteInLineClick').addClass('xWImgDisable');
+        $('.xCNEditInLineClick').attr('disabled', true);
+        $('.xCNEditInLineClick').addClass('xWImgDisable');
+        $('.xWLabelInLine').addClass('xWImgDisable');
+        $('.xWInLine').addClass('xWTdDisable');
+
+        $('#oetSPAInsertScan').attr('disabled', true);
+        $('#oetSPAInsertScan').hide();
+        $('.xCNImportBtn').attr('disabled', true);
+        $('.xCNBTNMngTable').attr('disabled', true);
+        $('.xCNImportBtn').hide();
+        $('.xCNBTNMngTable').hide();
+    }
+
+    if (tStaDoc == '3') {
+        //============= Create by Witsarut 27/08/2019 =============
+        $('#obtBtnSpaApv').hide();
+        $('#obtBtnPrint').attr('disabled', false);
+        $('#obtBtnSpaCancel').hide();
+        $('#obtSubmit').hide();
+        $('.xWBtnGrpSaveRight').hide();
+        $('.otdListItem').hide();
+        $(".xCNPIBeHideMQSS").hide();
+
+        //============= Create by Witsarut 27/08/2019 =============
+
+        $('.xWEditInlineElement').attr('disabled', true);
+        $('#oetXphDocDate').attr('disabled', true);
+        $('#oetXphDocTime').attr('disabled', true);
+        $('#obtXphDocDate').attr('disabled', true);
+        $('#obtXphDocTime').attr('disabled', true);
+        $('#ocmXphDocType').attr('disabled', true);
+        $('#ocmXphStaAdj').attr('disabled', true);
+        $('#oetValue').attr('disabled', true);
+        $('#ocmChangePrice').attr('disabled', true);
+        $('#obtAdjAll').attr('disabled', true);
+        $('#btnBrowseZone').attr('disabled', true);
+        $('#btnBrowseBranch').attr('disabled', true);
+        $('#btnBrowseMerChrant').attr('disabled', true);
+        $('#btnBrowsePdtPriList').attr('disabled', true);
+        $('#btnBrowseMerchant').attr('disabled', true);
+        $('#oetXphDStart').attr('disabled', true);
+        $('#obtXphDStart').attr('disabled', true);
+        $('#oetXphDStop').attr('disabled', true);
+        $('#obtXphDStop').attr('disabled', true);
+
+        $('#oetXphTStart').attr('disabled', true);
+        $('#obtXphTStart').attr('disabled', true);
+
+        $('#oetXphTStop').attr('disabled', true);
+        $('#obtXphTStop').attr('disabled', true);
+
+        $('#oetXphName').attr('disabled', true);
+        $('#oetXphRefInt').attr('disabled', true);
+        $('#oetXphRefIntDate').attr('disabled', true);
+        $('#obtXphRefIntDate').attr('disabled', true);
+
+        $('#btnBrowseAgency').attr('disabled', true);
+        $('#ocmXphPriType').attr('disabled', true);
+        $('#ocbXphStaDocAct').attr('disabled', true);
+        $('#otaXphRmk').attr('disabled', true);
+
+        $('#obtAddPdt').attr('disabled', true);
+        $('#obtAddPdt').addClass('xCNBrowsePdtdisabled');
+        $('#obtAddPdt').hide();
+        $('.ocbListItem').attr('disabled', true);
+        $('.ospListItem').addClass('xCNDocDisabled');
+        $('.xCNDeleteInLineClick').attr('disabled', true);
+        $('.xCNDeleteInLineClick').addClass('xWImgDisable');
+        $('.xCNEditInLineClick').attr('disabled', true);
+        $('.xCNEditInLineClick').addClass('xWImgDisable');
+        $('.xWLabelInLine').addClass('xWImgDisable');
+        $('.xWInLine').addClass('xWTdDisable');
+
+        $('#oetSPAInsertScan').attr('disabled', true);
+        $('#oetSPAInsertScan').hide();
+        $('.xCNImportBtn').attr('disabled', true);
+        $('.xCNBTNMngTable').attr('disabled', true);
+        $('.xCNImportBtn').hide();
+        $('.xCNBTNMngTable').hide();
+    }
+}
+
+//Functionality: Function Chack And Show Button Delete All
+//Parameters: LocalStorage Data
+//Creator: 18/02/2019 Napat(Jame)
+//Return: - 
+//Return Type: -
+function JSxShowButtonChoose() {
+
+    var nStaSession = 1;
+    if (typeof(nStaSession) !== 'undefined' && nStaSession == 1) {
+
+        var aArrayConvert = [JSON.parse(localStorage.getItem("LocalItemData"))];
+        if (aArrayConvert[0] == null || aArrayConvert[0] == '') {
+            $('#odvMngTableList #oliBtnDeleteAll').addClass('disabled');
+        } else {
+            nNumOfArr = aArrayConvert[0].length;
+            if (nNumOfArr > 1) {
+                $('#odvMngTableList #oliBtnDeleteAll').removeClass('disabled');
+            } else {
+                $('#odvMngTableList #oliBtnDeleteAll').addClass('disabled');
+            }
+        }
+
+    } else {
+
+        JCNxShowMsgSessionExpired();
+
     }
 }
 
