@@ -286,6 +286,7 @@ $lang['tRptCabinetclass'] = "ชั้น";
 $lang['tRptCabinetCollum'] = "คอลลัมน์";
 $lang['tRptCabinetnumber'] = "จำนวน";
 $lang['tRptCabinetCost'] = "ต้นทุน";
+$lang['tRpttCabCost'] = "ต้นทุน";
 $lang['tRptCabinetCostAvg'] = "ต้นทุนเฉลี่ย";
 $lang['tRptCabinetTotalcost'] = "ต้นทุนรวม";
 $lang['tRptTotal'] = "รวม";

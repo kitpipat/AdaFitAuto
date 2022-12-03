@@ -162,7 +162,7 @@ class cRptInventoryPdtGrp extends MX_Controller
             'tRptPdtInventory'  => language('report/report/report', 'tRptPdtInventory'),
             'tRptPdtGrpAmt'     => language('report/report/report', 'tRptPdtGrpAmt'),
             'tRptAvgcost'       => language('report/report/report', 'tRptAvgcost'),
-            'tRptCost'          => language('report/report/report', 'tRptCabinetCost'),
+            'tRptCost'          => language('report/report/report', 'tRpttCabCost'),
             'tRptTotalCap'      => language('report/report/report', 'tRptTotalCap'),
             'tRptPdtChain'      => language('report/report/report', 'tRptGroupRpt06'),
             'tRptAgnName'       => language('report/report/report', 'tRptGroupRpt02'),
@@ -461,7 +461,7 @@ class cRptInventoryPdtGrp extends MX_Controller
             WriterEntityFactory::createCell(language('report/report/report', 'tRptGroupRpt01')),
             WriterEntityFactory::createCell(language('report/report/report', 'tRptGroupRpt09')),
             WriterEntityFactory::createCell(language('report/report/report', 'tRptPosVendingCount')),
-            WriterEntityFactory::createCell(language('report/report/report', 'tRptCabinetCostAvg')),
+            WriterEntityFactory::createCell(language('report/report/report', 'tRpttCabCost')),
             WriterEntityFactory::createCell(language('report/report/report', 'tRptCabinetCost')),
         ];
 
