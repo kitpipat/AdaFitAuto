@@ -123,6 +123,7 @@ class cSalePriceAdj extends MX_Controller{
                 'aAlwEventSalePriceAdj'     => $aAlwEventSalePriceAdj,
                 'nOptDecimalShow'           => $nOptDecimalShow
             );
+
             $this->load->view('document/salepriceadj/wSalePriceAdjPdtPriDataTable', $aGenTable);
         } catch (Exception $Error) {
             echo $Error;

@@ -254,6 +254,7 @@ class mSalePriceAdj extends CI_Model{
                     WHERE DTP.FDCreateOn <> '' 
                     AND DTP.FTSessionID     = ".$this->db->escape($FTSessionID)." 
                     AND DTP.FTXthDocKey     = ".$this->db->escape($FTXthDocKey)."
+                    AND (DTP.FTTmpStatus = 1 OR ISNULL(DTP.FTTmpStatus,'') = '')
             ";
            
             if (isset($tSearchList) && !empty($tSearchList)) {

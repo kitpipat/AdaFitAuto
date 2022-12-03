@@ -49,7 +49,8 @@
                 </thead>
                 <tbody>
                     <?php if(isset($aPdtPriDataList['rtCode']) && $aPdtPriDataList['rtCode'] == 1 ):?>
-                        <?php $nIndex = 1; ?>
+                        <!-- <?php $nIndex = 1; ?> -->
+                        <?php $nIndex = ($nPage - 1) * 20; ?>
                         <?php foreach($aPdtPriDataList['raItems'] as $DataTableKey => $DataTableVal): ?>
                             <?php 
                                 $aAllpunCode    = (explode(",",$DataTableVal['FTAllPunCode']));
@@ -75,7 +76,7 @@
                                     <input type="hidden" id="ohdFTXpdShpTo<?=$DataTableVal['FNXtdSeqNo']?>" name="ohdFTXpdShpTo<?=$DataTableVal['FNXtdSeqNo']?>" value="<?=$DataTableVal['FTXtdShpTo']?>">
                                     <input type="hidden" id="ohdFTXpdBchTo<?=$DataTableVal['FNXtdSeqNo']?>" name="ohdFTXpdBchTo<?=$DataTableVal['FNXtdSeqNo']?>" value="<?=$DataTableVal['FTXtdBchTo']?>">
                                 </td>
-                                <td><?=($DataTableKey+1)?></td>
+                                <td><?=($nIndex + 1)?></td>
                                 <td class="text-left" ><label class="text-left xCNPdtFont xWShowValueFTPdtCode<?php echo $DataTableVal['FNXtdSeqNo']?>"><?php echo $DataTableVal['FTPdtCode']?></label></td>
                                 <td class="text-left" ><label class="text-left xCNPdtFont xWShowValueFTPdtName <?php echo $DataTableVal['FNXtdSeqNo']?>"><?php echo $DataTableVal['FTPdtName']?></label></td>
                                 <td class="text-left" >
