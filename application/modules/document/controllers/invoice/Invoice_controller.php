@@ -404,11 +404,11 @@ class Invoice_controller extends MX_Controller {
                 'tDataDocKey'       => 'TAPTPiDT',
                 'tDataSeqNo'        => ''
             ];
-            FCNbHCallCalcDocDTTemp($aCalcDTParams);
+            // FCNbHCallCalcDocDTTemp($aCalcDTParams);
 
             // Prorate HD
             FCNaHCalculateProrate('TAPTPiDT', $tIVDocNo);
-            FCNbHCallCalcDocDTTemp($aCalcDTParams);
+            // FCNbHCallCalcDocDTTemp($aCalcDTParams);
 
             $aCalDTTempParams   = [
                 'tDocNo'            => $tIVDocNo,
@@ -642,7 +642,7 @@ class Invoice_controller extends MX_Controller {
                     'tDataDocKey'       => 'TAPTPiDT',
                     'tDataSeqNo'        => ''
                 ];
-                FCNbHCallCalcDocDTTemp($aCalcDTParams);
+                // FCNbHCallCalcDocDTTemp($aCalcDTParams);
                 $aCalDTTempParams = [
                     'tDocNo'            => $tIVDocNo,
                     'tBchCode'          => $aDataDocument['ohdIVBchCode'],
