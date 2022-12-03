@@ -213,7 +213,7 @@
                                             case 1 :
                                                 $nPdtCost = $aValue["FCPdtCostAVGEX"] ;
                                                 $nSumPdtCost = $aValue["FCSumCostAvg"] ;
-                                                $ntWahCost = $aValue["FCPdtCostAVGEX"] ;
+                                                $nWahCost = $aValue["FCPdtCostAVGEX"] ;
                                                 $nSumWahCost = $aValue["FCPdtCostTotal"];
                                                 break;
                                             case 3 :
@@ -236,7 +236,7 @@
                                     if ($nRowPdtID == 1) {
                                         if ($nRowAgnID == 1 && $nRowPartID == 1) {
                                             echo "<tr>";
-                                            echo "    <td nowrap style='border-top: solid 1px #333 !important;' class='text-left xCNRptGrouPing' >". $tPgpChain . $tPgpChainName. "</td>";
+                                            echo "    <td nowrap style='border-top: solid 1px #333 !important;' class='text-left xCNRptGrouPing' >". $tPgpChain . ' ' . $tPgpChainName. "</td>";
                                             echo "    <td nowrap style='border-top: solid 1px #333 !important;' class='text-left xCNRptGrouPing' >". $tAgnID . ' ' .$tAgnName. "</td>";
                                             echo "    <td nowrap style='border-top: solid 1px #333 !important;' class='text-right xCNRptGrouPing' >". $tPdtID. "</td>";
                                             echo "    <td nowrap style='border-top: solid 1px #333 !important;' class='text-left xCNRptGrouPing' >". $tPdtName. "</td>";
@@ -271,19 +271,7 @@
                                             echo "    <td nowrap style='border-top: dashed 1px #333 !important;' class='text-right xCNRptGrouPing'>".number_format($nSumPdtCost, $nOptDecimalShow) ."</td>";
                                             echo "</tr>";
                                         }
-                                    } else {
-                                        // echo "<tr>";
-                                        // echo "    <td nowrap class='text-left xCNRptDetail' >". $tPgpChain . $tPgpChainName. "</td>";
-                                        // echo "    <td nowrap class='text-left xCNRptDetail' >". $tAgnID . ' ' .$tAgnName. "</td>";
-                                        // echo "    <td nowrap class='text-left xCNRptDetail' >". $tPdtID. "</td>";
-                                        // echo "    <td nowrap class='text-left xCNRptDetail' >". $tPdtName. "</td>";
-                                        // echo "    <td nowrap class='text-left xCNRptDetail' >(". $aValue["FTBchCode"] . ') ' .$aValue["FTBchName"] ."</td>";
-                                        // echo "    <td nowrap class='text-left xCNRptDetail' >(". $aValue["FTWahCode"] . ') ' .$aValue["FTWahName"] ."</td>";
-                                        // echo "    <td nowrap class='text-right xCNRptDetail'>".number_format($aValue['FCStkQty'], $nOptDecimalShow) ."</td>";
-                                        // echo "    <td nowrap class='text-right xCNRptDetail'>".number_format(20.00, $nOptDecimalShow) ."</td>";
-                                        // echo "    <td nowrap class='text-right xCNRptDetail'>".number_format(20.00, $nOptDecimalShow) ."</td>";
-                                        // echo "</tr>";
-                                    }
+                                    } 
                                 ?>
                                 <tr>
                                     <!-- <td nowrap class="text-left xCNRptDetail" ><?php echo $tPgpChain . $tPgpChainName; ?></td> -->

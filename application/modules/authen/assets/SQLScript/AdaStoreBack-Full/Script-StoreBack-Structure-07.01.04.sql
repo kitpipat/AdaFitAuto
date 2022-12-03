@@ -930,7 +930,7 @@ END
 GO
 
 
----------- Script Structure 07.01.03 ------------
+---------- Script Structure 07.01.04 ------------
 
 
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TRPTPdtBalByPdtGrpTmp]') AND type in (N'U'))
@@ -1088,3 +1088,4 @@ PRIMARY KEY CLUSTERED
 GO
 
 
+----------- End Script Structure 07.01.04 -------------

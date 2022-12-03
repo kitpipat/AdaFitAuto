@@ -123,7 +123,7 @@ class mRptInventoryPdtGrp extends CI_Model {
                         AND FTRptCode       = '$tRptCode'
                         AND FTUsrSession    = '$tUsrSession'
                         AND L.RowID > $nRowIDStart AND L.RowID <= $nRowIDEnd
-                ORDER BY L.FTPgpChainName ASC,
+                ORDER BY L.RowID ASC, L.FTPgpChainName ASC,
                     L.FTPdtCode ASC,
                     len(L.FTWahCode) ASC 
                 ";

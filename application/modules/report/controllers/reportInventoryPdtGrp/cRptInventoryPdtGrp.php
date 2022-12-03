@@ -162,12 +162,12 @@ class cRptInventoryPdtGrp extends MX_Controller
             'tRptPdtInventory'  => language('report/report/report', 'tRptPdtInventory'),
             'tRptPdtGrpAmt'     => language('report/report/report', 'tRptPdtGrpAmt'),
             'tRptAvgcost'       => language('report/report/report', 'tRptAvgcost'),
-            'tRptCost'       => language('report/report/report', 'ต้นทุน'),
+            'tRptCost'          => language('report/report/report', 'tRptCabinetCost'),
             'tRptTotalCap'      => language('report/report/report', 'tRptTotalCap'),
-            'tRptPdtChain'      => language('report/report/report', 'กลุ่มสินค้า'),
-            'tRptAgnName'      => language('report/report/report', 'ตัวแทนขาย'),
-            'tRptBchName'      => language('report/report/report', 'สาขา'),
-            'tRptWahName'      => language('report/report/report', 'คลังสินค้า'),
+            'tRptPdtChain'      => language('report/report/report', 'tRptGroupRpt06'),
+            'tRptAgnName'       => language('report/report/report', 'tRptGroupRpt02'),
+            'tRptBchName'       => language('report/report/report', 'tRptGroupRpt01'),
+            'tRptWahName'       => language('report/report/report', 'tRptGroupRpt09'),
 
             // No Data Report
             'tRptAdjStkNoData'  => language('common/main/main', 'tCMNNotFoundData'),
@@ -441,8 +441,10 @@ class cRptInventoryPdtGrp extends MX_Controller
             ->setBorderBottom(Color::BLACK, Border::WIDTH_THIN)
             ->build();
 
-        $oBorder = (new BorderBuilder())
+        $oBorderTop = (new BorderBuilder())
             ->setBorderTop(Color::BLACK, Border::WIDTH_THIN)
+            ->build();
+        $oBorderBottom = (new BorderBuilder())
             ->setBorderBottom(Color::BLACK, Border::WIDTH_THIN)
             ->build();
 
@@ -452,26 +454,15 @@ class cRptInventoryPdtGrp extends MX_Controller
             ->build();
 
         $aCells = [
-            WriterEntityFactory::createCell(language('report/report/report', 'tRptPDTWahCode')),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(language('report/report/report', 'tRptPDTWahName')),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
+            WriterEntityFactory::createCell(language('report/report/report', 'tRptGroupRpt06')),
+            WriterEntityFactory::createCell(language('report/report/report', 'tRptGroupRpt02')),
             WriterEntityFactory::createCell(language('report/report/report', 'tRptPdtCode')),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
             WriterEntityFactory::createCell(language('report/report/report', 'tRptPdtName')),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(language('report/report/report', 'tRptPDTChainName')),
-            WriterEntityFactory::createCell(null),
+            WriterEntityFactory::createCell(language('report/report/report', 'tRptGroupRpt01')),
+            WriterEntityFactory::createCell(language('report/report/report', 'tRptGroupRpt09')),
             WriterEntityFactory::createCell(language('report/report/report', 'tRptPosVendingCount')),
-            WriterEntityFactory::createCell(null),
             WriterEntityFactory::createCell(language('report/report/report', 'tRptCabinetCostAvg')),
-            WriterEntityFactory::createCell(null),
             WriterEntityFactory::createCell(language('report/report/report', 'tRptCabinetCost')),
-            WriterEntityFactory::createCell(null),
         ];
 
         /** add a row at a time */
@@ -491,73 +482,129 @@ class cRptInventoryPdtGrp extends MX_Controller
 
 
         /** Create a style with the StyleBuilder */
-        $oStyle = (new StyleBuilder())
-            ->setCellAlignment(CellAlignment::RIGHT)
+        $oStyleBorder = (new StyleBuilder())
+            ->setBorder($oBorderTop)
             ->build();
+
+        $oStyleBorderBt = (new StyleBuilder())
+            ->setBorder($oBorderBottom)
+            ->build();
+
+        $oStyleColums = (new StyleBuilder())
+            // ->setBorder($oBorder)
+            ->setFontBold()
+            ->build();
+
+
+        $aCostType = $this->mRptInventoryPdtGrp->FSnMGetCostType();
+        $nCostType = $aCostType['raItems'];
 
         if (isset($aDataReport['aRptData']) && !empty($aDataReport['aRptData'])) {
             foreach ($aDataReport['aRptData'] as $nKey => $aValue) {
                 $cFCStkQty = empty($aValue['FCStkQty']) ? 0 : $aValue['FCStkQty'];
-                $cFCPdtCostEX = empty($aValue['FCPdtCostEX']) ? 0 : $aValue['FCPdtCostEX'];
-                $cFCPdtCostTotalSum =   empty($aValue['FCPdtCostAmt']) ? 0 : $aValue['FCPdtCostAmt'];
+                // $cFCPdtCostEX = empty($aValue['FCPdtCostEX']) ? 0 : $aValue['FCPdtCostEX'];
+                // $cFCPdtCostTotalSum =   empty($aValue['FCPdtCostAmt']) ? 0 : $aValue['FCPdtCostAmt'];
 
-                // $cFCPdtCostTotalSum2 =   $aValue["FCStkQty_SUM"] * $aValue["FCPdtCostAVGEX_SUM"];
-                // $cFCPdtCostTotal = empty($cFCPdtCostTotalSum2) ? 0 : $cFCPdtCostTotalSum2;
+                if($nCostType == 0) { 
+                    $nPdtCost       = empty($aValue["FCPdtCostStd"]) ? 0 : $aValue['FCPdtCostStd'];
+                    $nSumPdtCost    = empty($aValue["FCSumCostStd"]) ? 0 : $aValue['FCSumCostStd'];
+                    $nWahCost       = empty($aValue["FCPdtCostStd"]) ? 0 : $aValue['FCPdtCostStd'];
+                    $nSumWahCost    = empty($aValue["FTPdtCostStdAmt"]) ? 0 : $aValue['FTPdtCostStdAmt'];
+                } else {
+                    switch ($nCostType) {
+                        case 1 :
+                            $nPdtCost       = empty($aValue["FCPdtCostAVGEX"]) ? 0 : $aValue['FCPdtCostAVGEX'];
+                            $nSumPdtCost    = empty($aValue["FCSumCostAvg"]) ? 0 : $aValue['FCSumCostAvg'];
+                            $nWahCost      = empty($aValue["FCPdtCostAVGEX"]) ? 0 : $aValue['FCPdtCostAVGEX'];
+                            $nSumWahCost    = empty($aValue["FCPdtCostTotal"]) ? 0 : $aValue['FCPdtCostTotal'];
+                            break;
+                        case 3 :
+                            $nPdtCost       = empty($aValue["FCPdtCostStd"]) ? 0 : $aValue['FCPdtCostStd'];
+                            $nSumPdtCost    = empty($aValue["FCSumCostStd"]) ? 0 : $aValue['FCSumCostStd'];
+                            $nWahCost       = empty($aValue["FCPdtCostStd"]) ? 0 : $aValue['FCPdtCostStd'];
+                            $nSumWahCost    = empty($aValue["FTPdtCostStdAmt"]) ? 0 : $aValue['FTPdtCostStdAmt'];
+                            break;
+                        default : 
+                            $nPdtCost       = empty($aValue["FCPdtCostStd"]) ? 0 : $aValue['FCPdtCostStd'];
+                            $nSumPdtCost    = empty($aValue["FCSumCostStd"]) ? 0 : $aValue['FCSumCostStd'];
+                            $nWahCost       = empty($aValue["FCPdtCostStd"]) ? 0 : $aValue['FCPdtCostStd'];
+                            $nSumWahCost    = empty($aValue["FTPdtCostStdAmt"]) ? 0 : $aValue['FTPdtCostStdAmt'];
+                            break;
+                    }
+                }
+                
+                $nRowPartID     = $aValue["FNRowPartChainID"];
+                $nRowAgnID      = $aValue["FNRowPartAgnID"];
+                $nRowPdtID      = $aValue["FNRowPartPdtID"];
+                $nRowBchID      = $aValue["FNRowPartBchID"];
 
-                $values = [
-                    WriterEntityFactory::createCell("(".$aValue['FTWahCode'].")"),
-                    WriterEntityFactory::createCell(null),
-                    WriterEntityFactory::createCell(null),
-                    WriterEntityFactory::createCell($aValue['FTWahName']),
-                    WriterEntityFactory::createCell(null),
-                    WriterEntityFactory::createCell(null),
-                    WriterEntityFactory::createCell($aValue['FTPdtCode']),
-                    WriterEntityFactory::createCell(null),
-                    WriterEntityFactory::createCell(null),
-                    WriterEntityFactory::createCell($aValue['FTPdtName']),
-                    WriterEntityFactory::createCell(null),
-                    WriterEntityFactory::createCell(null),
-                    WriterEntityFactory::createCell(($aValue['FTPgpChainName'] == "" ? "-" : $aValue['FTPgpChainName'])),
-                    WriterEntityFactory::createCell(null),
-                    // WriterEntityFactory::createCell(number_format($cFCStkQty, $this->nOptDecimalShow)),
-                    WriterEntityFactory::createCell(FCNnGetNumeric($cFCStkQty)),
-                    WriterEntityFactory::createCell(null),
-                    // WriterEntityFactory::createCell(number_format($cFCPdtCostAVGEX, $this->nOptDecimalShow)),
-                    WriterEntityFactory::createCell(FCNnGetNumeric($cFCPdtCostEX)),
-                    WriterEntityFactory::createCell(null),
-                    // WriterEntityFactory::createCell(number_format($cFCPdtCostTotalSum, $this->nOptDecimalShow)),
-                    WriterEntityFactory::createCell(FCNnGetNumeric($cFCPdtCostTotalSum)),
-                    WriterEntityFactory::createCell(null),
-                ];
-                $aRow = WriterEntityFactory::createRow($values);
-                $oWriter->addRow($aRow);
+                $tPgpChain      = empty($aValue["FTPgpChain"]) ? '' : '(' . $aValue["FTPgpChain"] . ')';
+                $tPgpChainName  = empty($aValue["FTPgpChainName"]) ? 'อื่น ๆ' : $aValue["FTPgpChainName"];
+                $tAgnID         = empty($aValue["FTAgnCode"]) ? '' : '(' . $aValue["FTAgnCode"] . ')';
+                $tAgnName       = empty($aValue["FTAgnName"]) ? '-' : $aValue["FTAgnName"];
+                $tPdtName       = empty($aValue["FTPdtName"]) ? '-' : $aValue["FTPdtName"];
 
-                if (($nKey + 1) == FCNnHSizeOf($aDataReport['aRptData'])) { //SumFooter
-                    $values = [
-                        WriterEntityFactory::createCell($this->aText['tRptTotalFooter']),
-                        WriterEntityFactory::createCell(null),
-                        WriterEntityFactory::createCell(null),
-                        WriterEntityFactory::createCell(null),
-                        WriterEntityFactory::createCell(null),
-                        WriterEntityFactory::createCell(null),
-                        WriterEntityFactory::createCell(null),
-                        WriterEntityFactory::createCell(null),
-                        WriterEntityFactory::createCell(null),
-                        WriterEntityFactory::createCell(null),
-                        WriterEntityFactory::createCell(null),
-                        WriterEntityFactory::createCell(null),
-                        WriterEntityFactory::createCell(null),
-                        WriterEntityFactory::createCell(null),
-                        WriterEntityFactory::createCell(FCNnGetNumeric($aValue["FCStkQty_Footer"])),
-                        WriterEntityFactory::createCell(null),
-                        WriterEntityFactory::createCell(null),
-                        WriterEntityFactory::createCell(null),
-                        WriterEntityFactory::createCell(FCNnGetNumeric($aValue["FCPdtCostTotal_Footer"])),
-                        WriterEntityFactory::createCell(null),
-                    ];
+                if ($nRowPdtID == 1 || $nRowAgnID == 1 || $nRowPartID == 1) {
+                    if ($nRowPartID == 1) {
+                        $values = [
+                            WriterEntityFactory::createCell($tPgpChain . ' ' . $tPgpChainName, $oStyleBorder),
+                            WriterEntityFactory::createCell($tAgnID . ' ' .$tAgnName, $oStyleBorder),
+                            WriterEntityFactory::createCell($aValue["FTPdtCode"], $oStyleBorder),
+                            WriterEntityFactory::createCell($tPdtName, $oStyleBorder),
+                            WriterEntityFactory::createCell(null, $oStyleBorder),
+                            WriterEntityFactory::createCell(null, $oStyleBorder),
+                            WriterEntityFactory::createCell(FCNnGetNumeric($cFCStkQty), $oStyleBorder),
+                            WriterEntityFactory::createCell(FCNnGetNumeric($nWahCost), $oStyleBorder),
+                            WriterEntityFactory::createCell(FCNnGetNumeric($nSumWahCost), $oStyleBorder),
+                        ];
+                    } else {
+                        $values = [
+                            WriterEntityFactory::createCell($tPgpChain . ' ' . $tPgpChainName),
+                            WriterEntityFactory::createCell($tAgnID . ' ' .$tAgnName),
+                            WriterEntityFactory::createCell($aValue["FTPdtCode"]),
+                            WriterEntityFactory::createCell($tPdtName),
+                            WriterEntityFactory::createCell(null),
+                            WriterEntityFactory::createCell(null),
+                            WriterEntityFactory::createCell(FCNnGetNumeric($cFCStkQty)),
+                            WriterEntityFactory::createCell(FCNnGetNumeric($nWahCost)),
+                            WriterEntityFactory::createCell(FCNnGetNumeric($nSumWahCost)),
+                        ];
+                    }
                     $aRow = WriterEntityFactory::createRow($values, $oStyleColums);
                     $oWriter->addRow($aRow);
                 }
+
+
+                if (($nKey + 1) == FCNnHSizeOf($aDataReport['aRptData'])) { //SumFooter
+                    $values = [
+                        WriterEntityFactory::createCell($tPgpChain . ' ' . $tPgpChainName),
+                        WriterEntityFactory::createCell($tAgnID . ' ' .$tAgnName),
+                        WriterEntityFactory::createCell($aValue["FTPdtCode"]),
+                        WriterEntityFactory::createCell($tPdtName),
+                        WriterEntityFactory::createCell($aValue["FTBchCode"] . ' ' .$aValue["FTBchName"]),
+                        WriterEntityFactory::createCell('('.$aValue["FTWahCode"] .')'. $aValue["FTWahName"]),
+                        WriterEntityFactory::createCell(FCNnGetNumeric($cFCStkQty)),
+                        WriterEntityFactory::createCell(FCNnGetNumeric($nWahCost)),
+                        WriterEntityFactory::createCell(FCNnGetNumeric($nSumWahCost)),
+                    ];
+                    $aRow = WriterEntityFactory::createRow($values, $oStyleBorderBt);
+                    $oWriter->addRow($aRow);
+                }else{
+                    $values = [
+                        WriterEntityFactory::createCell($tPgpChain . ' ' . $tPgpChainName),
+                        WriterEntityFactory::createCell($tAgnID . ' ' .$tAgnName),
+                        WriterEntityFactory::createCell($aValue["FTPdtCode"]),
+                        WriterEntityFactory::createCell($tPdtName),
+                        WriterEntityFactory::createCell($aValue["FTBchCode"] . ' ' .$aValue["FTBchName"]),
+                        WriterEntityFactory::createCell('('.$aValue["FTWahCode"] .')'. $aValue["FTWahName"]),
+                        WriterEntityFactory::createCell(FCNnGetNumeric($cFCStkQty)),
+                        WriterEntityFactory::createCell(FCNnGetNumeric($nWahCost)),
+                        WriterEntityFactory::createCell(FCNnGetNumeric($nSumWahCost)),
+                    ];
+                    $aRow = WriterEntityFactory::createRow($values);
+                    $oWriter->addRow($aRow);
+                }
+
             }
         }
 
@@ -692,14 +739,8 @@ class cRptInventoryPdtGrp extends MX_Controller
             WriterEntityFactory::createCell($this->aCompanyInfo['FTCmpName']),
             WriterEntityFactory::createCell(null),
             WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
             WriterEntityFactory::createCell($this->aText['tTitleReport']),
+            WriterEntityFactory::createCell(null),
             WriterEntityFactory::createCell(null),
             WriterEntityFactory::createCell(null),
             WriterEntityFactory::createCell(null),
@@ -789,16 +830,6 @@ class cRptInventoryPdtGrp extends MX_Controller
         $aMulltiRow[] = WriterEntityFactory::createRow($aCells);
 
         $aCells = [
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
-            WriterEntityFactory::createCell(null),
             WriterEntityFactory::createCell(null),
             WriterEntityFactory::createCell(null),
             WriterEntityFactory::createCell(null),

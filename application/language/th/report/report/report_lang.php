@@ -2146,6 +2146,7 @@ $lang['tRptGroupRpt05']  = "ประเภทสินค้า";
 $lang['tRptGroupRpt06']  = "กลุ่มสินค้า";
 $lang['tRptGroupRpt07']  = "ยี่ห้อ";
 $lang['tRptGroupRpt08']  = "รุ่น";
+$lang['tRptGroupRpt09']  = "คลังสินค้า";
 
 
 $lang['tRptCompareSaleByPdtTypeTitle']      = "รายงาน - เปรียบเทียบยอดขายตาม";
