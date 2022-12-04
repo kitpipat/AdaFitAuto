@@ -655,6 +655,7 @@ class mAdjustmentcost extends CI_Model{
         }
 
         $oQuery = $this->db->query($tSQL);
+
         if ($oQuery->num_rows() > 0) {
             $oList      = $oQuery->result_array();
             $aResult    = array(
@@ -1126,8 +1127,8 @@ class mAdjustmentcost extends CI_Model{
                 $paData['FCXtdQtyOrd'] = 0;
             }
 
-            if($paData['FCStkQty'] == ''){
-                $paData['FCStkQty'] = 0;
+            if($paData['FCXtdAmt'] == ''){
+                $paData['FCXtdAmt'] = 0;
             }
             // Add TCNTDocDTTmp
             $this->db->insert('TCNTDocDTTmp', array(
@@ -1143,8 +1144,7 @@ class mAdjustmentcost extends CI_Model{
                 'FTPunCode'   => $paData['FTPunCode'],
                 'FCXtdFactor'       => $paData['FCXtdFactor'],
                 'FTXtdBarCode'       => $paData['FTXtdBarCode'],               
-                'FTXtdPdtParent'   => $paData['FTXtdPdtParent'],
-                'FCStkQty'       => $paData['FCStkQty'],
+                'FCXtdAmt'       => $paData['FCXtdAmt'],
                 'FCXtdQtyOrd'       => $paData['FCXtdQtyOrd'],               
                 'FTSessionID'     => $paData['FTSessionID'],
                 'FDLastUpdOn'     => $paData['FDLastUpdOn'],
@@ -1295,7 +1295,7 @@ class mAdjustmentcost extends CI_Model{
                         DTP.FTPunCode AS FTPunCode,
                         ".$tCostCondition."
                         DTP.FCXtdQtyOrd AS FCXcdDiff,
-                        DTP.FCStkQty AS FCXcdCostNew,
+                        DTP.FCXtdAmt AS FCXcdCostNew,
                         DTP.FCXtdFactor AS FCXcdFactor,
                         PDT_L.FTPdtName AS FTPdtName,
                         PUN_L.FTPunName AS FTPunName,
@@ -1373,7 +1373,7 @@ class mAdjustmentcost extends CI_Model{
                     DTP.FDLastUpdOn,
                     DTP.FCXtdQty,
                     DTP.FCXtdQtyOrd,
-                    DTP.FCStkQty,
+                    DTP.FCXtdAmt,
                     DTP.FCXtdFactor,
                     DTP.FCXtdVatRate
             ";
@@ -1415,7 +1415,8 @@ class mAdjustmentcost extends CI_Model{
         try {
         
             $this->db->set('FCXtdAmt', $paData['tValue']);
-
+            $this->db->set('FCXtdQtyOrd', $paData['tDiff']);
+            
             if ($paData['tSeq'] != 'N') {
                 $this->db->where('FNXtdSeqNo', $paData['tSeq']);
             }
