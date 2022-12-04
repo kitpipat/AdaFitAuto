@@ -620,7 +620,7 @@ class Invoice_controller extends MX_Controller {
             $tIVDocDate     = $aDataDocument['oetIVDocDate'] . " " . $aDataDocument['oetIVDocTime'];
             $tIVVATInOrEx   = $aDataDocument['ocmIVfoVatInOrEx'];
             $tIVSessionID   = $this->session->userdata('tSesSessionID');
-            if($aDataDocument['ohdIVStaApv'] == 1){ 
+            // if($aDataDocument['ohdIVStaApv'] == 1){ 
                 //ถ้าอนุมัติแล้ว อัพเดทแค่หมายเหตุได้อย่างเดียว
                 // Array Data update
                 $aDataUpdate = array(
@@ -628,10 +628,10 @@ class Invoice_controller extends MX_Controller {
                     'FTXphDocNo'    => $tIVDocNo,
                     'FTXphRmk'      => $aDataDocument['otaIVRemark'],
                 );
-                $this->db->trans_begin();
+                // $this->db->trans_begin();
                 // [Update] update หมายเหตุ
                 $this->Invoice_model->FSaMIVUpdateRmk($aDataUpdate);
-            } else { 
+            // } else { 
                 //ถ้ายังไม่อนุมัติ ก็อัพเดทข้อมูลปกติ
                 FCNaHCalculateProrate('TAPTPiDT', $tIVDocNo);
                 $aCalcDTParams = [
@@ -756,7 +756,7 @@ class Invoice_controller extends MX_Controller {
                 $this->Invoice_model->FSxMIVMoveHDRefTmpToHDRef($aDataWhere, $aTableAddUpdate);
                 // อ้างอิง Ref EX (Type3)
                 $this->Invoice_model->FSxMIVUpdateRef('TAPTPiHDDocRef',$aDataWhereDocRef_Type3);
-            }
+            // }
             // Check Status Transection DB
             if ($this->db->trans_status() === FALSE) {
                 $this->db->trans_rollback();
@@ -1398,7 +1398,7 @@ class Invoice_controller extends MX_Controller {
             'tDataDocKey'       => 'TAPTPiDT',
             'tDataSeqNo'        => ''
         ];
-        FCNbHCallCalcDocDTTemp($aCalcDTParams);
+        // FCNbHCallCalcDocDTTemp($aCalcDTParams);
         $this->FSxCalculateHDDisAgain($tIVDocNo,$tRefIntBchCode);
         return  $aDataResult;
     }

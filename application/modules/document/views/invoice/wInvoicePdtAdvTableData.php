@@ -927,8 +927,6 @@
 
         var tIVDocNo        = $("#oetIVDocNo").val();
         var tIVBchCode      = $("#ohdIVBchCode").val();
-        setTimeout(() => {
-            
         if(pnSeq != undefined){
             $.ajax({
                 type    : "POST",
@@ -949,8 +947,6 @@
                 error   : function (jqXHR, textStatus, errorThrown) { }
             });
         }
-    }, 500);
-
     }
 
     //Hi-light คอลัมส์สุดท้าย
