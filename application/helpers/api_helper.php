@@ -62,7 +62,14 @@ function FCNaHCallAPIBasic($ptAPIReq = "", $ptMethodReq = "GET", $poParam = "" ,
                 'Content-Type: application/json',
                 'Content-Length: ' . strlen($oData)
             );
-        }else{
+        }
+        else if($ptConType == "video") {
+            $oData      = array(
+				'uploaded_file' => curl_file_create($poParam['ptContent']->name,$poParam['ptContent']->mime,$poParam['ptContent']->postname)
+			);
+            $aHeader    = array();
+        }
+        else{
             $oData      = $poParam;
             $aHeader    = array();
         }
