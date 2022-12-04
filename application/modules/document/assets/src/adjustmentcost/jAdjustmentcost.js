@@ -1083,7 +1083,7 @@ function JSxSpaSaveInLine(oEvent, oElm) {
         // var tRet = parseFloat($('#ohdFCXtdPriceRet'+pnSeq).val());
         // var tWhs = parseFloat($('#ohdFCXtdPriceWhs'+pnSeq).val());
         // var tNet = parseFloat($('#ohdFCXtdPriceNet'+pnSeq).val());
-
+        var tDiff = $('#Diff' + nSeq).val()
         var tDocNo = $('#otrSpaPdtPri' + nSeq).data('doc');
         var tPdtCode = $('#otrSpaPdtPri' + nSeq).data('code');
         var tPunCode = $('#otrSpaPdtPri' + nSeq).data('pun');
@@ -1101,7 +1101,7 @@ function JSxSpaSaveInLine(oEvent, oElm) {
 
         // JCNxOpenLoading();
 
-        console.log('tDocNo:',tDocNo,'tPdtCode:',tPdtCode,'tPunCode:',tPunCode,'tPrice:',tPrice,'tValue:',tValue)
+        console.log('tDocNo:',tDocNo,'tPdtCode:',tPdtCode,'tPunCode:',tPunCode,'tPrice:',tPrice,'tValue:',tValue, 'tDiff:',tDiff)
             // $(oElm).addClass('xCNHide');
             $.ajax({
                 type: "POST",
@@ -1114,6 +1114,7 @@ function JSxSpaSaveInLine(oEvent, oElm) {
                     'ptValue': tValue,
                     'tSearchSpaPdtPri': oetSearchSpaPdtPri,
                     'tSeq': tSeq,
+                    'tDiff': tDiff,
                     'tColValidate': tColValidate
                 },
                 cache: false,

@@ -398,11 +398,15 @@
     function JSxADCGetPdtFromImportExcel(tPdtCodeDup) {
         JCNxOpenLoading();
         var tPdtCodeDup = $('#ohdADCPdtDupCode').val()
+        var tBchCode = $('#ohdADCBchCode').val();
+        var tDocNo = $('#oetADCDocNo').val();
         $.ajax({
             type: "POST",
             url: "docADCGetPdtFromImportExcel",
             data: {
                 tPdtCodeDup: tPdtCodeDup,
+                tBchCode: tBchCode,
+                tDocNo: tDocNo,
             },
             async: false,
             cache: false,
@@ -411,7 +415,7 @@
                 var aResult = JSON.parse(tResult);
                 JSxADCShowTable(aResult)
                 JCNxCloseLoading();
-
+                JSvAdPdtPriDataTable();
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 JCNxResponseError(jqXHR, textStatus, errorThrown);

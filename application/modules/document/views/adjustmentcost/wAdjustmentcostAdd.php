@@ -883,7 +883,7 @@ if ($tADCStaDoc == 3) {
                                 url: "docADCGetPdtFromProductCode",
                                 data: {
                                     'aProduct': JSON.parse(tJSON),
-                                    'tBchCode': $('#oetADCFrmBchCode').val()
+                                    'tBchCode': $('#ohdADCBchCode').val()
                                 },
                                 cache: false,
                                 timeout: 0,
@@ -905,6 +905,7 @@ if ($tADCStaDoc == 3) {
                                         $('#odvADCModalPDTMoreOne').modal('hide');
                                         $('#odvADCModalPDTConfirmDel').modal('show');
                                     }
+                                    JSvAdPdtPriDataTable()
                                 },
                                 error: function(jqXHR, textStatus, errorThrown) {
                                     JCNxResponseError(jqXHR, textStatus, errorThrown);
@@ -932,7 +933,7 @@ if ($tADCStaDoc == 3) {
                             url: "docADCGetPdtFromProductCode",
                             data: {
                                 'aProduct': JSON.parse(aNewReturn),
-                                'tBchCode': $('#oetADCFrmBchCode').val()
+                                'tBchCode': $('#ohdADCBchCode').val()
                             },
                             cache: false,
                             timeout: 0,
@@ -949,6 +950,7 @@ if ($tADCStaDoc == 3) {
                                 if (tcount == 0) {
                                     JSxADCShowTable(oText)
                                 }
+                                JSvAdPdtPriDataTable()
                             },
                             error: function(jqXHR, textStatus, errorThrown) {
                                 JCNxResponseError(jqXHR, textStatus, errorThrown);
@@ -974,7 +976,7 @@ if ($tADCStaDoc == 3) {
                     url: "docADCGetPdtFromProductCode",
                     data: {
                         'aProduct': JSON.parse(tJSON),
-                        'tBchCode': $('#oetADCFrmBchCode').val()
+                        'tBchCode': $('#ohdADCBchCode').val()
                     },
                     cache: false,
                     timeout: 0,
@@ -995,6 +997,7 @@ if ($tADCStaDoc == 3) {
                             $('#odvADCModalPDTMoreOne').modal('hide');
                             $('#odvADCModalPDTConfirmDel').modal('show');
                         }
+                        JSvAdPdtPriDataTable()
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         JCNxResponseError(jqXHR, textStatus, errorThrown);
@@ -1017,7 +1020,7 @@ if ($tADCStaDoc == 3) {
                     url: "docADCGetPdtFromProductCode",
                     data: {
                         'aProduct': JSON.parse(tJSON),
-                        'tBchCode': $('#oetADCFrmBchCode').val()
+                        'tBchCode': $('#ohdADCBchCode').val()
                     },
                     cache: false,
                     timeout: 0,
@@ -1030,6 +1033,7 @@ if ($tADCStaDoc == 3) {
                             }
                         });
                         $('#oetADCInsertBarcode').attr('readonly', false);
+                        JSvAdPdtPriDataTable()
                         JSxADCShowTable(oText)
                     },
                     error: function(jqXHR, textStatus, errorThrown) {

@@ -152,10 +152,11 @@
                                     <?php echo $tFCPdtCost;?>
                                 </td>
                                 <td nowrap class="text-right xCNPdtInLine" >
-                                    <label va></label>
+                                    
                                 </td>
                                 <td class="xCNPdtEditInLine">
                                     <div class="xWEditInLine">
+                                    <input type="hidden" id="Diff<?=$DataTableVal['FNXtdSeqNo']?>" value="">
                                     <input style="    
                                                 background: rgb(249, 249, 249);
                                                 box-shadow: 0px 0px 0px inset;
@@ -170,16 +171,16 @@
                                             id="ohdFCXtdPriceRet<?=$DataTableVal['FNXtdSeqNo']?>" 
                                             name="ohdFCXtdPriceRet<?=$DataTableVal['FNXtdSeqNo']?>" 
                                             maxlength="11" 
-                                            value="" 
+                                            value="<?=$DataTableVal['FCXcdCostNew']?>" 
                                             autocomplete="off" 
                                             seq="<?=$DataTableVal['FNXtdSeqNo']?>" 
                                             columname="FCXtdVatRate" 
-                                            col-validate="" 
+                                            col-validate=""                          
                                             page="<?=$nPage?>"
                                             b4value="<?= $tFSPdtCost ?>" 
                                             onkeypress=" if(event.keyCode==13 ){     event.preventDefault(); return JSxSpaSaveInLine(event,this); } " 
                                             onfocusout="JSxSpaSaveInLine(event,this)"
-                                            onblur = "JSxADCCostDiff(this,<?= $tFSPdtCost ?>)">
+                                            onblur = "JSxADCCostDiff(this,<?= $tFSPdtCost ?>,<?=$DataTableVal['FNXtdSeqNo']?>)">
                                     </div>
                                 </td>
                                 <td class="text-left xWRemark1" style="color: red !important;"> <?php echo $DataTableVal['FTTmpRemark']; ?> </td>
@@ -322,12 +323,17 @@
     // Create : 25/02/2021 Sooksanti(Nont)
     // Return : -
     // Return Type : -
-    function JSxADCCostDiff(tThis,tCostOld) {
+    function JSxADCCostDiff(tThis,tCostOld,Seq) {
         var tCostNew = $(tThis).val() - tCostOld
+        if(isNaN(tCostNew)){
+            tCostNew = 0;    
+        }
+        $('#Diff'+Seq).attr('value',tCostNew)
+        $(tThis).parents("tr").find(".xCNPdtInLine").html(tCostNew.toFixed(2));
         // if ($(tThis).parents("tr").find(".xCNPdtEditInLine").val() != '') {
         //     var tCostOld = parseFloat($(tThis).parents("tr").find("td").text());
         //     var tCostNew = parseFloat($(tThis).parents("tr").find(".xCNPdtEditInLine").val());
-        $(tThis).parents("tr").find(".xCNPdtInLine").html(tCostNew.toFixed(2));
+        
         // }else{
         //     parseFloat($(tThis).parents("tr").find(".xCNPdtEditInLine").val(''));
         //     $(tThis).parents("tr").find("td:eq(7)").html((0).toFixed(2));
