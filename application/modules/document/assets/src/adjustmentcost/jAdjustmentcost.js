@@ -1101,7 +1101,7 @@ function JSxSpaSaveInLine(oEvent, oElm) {
 
         // JCNxOpenLoading();
 
-        console.log('tDocNo:',tDocNo,'tPdtCode:',tPdtCode,'tPunCode:',tPunCode,'tPrice:',tPrice,'tValue:',tValue, 'tDiff:',tDiff)
+        // console.log('tDocNo:',tDocNo,'tPdtCode:',tPdtCode,'tPunCode:',tPunCode,'tPrice:',tPrice,'tValue:',tValue, 'tDiff:',tDiff)
             // $(oElm).addClass('xCNHide');
             $.ajax({
                 type: "POST",
