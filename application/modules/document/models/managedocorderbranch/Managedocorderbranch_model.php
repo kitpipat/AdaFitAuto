@@ -524,7 +524,7 @@ class Managedocorderbranch_model extends CI_Model {
         $tSQL           =   "
             SELECT c.* FROM(
                 SELECT  
-                    ROW_NUMBER() OVER(ORDER BY FDCreateOn DESC , FTXphDocNo DESC ) AS FNRowID  ,
+                    ROW_NUMBER() OVER(ORDER BY FDCreateOn ASC , FTXphDocNo ASC ) AS FNRowID  ,
                     COUNT(FTXphDocNo) OVER (PARTITION BY FTXphDocNo) AS PARTITIONBYDOC, * 
                 FROM ( 
         ";
