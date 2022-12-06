@@ -1817,8 +1817,13 @@ function JSxWirteImportFile(evt) {
                 }, 1000);
 
                 $('#obtConfirmDeleteBeforeInsert').off();
-                $('#obtConfirmDeleteBeforeInsert').on("click", function() {
-                    JSxProcessImportExcel(aJSONData, tNameModule, tTypeModule, tFlagClearTmp, tImportDocumentNo, tImportFrmBchCode, tImportSplVatRate, tImportSplVatCode);
+                $('#obtConfirmDeleteBeforeInsert').on('click', function() {
+                    // $('#obtConfirmDeleteBeforeInsert').attr("disabled", true);
+                    JCNxOpenLoading();
+                    setTimeout(function() {
+                        JSxProcessImportExcel(aJSONData, tNameModule, tTypeModule, tFlagClearTmp, tImportDocumentNo, tImportFrmBchCode, tImportSplVatRate, tImportSplVatCode);
+                    }, 1000);
+                    
                 });
             } else {
                 JSxProcessImportExcel(aJSONData, tNameModule, tTypeModule, tFlagClearTmp, tImportDocumentNo, tImportFrmBchCode, tImportSplVatRate, tImportSplVatCode);

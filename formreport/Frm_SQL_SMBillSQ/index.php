@@ -51,7 +51,7 @@ require_once('../../config_deploy.php');
 			Stimulsoft.Base.Localization.StiLocalization.setLocalizationFile("<?=BASE_URL?>/formreport/AdaCoreFrmReport/localization/en.xml", true);
 
 			var report = Stimulsoft.Report.StiReport.createNewReport();
-			report.loadFile("reports/frm_sql_smbillsq.mrt");
+			report.loadFile("reports/frm_sql_smbillsq.mrt?=04.00.00");
 
 			report.dictionary.variables.getByName("SP_nLang").valueObject 		= "<?=$aDataMQ["Lang"];?>";
 			report.dictionary.variables.getByName("nLanguage").valueObject 		= "<?=$aDataMQ["Lang"];?>";

@@ -1,10 +1,10 @@
 {
-  "ReportVersion": "2022.1.4.0",
-  "ReportGuid": "f5e132d6f33c4d96b3f9a08878a27da1",
+  "ReportVersion": "2022.1.2.0",
+  "ReportGuid": "7548f76905d248b7a16574cf2ad6d067",
   "ReportName": "Report",
   "ReportAlias": "Report",
   "ReportCreated": "/Date(1240901133000+0700)/",
-  "ReportChanged": "/Date(1667978736683+0700)/",
+  "ReportChanged": "/Date(1661493602897+0700)/",
   "EngineVersion": "EngineV2",
   "NumberOfPass": "DoublePass",
   "ReportUnit": "Millimeters",
@@ -808,11 +808,18 @@
             "NameInSource": "FCXsdVatRate",
             "Alias": "FCXsdVatRate",
             "Type": "System.Decimal"
+          },
+          "17": {
+            "Name": "FTXsdPdtName",
+            "Index": -1,
+            "NameInSource": "FTXsdPdtName",
+            "Alias": "FTXsdPdtName",
+            "Type": "System.String"
           }
         },
         "NameInSource": "Pos",
         "CommandTimeout": 10000,
-        "SqlCommand": "SELECT FNXsdSeqNo ,FTBchCode,FTXshDocNo,FTPdtCode,FTXsdBarCode, FTPdtName, FTPunCode,\r\n\t\tFTPunName,\r\n\t\tSUM(ISNULL(FCXsdQty,0)) AS FCXsdQty,\r\n\t\tFCXsdSetPrice,\r\n\t\tSUM(ISNULL(FCXsdDiscount,0)) AS FCXsdDiscount,\r\n\t\tSUM(ISNULL(FCXsdNet,0)) AS FCXsdNet,\r\n\t\tSUM(ISNULL(FCXsdDisFHD,0)) AS FCXsdDisFHD,\r\n\t\tSUM(ISNULL(FCXsdNet,0))- SUM(ISNULL(FCXsdDisFHD,0))  AS FCXsdGrandAmt,\r\n\t\tCASE WHEN FTXsdVatType = '1' THEN\r\n\t\t\t((SUM(ISNULL(FCXsdNet,0))- SUM(ISNULL(FCXsdDisFHD,0)))*FCXsdVatRate)/(100+FCXsdVatRate) ELSE\r\n\t\t\t0\r\n\t\tEND AS FCXsdVat,\r\n\t\tFTXsdVatType,FCXsdVatRate\r\nFROM\r\n\t(\r\n\tSELECT DT.FTBchCode, DT.FTXshDocNo,\r\n\t\tDT.FTPdtCode,DT.FTXsdBarCode, DT.FTXsdPdtName AS FTPdtName, DT.FTPunCode,\r\n\t\tPun_L.FTPunName,\r\n\t\tDT.FCXsdQty,\r\n\t\tFCXsdSetPrice,\r\n\t\tFCXsdDiscount,\r\n\t\tFCXsdNet,\r\n\t\tDT.FNXsdSeqNo,DT.FTXsdVatType,FCXsdVatRate,\r\n\t\tDT.FCXsdVat,DT.FCXsdVatable,\r\n\t\tDT.FCXsdNet - DT.FCXsdNetAfHD AS FCXsdDisFHD\r\n\t\tFROM TARTSqDT DT WITH (NoLock)\r\n\t\tLEFT JOIN\r\n\t\t(\r\n\tSELECT FTBchCode,FTXshDocNo,FNXsdSeqNo,\r\n\t\tSUM(\r\n\t\tCASE FTXddDisChgType \r\n\t\t\t\tWHEN '1' THEN FCXddValue*-1\r\n\t\t\t\tWHEN '2' THEN FCXddValue*-1\r\n\t\t\t\tWHEN '3' THEN FCXddValue\r\n\t\t\t\tWHEN '4' THEN FCXddValue\r\n\t\t\t\tEND\r\n\t\t\t   ) AS FCXsdDiscount\r\n\t\t\tFROM TARTSqDTDis\r\n\t\t\tWHERE FNXddStaDis = 1\r\n\t\t\tGROUP BY FTBchCode,FTXshDocNo,FNXsdSeqNo\r\n\t\t) DTDis ON DT.FTBchCode = DTDis.FTBchCode AND DT.FTXshDocNo = DTDis.FTXshDocNo AND DT.FNXsdSeqNo = DTDis.FNXsdSeqNo\r\n\t\tLEFT JOIN TCNMPdt_L Pdt_L WITH (NoLock) ON DT.FTPdtCode = Pdt_L.FTPdtCode AND Pdt_L.FNLngID = @pnLanguage\r\n\t\tLEFT JOIN TCNMPdtUnit_L Pun_L WITH (NoLock) ON DT.FTPunCode = Pun_L.FTPunCode AND Pun_L.FNLngID =@pnLanguage\r\n\tWHERE DT.FTXshDocNo = @ptDocNo AND DT.FTBchCode = @ptDocBch\r\n) PtiPdt5\r\nWHERE PtiPdt5.FTXshDocNo = @ptDocNo AND FTBchCode = @ptDocBch\r\nGROUP BY FNXsdSeqNo,FTBchCode,FTXshDocNo,FTPdtCode,FTXsdBarCode, FTPdtName, FTPunCode,\r\nFTPunName,FCXsdSetPrice,FTXsdVatType,FCXsdVatRate",
+        "SqlCommand": "SELECT FNXsdSeqNo ,FTBchCode,FTXshDocNo,FTPdtCode,FTXsdBarCode,FTXsdPdtName ,FTPdtName, FTPunCode,\r\n\t\tFTPunName,\r\n\t\tSUM(ISNULL(FCXsdQty,0)) AS FCXsdQty,\r\n\t\tFCXsdSetPrice,\r\n\t\tSUM(ISNULL(FCXsdDiscount,0)) AS FCXsdDiscount,\r\n\t\tSUM(ISNULL(FCXsdNet,0)) AS FCXsdNet,\r\n\t\tSUM(ISNULL(FCXsdDisFHD,0)) AS FCXsdDisFHD,\r\n\t\tSUM(ISNULL(FCXsdNet,0))- SUM(ISNULL(FCXsdDisFHD,0))  AS FCXsdGrandAmt,\r\n\t\tCASE WHEN FTXsdVatType = '1' THEN\r\n\t\t\t((SUM(ISNULL(FCXsdNet,0))- SUM(ISNULL(FCXsdDisFHD,0)))*FCXsdVatRate)/(100+FCXsdVatRate) ELSE\r\n\t\t\t0\r\n\t\tEND AS FCXsdVat,\r\n\t\tFTXsdVatType,FCXsdVatRate\r\nFROM\r\n\t(\r\n\tSELECT DT.FTBchCode, DT.FTXshDocNo,\r\n\t\tDT.FTPdtCode,DT.FTXsdBarCode,DT.FTXsdPdtName, Pdt_L.FTPdtName, DT.FTPunCode,\r\n\t\tPun_L.FTPunName,\r\n\t\tDT.FCXsdQty,\r\n\t\tFCXsdSetPrice,\r\n\t\tFCXsdDiscount,\r\n\t\tFCXsdNet,\r\n\t\tDT.FNXsdSeqNo,DT.FTXsdVatType,FCXsdVatRate,\r\n\t\tDT.FCXsdVat,DT.FCXsdVatable,\r\n\t\tDT.FCXsdNet - DT.FCXsdNetAfHD AS FCXsdDisFHD\r\n\t\tFROM TARTSqDT DT WITH (NoLock)\r\n\t\tLEFT JOIN\r\n\t\t(\r\n\tSELECT FTBchCode,FTXshDocNo,FNXsdSeqNo,\r\n\t\tSUM(\r\n\t\tCASE FTXddDisChgType \r\n\t\t\t\tWHEN '1' THEN FCXddValue*-1\r\n\t\t\t\tWHEN '2' THEN FCXddValue*-1\r\n\t\t\t\tWHEN '3' THEN FCXddValue\r\n\t\t\t\tWHEN '4' THEN FCXddValue\r\n\t\t\t\tEND\r\n\t\t\t   ) AS FCXsdDiscount\r\n\t\t\tFROM TARTSqDTDis\r\n\t\t\tWHERE FNXddStaDis = 1\r\n\t\t\tGROUP BY FTBchCode,FTXshDocNo,FNXsdSeqNo\r\n\t\t) DTDis ON DT.FTBchCode = DTDis.FTBchCode AND DT.FTXshDocNo = DTDis.FTXshDocNo AND DT.FNXsdSeqNo = DTDis.FNXsdSeqNo\r\n\t\tLEFT JOIN TCNMPdt_L Pdt_L WITH (NoLock) ON DT.FTPdtCode = Pdt_L.FTPdtCode AND Pdt_L.FNLngID = @pnLanguage\r\n\t\tLEFT JOIN TCNMPdtUnit_L Pun_L WITH (NoLock) ON DT.FTPunCode = Pun_L.FTPunCode AND Pun_L.FNLngID =@pnLanguage\r\n\tWHERE DT.FTXshDocNo = @ptDocNo AND DT.FTBchCode = @ptDocBch\r\n) PtiPdt5\r\nWHERE PtiPdt5.FTXshDocNo = @ptDocNo AND FTBchCode = @ptDocBch\r\nGROUP BY FNXsdSeqNo,FTBchCode,FTXshDocNo,FTPdtCode,FTXsdBarCode,FTXsdPdtName, FTPdtName, FTPunCode,\r\nFTPunName,FCXsdSetPrice,FTXsdVatType,FCXsdVatRate",
         "Parameters": {
           "0": {
             "Name": "ptDocNo",
@@ -1079,9 +1086,8 @@
                   "Ident": "StiText",
                   "Name": "tSplAddress",
                   "Guid": "822c2197a06e4c37ba269c763c80f27d",
-                  "CanShrink": true,
                   "CanGrow": true,
-                  "ClientRectangle": "2.5,7,104.5,5",
+                  "ClientRectangle": "2.5,7,104.5,16.7",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -1117,7 +1123,6 @@
                       "Ident": "StiText",
                       "Name": "tSplName",
                       "Guid": "26efd3f45231426faba32f7ccf7ff1ec",
-                      "CanShrink": true,
                       "CanGrow": true,
                       "ClientRectangle": "2,0.5,104.5,4.5",
                       "Interaction": {
@@ -1274,7 +1279,7 @@
                   "Name": "CmpAddr",
                   "Guid": "2538538c36b0498f90976109fdee3c2a",
                   "CanGrow": true,
-                  "ClientRectangle": "1.5,7,103.5,4",
+                  "ClientRectangle": "1.5,7,103.5,12.1",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -1819,7 +1824,7 @@
                     "Ident": "StiInteraction"
                   },
                   "Text": {
-                    "Value": "{TARTSODTVat.FCXsdVatNew}"
+                    "Value": "{Sum(TARTSODTVat.FCXsdVatNew)}"
                   },
                   "HorAlignment": "Right",
                   "VertAlignment": "Center",
@@ -1833,7 +1838,7 @@
                     "GroupSeparator": ",",
                     "UseLocalSetting": false
                   },
-                  "Type": "Expression"
+                  "Type": "Totals"
                 },
                 "4": {
                   "Ident": "StiText",
@@ -2038,7 +2043,7 @@
                   "Guid": "ca5ac26cb8fe4525b867d1dfad2538b7",
                   "CanShrink": true,
                   "CanGrow": true,
-                  "ClientRectangle": "3.5,1,93,5.5",
+                  "ClientRectangle": "3.5,1,93,27.4",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -2297,7 +2302,6 @@
               "Ident": "StiPanel",
               "Name": "Panel4",
               "PrintOn": "OnlyLastPage",
-              "CanShrink": true,
               "CanGrow": true,
               "ClientRectangle": "83,3,47,23.5",
               "Interaction": {
@@ -2397,16 +2401,13 @@
               "Ident": "StiText",
               "Name": "PdtName",
               "Guid": "f5206b2b8d3640e6b7106a49c2b2569c",
-              "CanShrink": true,
               "CanGrow": true,
-              "GrowToHeight": true,
               "ClientRectangle": "63.5,0,54,4",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
-              "Editable": true,
               "Text": {
-                "Value": "{TARTSODT.FTPdtName}"
+                "Value": "{TARTSODT.FTXsdPdtName}"
               },
               "CanBreak": true,
               "Font": "Tahoma;9;;",
@@ -2417,7 +2418,7 @@
                 "WordWrap": true
               },
               "LineSpacing": 1.1000000238418579,
-              "Type": "Expression"
+              "Type": "DataColumn"
             },
             "2": {
               "Ident": "StiText",

@@ -1,10 +1,10 @@
 {
   "ReportVersion": "2022.1.4.0",
-  "ReportGuid": "4447fc80261f4c7a96a2c416d646cbea",
+  "ReportGuid": "722ffce6c8c1456d99d0c9bba333e90e",
   "ReportName": "Frm_SQL_SMBillReceipt",
   "ReportAlias": "Frm_SQL_SMBillReceipt",
   "ReportCreated": "/Date(1240901133000+0700)/",
-  "ReportChanged": "/Date(1670317770955+0700)/",
+  "ReportChanged": "/Date(1647312937000+0700)/",
   "EngineVersion": "EngineV2",
   "NumberOfPass": "DoublePass",
   "CalculationMode": "Interpretation",
@@ -53,7 +53,7 @@
         "AllowUseAsSqlParameter": true
       },
       "4": {
-        "Value": "SP220000700001000008",
+        "Value": "SP221000400001000002",
         "Name": "SP_tDocNo",
         "Alias": "SP_tDocNo",
         "Type": "System.String",
@@ -69,7 +69,7 @@
         "AllowUseAsSqlParameter": true
       },
       "6": {
-        "Value": "00007",
+        "Value": "10004",
         "Name": "SP_tDocBch",
         "Alias": "SP_tDocBch",
         "Type": "System.String",
@@ -650,7 +650,7 @@
         },
         "NameInSource": "Vending",
         "CommandTimeout": 5000,
-        "SqlCommand": "SELECT HD.FTBchCode,BchL.FTBchName,ISNULL(HD.FTCstCode,'') AS FTCstCode,ISNULL(FTXshRmk,'') AS FTXshRmk,\r\n\tISNULL(Cst.FTCstCardID,'') AS FTXshCardID,ISNULL(Cst_L.FTCstName,'') AS FTCstName,ISNULL(Cst.FTCstTel,'') AS FTCstTel,ISNULL(Cst.FTCstFax,'') AS FTCstFax,\r\n\tHD.FTXshDocNo,CONVERT(VARCHAR(10),FDXshDocDate,121) AS FDXshDocDate,CONVERT(VARCHAR(10),FDXshDocDate,103) AS FTChgDate,CONVERT(VARCHAR(10),FDXshDocDate,8) AS FTXshDocTime,HD.FTCreateBy,\r\n\tISNULL(HD.FTDptCode,'') AS FTDptCode,Dpl_L.FTDptName,\r\n\tISNULL(HD.FTUsrCode,'') AS FTUsrCode,Usr_L.FTUsrName,\t\r\n\tISNULL(FTXshStaDoc,'') AS FTXshStaDoc,\r\n\tISNULL(HD.FTXshApvCode,'') AS FTXshApvCode,\r\n\tISNULL(UsrApvL.FTUsrName,'') AS FTUsrNameApp,\r\n\tISNULL(SHD.FTXshCtrName,'') AS FTXshCtrName,\r\n\tISNULL(FTAddVersion,'2') AS FTAddVersion,\r\n\tISNULL(FTAddV2Desc1,'') AS FTAddV2Desc1,\r\n\tISNULL(FTAddV2Desc2,'') AS FTAddV2Desc2,\r\n\tISNULL(CstAddr_L.FTAddRefNo,'') AS FTAddRefNo,\r\n\tISNULL(CstAddr_L.FTAddV1PvnCode,'') AS FTAddV1PvnCode, ISNULL(CstAddr_L.FTAddV1DstCode,'') AS FTAddV1DstCode,\r\n\tISNULL(CstAddr_L.FTAddV1SubDist,'') AS FTAddV1SubDist, \r\n\tISNULL(CstAddr_L.FTAddName,'') AS FTAddName, ISNULL(CstAddr_L.FTAddV1No, '') AS FTAddV1No,\r\n\tISNULL(CstAddr_L.FTAddV1Village, '') AS FTAddV1Village,\r\n\tISNULL(CstAddr_L.FTAddV1Soi, '') AS FTAddV1Soi,\r\n\tISNULL(CstAddr_L.FTAddV1Road, '') AS FTAddV1Road,\r\n\tISNULL(CstAddr_L.FTAddV1PostCode, '') AS FTAddV1PostCode,\r\n\tISNULL(FCXshTotal,0) AS FCXshTotal,ISNULL(FCXshWht,0) AS FCXshWht,ISNULL(FCXshInterest,0) AS FCXshInterest,\r\n\tISNULL(FCXshDisc,0) AS FCXshDisc, ISNULL(FCXshAmt,0) AS FCXshAmt,ISNULL(FCXshPay,0) AS FCXshPay,ISNULL(FCXshChgCredit,0) AS FCXshChgCredit,\r\n\tHD.FTXshGndText,UsrCrd_L.FTUsrName AS FTUsrCreate,\r\n\tISNULL(HD.FTAgnCode,'') AS FTAgnCode,ISNULL(AgnL.FTAgnName,'') AS FTAgnName\r\n\tFROM TARTSPHD  HD WITH (NOLOCK)  INNER JOIN \r\n     TARTSPHDCst SHD WITH (NOLOCK) ON HD.FTBchCode = SHD.FTBchCode AND HD.FTXshDocNo = SHD.FTXshDocNo \r\n\t LEFT JOIN  TCNMBranch_L BchL WITH (NOLOCK) ON HD.FTBchCode = BchL.FTBchCode AND BchL.FNLngID =  @pnLanguage LEFT JOIN\r\n\t TCNMCst Cst WITH (NOLOCK) ON HD.FTCstCode = Cst.FTCstCode LEFT JOIN\r\n\t TCNMCst_L Cst_L WITH (NOLOCK) ON HD.FTCstCode = Cst_L.FTCstCode AND Cst_L.FNLngID =  @pnLanguage LEFT JOIN\r\n     TCNMUsrDepart_L Dpl_L WITH (NOLOCK) ON  HD.FTDptCode = Dpl_L.FTDptCode AND Dpl_L.FNLngID =  @pnLanguage LEFT JOIN\r\n\t TCNMUser_L Usr_L  WITH (NOLOCK) ON HD.FTUsrCode = Usr_L.FTUsrCode AND Usr_L.FNLngID =  @pnLanguage LEFT JOIN\r\n\t TCNMUser_L UsrCrd_L  WITH (NOLOCK) ON HD.FTCreateBy = UsrCrd_L.FTUsrCode AND UsrCrd_L.FNLngID =  @pnLanguage LEFT JOIN\r\n\t TCNMUser_L UsrApvL  WITH (NOLOCK) ON HD.FTXshApvCode = UsrApvL.FTUsrCode AND UsrApvL.FNLngID =  @pnLanguage LEFT JOIN\r\n     TCNMAgency_L AgnL  WITH (NOLOCK) ON HD.FTAgnCode = AgnL.FTAgnCode AND AgnL.FNLngID =  @pnLanguage LEFT JOIN\r\n\t TCNMTaxAddress_L CstAddr_L WITH (NoLock) ON SHD.FTXshAddrTax = CstAddr_L.FTAddTaxNo AND CstAddr_L.FNLngID =  @pnLanguage\r\nWHERE HD.FTXshDocNo = @ptDocNo AND HD.FTBchCode = @ptDocBch",
+        "SqlCommand": "SELECT HD.FTBchCode,BchL.FTBchName,ISNULL(HD.FTCstCode,'') AS FTCstCode,ISNULL(FTXshRmk,'') AS FTXshRmk,\r\n\tISNULL(Cst.FTCstCardID,'') AS FTXshCardID,ISNULL(Cst_L.FTCstName,'') AS FTCstName,ISNULL(Cst.FTCstTel,'') AS FTCstTel,ISNULL(Cst.FTCstFax,'') AS FTCstFax,\r\n\tHD.FTXshDocNo,FDXshDocDate,CONVERT(VARCHAR(10),FDXshDocDate,103) AS FTChgDate,CONVERT(VARCHAR(10),FDXshDocDate,8) AS FTXshDocTime,HD.FTCreateBy,\r\n\tISNULL(HD.FTDptCode,'') AS FTDptCode,Dpl_L.FTDptName,\r\n\tISNULL(HD.FTUsrCode,'') AS FTUsrCode,Usr_L.FTUsrName,\t\r\n\tISNULL(FTXshStaDoc,'') AS FTXshStaDoc,\r\n\tISNULL(HD.FTXshApvCode,'') AS FTXshApvCode,\r\n\tISNULL(UsrApvL.FTUsrName,'') AS FTUsrNameApp,\r\n\tISNULL(SHD.FTXshCtrName,'') AS FTXshCtrName,\r\n\tISNULL(FTAddVersion,'2') AS FTAddVersion,\r\n\tISNULL(FTAddV2Desc1,'') AS FTAddV2Desc1,\r\n\tISNULL(FTAddV2Desc2,'') AS FTAddV2Desc2,\r\n\tISNULL(CstAddr_L.FTAddRefNo,'') AS FTAddRefNo,\r\n\tISNULL(CstAddr_L.FTAddV1PvnCode,'') AS FTAddV1PvnCode, ISNULL(CstAddr_L.FTAddV1DstCode,'') AS FTAddV1DstCode,\r\n\tISNULL(CstAddr_L.FTAddV1SubDist,'') AS FTAddV1SubDist, \r\n\tISNULL(CstAddr_L.FTAddName,'') AS FTAddName, ISNULL(CstAddr_L.FTAddV1No, '') AS FTAddV1No,\r\n\tISNULL(CstAddr_L.FTAddV1Village, '') AS FTAddV1Village,\r\n\tISNULL(CstAddr_L.FTAddV1Soi, '') AS FTAddV1Soi,\r\n\tISNULL(CstAddr_L.FTAddV1Road, '') AS FTAddV1Road,\r\n\tISNULL(CstAddr_L.FTAddV1PostCode, '') AS FTAddV1PostCode,\r\n\tISNULL(FCXshTotal,0) AS FCXshTotal,ISNULL(FCXshWht,0) AS FCXshWht,ISNULL(FCXshInterest,0) AS FCXshInterest,\r\n\tISNULL(FCXshDisc,0) AS FCXshDisc, ISNULL(FCXshAmt,0) AS FCXshAmt,ISNULL(FCXshPay,0) AS FCXshPay,ISNULL(FCXshChgCredit,0) AS FCXshChgCredit,\r\n\tHD.FTXshGndText,UsrCrd_L.FTUsrName AS FTUsrCreate,\r\n\tISNULL(HD.FTAgnCode,'') AS FTAgnCode,ISNULL(AgnL.FTAgnName,'') AS FTAgnName\r\n\tFROM TARTSPHD  HD WITH (NOLOCK)  INNER JOIN \r\n     TARTSPHDCst SHD WITH (NOLOCK) ON HD.FTBchCode = SHD.FTBchCode AND HD.FTXshDocNo = SHD.FTXshDocNo \r\n\t LEFT JOIN  TCNMBranch_L BchL WITH (NOLOCK) ON HD.FTBchCode = BchL.FTBchCode AND BchL.FNLngID =  @pnLanguage LEFT JOIN\r\n\t TCNMCst Cst WITH (NOLOCK) ON HD.FTCstCode = Cst.FTCstCode LEFT JOIN\r\n\t TCNMCst_L Cst_L WITH (NOLOCK) ON HD.FTCstCode = Cst_L.FTCstCode AND Cst_L.FNLngID =  @pnLanguage LEFT JOIN\r\n     TCNMUsrDepart_L Dpl_L WITH (NOLOCK) ON  HD.FTDptCode = Dpl_L.FTDptCode AND Dpl_L.FNLngID =  @pnLanguage LEFT JOIN\r\n\t TCNMUser_L Usr_L  WITH (NOLOCK) ON HD.FTUsrCode = Usr_L.FTUsrCode AND Usr_L.FNLngID =  @pnLanguage LEFT JOIN\r\n\t TCNMUser_L UsrCrd_L  WITH (NOLOCK) ON HD.FTCreateBy = UsrCrd_L.FTUsrCode AND UsrCrd_L.FNLngID =  @pnLanguage LEFT JOIN\r\n\t TCNMUser_L UsrApvL  WITH (NOLOCK) ON HD.FTXshApvCode = UsrApvL.FTUsrCode AND UsrApvL.FNLngID =  @pnLanguage LEFT JOIN\r\n     TCNMAgency_L AgnL  WITH (NOLOCK) ON HD.FTAgnCode = AgnL.FTAgnCode AND AgnL.FNLngID =  @pnLanguage LEFT JOIN\r\n\t TCNMTaxAddress_L CstAddr_L WITH (NoLock) ON SHD.FTXshAddrTax = CstAddr_L.FTAddTaxNo AND CstAddr_L.FNLngID =  @pnLanguage\r\nWHERE HD.FTXshDocNo = @ptDocNo AND HD.FTBchCode = @ptDocBch",
         "Parameters": {
           "0": {
             "Name": "ptDocNo",
@@ -1038,170 +1038,6 @@
             "Size": 3
           }
         }
-      },
-      "6": {
-        "Ident": "StiSqlSource",
-        "Name": "TCNMCstAddress_L",
-        "Alias": "TCNMCstAddress_L",
-        "Key": "05961fe6474b4fb0b228d5821035996c",
-        "Columns": {
-          "0": {
-            "Name": "FTCstCode",
-            "Index": -1,
-            "NameInSource": "FTCstCode",
-            "Alias": "FTCstCode",
-            "Type": "System.String"
-          },
-          "1": {
-            "Name": "FTCbrBchCode",
-            "Index": -1,
-            "NameInSource": "FTCbrBchCode",
-            "Alias": "FTCbrBchCode",
-            "Type": "System.String"
-          },
-          "2": {
-            "Name": "FTCbrBchName",
-            "Index": -1,
-            "NameInSource": "FTCbrBchName",
-            "Alias": "FTCbrBchName",
-            "Type": "System.String"
-          },
-          "3": {
-            "Name": "FTAddVersion",
-            "Index": -1,
-            "NameInSource": "FTAddVersion",
-            "Alias": "FTAddVersion",
-            "Type": "System.String"
-          },
-          "4": {
-            "Name": "FTAddV2Desc1",
-            "Index": -1,
-            "NameInSource": "FTAddV2Desc1",
-            "Alias": "FTAddV2Desc1",
-            "Type": "System.String"
-          },
-          "5": {
-            "Name": "FTAddV2Desc2",
-            "Index": -1,
-            "NameInSource": "FTAddV2Desc2",
-            "Alias": "FTAddV2Desc2",
-            "Type": "System.String"
-          },
-          "6": {
-            "Name": "FTAddRefNo",
-            "Index": -1,
-            "NameInSource": "FTAddRefNo",
-            "Alias": "FTAddRefNo",
-            "Type": "System.String"
-          },
-          "7": {
-            "Name": "FTAddV1PvnCode",
-            "Index": -1,
-            "NameInSource": "FTAddV1PvnCode",
-            "Alias": "FTAddV1PvnCode",
-            "Type": "System.String"
-          },
-          "8": {
-            "Name": "FTAddV1PvnName",
-            "Index": -1,
-            "NameInSource": "FTAddV1PvnName",
-            "Alias": "FTAddV1PvnName",
-            "Type": "System.String"
-          },
-          "9": {
-            "Name": "FTAddV1DstCode",
-            "Index": -1,
-            "NameInSource": "FTAddV1DstCode",
-            "Alias": "FTAddV1DstCode",
-            "Type": "System.String"
-          },
-          "10": {
-            "Name": "FTDstName",
-            "Index": -1,
-            "NameInSource": "FTDstName",
-            "Alias": "FTDstName",
-            "Type": "System.String"
-          },
-          "11": {
-            "Name": "FTAddV1SubDist",
-            "Index": -1,
-            "NameInSource": "FTAddV1SubDist",
-            "Alias": "FTAddV1SubDist",
-            "Type": "System.String"
-          },
-          "12": {
-            "Name": "FTSudName",
-            "Index": -1,
-            "NameInSource": "FTSudName",
-            "Alias": "FTSudName",
-            "Type": "System.String"
-          },
-          "13": {
-            "Name": "FTAddName",
-            "Index": -1,
-            "NameInSource": "FTAddName",
-            "Alias": "FTAddName",
-            "Type": "System.String"
-          },
-          "14": {
-            "Name": "FTAddV1No",
-            "Index": -1,
-            "NameInSource": "FTAddV1No",
-            "Alias": "FTAddV1No",
-            "Type": "System.String"
-          },
-          "15": {
-            "Name": "FTAddV1Village",
-            "Index": -1,
-            "NameInSource": "FTAddV1Village",
-            "Alias": "FTAddV1Village",
-            "Type": "System.String"
-          },
-          "16": {
-            "Name": "FTAddV1Soi",
-            "Index": -1,
-            "NameInSource": "FTAddV1Soi",
-            "Alias": "FTAddV1Soi",
-            "Type": "System.String"
-          },
-          "17": {
-            "Name": "FTAddV1Road",
-            "Index": -1,
-            "NameInSource": "FTAddV1Road",
-            "Alias": "FTAddV1Road",
-            "Type": "System.String"
-          },
-          "18": {
-            "Name": "FTAddV1PostCode",
-            "Index": -1,
-            "NameInSource": "FTAddV1PostCode",
-            "Alias": "FTAddV1PostCode",
-            "Type": "System.String"
-          }
-        },
-        "NameInSource": "Vending",
-        "CommandTimeout": 5000,
-        "SqlCommand": "SELECT Top 1 MSAdd.FTCstCode,FTCbrBchCode,FTCbrBchName ,\r\nCASE WHEN ISNULL(AddHQ.FTCstCode,'') <> '' THEN AddHQ.FTAddVersion ELSE AddCst.FTAddVersion END AS FTAddVersion,\r\nCASE WHEN ISNULL(AddHQ.FTCstCode,'') <> '' THEN AddHQ.FTAddV2Desc1 ELSE AddCst.FTAddV2Desc1 END AS FTAddV2Desc1,\r\nCASE WHEN ISNULL(AddHQ.FTCstCode,'') <> '' THEN AddHQ.FTAddV2Desc2 ELSE AddCst.FTAddV2Desc2 END AS FTAddV2Desc2,\r\nCASE WHEN ISNULL(AddHQ.FTCstCode,'') <> '' THEN ISNULL(AddHQ.FTAddRefNo,'') ELSE ISNULL(AddCst.FTAddRefNo,'') END AS FTAddRefNo,\r\nCASE WHEN ISNULL(AddHQ.FTCstCode,'') <> '' THEN ISNULL(AddHQ.FTAddV1PvnCode,'') ELSE ISNULL(AddCst.FTAddV1PvnCode,'') END AS FTAddV1PvnCode, \r\nCASE WHEN ISNULL(AddHQ.FTCstCode,'') <> '' THEN ISNULL(PvnLHQ.FTPvnName,'') ELSE ISNULL(AddCst.FTPvnName,'') END AS FTAddV1PvnName, \r\nCASE WHEN ISNULL(AddHQ.FTCstCode,'') <> '' THEN ISNULL(AddHQ.FTAddV1DstCode,'') ELSE ISNULL(AddCst.FTAddV1DstCode,'') END AS FTAddV1DstCode,\r\nCASE WHEN ISNULL(AddHQ.FTCstCode,'') <> '' THEN ISNULL(DstLHQ.FTDstName,'') ELSE ISNULL(AddCst.FTDstName,'') END AS FTDstName,\r\nCASE WHEN ISNULL(AddHQ.FTCstCode,'') <> '' THEN ISNULL(AddHQ.FTAddV1SubDist,'') ELSE ISNULL(AddCst.FTAddV1SubDist,'') END AS FTAddV1SubDist, \r\nCASE WHEN ISNULL(AddHQ.FTCstCode,'') <> '' THEN ISNULL(SudLHQ.FTSudName,'') ELSE ISNULL(AddCst.FTSudName,'') END AS FTSudName, \r\nCASE WHEN ISNULL(AddHQ.FTCstCode,'') <> '' THEN ISNULL(AddHQ.FTAddName,'') ELSE ISNULL(AddCst.FTAddName,'') END AS FTAddName, \r\nCASE WHEN ISNULL(AddHQ.FTCstCode,'') <> '' THEN ISNULL(AddHQ.FTAddV1No, '') ELSE ISNULL(AddCst.FTAddV1No, '') END AS FTAddV1No,\r\nCASE WHEN ISNULL(AddHQ.FTCstCode,'') <> '' THEN ISNULL(AddHQ.FTAddV1Village, '') ELSE ISNULL(AddCst.FTAddV1Village, '') END AS FTAddV1Village,\r\nCASE WHEN ISNULL(AddHQ.FTCstCode,'') <> '' THEN ISNULL(AddHQ.FTAddV1Soi, '') ELSE ISNULL(AddCst.FTAddV1Soi, '') END AS FTAddV1Soi,\r\nCASE WHEN ISNULL(AddHQ.FTCstCode,'') <> '' THEN ISNULL(AddHQ.FTAddV1Road, '') ELSE ISNULL(AddCst.FTAddV1Road, '') END AS FTAddV1Road,\r\nCASE WHEN ISNULL(AddHQ.FTCstCode,'') <> '' THEN ISNULL(AddHQ.FTAddV1PostCode, '') ELSE ISNULL(AddCst.FTAddV1PostCode, '') END AS FTAddV1PostCode\t \r\nFROM TCNMCstAddress_L MSAdd \r\nLEFT JOIN\r\n(\t    \r\nSELECT TOP 1 CstB.FTCstCode,FTCbrBchCode,FTCbrBchName \r\n\t\tFROM TCNMCst Cst WITH (NOLOCK) LEFT JOIN\r\n\t\tTCNMCstBch CstB WITH (NOLOCK) ON Cst.FTCstCode = CstB.FTCstCode AND Cst.FTCstBchCode = CstB.FTCbrBchName\r\nWHERE CstB.FTCstCode = (SELECT FTCstCode FROM TARTSPHD WITH (NOLOCK) WHERE FTXshDocNo = @ptDocNo AND FTBchCode =@ptDocBch ) AND Cst.FTCstBchHQ = '1' \r\n\t\tORDER BY CstB.FDCreateOn DESC\r\n\t) BchHQ ON MSAdd.FTCstCode = BchHQ.FTCstCode\r\nLEFT JOIN TCNMCstAddress_L AddHQ WITH (NOLOCK) ON BchHQ.FTCstCode = AddHQ.FTCstCode AND BchHQ.FTCbrBchCode = AddHQ.FTAddRefNo AND AddHQ.FTAddGrpType = '4'\r\nLEFT JOIN TCNMProvince_L PvnLHQ WITH (NOLOCK) ON AddHQ.FTAddV1PvnCode = PvnLHQ.FTPvnCode AND PvnLHQ.FNLngID = @pnLanguage\r\nLEFT JOIN TCNMDistrict_L DstLHQ WITH (NOLOCK) ON AddHQ.FTAddV1DstCode = DstLHQ.FTDstCode AND DstLHQ.FNLngID = @pnLanguage\r\nLEFT JOIN TCNMSubDistrict_L SudLHQ WITH (NOLOCK) ON AddHQ.FTAddV1DstCode = DstLHQ.FTDstCode AND DstLHQ.FNLngID = @pnLanguage\r\nLEFT JOIN \r\n(\r\nSELECT TOP 1 Addr.*, PvnLCst.FTPvnName,DstLCst.FTDstName,SudLCst.FTSudName\r\n\tFROM TCNMCstAddress_L Addr WITH (NOLOCK)\r\n\tLEFT JOIN TCNMProvince_L PvnLCst WITH (NOLOCK) ON Addr.FTAddV1PvnCode = PvnLCst.FTPvnCode AND PvnLCst.FNLngID = @pnLanguage\r\n\tLEFT JOIN TCNMDistrict_L DstLCst WITH (NOLOCK) ON Addr.FTAddV1DstCode = DstLCst.FTDstCode AND DstLCst.FNLngID = @pnLanguage\r\n\tLEFT JOIN TCNMSubDistrict_L SudLCst WITH (NOLOCK) ON Addr.FTAddV1DstCode = SudLCst.FTSudCode AND SudLCst.FNLngID =@pnLanguage\r\nWHERE FTAddGrpType = '1' AND FTCstCode = (SELECT FTCstCode FROM TARTSPHD WITH (NOLOCK) WHERE FTXshDocNo = @ptDocNo AND FTBchCode =@ptDocBch )\r\n\tORDER BY FNAddSeqNo DESC\r\n) AddCst ON MSAdd.FTCstCode = AddCst.FTCstCode \r\nWHERE MSAdd.FTCstCode = (SELECT FTCstCode FROM TARTSPHD WITH (NOLOCK) WHERE FTXshDocNo = @ptDocNo AND FTBchCode =@ptDocBch )",
-        "Parameters": {
-          "0": {
-            "Name": "ptDocNo",
-            "Expression": "SP_tDocNo",
-            "Type": 22,
-            "Size": 20
-          },
-          "1": {
-            "Name": "pnLanguage",
-            "Expression": "nLanguage",
-            "Type": 16,
-            "Size": 3
-          },
-          "2": {
-            "Name": "ptDocBch",
-            "Expression": "SP_tDocBch",
-            "Type": 22,
-            "Size": 5
-          }
-        }
       }
     },
     "Databases": {
@@ -1267,17 +1103,34 @@
               "Components": {
                 "0": {
                   "Ident": "StiText",
+                  "Name": "tSplAddress",
+                  "Guid": "e75841e16962424f8d0c0945b84d6bc3",
+                  "ClientRectangle": "0.3,0.8,1.4,0.5",
+                  "Interaction": {
+                    "Ident": "StiInteraction"
+                  },
+                  "Text": {
+                    "Value": "{IIF(SP_nLang==\"1\",\"ที่อยู่ :\",\"Address :\")}"
+                  },
+                  "Font": "Tahoma;9;;",
+                  "Border": ";;;;;;;solid:Black",
+                  "Brush": "solid:",
+                  "TextBrush": "solid:Black",
+                  "Type": "Expression"
+                },
+                "1": {
+                  "Ident": "StiText",
                   "Name": "tAddrSum",
                   "Guid": "6f63fd5ab6984f81b928f423d21a4f11",
                   "CanGrow": true,
-                  "ClientRectangle": "0.31,0.8,10.44,1.65",
+                  "ClientRectangle": "1.75,0.8,9,1.65",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
                   "MaxNumberOfLines": 5,
                   "Editable": true,
                   "Text": {
-                    "Value": "{IIF(SP_nLang==\"1\",\"ที่อยู่ : \",\"Address :  \")+ IIF(TCNMCstAddress_L.FTAddVersion==\"1\",\r\nIIF(SP_nLang==\"1\",\"เลขที่ \",\"No. \") + TCNMCstAddress_L.FTAddV1No +\r\nIIF(TCNMCstAddress_L.FTAddV1Village ==\"\",\"\",\" \" + TCNMCstAddress_L.FTAddV1Village + \" \") + (char)13 +\r\nIIF(TCNMCstAddress_L.FTAddV1Soi==\"\",\"\",IIF(SP_nLang==\"1\",\"ซอย\",\"Soi \") + TCNMCstAddress_L.FTAddV1Soi + \" \") +\r\nIIF(TCNMCstAddress_L.FTAddV1Road==\"\",\"\",IIF(SP_nLang==\"1\",\"ถนน\",\"\") + TCNMCstAddress_L.FTAddV1Road + IIF(SP_nLang==\"1\",\"\",\" Rd.\")+ \" \")+ \r\nIIF(TCNMCstAddress_L.FTAddV1DstCode==\"\",\"\",IIF(SP_nLang==\"1\",\"  \" + TCNMCstAddress_L.FTDstName,\" \" + TCNMCstAddress_L.FTDstName +\"  District \")  + \" \") +\r\nIIF(TCNMCstAddress_L.FTAddV1PvnCode==\"\",\"\",IIF(SP_nLang==\"1\",\"  \" + TCNMCstAddress_L.FTAddV1PvnName,\" \" + TCNMCstAddress_L.FTAddV1PvnName+ \"  Provin\") + \" \") +\r\nIIF(TCNMCstAddress_L.FTAddV1PostCode==\"\",\"\",TCNMCstAddress_L.FTAddV1PostCode)\r\n,TCNMCstAddress_L.FTAddV2Desc1) + \"  \" + TCNMCstAddress_L.FTAddV2Desc2}"
+                    "Value": "{IIF(TARTSOHD.FTAddVersion==\"2\",TARTSOHD.FTAddV2Desc1,\"\")}  {IIF(TARTSOHD.FTAddVersion==\"2\",TARTSOHD.FTAddV2Desc2,\"\")}"
                   },
                   "CanBreak": true,
                   "Font": "Tahoma;9;;",
@@ -1290,7 +1143,7 @@
                   "LineSpacing": 1.1000000238418579,
                   "Type": "Expression"
                 },
-                "1": {
+                "2": {
                   "Ident": "StiText",
                   "Name": "tTel",
                   "Guid": "5ee918350d484b60b9aa58fe6229de03",
@@ -1307,7 +1160,7 @@
                   "TextBrush": "solid:Black",
                   "Type": "Expression"
                 },
-                "2": {
+                "3": {
                   "Ident": "StiText",
                   "Name": "tFax",
                   "Guid": "a79393af573748b08570864ffc4b33f4",
@@ -1324,7 +1177,7 @@
                   "TextBrush": "solid:Black",
                   "Type": "Expression"
                 },
-                "3": {
+                "4": {
                   "Ident": "StiText",
                   "Name": "tDocNo",
                   "Guid": "9e45f455c1c246d19364644a52b6a7f3",
@@ -1342,7 +1195,7 @@
                   "TextBrush": "solid:Black",
                   "Type": "Expression"
                 },
-                "4": {
+                "5": {
                   "Ident": "StiText",
                   "Name": "tDocDate",
                   "Guid": "df6fa88c55244711bbed2ddec5a42bd3",
@@ -1360,7 +1213,7 @@
                   "TextBrush": "solid:Black",
                   "Type": "Expression"
                 },
-                "5": {
+                "6": {
                   "Ident": "StiText",
                   "Name": "tOperator",
                   "Guid": "beb11843300140018c8523ea0673470f",
@@ -1378,7 +1231,7 @@
                   "TextBrush": "solid:Black",
                   "Type": "Expression"
                 },
-                "6": {
+                "7": {
                   "Ident": "StiPanel",
                   "Name": "Panel3",
                   "CanGrow": true,
@@ -1412,7 +1265,7 @@
                     }
                   }
                 },
-                "7": {
+                "8": {
                   "Ident": "StiText",
                   "Name": "Text5",
                   "Guid": "b86bf01191aa45a9a9f3afef91fa6419",
@@ -1436,7 +1289,7 @@
                   },
                   "Type": "Expression"
                 },
-                "8": {
+                "9": {
                   "Ident": "StiText",
                   "Name": "Text52",
                   "Guid": "10ef43e0724146cc937bc9fba77c31c7",
@@ -1454,7 +1307,7 @@
                   "TextBrush": "solid:Black",
                   "Type": "Expression"
                 },
-                "9": {
+                "10": {
                   "Ident": "StiStartPointPrimitive",
                   "Name": "StartPointPrimitive3",
                   "ClientRectangle": "0.15,0.05,0,0",
@@ -1463,7 +1316,7 @@
                   },
                   "ReferenceToGuid": "8faf532b730e4b038cdf2fcbc5a44c7d"
                 },
-                "10": {
+                "11": {
                   "Ident": "StiStartPointPrimitive",
                   "Name": "StartPointPrimitive4",
                   "ClientRectangle": "11.1,0.05,0,0",
@@ -1616,7 +1469,7 @@
                   "Ident": "StiText",
                   "Name": "tPdtCode",
                   "Guid": "437e19823a6c4be4acddc065db340c9a",
-                  "ClientRectangle": "1.15,0.15,3.42,0.5",
+                  "ClientRectangle": "1.15,0.15,2.7,0.5",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -1624,7 +1477,7 @@
                     "Value": "{IIF(SP_nLang == \"1\",\"เลขที่ใบอ้างอิง\",\"Ref. No.\")}"
                   },
                   "VertAlignment": "Center",
-                  "Font": "Tahoma;;;",
+                  "Font": "Tahoma;9;;",
                   "Border": ";;;;;;;solid:Black",
                   "Brush": "solid:",
                   "TextBrush": "solid:Black",
@@ -1643,7 +1496,7 @@
                   },
                   "HorAlignment": "Center",
                   "VertAlignment": "Center",
-                  "Font": "Tahoma;;;",
+                  "Font": "Tahoma;9;;",
                   "Border": ";;;;;;;solid:Black",
                   "Brush": "solid:",
                   "TextBrush": "solid:Black",
@@ -1653,7 +1506,7 @@
                   "Ident": "StiText",
                   "Name": "tQty",
                   "Guid": "d73dea2cb0a24692821ccdf98d66bc28",
-                  "ClientRectangle": "11.67,0.15,2.05,0.5",
+                  "ClientRectangle": "10.95,0.15,2.25,0.5",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -1662,7 +1515,7 @@
                   },
                   "HorAlignment": "Right",
                   "VertAlignment": "Center",
-                  "Font": "Tahoma;;;",
+                  "Font": "Tahoma;9;;",
                   "Border": ";;;;;;;solid:Black",
                   "Brush": "solid:",
                   "TextBrush": "solid:Black",
@@ -1672,7 +1525,7 @@
                   "Ident": "StiText",
                   "Name": "tBarcode",
                   "Guid": "a2f947f71ebe4a1a8962da30666e7fad",
-                  "ClientRectangle": "9.94,0.15,1.62,0.5",
+                  "ClientRectangle": "8.9,0.15,1.9,0.5",
                   "Alias": "Barcode",
                   "Interaction": {
                     "Ident": "StiInteraction"
@@ -1681,7 +1534,7 @@
                     "Value": "{IIF(SP_nLang == \"1\",\"วันที่รับวางบิล\",\"Date\")}"
                   },
                   "VertAlignment": "Center",
-                  "Font": "Tahoma;;;",
+                  "Font": "Tahoma;9;;",
                   "Border": ";;;;;;;solid:Black",
                   "Brush": "solid:",
                   "TextBrush": "solid:Black",
@@ -1691,7 +1544,7 @@
                   "Ident": "StiText",
                   "Name": "Text7",
                   "Guid": "e7d29162c2114e4d9d7193d128757abb",
-                  "ClientRectangle": "13.81,0.15,2,0.5",
+                  "ClientRectangle": "13.25,0.15,2.2,0.5",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -1700,7 +1553,7 @@
                   },
                   "HorAlignment": "Right",
                   "VertAlignment": "Center",
-                  "Font": "Tahoma;;;",
+                  "Font": "Tahoma;9;;",
                   "Border": ";;;;;;;solid:Black",
                   "Brush": "solid:",
                   "TextBrush": "solid:Black",
@@ -1710,7 +1563,7 @@
                   "Ident": "StiText",
                   "Name": "Text9",
                   "Guid": "11b990f019e34988a0eb530ac972eff0",
-                  "ClientRectangle": "15.89,0.15,2.05,0.5",
+                  "ClientRectangle": "15.45,0.15,2.25,0.5",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -1719,7 +1572,7 @@
                   },
                   "HorAlignment": "Right",
                   "VertAlignment": "Center",
-                  "Font": "Tahoma;;;",
+                  "Font": "Tahoma;9;;",
                   "Border": ";;;;;;;solid:Black",
                   "Brush": "solid:",
                   "TextBrush": "solid:Black",
@@ -1729,7 +1582,7 @@
                   "Ident": "StiText",
                   "Name": "Text11",
                   "Guid": "ecbf5ab1ad6348c3988e520ccd5d88d6",
-                  "ClientRectangle": "18,0.15,2,0.5",
+                  "ClientRectangle": "17.8,0.15,2.2,0.5",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -1738,7 +1591,7 @@
                   },
                   "HorAlignment": "Right",
                   "VertAlignment": "Center",
-                  "Font": "Tahoma;;;",
+                  "Font": "Tahoma;9;;",
                   "Border": ";;;;;;;solid:Black",
                   "Brush": "solid:",
                   "TextBrush": "solid:Black",
@@ -1748,7 +1601,7 @@
                   "Ident": "StiText",
                   "Name": "Text13",
                   "Guid": "2ee4f04ec3b34bac855f7b3695e0deef",
-                  "ClientRectangle": "4.57,0.15,1.95,0.5",
+                  "ClientRectangle": "3.85,0.15,2.35,0.5",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -1756,7 +1609,7 @@
                     "Value": "{IIF(SP_nLang == \"1\",\"ประเภทเอกสาร\",\"Doc. Type\")}"
                   },
                   "VertAlignment": "Center",
-                  "Font": "Tahoma;;;",
+                  "Font": "Tahoma;9;;",
                   "Border": ";;;;;;;solid:Black",
                   "Brush": "solid:",
                   "TextBrush": "solid:Black",
@@ -1766,7 +1619,7 @@
                   "Ident": "StiText",
                   "Name": "Text10",
                   "Guid": "698c12ae2bc54c9d8feac33192e96c4f",
-                  "ClientRectangle": "6.52,0.15,3.4,0.5",
+                  "ClientRectangle": "6.2,0.15,2.6,0.5",
                   "Interaction": {
                     "Ident": "StiInteraction"
                   },
@@ -1774,7 +1627,7 @@
                     "Value": "{IIF(SP_nLang == \"1\",\"ใบรับวางบิล\",\"Billing receipt\")}"
                   },
                   "VertAlignment": "Center",
-                  "Font": "Tahoma;;;",
+                  "Font": "Tahoma;9;;",
                   "Border": ";;;;;;;solid:Black",
                   "Brush": "solid:",
                   "TextBrush": "solid:Black",
@@ -2401,8 +2254,8 @@
         "2": {
           "Ident": "StiGroupHeaderBand",
           "Name": "GroupHeader1",
+          "CanShrink": true,
           "ClientRectangle": "0,7.4,20.4,0.05",
-          "Enabled": false,
           "Interaction": {
             "Ident": "StiBandInteraction"
           },
@@ -2417,6 +2270,7 @@
         "3": {
           "Ident": "StiDataBand",
           "Name": "Data1",
+          "CanShrink": true,
           "ClientRectangle": "0,8.25,20.4,0.4",
           "Interaction": {
             "Ident": "StiBandInteraction"
@@ -2436,7 +2290,7 @@
                 "Value": "{Line}"
               },
               "HorAlignment": "Center",
-              "Font": "Tahoma;;;",
+              "Font": "Tahoma;9;;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:",
               "TextBrush": "solid:Black",
@@ -2445,14 +2299,14 @@
             "1": {
               "Ident": "StiText",
               "Name": "Text3",
-              "ClientRectangle": "1.15,0,3.42,0.4",
+              "ClientRectangle": "1.15,0,2.7,0.4",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
               "Text": {
                 "Value": "{TARTSODT.FTXsdInvNo}"
               },
-              "Font": "Tahoma;;;",
+              "Font": "Tahoma;9;;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:",
               "TextBrush": "solid:Black"
@@ -2460,14 +2314,14 @@
             "2": {
               "Ident": "StiText",
               "Name": "Text4",
-              "ClientRectangle": "9.94,0,1.62,0.4",
+              "ClientRectangle": "8.9,0,1.9,0.4",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
               "Text": {
                 "Value": "{TARTSODT.FTXsdInvDate}"
               },
-              "Font": "Tahoma;;;",
+              "Font": "Tahoma;9;;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:",
               "TextBrush": "solid:Black",
@@ -2477,7 +2331,7 @@
               "Ident": "StiText",
               "Name": "Text6",
               "Guid": "a958836cda8e4a5ebbccd6012384f776",
-              "ClientRectangle": "11.67,0,2.05,0.4",
+              "ClientRectangle": "10.95,0,2.25,0.4",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -2485,7 +2339,7 @@
                 "Value": "{TARTSODT.FCXsdInvGrand}"
               },
               "HorAlignment": "Right",
-              "Font": "Tahoma;;;",
+              "Font": "Tahoma;9;;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:",
               "TextBrush": "solid:Black",
@@ -2501,7 +2355,7 @@
               "Ident": "StiText",
               "Name": "Text8",
               "Guid": "0e4933af2823442e8c576c3ad1bb4287",
-              "ClientRectangle": "13.81,0,2,0.4",
+              "ClientRectangle": "13.25,0,2.2,0.4",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -2509,7 +2363,7 @@
                 "Value": "{TARTSODT.FCXsdInvPaid}"
               },
               "HorAlignment": "Right",
-              "Font": "Tahoma;;;",
+              "Font": "Tahoma;9;;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:",
               "TextBrush": "solid:Black",
@@ -2525,7 +2379,7 @@
               "Ident": "StiText",
               "Name": "Text12",
               "Guid": "2bf2c51d051e4d34a5bf021993ac84c5",
-              "ClientRectangle": "18,0,2,0.4",
+              "ClientRectangle": "17.8,0,2.2,0.4",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -2533,7 +2387,7 @@
                 "Value": "{TARTSODT.FCXsdInvPay}"
               },
               "HorAlignment": "Right",
-              "Font": "Tahoma;;;",
+              "Font": "Tahoma;9;;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:",
               "TextBrush": "solid:Black",
@@ -2549,14 +2403,14 @@
               "Ident": "StiText",
               "Name": "Text19",
               "Guid": "3417823f1b4c4f54805d6daa9dc701a7",
-              "ClientRectangle": "4.57,0,1.95,0.4",
+              "ClientRectangle": "3.85,0,2.35,0.4",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
               "Text": {
-                "Value": "{Switch(TARTSODT.FNXsdInvType==\"1\",IIF(SP_nLang == \"1\",\"ใบขาย\",\"Sale\"),TARTSODT.FNXsdInvType==\"2\",IIF(SP_nLang == \"1\",\"ใบมัดจำ\",\"Deposit\"),TARTSODT.FNXsdInvType==\"3\",IIF(SP_nLang == \"1\",\"ใบลดหนี้\",\"Credit Note\"),TARTSODT.FNXsdInvType==\"4\",IIF(SP_nLang == \"1\",\"ใบเพิ่มหนี้\",\"Debit Note\"),TARTSODT.FNXsdInvType==\"5\",IIF(SP_nLang == \"1\",\"ใบหัก ณ ที่จ่าย\",\"Withholding slip\"),TARTSODT.FNXsdInvType==\"6\",IIF(SP_nLang == \"1\",\"ใบมัดจำ(จ่าย)\",\"Deposit(Paid)\"))}"
+                "Value": "{Switch(TARTSODT.FNXsdInvType==\"1\",IIF(SP_nLang == \"1\",\"ใบขาย\",\"Sale\"),TARTSODT.FNXsdInvType==\"2\",IIF(SP_nLang == \"1\",\"ใบมัดจำ\",\"Deposit\"),TARTSODT.FNXsdInvType==\"3\",IIF(SP_nLang == \"1\",\"ใบลดหนี้\",\"Credit Note\"),TARTSODT.FNXsdInvType==\"4\",IIF(SP_nLang == \"1\",\"ใบเพิ่มหนี้\",\"Debit Note\"),TARTSODT.FNXsdInvType==\"5\",IIF(SP_nLang == \"1\",\"ใบมัดจำ(จ่าย)\",\"Deposit(Paid)\"),TARTSODT.FNXsdInvType==\"5\",IIF(SP_nLang == \"1\",\"ใบหัก ณ ที่จ่าย\",\"Withholding slip\"))}"
               },
-              "Font": "Tahoma;;;",
+              "Font": "Tahoma;9;;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:",
               "TextBrush": "solid:Black",
@@ -2566,7 +2420,7 @@
               "Ident": "StiText",
               "Name": "Text57",
               "Guid": "8884785b5f9c455c8f6f8935a54bd36a",
-              "ClientRectangle": "15.89,0,2.05,0.4",
+              "ClientRectangle": "15.45,0,2.25,0.4",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -2574,7 +2428,7 @@
                 "Value": "{TARTSODT.FCXsdInvRem}"
               },
               "HorAlignment": "Right",
-              "Font": "Tahoma;;;",
+              "Font": "Tahoma;9;;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:",
               "TextBrush": "solid:Black",
@@ -2589,14 +2443,14 @@
             "8": {
               "Ident": "StiText",
               "Name": "Text49",
-              "ClientRectangle": "6.52,0,3.4,0.4",
+              "ClientRectangle": "6.2,0,2.6,0.4",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
               "Text": {
                 "Value": "{TARTSODT.FTXsdRefExt}"
               },
-              "Font": "Tahoma;;;",
+              "Font": "Tahoma;9;;",
               "Border": ";;;;;;;solid:Black",
               "Brush": "solid:",
               "TextBrush": "solid:Black",
