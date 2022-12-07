@@ -100,8 +100,8 @@
 								<td style="text-align:left;"><?=$aValue['FTCshShipTo']?></td>
 								<td style="text-align:left;"><?=$aValue['FTCshCostCenter']?></td>
 								<td style="text-align:left;"><?=$aValue['FTCshWhTaxCode']?></td>
-								<td style="text-align:left;"><?=$aValue['FCCshRoyaltyRate']?></td>
-								<td style="text-align:left;"><?=$aValue['FCCshMarketingRate']?></td>
+								<td style="text-align:left;"><?=number_format($aValue["FCCshRoyaltyRate"], $nOptDecimalShow)?></td>
+								<td style="text-align:left;"><?=number_format($aValue['FCCshMarketingRate'], $nOptDecimalShow)?></td>
 								<td style="text-align:left;"><?=$aValue['FTCshPaymentTerm']?></td>
 								<?php if($aAlwEvent['tAutStaFull'] == 1 || $aAlwEvent['tAutStaDelete'] == 1) : ?>
 								    <td><img class="xCNIconTable xCNIconDel" src="<?= base_url().'/application/modules/common/assets/images/icons/delete.png'?>" onClick="JSxConSetDeleteCstShp('<?=$aValue['FTBchCode'];?>', '<?= language('common/main/main','tModalConfirmDeleteItemsYN')?>')"></td>

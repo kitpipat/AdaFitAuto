@@ -1367,7 +1367,7 @@ class Deposit_Model extends CI_Model {
                         LEFT JOIN TCNMMerchant_L    MERL    WITH (NOLOCK)   ON SHP.FTMerCode        = MERL.FTMerCode	AND MERL.FNLngID	    = $nLngID
                         LEFT JOIN TCNMUsrDepart_L	DPTL    WITH (NOLOCK)   ON DOCHD.FTDptCode      = DPTL.FTDptCode	AND DPTL.FNLngID	= $nLngID
                         LEFT JOIN TCNMUser_L        USRL    WITH (NOLOCK)   ON DOCHD.FTUsrCode      = USRL.FTUsrCode	AND USRL.FNLngID	= $nLngID
-                        LEFT JOIN TCNMUser_L        USRAPV	WITH (NOLOCK)   ON DOCHD.FTXshApvCode	= USRL.FTUsrCode	AND USRL.FNLngID	= $nLngID
+                        LEFT JOIN TCNMUser_L        USRAPV	WITH (NOLOCK)   ON DOCHD.FTXshApvCode	= USRAPV.FTUsrCode	AND USRAPV.FNLngID	= $nLngID
                         LEFT JOIN TCNMUser_L        SPN     WITH (NOLOCK)    ON DOCHD.FTSpnCode      = SPN.FTUsrCode	    AND SPN.FNLngID	    = $nLngID
                         LEFT JOIN TARTRcvDepositHDCst       HDCST   WITH (NOLOCK)   ON DOCHD.FTXshDocNo     = HDCST.FTXshDocNo
                         LEFT JOIN TCNMCst           CST     WITH (NOLOCK)   ON DOCHD.FTCstCode      = CST.FTCstCode
@@ -1380,6 +1380,7 @@ class Deposit_Model extends CI_Model {
                         LEFT JOIN TCNMSubDistrict_L SUBDL   WITH (NOLOCK)   ON ADDL.FTAddV1SubDist = SUBDL.FTSudCode AND SUBDL.FNLngID = $nLngID
                         WHERE DOCHD.FTXshDocNo = '$tSODocNo' ";
                         
+        // echo $tSQL;
         $oQuery = $this->db->query($tSQL);
         if ($oQuery->num_rows() > 0){
             $aDetail = $oQuery->row_array();

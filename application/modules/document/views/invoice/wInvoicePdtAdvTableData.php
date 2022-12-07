@@ -1027,23 +1027,24 @@
     function JCNvIVCallModalDisChagDT(poEl){
         var nStaSession = 1;
         if(typeof nStaSession !== "undefined" && nStaSession == 1) {
-            var tDocNo          = $(poEl).parents('.xWPdtItem').data('docno');
-            var tPdtCode        = $(poEl).parents('.xWPdtItem').data('pdtcode');
-            var tPdtName        = $(poEl).parents('.xWPdtItem').data('pdtname');
-            var tPunCode        = $(poEl).parents('.xWPdtItem').data('puncode');
-            var tNet            = $(poEl).parents('.xWPdtItem').data('netafhd');
-            var tSetPrice       = $(poEl).parents('.xWPdtItem').attr('data-setprice');
-            var tQty            = $(poEl).parents('.xWPdtItem').attr('data-qty');
-            var tStaDis         = $(poEl).parents('.xWPdtItem').data('stadis');
-            var tSeqNo          = $(poEl).parents('.xWPdtItem').data('seqno');
-            var bHaveDisChgDT   = $(poEl).parents('.xWIVDisChgDTForm').find('label.xWDisChgDTTmp').text() == ''? false : true;
+            var tDocNo              = $(poEl).parents('.xWPdtItem').data('docno');
+            var tPdtCode            = $(poEl).parents('.xWPdtItem').data('pdtcode');
+            var tPdtName            = $(poEl).parents('.xWPdtItem').data('pdtname');
+            var tPunCode            = $(poEl).parents('.xWPdtItem').data('puncode');
+            var tNet                = $(poEl).parents('.xWPdtItem').data('netafhd');
+            var tSetPrice           = $(poEl).parents('.xWPdtItem').attr('data-setprice');
+            var tQty                = $(poEl).parents('.xWPdtItem').attr('data-qty');
+            var tStaDis             = $(poEl).parents('.xWPdtItem').data('stadis');
+            var tSeqNo              = $(poEl).parents('.xWPdtItem').data('seqno');
+            var tSetPriceByGrand    = $('#ospGrandTotal' + tSeqNo).val();
+            var bHaveDisChgDT       = $(poEl).parents('.xWIVDisChgDTForm').find('label.xWDisChgDTTmp').text() == ''? false : true;
             window.DisChgDataRowDT  = {
                 tDocNo          : tDocNo,
                 tPdtCode        : tPdtCode,
                 tPdtName        : tPdtName,
                 tPunCode        : tPunCode,
                 tNet            : tNet,
-                tSetPrice       : tSetPrice,
+                tSetPrice       : tSetPriceByGrand,
                 tQty            : tQty,
                 tStadis         : tStaDis,
                 tSeqNo          : tSeqNo,

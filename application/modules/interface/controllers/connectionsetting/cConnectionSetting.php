@@ -81,7 +81,8 @@ class cConnectionSetting extends MX_Controller {
         $aDataResult  = [
             'aUsrShopData'       => $aUsrShopData,
             'aAlwEvent'          => $aAlwEventConnectionSetting,
-            'tSearchAllUserShop'   => $tSearchAllCstShp
+            'tSearchAllUserShop'   => $tSearchAllCstShp,
+            'nOptDecimalShow'   => FCNxHGetOptionDecimalShow(), // Setting Config การโชว์จำนวนเลขทศนิยม
         ];
 
         $this->load->view('interface/connectionsetting/wConnectionsettingUserShop',$aDataResult);
@@ -511,6 +512,10 @@ class cConnectionSetting extends MX_Controller {
     //Return : Status Add Event
     //Return Type : String
     public function FSxCCCSUserShopEventAdd(){
+        $nCshRoyaltyRate      = $this->input->post('oetCssRytFee');
+        $nCshMarketingRate    = $this->input->post('oetCssMktFree');
+
+        $nOptDecimalSave        = FCNxHGetOptionDecimalSave();
         try{
             $aDataMaster        = [
                 'FTCshSoldTo'           => $this->input->post('oetCssShopsold'),
@@ -518,8 +523,8 @@ class cConnectionSetting extends MX_Controller {
                 'FTCshShipTo'           => $this->input->post('oetCssShopShip'),
                 'FTCshCostCenter'       => $this->input->post('oetCssShopCost'),
                 'FTCshWhTaxCode'        => $this->input->post('oetCssShopVat'),
-                'FCCshRoyaltyRate'      => $this->input->post('oetCssRytFee'),
-                'FCCshMarketingRate'    => $this->input->post('oetCssMktFree'),
+                'FCCshRoyaltyRate'      => number_format($nCshRoyaltyRate, $nOptDecimalSave, '.', ''),
+                'FCCshMarketingRate'    => number_format($nCshMarketingRate, $nOptDecimalSave, '.', ''),
                 'FTCshPaymentTerm'      => $this->input->post('oetCssPmtTerm'),
                 'FNLngID'               => $this->session->userdata("tLangEdit")
             ];

@@ -1,10 +1,10 @@
 {
   "ReportVersion": "2022.1.4.0",
-  "ReportGuid": "4447fc80261f4c7a96a2c416d646cbea",
+  "ReportGuid": "544ed4128bd14d9cb751b7c3a49e40ff",
   "ReportName": "Frm_SQL_SMBillReceipt",
   "ReportAlias": "Frm_SQL_SMBillReceipt",
   "ReportCreated": "/Date(1240901133000+0700)/",
-  "ReportChanged": "/Date(1670317770955+0700)/",
+  "ReportChanged": "/Date(1670405207188+0700)/",
   "EngineVersion": "EngineV2",
   "NumberOfPass": "DoublePass",
   "CalculationMode": "Interpretation",
@@ -785,7 +785,7 @@
         },
         "NameInSource": "Vending",
         "CommandTimeout": 10000,
-        "SqlCommand": "SELECT DT.FNXsdSeqNo ,DT.FTBchCode,DT.FTXshDocNo,DT.FTXsdInvNo,DT.FNXsdInvType,DT.FTXsdRefExt,CONVERT(VARCHAR(10),FDXsdInvDate,103) AS FTXsdInvDate,\r\n\tFCXsdInvGrand,FCXsdInvPaid,FCXsdInvRem,FCXsdInvPay,FTXsdCtrCode,FTXsdRmk\r\nFROM TARTSPDT DT\r\nWHERE DT.FTXshDocNo = @ptDocNo AND DT.FTBchCode = @ptDocBch",
+        "SqlCommand": "SELECT DT.FNXsdSeqNo ,DT.FTBchCode,DT.FTXshDocNo,DT.FTXsdInvNo,DT.FNXsdInvType,DT.FTXsdRefExt,CONVERT(VARCHAR(10),FDXsdInvDate,103) AS FTXsdInvDate,\r\n\tFCXsdInvGrand,FCXsdInvPaid,FCXsdInvRem,FCXsdInvPay,FTXsdCtrCode,FTXsdRmk\r\nFROM TARTSPDT DT\r\nWHERE DT.FTXshDocNo = @ptDocNo AND DT.FTBchCode = @ptDocBch AND FNXsdInvType <> '5'",
         "Parameters": {
           "0": {
             "Name": "ptDocNo",
@@ -808,58 +808,6 @@
         }
       },
       "3": {
-        "Ident": "StiSqlSource",
-        "Name": "TARTSODTVat",
-        "Alias": "TARTSODTVat",
-        "Key": "24d20e7a66b34e35aaa79abc4cf4de7f",
-        "Columns": {
-          "0": {
-            "Name": "FTBchCode",
-            "Index": -1,
-            "NameInSource": "FTBchCode",
-            "Alias": "FTBchCode",
-            "Type": "System.String"
-          },
-          "1": {
-            "Name": "FTXshDocNo",
-            "Index": -1,
-            "NameInSource": "FTXshDocNo",
-            "Alias": "FTXshDocNo",
-            "Type": "System.String"
-          },
-          "2": {
-            "Name": "FCXsdVatRate",
-            "Index": -1,
-            "NameInSource": "FCXsdVatRate",
-            "Alias": "FCXsdVatRate",
-            "Type": "System.Decimal"
-          },
-          "3": {
-            "Name": "FCXsdVat",
-            "Index": -1,
-            "NameInSource": "FCXsdVat",
-            "Alias": "FCXsdVat",
-            "Type": "System.Decimal"
-          }
-        },
-        "NameInSource": "Vending",
-        "SqlCommand": "SELECT HD.FTBchCode,HD.FTXshDocNo,CAST(FCXsdVatRate AS DECIMAL(18,2))  AS FCXsdVatRate,\r\nSUM(CAST(FCXsdVat AS DECIMAL(18,2))) AS FCXsdVat \r\nFROM TARTSODT DT \r\nINNER JOIN TARTSOHD HD ON DT.FTBchCode = HD.FTBchCode AND DT.FTXshDocNo = HD.FTXshDocNo\r\nWHERE HD.FTXshDocNo = \t@ptDocNo AND ISNULL(FTXsdStaPdt,'') <> '4' AND HD.FTBchCode = @ptDocBch\r\nGROUP BY HD.FTBchCode,HD.FTXshDocNo,CAST(FCXsdVatRate AS DECIMAL(18,2))",
-        "Parameters": {
-          "0": {
-            "Name": "ptDocNo",
-            "Expression": "SP_tDocNo",
-            "Type": 22,
-            "Size": 20
-          },
-          "1": {
-            "Name": "ptDocBch",
-            "Expression": "SP_tDocBch",
-            "Type": 22,
-            "Size": 5
-          }
-        }
-      },
-      "4": {
         "Ident": "StiSqlSource",
         "Name": "TARTSPHDDocRef",
         "Alias": "TARTSPHDDocRef",
@@ -932,7 +880,7 @@
           }
         }
       },
-      "5": {
+      "4": {
         "Ident": "StiSqlSource",
         "Name": "TARTSPRC",
         "Alias": "TARTSPRC",
@@ -1039,7 +987,7 @@
           }
         }
       },
-      "6": {
+      "5": {
         "Ident": "StiSqlSource",
         "Name": "TCNMCstAddress_L",
         "Alias": "TCNMCstAddress_L",
@@ -2091,7 +2039,7 @@
                 "Ident": "StiInteraction"
               },
               "Text": {
-                "Value": "{TARTSOHD.FCXshDisc}"
+                "Value": "{TARTSOHD.FCXshWht}"
               },
               "HorAlignment": "Right",
               "VertAlignment": "Center",
@@ -2105,7 +2053,7 @@
                 "GroupSeparator": ",",
                 "UseLocalSetting": false
               },
-              "Type": "Expression"
+              "Type": "DataColumn"
             },
             "3": {
               "Ident": "StiText",

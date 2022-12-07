@@ -163,7 +163,8 @@
 
             if(bLimitBeforeDisChg){
                 if(JCNbIVIsDisChgType('disChgDT')){
-                    let cBeforeDisChg = (parseFloat(DisChgDataRowDT.tQty) * parseFloat(DisChgDataRowDT.tSetPrice))
+                    // let cBeforeDisChg = (parseFloat(DisChgDataRowDT.tQty) * parseFloat(DisChgDataRowDT.tSetPrice))
+                    let cBeforeDisChg = (parseFloat(DisChgDataRowDT.tSetPrice));
                     $(this).find('td label.xWIVDisChgBeforeDisChg').first().text(accounting.formatNumber(cBeforeDisChg, 2, ','));
                 }
                 if(JCNbIVIsDisChgType('disChgHD')){

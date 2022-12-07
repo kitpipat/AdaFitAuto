@@ -211,9 +211,9 @@ class Invoice_controller extends MX_Controller {
 
                 $nResultCost = '';
                 $nINDEXConfig       = explode(',',$nCostType);
-                if($aDataPdtMaster['raItem']['FTAgnCode'] == '' || $aDataPdtMaster['raItem']['FTAgnCode'] == null) {
-                    $aDataPdtMaster['raItem']['pcPriceUse'] = $nResultCost;
-                }else{
+                // if($aDataPdtMaster['raItem']['FTAgnCode'] == '' || $aDataPdtMaster['raItem']['FTAgnCode'] == null) {
+                //     $aDataPdtMaster['raItem']['pcPriceUse'] = $nResultCost;
+                // }else{
                     for($i=0; $i<FCNnHSizeOf($nINDEXConfig); $i++){
                         switch ($nINDEXConfig[$i]) {
                             case 1 : 
@@ -251,7 +251,7 @@ class Invoice_controller extends MX_Controller {
                             break;
                         }
                     }
-                }
+                // }
                 
                 // นำรายการสินค้าเข้า DT Temp
                 $this->Invoice_model->FSaMIVInsertPDTToTemp($aDataPdtMaster, $aDataPdtParams);
@@ -271,7 +271,8 @@ class Invoice_controller extends MX_Controller {
                     'tDataVatInOrEx'    => $tIVVATInOrEx,
                     'tDataDocNo'        => $tIVDocNo,
                     'tDataDocKey'       => 'TAPTPiDT',
-                    'tDataSeqNo'        => ''
+                    'tDataSeqNo'        => '',
+                    'tBchCode'          => $tBCHCode
                 ];
                 $tStaCalcuRate = FCNbHCallCalcDocDTTemp($aCalcDTParams);
                 if ($tStaCalcuRate === TRUE) {
@@ -642,7 +643,7 @@ class Invoice_controller extends MX_Controller {
                     'tDataDocKey'       => 'TAPTPiDT',
                     'tDataSeqNo'        => ''
                 ];
-                // FCNbHCallCalcDocDTTemp($aCalcDTParams);
+                //  FCNbHCallCalcDocDTTemp($aCalcDTParams);
                 $aCalDTTempParams = [
                     'tDocNo'            => $tIVDocNo,
                     'tBchCode'          => $aDataDocument['ohdIVBchCode'],

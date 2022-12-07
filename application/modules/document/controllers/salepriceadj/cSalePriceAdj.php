@@ -72,7 +72,7 @@ class cSalePriceAdj extends MX_Controller{
             $nLangEdit              = $this->session->userdata("tLangEdit");
             $aData  = array(
                 'nPage'                 => $nPage,
-                'nRow'                  => 10,
+                'nRow'                  => get_cookie('nShowRecordInPageList'),
                 'FNLngID'               => $nLangEdit,
                 'oAdvanceSearchData'    => $oAdvanceSearchData
             );
@@ -105,7 +105,7 @@ class cSalePriceAdj extends MX_Controller{
             $aData      = array(
                 'nStaAddOrEdit' => 99,
                 'nPage'         => $nPage,
-                'nRow'          => 20,
+                'nRow'          => get_cookie('nShowRecordInPageList'),
                 'FNLngID'       => $nLangEdit,
                 'tSearchAll'    => $tSearchAll,
                 'FTXthDocKey'   => 'TCNTPdtAdjPriHD',

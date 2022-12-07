@@ -23,8 +23,8 @@ if ($aResult['rtCode'] == "1") {
     $tCshShipTo     =  "";
     $tCshSoldTo     =  "";
     $tCshWhTaxCode  =  "";
-    $tCshRytFee     = "";
-    $tCshMktFee     = "";
+    $tCshRytFee     = "0.00";
+    $tCshMktFee     = "0.00";
     $tCshPmtTerm     = "";
     //route
     $tRoute         = "connectionsettingEventAddUserShop";

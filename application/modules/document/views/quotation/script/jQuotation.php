@@ -137,8 +137,8 @@
 
     //โหลด List
     function JSvQTCallPageList() {
-        var nStaSession = JCNxFuncChkSessionExpired();
-        if (typeof nStaSession !== "undefined" && nStaSession == 1) {
+        // var nStaSession = JCNxFuncChkSessionExpired();
+        // if (typeof nStaSession !== "undefined" && nStaSession == 1) {
             $.ajax({
                 type: "GET",
                 url: "docQuotationSearchList",
@@ -155,15 +155,15 @@
                     JCNxResponseError(jqXHR, textStatus, errorThrown);
                 }
             });
-        } else {
-            JCNxShowMsgSessionExpired();
-        }
+        // } else {
+        //     JCNxShowMsgSessionExpired();
+        // }
     }
 
     //โหลดข้อมูลตาราง
     function JSvQTCallPageDataTable(pnPage) {
-        var nStaSession = JCNxFuncChkSessionExpired();
-        if (typeof nStaSession !== "undefined" && nStaSession == 1) {
+        // var nStaSession = JCNxFuncChkSessionExpired();
+        // if (typeof nStaSession !== "undefined" && nStaSession == 1) {
             JCNxOpenLoading();
             var oAdvanceSearch = JSoQTGetAdvanceSearchData();
             var nPageCurrent = pnPage;
@@ -196,9 +196,9 @@
                     JCNxResponseError(jqXHR, textStatus, errorThrown);
                 }
             });
-        } else {
-            JCNxShowMsgSessionExpired();
-        }
+        // } else {
+        //     JCNxShowMsgSessionExpired();
+        // }
     }
 
     //กด Next Page
