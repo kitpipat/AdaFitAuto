@@ -1478,4 +1478,55 @@ class mAdjustmentcost extends CI_Model{
             echo $Error;
         }
     }
+
+    //Function Select PdtPriDT for Insert into DocTmp
+    public function FSoMADCDTtoTmp($paData){
+        try {
+            $FTXphDocNo     = $paData['FTXphDocNo'];
+            $FTSessionID    = $paData['FTSessionID'];
+            $FTXthDocKey    = $paData['FTXthDocKey'];
+            $tSQL           = "
+                INSERT INTO TCNTDocDTTmp (
+                    FTBchCode,FTXthDocNo,FNXtdSeqNo,FTPdtCode,FTPunCode,FCXtdVatRate,FCXtdQtyOrd,FCXtdAmt,FCXtdFactor,FTXtdBarCode,
+                    FTSessionID,FTXthDocKey,FTTmpStatus,FTTmpRemark,FDLastUpdOn,FDCreateOn,FTLastUpdBy,FTCreateBy
+                )
+                SELECT 
+                    FTBchCode,
+                    FTXchDocNo AS FTXthDocNo,
+                    FNXcdSeqNo AS FNXtdSeqNo,
+                    FTPdtCode,
+                    FTPunCode,
+                    FCXcdCostOld AS FCXtdVatRate,
+                    FCXcdDiff AS FCXtdQtyOrd,
+                    FCXcdCostNew AS FCXtdAmt,
+                    FCXcdFactor AS FCXtdFactor,
+                    FTXcdBarScan AS FTXtdBarCode,
+                    '$FTSessionID' AS FTSessionID,
+                    '$FTXthDocKey' AS FTXthDocKey,
+                    '1' AS FTTmpStatus,
+                    '' AS FTTmpRemark,
+                    FDLastUpdOn,
+                    FDCreateOn,
+                    FTLastUpdBy,
+                    FTCreateBy
+                FROM TCNTPdtAdjCostDT WITH(NOLOCK)
+                WHERE FTXchDocNo    = '$FTXphDocNo'
+            ";
+            $oQuery = $this->db->query($tSQL);
+            if ($oQuery > 0) {
+                $aStatus = array(
+                    'rtCode' => '1',
+                    'rtDesc' => 'Insert DT to Doc Temp Success',
+                );
+            } else {
+                $aStatus = array(
+                    'rtCode' => '905',
+                    'rtDesc' => 'Error Cannot Insert Product to Doc Temp',
+                );
+            }
+            return $aStatus;
+        } catch (Exception $Error) {
+            echo $Error;
+        }
+    }
 }

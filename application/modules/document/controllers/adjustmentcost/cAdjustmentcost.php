@@ -161,6 +161,17 @@ class cAdjustmentcost extends MX_Controller {
         //Lang ภาษา
         $nLangEdit          = $this->session->userdata("tLangEdit");
 
+        $aDataDoc   = array(
+            'FTXphDocNo'    => $tXchDocNo,
+            'FTXthDocKey'   => 'TCNTPdtTwiDT',
+            'FTSessionID'   => $this->session->userdata('tSesSessionID'),
+            'FDLastUpdOn'   => date('Y-m-d'),
+            'FDCreateOn'    => date('Y-m-d'),
+            'FTLastUpdBy'   => $this->session->userdata('tSesUsername'),
+            'FTCreateBy'    => $this->session->userdata('tSesUsername')
+        );
+        $oDelTmp    = $this->mAdjustmentcost->FSaMAdDelPdtTmp($aDataDoc);
+        $oDTtoTmp   = $this->mAdjustmentcost->FSoMADCDTtoTmp($aDataDoc);
         //Data Master
         $aDataWhere  = array(
             'FTXchDocNo'    => $tXchDocNo,
@@ -176,6 +187,8 @@ class cAdjustmentcost extends MX_Controller {
         $aDataConfigViewAdd = array(
             'nOptDecimalShow'   => $nOptDecimalShow,
             'aDataDocHD'        => $aResult,
+            'oDelTmp'           => $oDelTmp,
+            'oDTtoTmp'          => $oDTtoTmp,
         );
 
         $tViewPageAdd = $this->load->view('document/adjustmentcost/wAdjustmentcostAdd',$aDataConfigViewAdd,true);
@@ -763,6 +776,7 @@ class cAdjustmentcost extends MX_Controller {
                 'tStaMessg' => $Error->getMessage()
             );
         }
+
         echo json_encode($aReturnData);
     }
 
@@ -1017,7 +1031,7 @@ class cAdjustmentcost extends MX_Controller {
             $aData      = array(
                 'nStaAddOrEdit' => 99,
                 'nPage'         => $nPage,
-                'nRow'          => 20,
+                'nRow'          => get_cookie('nShowRecordInPageList'),
                 'FNLngID'       => $nLangEdit,
                 'tSearchAll'    => $tSearchAll,
                 'FTXthDocKey'   => 'TCNTPdtTwiDT',
@@ -1036,9 +1050,11 @@ class cAdjustmentcost extends MX_Controller {
                 'aAlwEventSalePriceAdj'     => $aAlwEventSalePriceAdj,
                 'nOptDecimalShow'           => $nOptDecimalShow
             );
+            // print_r($aGenTable);
             $this->load->view('document/adjustmentcost/wAdjustmentcostPriDataTable', $aGenTable);
         } catch (Exception $Error) {
             echo $Error;
         }
+        
     }
 }
