@@ -127,6 +127,30 @@ function FCNbHUpdateDocDTTemp($paParams){
         $tSQLWhereSeqDis    = " AND $tTableDTDisTmp.FNXtdSeqNo = '".$tDataSeqNo."'";
     }
 
+    $tConditionB4DisChg     = "";
+    $tConditionNet          = "";
+    $tConditionAfNetHD      = "";
+    if(isset($tDataDocKey) && !empty($tDataDocKey) && $tDataDocKey == 'TAPTPiDT') {
+        $tConditionB4DisChg   = "CASE
+                                    WHEN ISNULL(DTTemp.FCXtdNet,0) <> 0 THEN ISNULL(DTTemp.FCXtdNet,0)
+                                    ELSE (ISNULL(DTTemp.FCXtdQty,0) * ISNULL(DTTemp.FCXtdSetPrice,0))
+                                END";
+        $tConditionNet        = "CASE
+                                    WHEN ISNULL(DTTemp.FCXtdNet,0) <> 0 THEN (ISNULL(DTTemp.FCXtdNet,0) - (-ISNULL(DTDisAll.FTXtdDisList,0)) + (ISNULL(DTDisAll.FTXtdChgList,0)))
+                                    ELSE ((ISNULL(DTTemp.FCXtdQty,0) * ISNULL(DTTemp.FCXtdSetPrice,0)) - (-ISNULL(DTDisAll.FTXtdDisList,0)) + (ISNULL(DTDisAll.FTXtdChgList,0)))
+                                END ";
+
+        $tConditionAfNetHD    = "CASE
+                                    WHEN ISNULL(DTTemp.FCXtdNet,0) <> 0 THEN ((ISNULL(DTTemp.FCXtdNet,0) - (-ISNULL(DTDisAll.FTXtdDisList,0))+(ISNULL(DTDisAll.FTXtdChgList,0))) + ((ISNULL(DTDisAll.FTXtdDisFoot,0)) + (ISNULL(DTDisAll.FTXtdChgFoot,0))))
+                                    ELSE (((ISNULL(DTTemp.FCXtdQty,0)*ISNULL(DTTemp.FCXtdSetPrice,0)) - (-ISNULL(DTDisAll.FTXtdDisList,0))+(ISNULL(DTDisAll.FTXtdChgList,0))) + ((ISNULL(DTDisAll.FTXtdDisFoot,0)) + (ISNULL(DTDisAll.FTXtdChgFoot,0))))
+                                END ";
+
+    }else {
+        $tConditionB4DisChg   = "(ISNULL(DTTemp.FCXtdQty,0)*ISNULL(DTTemp.FCXtdSetPrice,0)) ";
+        $tConditionNet        = "((ISNULL(DTTemp.FCXtdQty,0)*ISNULL(DTTemp.FCXtdSetPrice,0))-(-ISNULL(DTDisAll.FTXtdDisList,0))+(ISNULL(DTDisAll.FTXtdChgList,0)))";
+        $tConditionAfNetHD    = "(((ISNULL(DTTemp.FCXtdQty,0)*ISNULL(DTTemp.FCXtdSetPrice,0))-(-ISNULL(DTDisAll.FTXtdDisList,0))+(ISNULL(DTDisAll.FTXtdChgList,0)))+((ISNULL(DTDisAll.FTXtdDisFoot,0))+(ISNULL(DTDisAll.FTXtdChgFoot,0))))";
+    }
+
     $tSQL   = " UPDATE DocDTUpd
                 SET
                     DocDTUpd.FCXtdQtyAll        = DocDTSlt.FCXtdQtyAll,
@@ -193,16 +217,14 @@ function FCNbHUpdateDocDTTemp($paParams){
                                 ISNULL(DTDisAll.FTXtdDisFoot,0)	        AS FTXtdDisHD,
                                 ISNULL(DTDisAll.FTXtdChgFoot,0)	        AS FTXtdChgHD,
 
-                                (ISNULL(DTTemp.FCXtdQty,0)*ISNULL(DTTemp.FCXtdSetPrice,0))  AS FCXtdAmtB4DisChg,
-
-                                ((ISNULL(DTTemp.FCXtdQty,0)*ISNULL(DTTemp.FCXtdSetPrice,0))-(-ISNULL(DTDisAll.FTXtdDisList,0))+(ISNULL(DTDisAll.FTXtdChgList,0)))   AS FCXtdNet,
-
-                                (((ISNULL(DTTemp.FCXtdQty,0)*ISNULL(DTTemp.FCXtdSetPrice,0))-(-ISNULL(DTDisAll.FTXtdDisList,0))+(ISNULL(DTDisAll.FTXtdChgList,0)))+((ISNULL(DTDisAll.FTXtdDisFoot,0))+(ISNULL(DTDisAll.FTXtdChgFoot,0))))  AS FCXtdNetAfHD
-                            
+                                " . $tConditionB4DisChg . " AS FCXtdAmtB4DisChg,
+                                " . $tConditionNet . " AS FCXtdNet,
+                                " . $tConditionAfNetHD . " AS FCXtdNetAfHD
+                        
                             FROM (
                                 SELECT
                                     DTTemp.FTBchCode,DTTemp.FTXthDocNo,DTTemp.FTXthDocKey,DTTemp.FTSessionID,DTTemp.FNXtdSeqNo,DTTemp.FTXtdStaAlwDis,DTTemp.FCXtdFactor,DTTemp.FTXtdVatType,
-                                    DTTemp.FTVatCode,DTTemp.FCXtdVatRate,DTTemp.FTXtdWhtCode,DTTemp.FCXtdWhtRate,DTTemp.FCXtdQty,DTTemp.FCXtdQtyAll,DTTemp.FCXtdSetPrice
+                                    DTTemp.FTVatCode,DTTemp.FCXtdVatRate,DTTemp.FTXtdWhtCode,DTTemp.FCXtdWhtRate,DTTemp.FCXtdQty,DTTemp.FCXtdQtyAll,DTTemp.FCXtdSetPrice,DTTemp.FCXtdNet
                                 FROM $tTableDTTmp DTTemp WITH (NOLOCK)
                                 WHERE 1=1
                                 -- Edit By Jame,Nale AND DTTemp.FTBchCode    = '".$tDataBchCode."'
@@ -271,6 +293,7 @@ function FCNbHUpdateDocDTTemp($paParams){
                 AND DocDTUpd.FNXtdSeqNo 	= DocDTSlt.FNXtdSeqNo
                 AND DocDTUpd.FTSessionID	= DocDTSlt.FTSessionID
     ";
+
     $oQuery = $ci->db->query($tSQL);
     if($oQuery == 1){
         return true;
@@ -537,6 +560,7 @@ function FSaCCNDocumentUpdateHDDisAgain($paParams){
                     'FTXthDocNo'            => $aDataDiscountList[$i]['FTXthDocNo'],
                     'FDXtdDateIns'          => $aDataDiscountList[$i]['FDXtdDateIns'],
                     'FTXtdDisChgTxt'	    => $aDataDiscountList[$i]['FTXtdDisChgTxt'],    
+                    // 'FTXtdDisChgTxt'	    => (!empty($aDataDiscountList[$i]['FTXtdDisChgTxt'])) ? $aDataDiscountList[$i]['FTXtdDisChgTxt'] : 0,   
                     'FTXtdDisChgType'	    => $aDataDiscountList[$i]['FTXtdDisChgType'],
                     'FTSessionID'	        => $aDataDiscountList[$i]['FTSessionID']
                 );

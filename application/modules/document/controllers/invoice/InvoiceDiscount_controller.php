@@ -155,6 +155,7 @@ class InvoiceDiscount_controller extends MX_Controller {
                 $this->InvoiceDiscount_model->FSaMIVDeleteDTDisTemp($aParams);
 
                 if(isset($aDisChgItems) && !empty($aDisChgItems)){
+                    // print_r($aDisChgItems);
                     $aInsertDTDisTmp    =   array();
                     foreach ($aDisChgItems as $key => $item){
                         array_push($aInsertDTDisTmp,array(
@@ -199,8 +200,8 @@ class InvoiceDiscount_controller extends MX_Controller {
                     'tDataDocKey'       => 'TAPTPiDT',
                     'tDataSeqNo'        => $nSeqNo
                 ];
-                $aStaCalcDTTemp = FCNbHCallCalcDocDTTemp($aCalcDTParams);
-                if($aStaCalcDTTemp === TRUE){
+                // $aStaCalcDTTemp = FCNbHCallCalcDocDTTemp($aCalcDTParams);
+                // if($aStaCalcDTTemp === TRUE){
                     // Prorate HD
                     FCNaHCalculateProrate('TAPTPiDT',$tDocNo);
                     FCNbHCallCalcDocDTTemp($aCalcDTParams);
@@ -218,12 +219,12 @@ class InvoiceDiscount_controller extends MX_Controller {
                         'nStaEvent' => '1',
                         'tStaMessg' => 'Success Insert Document Dis Temp.'
                     );
-                }else{
-                    $aReturnData    = array(
-                        'nStaEvent' => '500',
-                        'tStaMessg' => 'Error Not Calcurate DT Temp.'
-                    );
-                }
+                // }else{
+                //     $aReturnData    = array(
+                //         'nStaEvent' => '500',
+                //         'tStaMessg' => 'Error Not Calcurate DT Temp.'
+                //     );
+                // }
             }
         }catch(Exception $Error){
             $aReturnData    = array(

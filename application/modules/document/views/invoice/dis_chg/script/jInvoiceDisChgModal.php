@@ -466,7 +466,7 @@
                     cache   : false,
                     timeout : 0,
                     success : function(tResult){
-                        console.log(aDisChgItems);
+                        // console.log(aDisChgItems);
                         $('#odvIVDisChgPanel').modal('hide');
 
                         //หลังจากบันทึกข้อมูลเเล้ว

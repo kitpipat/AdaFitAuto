@@ -416,6 +416,7 @@
                     tHTML += '  data-net="'+cNet+'"';
                     tHTML += '  data-stadis="'+nAlwDiscount+'"';
                     tHTML += '  data-TypePdt="'+tTypePDT+'"';
+                    tHTML += '  data-setdfprice="'+cNet+'"';
                     tHTML += '>';
                     tHTML += '<td align="center">';
                     tHTML += '  <label class="fancy-checkbox">';
@@ -828,6 +829,7 @@
         $('.xCNPdtEditInLine').off().on('change keyup',function(e){
             if(e.type === 'change' || e.keyCode === 13){
 
+                var tid    = $(this).attr('id');
                 var nSeq    = $(this).attr('data-seq');
                 var nQty    = $('.xWPdtItemList'+nSeq).attr('data-qty');
                 var cPrice  = $('.xWPdtItemList'+nSeq).attr('data-setprice');
@@ -848,7 +850,7 @@
                     $('#odvIVModalConfirmDeleteDTDis #obtIVConfirmDeleteDTDis').off('click');
                     $('#odvIVModalConfirmDeleteDTDis #obtIVConfirmDeleteDTDis').on('click',function(){
                         $('#odvIVModalConfirmDeleteDTDis').modal('hide');
-                        JSxGetDisChgList(nSeq,1,$(this).attr('id'));
+                        JSxGetDisChgList(nSeq,1,tid);
                         $(':input:eq(' + ($(':input').index(this) + 1) +')').focus().select();
                     });
 
@@ -885,29 +887,31 @@
             $('#ospPrice'+pnSeq).text(parseFloat(cResult).toFixed(2));
 
             $('.xWPdtItemList'+pnSeq).attr('data-setprice',parseFloat(cResult).toFixed(2));
-            $('.xWPdtItemList'+pnSeq).attr('data-net',parseFloat(cResult).toFixed(2));
-          
+            $('.xWPdtItemList'+pnSeq).attr('data-net',parseFloat(cResult).toFixed(2));  
         }
-
+        $('.xWPdtItemList'+pnSeq).attr('data-setdfprice',parseFloat(cTotal).toFixed(2));
+        
         if(ptObjID == ('ohdQty'+pnSeq)){
             $('#ospGrandTotal'+pnSeq).val(parseFloat(cResult1).toFixed(2));
             // $('.xWPdtItemList'+pnSeq).attr('data-setprice',parseFloat(cResult1).toFixed(2));
             // $('.xWPdtItemList'+pnSeq).attr('data-net',parseFloat(cResult1).toFixed(2));
             $('.xWPdtItemList'+pnSeq).attr('data-setprice',parseFloat(cPrice).toFixed(2));
             $('.xWPdtItemList'+pnSeq).attr('data-net',parseFloat(cPrice).toFixed(2));
+            $('.xWPdtItemList'+pnSeq).attr('data-setdfprice',parseFloat(cResult1).toFixed(2));
         }
 
         $('.xWPdtItemList'+pnSeq).attr('data-qty',nQty);
 
         // Fixed ราคาต่อหน่วย 2 ตำแหน่ง
         // $('#ospPrice'+pnSeq).text(parseFloat(cPrice).toFixed(2));
-
+        
         // Update Value
         // $('#ospPrice'+pnSeq).text(numberWithCommas(parseFloat(cResult).toFixed(2)));
         // $('.xWPdtItemList'+pnSeq).attr('data-qty',nQty);
         // $('.xWPdtItemList'+pnSeq).attr('data-setprice',parseFloat(cResult).toFixed(2));
         // $('.xWPdtItemList'+pnSeq).attr('data-net',parseFloat(cResult).toFixed(2));
         if(pnStaDelDis == 1){
+            // console.log(ptObjID)
             $('#xWDisChgDTTmp'+pnSeq).text('');
         }
 
@@ -1036,8 +1040,10 @@
             var tQty                = $(poEl).parents('.xWPdtItem').attr('data-qty');
             var tStaDis             = $(poEl).parents('.xWPdtItem').data('stadis');
             var tSeqNo              = $(poEl).parents('.xWPdtItem').data('seqno');
-            var tSetPriceByGrand    = $('#ospGrandTotal' + tSeqNo).val();
+            // var tSetPriceByGrand    = $('#ospGrandTotal' + tSeqNo).val(); 
+            var tSetPriceByGrand    = $(poEl).parents('.xWPdtItem').attr('data-setdfprice');
             var bHaveDisChgDT       = $(poEl).parents('.xWIVDisChgDTForm').find('label.xWDisChgDTTmp').text() == ''? false : true;
+            // console.log(tSetPriceByGrand)
             window.DisChgDataRowDT  = {
                 tDocNo          : tDocNo,
                 tPdtCode        : tPdtCode,

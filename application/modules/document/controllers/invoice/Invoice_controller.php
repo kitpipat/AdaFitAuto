@@ -643,7 +643,7 @@ class Invoice_controller extends MX_Controller {
                     'tDataDocKey'       => 'TAPTPiDT',
                     'tDataSeqNo'        => ''
                 ];
-                //  FCNbHCallCalcDocDTTemp($aCalcDTParams);
+                FCNbHCallCalcDocDTTemp($aCalcDTParams);
                 $aCalDTTempParams = [
                     'tDocNo'            => $tIVDocNo,
                     'tBchCode'          => $aDataDocument['ohdIVBchCode'],
@@ -1399,7 +1399,7 @@ class Invoice_controller extends MX_Controller {
             'tDataDocKey'       => 'TAPTPiDT',
             'tDataSeqNo'        => ''
         ];
-        // FCNbHCallCalcDocDTTemp($aCalcDTParams);
+        FCNbHCallCalcDocDTTemp($aCalcDTParams);
         $this->FSxCalculateHDDisAgain($tIVDocNo,$tRefIntBchCode);
         return  $aDataResult;
     }
