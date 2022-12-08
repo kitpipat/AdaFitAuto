@@ -52,7 +52,7 @@ require_once('../../config_deploy.php');
 			Stimulsoft.Base.Localization.StiLocalization.setLocalizationFile("<?=BASE_URL?>/formreport/AdaCoreFrmReport/localization/en-GB.xml", true);
 
 			var report = Stimulsoft.Report.StiReport.createNewReport();
-			report.loadFile("reports/Frm_SQL_SMBillReceipt.mrt?=v05.00.00");
+			report.loadFile("reports/Frm_SQL_SMBillReceipt.mrt?=v06.00.00");
 
 			// report.dictionary.variables.getByName("SP_nLang").valueObject = "1";
 			// report.dictionary.variables.getByName("nLanguage").valueObject = 1;

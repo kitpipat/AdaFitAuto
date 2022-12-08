@@ -1,10 +1,10 @@
 {
   "ReportVersion": "2022.1.4.0",
-  "ReportGuid": "283433bebbe74d7d8f331112d0328ce7",
+  "ReportGuid": "544ed4128bd14d9cb751b7c3a49e40ff",
   "ReportName": "Frm_SQL_SMBillReceipt",
   "ReportAlias": "Frm_SQL_SMBillReceipt",
   "ReportCreated": "/Date(1240901133000+0700)/",
-  "ReportChanged": "/Date(1670494404859+0700)/",
+  "ReportChanged": "/Date(1670405207188+0700)/",
   "EngineVersion": "EngineV2",
   "NumberOfPass": "DoublePass",
   "CalculationMode": "Interpretation",
@@ -53,7 +53,7 @@
         "AllowUseAsSqlParameter": true
       },
       "4": {
-        "Value": "SP220000700001000035",
+        "Value": "SP220000700001000008",
         "Name": "SP_tDocNo",
         "Alias": "SP_tDocNo",
         "Type": "System.String",
@@ -785,7 +785,7 @@
         },
         "NameInSource": "Vending",
         "CommandTimeout": 10000,
-        "SqlCommand": "SELECT DT.FNXsdSeqNo ,DT.FTBchCode,DT.FTXshDocNo,DT.FTXsdInvNo,DT.FNXsdInvType,DT.FTXsdRefExt,CONVERT(VARCHAR(10),FDXsdInvDate,103) AS FTXsdInvDate,\r\n\tFCXsdInvGrand,FCXsdInvPaid,FCXsdInvRem,FCXsdInvPay,FTXsdCtrCode,FTXsdRmk\r\nFROM TARTSPDT DT\r\nWHERE DT.FTXshDocNo = @ptDocNo AND DT.FTBchCode = @ptDocBch",
+        "SqlCommand": "SELECT DT.FNXsdSeqNo ,DT.FTBchCode,DT.FTXshDocNo,DT.FTXsdInvNo,DT.FNXsdInvType,DT.FTXsdRefExt,CONVERT(VARCHAR(10),FDXsdInvDate,103) AS FTXsdInvDate,\r\n\tFCXsdInvGrand,FCXsdInvPaid,FCXsdInvRem,FCXsdInvPay,FTXsdCtrCode,FTXsdRmk\r\nFROM TARTSPDT DT\r\nWHERE DT.FTXshDocNo = @ptDocNo AND DT.FTBchCode = @ptDocBch AND FNXsdInvType <> '5'",
         "Parameters": {
           "0": {
             "Name": "ptDocNo",
@@ -1808,7 +1808,7 @@
         "1": {
           "Ident": "StiPageFooterBand",
           "Name": "PageFooter1",
-          "ClientRectangle": "0,20.56,20.4,8.44",
+          "ClientRectangle": "0,19.6,20.4,9.4",
           "Interaction": {
             "Ident": "StiInteraction"
           },
@@ -1818,7 +1818,7 @@
             "0": {
               "Ident": "StiPanel",
               "Name": "Panel4",
-              "ClientRectangle": "0,2.84,20.4,3.35",
+              "ClientRectangle": "0,3.8,20.4,3.35",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -2083,10 +2083,36 @@
             },
             "4": {
               "Ident": "StiText",
+              "Name": "Vat",
+              "Guid": "67fb342830f743098a575d1abe6a5e1e",
+              "PrintOn": "OnlyLastPage",
+              "ClientRectangle": "17.15,1.75,2.75,0.5",
+              "Interaction": {
+                "Ident": "StiInteraction"
+              },
+              "Text": {
+                "Value": "{TARTSOHD.FCXshDisc}"
+              },
+              "HorAlignment": "Right",
+              "VertAlignment": "Center",
+              "Font": "Tahoma;9;;",
+              "Border": ";;;;;;;solid:Black",
+              "Brush": "solid:",
+              "TextBrush": "solid:Black",
+              "TextFormat": {
+                "Ident": "StiNumberFormatService",
+                "NegativePattern": 1,
+                "GroupSeparator": ",",
+                "UseLocalSetting": false
+              },
+              "Type": "Expression"
+            },
+            "5": {
+              "Ident": "StiText",
               "Name": "GranTotal",
               "Guid": "8d8e8d38a3b64ab9b507376a403417ec",
               "PrintOn": "OnlyLastPage",
-              "ClientRectangle": "17.15,1.71,2.75,0.5",
+              "ClientRectangle": "17.15,2.75,2.75,0.5",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -2107,12 +2133,12 @@
               },
               "Type": "Expression"
             },
-            "5": {
+            "6": {
               "Ident": "StiText",
               "Name": "tGranTotal",
               "Guid": "f7f5e8affe684525b1cb35484b54ad91",
               "PrintOn": "OnlyLastPage",
-              "ClientRectangle": "12.85,1.71,4.25,0.5",
+              "ClientRectangle": "12.85,2.75,4.25,0.5",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -2126,7 +2152,26 @@
               "TextBrush": "solid:Black",
               "Type": "Expression"
             },
-            "6": {
+            "7": {
+              "Ident": "StiText",
+              "Name": "tVat",
+              "Guid": "6976472b7f944efa99c1eac8dc705268",
+              "PrintOn": "OnlyLastPage",
+              "ClientRectangle": "12.85,1.75,4.25,0.5",
+              "Interaction": {
+                "Ident": "StiInteraction"
+              },
+              "Text": {
+                "Value": "{IIF(SP_nLang==\"1\",\"ส่วนลด\",\"Discount\")}"
+              },
+              "VertAlignment": "Center",
+              "Font": "Tahoma;9;;",
+              "Border": ";;;;;;;solid:Black",
+              "Brush": "solid:",
+              "TextBrush": "solid:Black",
+              "Type": "Expression"
+            },
+            "8": {
               "Ident": "StiText",
               "Name": "tDiscountHD",
               "Guid": "7d8d078916024a64b99415ab67335b20",
@@ -2145,7 +2190,7 @@
               "TextBrush": "solid:Black",
               "Type": "Expression"
             },
-            "7": {
+            "9": {
               "Ident": "StiText",
               "Name": "tGrossTotal",
               "Guid": "3586b5c7c01e466b9d90e04fce568ca0",
@@ -2164,7 +2209,7 @@
               "TextBrush": "solid:Black",
               "Type": "Expression"
             },
-            "8": {
+            "10": {
               "Ident": "StiText",
               "Name": "tNetAmt",
               "Guid": "4526839544df4866ac9495c85ab80932",
@@ -2174,7 +2219,7 @@
                 "Ident": "StiInteraction"
               },
               "Text": {
-                "Value": "{IIF(SP_nLang==\"1\",\"มัดจำ\",\"Deposit\")}"
+                "Value": "{IIF(SP_nLang==\"1\",\"ค่าธรรมเนียม+ค่าปรับผิดนัดชำระ\",\"Misc Charges\")}"
               },
               "VertAlignment": "Center",
               "Font": "Tahoma;9;;",
@@ -2183,7 +2228,7 @@
               "TextBrush": "solid:Black",
               "Type": "Expression"
             },
-            "9": {
+            "11": {
               "Ident": "StiText",
               "Name": "tRemark",
               "Guid": "6b0583b29c5b4ab7a332f231abb3210b",
@@ -2207,12 +2252,12 @@
               "LineSpacing": 1.1000000238418579,
               "Type": "Expression"
             },
-            "10": {
+            "12": {
               "Ident": "StiPanel",
               "Name": "Panel5",
               "Guid": "0d0181478a694cfda9865c7859f79ca4",
               "CanGrow": true,
-              "ClientRectangle": "0,2.39,20.4,0.35",
+              "ClientRectangle": "0,3.35,20.4,0.35",
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -2231,10 +2276,64 @@
                   "Border": ";;;;;;;solid:Black",
                   "Brush": "solid:",
                   "SubReportPageGuid": "c8f75021742944ecb164a1003cfb3d02"
+                },
+                "1": {
+                  "Ident": "StiEndPointPrimitive",
+                  "Name": "EndPointPrimitive2",
+                  "ClientRectangle": "20.05,0,0,0",
+                  "Interaction": {
+                    "Ident": "StiInteraction"
+                  },
+                  "ReferenceToGuid": "89106e34c9c340e2ac1b54ef762145cf"
                 }
               }
             },
-            "11": {
+            "13": {
+              "Ident": "StiText",
+              "Name": "Text50",
+              "Guid": "fd0be8bbfcb34e2f8b779756ba4f0be6",
+              "PrintOn": "OnlyLastPage",
+              "ClientRectangle": "17.15,2.25,2.75,0.5",
+              "Interaction": {
+                "Ident": "StiInteraction"
+              },
+              "Text": {
+                "Value": "{TARTSOHD.FCXshChgCredit}"
+              },
+              "HorAlignment": "Right",
+              "VertAlignment": "Center",
+              "Font": "Tahoma;9;;",
+              "Border": ";;;;;;;solid:Black",
+              "Brush": "solid:",
+              "TextBrush": "solid:Black",
+              "TextFormat": {
+                "Ident": "StiNumberFormatService",
+                "NegativePattern": 1,
+                "GroupSeparator": ",",
+                "UseLocalSetting": false
+              },
+              "Type": "DataColumn"
+            },
+            "14": {
+              "Ident": "StiText",
+              "Name": "Text51",
+              "Guid": "30cd3e7e338e4399b6bfb56e1ddca951",
+              "PrintOn": "OnlyLastPage",
+              "ClientRectangle": "12.85,2.25,4.25,0.5",
+              "Interaction": {
+                "Ident": "StiInteraction"
+              },
+              "Text": {
+                "Value": "{IIF(SP_nLang==\"1\",\"ชาร์จบัตรเครดิต\",\"Charge credit card \")}"
+              },
+              "VertAlignment": "Center",
+              "Font": "Tahoma;9;;",
+              "Border": ";;;;;;;solid:Black",
+              "Brush": "solid:",
+              "TextBrush": "solid:Black",
+              "Type": "Expression"
+            },
+            "15": {
               "Ident": "StiHorizontalLinePrimitive",
               "Name": "HorizontalLine3",
               "Guid": "9141c63f61c04eda8d2c42275830d854",
@@ -2244,15 +2343,6 @@
               },
               "StartCap": ";;;",
               "EndCap": ";;;"
-            },
-            "12": {
-              "Ident": "StiEndPointPrimitive",
-              "Name": "EndPointPrimitive2",
-              "ClientRectangle": "20.05,2.31,0,0",
-              "Interaction": {
-                "Ident": "StiInteraction"
-              },
-              "ReferenceToGuid": "89106e34c9c340e2ac1b54ef762145cf"
             }
           }
         },
@@ -2464,25 +2554,10 @@
           "KeepHeaderTogether": false,
           "KeepFooterTogether": false,
           "DataSourceName": "TARTSODT",
+          "FilterOn": false,
           "Sort": {
             "0": "ASC",
             "1": "FNPtdSeqNo"
-          },
-          "Filters": {
-            "0": {
-              "Ident": "StiFilter",
-              "Condition": "NotEqualTo",
-              "DataType": "Numeric",
-              "Column": "FNXsdInvType",
-              "Value1": "5"
-            },
-            "1": {
-              "Ident": "StiFilter",
-              "Condition": "NotEqualTo",
-              "DataType": "Numeric",
-              "Column": "FNXsdInvType",
-              "Value1": "6"
-            }
           }
         },
         "4": {
@@ -2535,7 +2610,7 @@
           "Ident": "StiRoundedRectanglePrimitive",
           "Name": "RoundedRectangle1",
           "Guid": "89106e34c9c340e2ac1b54ef762145cf",
-          "ClientRectangle": "0.15,5.85,19.9,17.02",
+          "ClientRectangle": "0.15,5.85,19.9,17.1",
           "Interaction": {
             "Ident": "StiInteraction"
           },
@@ -3013,7 +3088,6 @@
               "Name": "Text27",
               "Guid": "f30f204240364ecc9fa9e56c3ffab5b5",
               "ClientRectangle": "15.75,0.1,1.75,0.45",
-              "Enabled": false,
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -3203,7 +3277,6 @@
               "Name": "Text28",
               "Guid": "ac6ac2140d834329aca22519eff34056",
               "ClientRectangle": "15.75,0,1.75,0.45",
-              "Enabled": false,
               "Interaction": {
                 "Ident": "StiInteraction"
               },
@@ -3329,7 +3402,6 @@
               "Name": "Text34",
               "Guid": "2724d541f4464b0f9c29e8f231693e75",
               "ClientRectangle": "15.75,0.1,1.75,0.45",
-              "Enabled": false,
               "Interaction": {
                 "Ident": "StiInteraction"
               },

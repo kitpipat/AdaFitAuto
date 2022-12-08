@@ -55,6 +55,11 @@
                         <div class="clearfix"></div>
                     </li>
                     <li class="list-group-item">
+                        <label class="pull-left"><?=language('document/receiptdebtor/receiptdebtor','tRCBIntr');?></label>
+                        <label class="pull-right" id="olbRCBSumFCXtdAmt"><?=number_format($nXshInterest,$nOptDecimalShow)?></label>
+                        <div class="clearfix"></div>
+                    </li>
+                    <!-- <li class="list-group-item">
                         <label class="pull-left"><?=language('document/receiptdebtor/receiptdebtor','tRCBAfWht');?></label>
                         <label class="pull-right" id="olbRCBSumFCXtdNetAfHD"><?=number_format($nXshAfWht,$nOptDecimalShow)?></label>
                         <div class="clearfix"></div>
@@ -88,7 +93,7 @@
                         <label class="pull-left"><?=language('document/receiptdebtor/receiptdebtor','tRCBChgCredit');?></label>
                         <label class="pull-right" id="olbRCBSumFCXtdVat"><?=number_format($nXshChgCredit,$nOptDecimalShow)?></label>
                         <div class="clearfix"></div>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
             <div class="panel-heading">

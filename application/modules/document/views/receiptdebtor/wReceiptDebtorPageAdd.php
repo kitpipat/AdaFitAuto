@@ -460,8 +460,8 @@
                                                 <th nowrap style="color: #232C3D !important;"><?=language('document/receiptdebtor/receiptdebtor','tRCBBnkName')?></th>
                                                 <th nowrap style="color: #232C3D !important;"><?=language('document/receiptdebtor/receiptdebtor','tRCBBnkBch')?></th>
                                                 <th nowrap style="color: #232C3D !important;"><?=language('document/receiptdebtor/receiptdebtor','tRCBRefDate')?></th>
-                                                <th nowrap style="color: #232C3D !important;"><?=language('document/receiptdebtor/receiptdebtor','tRCBChgCreditPer')?><b>(%)</b></th>
-                                                <th nowrap style="color: #232C3D !important;"><?=language('document/receiptdebtor/receiptdebtor','tRCBChgCreditAmt')?></th>
+                                                <!-- <th nowrap style="color: #232C3D !important;"><?=language('document/receiptdebtor/receiptdebtor','tRCBChgCreditPer')?><b>(%)</b></th> -->
+                                                <!-- <th nowrap style="color: #232C3D !important;"><?=language('document/receiptdebtor/receiptdebtor','tRCBChgCreditAmt')?></th> -->
                                                 <th nowrap style="color: #232C3D !important;"><?=language('document/receiptdebtor/receiptdebtor','tRCBNet')?></th>
                                             </tr>
                                         </thead>
@@ -488,15 +488,15 @@
                                                                 }
                                                             ?>
                                                             </td>
-                                                            <td nowrap style="color: #232C3D !important;"  class="text-right"><?=number_format($aDataVal['FCXrcChgCreditPer'],$nOptDecimalShow)?></td>
-                                                            <td nowrap style="color: #232C3D !important;"  class="text-right"><?=number_format($aDataVal['FCXrcChgCreditAmt'],$nOptDecimalShow)?></td>
+                                                            <!-- <td nowrap style="color: #232C3D !important;"  class="text-right"><?=number_format($aDataVal['FCXrcChgCreditPer'],$nOptDecimalShow)?></td> -->
+                                                            <!-- <td nowrap style="color: #232C3D !important;"  class="text-right"><?=number_format($aDataVal['FCXrcChgCreditAmt'],$nOptDecimalShow)?></td> -->
                                                             <td nowrap style="color: #232C3D !important;"  class="text-right"><?=number_format($aDataVal['FCXrcNet'],$nOptDecimalShow)?></td>
                                                         </tr>
                                             <?php
                                                     }
                                             ?>
                                                 <tr class="text-center xCNTextDetail2 xWPdtItem">
-                                                    <td nowrap style="color: #232C3D !important;" class="text-right" colspan="9"><strong><?=language('document/abbsalerefund/abbsalerefund','tABBTableRcvTotal')?></strong></td>
+                                                    <td nowrap style="color: #232C3D !important;" class="text-right" colspan="7"><strong><?=language('document/abbsalerefund/abbsalerefund','tABBTableRcvTotal')?></strong></td>
                                                     <td nowrap style="color: #232C3D !important;" class="text-right"><strong><?=number_format($cXrcNetSum,$nOptDecimalShow)?></strong></td>
                                                 </tr>
                                             <?php
