@@ -367,6 +367,7 @@
     // Return Type : -
     function JSxADCGetPdtFromDoc(tTable, tDocNo, tPdtCodeDup) {
         JCNxOpenLoading();
+        var tBchCode = $('#ohdADCBchCode').val();
         $.ajax({
             type: "POST",
             url: "docADCGetPdtFromDoc",
@@ -374,6 +375,7 @@
                 tTable: tTable,
                 tDocNo: tDocNo,
                 tPdtCodeDup: tPdtCodeDup,
+                tBchCode: tBchCode,
             },
             async: false,
             cache: false,
@@ -382,6 +384,7 @@
                 var aResult = JSON.parse(tResult);
                 JSxADCShowTable(aResult)
                 JCNxCloseLoading();
+                JSvAdPdtPriDataTable();
 
             },
             error: function(jqXHR, textStatus, errorThrown) {
@@ -451,6 +454,8 @@
             cache: false,
             timeout: 0,
             success: function(tResult) {
+                // console.log(tResult.slice(0, 5))
+                // console.log('eiei')
                 var aResult = JSON.parse(tResult);
                 JSxADCShowTable(aResult)
                 $('#odvADCFilterDataCondition').modal('hide');
@@ -1152,7 +1157,7 @@ function JSvAdPdtPriDataTable(pnPage, ptFocusType, pCostType) {
         var FTXphDocNo  = $('#oetXphDocNo').val();
         var tFocusType  = (ptFocusType === undefined || ptFocusType == '') ? '1' : ptFocusType;
         var tCostType  = (pCostType === undefined || pCostType == '') ? '12' : pCostType;
-        if ($('#ofmADCFormAdd tr.otrSpaPdtPri').length == 0) {
+        if ($('#ofmADCFormAdd tr.ostAdDataPdtPri').length == 0) {
             if (pnPage != undefined) {
                 pnPage = pnPage - 1;
             }
@@ -1275,9 +1280,12 @@ function JSvAdPdtPriDataTable(pnPage, ptFocusType, pCostType) {
     }
 
     function JSxImportExcelCallback(){
+        
+        JCNxOpenLoading();
         setTimeout(function(){
-            $("#odvADCTable").html('');
-            JSxADCGetPdtFromImportExcel();
+            // $("#odvADCTable").html('');
+            // JSxADCGetPdtFromImportExcel();
+            JSvAdPdtPriDataTable();
         }, 50);
     }
 

@@ -54,6 +54,7 @@
                             data-setprice="<?=$aDataTableVal['FCXtdSetPrice'];?>"
                             data-qty="<?=$aDataTableVal['FCXtdQty'];?>"
                             data-netafhd="<?=$aDataTableVal['FCXtdNetAfHD'];?>"
+                            data-setdfprice="<?=$aDataTableVal['FCXtdNet'];?>"
                             data-net="<?=$aDataTableVal['FCXtdNet'];?>"
                             data-stadis="<?=$aDataTableVal['FTXtdStaAlwDis'];?>"
                             data-TypePdt="<?=$aDataTableVal['FTTmpStatus'];?>"
@@ -931,6 +932,7 @@
 
         var tIVDocNo        = $("#oetIVDocNo").val();
         var tIVBchCode      = $("#ohdIVBchCode").val();
+        var tSetDfPrice     = $('.xWPdtItemList'+pnSeq).attr('data-setdfprice');
         if(pnSeq != undefined){
             $.ajax({
                 type    : "POST",
@@ -943,6 +945,7 @@
                     'FTXtdPdtName'      : tName,
                     'cPrice'            : $('#ospPrice'+pnSeq).text().replace(/,/g, ''),
                     'cNet'              : parseFloat(accounting.unformat($('#ospGrandTotal'+pnSeq).val())),
+                    'cSetDfPrice'       : tSetDfPrice,
                     'nStaDelDis'        : pnStaDelDis
                 },
                 catch   : false,

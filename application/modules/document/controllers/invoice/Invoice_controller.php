@@ -643,7 +643,7 @@ class Invoice_controller extends MX_Controller {
                     'tDataDocKey'       => 'TAPTPiDT',
                     'tDataSeqNo'        => ''
                 ];
-                FCNbHCallCalcDocDTTemp($aCalcDTParams);
+                // FCNbHCallCalcDocDTTemp($aCalcDTParams);
                 $aCalDTTempParams = [
                     'tDocNo'            => $tIVDocNo,
                     'tBchCode'          => $aDataDocument['ohdIVBchCode'],
@@ -892,7 +892,9 @@ class Invoice_controller extends MX_Controller {
                 'FCXtdQty'      => $this->input->post('nQty'),
                 'FTXtdPdtName'  => $this->input->post('FTXtdPdtName'),
                 'FCXtdSetPrice' => $this->input->post('cPrice'),
-                'FCXtdNet'      => $this->input->post('cNet')
+                'FCXtdNet'      => $this->input->post('cNet'),
+                'FCXtdAmtB4DisChg'      => $this->input->post('cSetDfPrice'),
+                'FCXtdNetAfHD'      => $this->input->post('cNet')
             );
             $this->db->trans_begin();
             $this->Invoice_model->FSaMIVUpdateInlineDTTemp($aDataUpdateDT, $aDataWhere);
@@ -1399,7 +1401,7 @@ class Invoice_controller extends MX_Controller {
             'tDataDocKey'       => 'TAPTPiDT',
             'tDataSeqNo'        => ''
         ];
-        FCNbHCallCalcDocDTTemp($aCalcDTParams);
+        // FCNbHCallCalcDocDTTemp($aCalcDTParams);
         $this->FSxCalculateHDDisAgain($tIVDocNo,$tRefIntBchCode);
         return  $aDataResult;
     }

@@ -133,7 +133,7 @@ function FCNbHUpdateDocDTTemp($paParams){
     if(isset($tDataDocKey) && !empty($tDataDocKey) && $tDataDocKey == 'TAPTPiDT') {
         $tConditionB4DisChg   = "CASE
                                     WHEN ISNULL(DTTemp.FCXtdNet,0) <> 0 THEN ISNULL(DTTemp.FCXtdNet,0)
-                                    ELSE (ISNULL(DTTemp.FCXtdQty,0) * ISNULL(DTTemp.FCXtdSetPrice,0))
+                                    ELSE ISNULL(DTTemp.FCXtdNet,0)
                                 END";
         $tConditionNet        = "CASE
                                     WHEN ISNULL(DTTemp.FCXtdNet,0) <> 0 THEN (ISNULL(DTTemp.FCXtdNet,0) - (-ISNULL(DTDisAll.FTXtdDisList,0)) + (ISNULL(DTDisAll.FTXtdChgList,0)))
@@ -224,7 +224,7 @@ function FCNbHUpdateDocDTTemp($paParams){
                             FROM (
                                 SELECT
                                     DTTemp.FTBchCode,DTTemp.FTXthDocNo,DTTemp.FTXthDocKey,DTTemp.FTSessionID,DTTemp.FNXtdSeqNo,DTTemp.FTXtdStaAlwDis,DTTemp.FCXtdFactor,DTTemp.FTXtdVatType,
-                                    DTTemp.FTVatCode,DTTemp.FCXtdVatRate,DTTemp.FTXtdWhtCode,DTTemp.FCXtdWhtRate,DTTemp.FCXtdQty,DTTemp.FCXtdQtyAll,DTTemp.FCXtdSetPrice,DTTemp.FCXtdNet
+                                    DTTemp.FTVatCode,DTTemp.FCXtdVatRate,DTTemp.FTXtdWhtCode,DTTemp.FCXtdWhtRate,DTTemp.FCXtdQty,DTTemp.FCXtdQtyAll,DTTemp.FCXtdSetPrice,DTTemp.FCXtdAmtB4DisChg,DTTemp.FCXtdNet
                                 FROM $tTableDTTmp DTTemp WITH (NOLOCK)
                                 WHERE 1=1
                                 -- Edit By Jame,Nale AND DTTemp.FTBchCode    = '".$tDataBchCode."'

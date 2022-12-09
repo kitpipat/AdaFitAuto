@@ -143,7 +143,7 @@ class mRole extends CI_Model
         $nLngID = $paData['FNLngID'];
         $tSesUsrRoleCodeMulti = $paData['tSesUsrRoleCodeMulti'];
         if( $this->session->userdata('nSesUsrRoleLevel') != '99' ){
-        $tSQL   = " 
+        /*$tSQL   = " 
             SELECT DISTINCT
                 MENU.FTGmnModCode,
                 MOD_L.FTGmnModName,
@@ -172,44 +172,109 @@ class mRole extends CI_Model
             LEFT JOIN TSysMenuGrpModule_L MOD_L ON MOD.FTGmnModCode = MOD_L.FTGmnModCode AND MOD_L.FNLngID  = ".$this->db->escape($nLngID)."
             INNER JOIN TSysMenuAlbAct MNUALB ON USRM.FTMnuCode = MNUALB.FTMnuCode
             WHERE 1=1 AND MENU.FTGmnModCode NOT IN ('RPT')
-        ";
-        if(!empty($tSesUsrRoleCodeMulti)){
-            $tSQL   .= " AND USRM.FTRolCode IN ($tSesUsrRoleCodeMulti) ";
-        }
-        $tSQL   .= " 
-            AND MENU.FNMnuLevel     = 0
-            AND MENU.FTMnuStaUse    = 1
-            AND MOD.FTGmnModStaUse  = 1
-            UNION
+        ";*/
+        $tSQL   = " 
             SELECT DISTINCT
                 MENU.FTGmnModCode,
                 MOD_L.FTGmnModName,
                 MOD.FNGmnModShwSeq,
-                MGP.FTGmnCode,
-                MGPL.FTGmnName,
-                MGP.FNGmnShwSeq,
+                MOD.FTGmnModCode AS FTGmnCode,
+                MOD_L.FTGmnModName AS FTGmnName,
+                '0' AS FNGmnShwSeq,
                 MENU.FTMnuCode,
                 MNU_L.FTMnuName,
                 MENU.FNMnuSeq,
                 MENU.FNMnuLevel,
-                ISNULL(USRM.FTAutStaRead, 1)        AS FTAutStaRead,
-                ISNULL(USRM.FTAutStaAdd, 1)         AS FTAutStaAdd,
-                ISNULL(USRM.FTAutStaDelete, 1)      AS FTAutStaDelete,
-                ISNULL(USRM.FTAutStaEdit, 1)        AS FTAutStaEdit,
-                ISNULL(USRM.FTAutStaCancel, 1)      AS FTAutStaCancel,
-                ISNULL(USRM.FTAutStaAppv, 1)        AS FTAutStaAppv,
-                ISNULL(USRM.FTAutStaPrint, 1)       AS FTAutStaPrint,
-                ISNULL(USRM.FTAutStaPrintMore, 1)   AS FTAutStaPrintMore
-                FROM TCNTUsrMenu USRM
-                LEFT JOIN TSysMenuGrp MGP ON USRM.FTGmnCode = MGP.FTGmnCode
-                LEFT JOIN TSysMenuGrp_L MGPL ON USRM.FTGmnCode = MGPL.FTGmnCode AND MGPL.FNLngID = ".$this->db->escape($nLngID)."
-                LEFT JOIN TSysMenuList MENU ON USRM.FTMnuCode = MENU.FTMnuCode
-                LEFT JOIN TSysMenuList_L MNU_L ON USRM.FTMnuCode = MNU_L.FTMnuCode AND MNU_L.FNLngID = ".$this->db->escape($nLngID)."
-                LEFT JOIN TSysMenuGrpModule MOD ON MENU.FTGmnModCode = MOD.FTGmnModCode
-                LEFT JOIN TSysMenuGrpModule_L MOD_L ON MOD.FTGmnModCode = MOD_L.FTGmnModCode AND MOD_L.FNLngID = ".$this->db->escape($nLngID)."
-                INNER JOIN TSysMenuAlbAct MNUALB ON USRM.FTMnuCode = MNUALB.FTMnuCode
-                WHERE USRM.FDCreateOn <> ''
-            ";
+                ISNULL(MAX(USRM.FTAutStaRead), 1)       AS FTAutStaRead,
+                ISNULL(MAX(USRM.FTAutStaAdd), 1)        AS FTAutStaAdd,
+                ISNULL(MAX(USRM.FTAutStaDelete), 1)     AS FTAutStaDelete,
+                ISNULL(MAX(USRM.FTAutStaEdit), 1)       AS FTAutStaEdit,
+                ISNULL(MAX(USRM.FTAutStaCancel), 1)     AS FTAutStaCancel,
+                ISNULL(MAX(USRM.FTAutStaAppv), 1)       AS FTAutStaAppv,
+                ISNULL(MAX(USRM.FTAutStaPrint), 1)      AS FTAutStaPrint,
+                ISNULL(MAX(USRM.FTAutStaPrintMore), 1)  AS FTAutStaPrintMore
+            FROM TCNTUsrMenu USRM
+            LEFT JOIN TSysMenuGrp MGP ON USRM.FTGmnCode = MGP.FTGmnCode
+            LEFT JOIN TSysMenuGrp_L MGPL ON USRM.FTGmnCode = MGPL.FTGmnCode AND MGPL.FNLngID = ".$this->db->escape($nLngID)."
+            LEFT JOIN TSysMenuList MENU ON USRM.FTMnuCode = MENU.FTMnuCode
+            LEFT JOIN TSysMenuList_L MNU_L ON USRM.FTMnuCode = MNU_L.FTMnuCode AND MNU_L.FNLngID = ".$this->db->escape($nLngID)."
+            LEFT JOIN TSysMenuGrpModule MOD ON MENU.FTGmnModCode = MOD.FTGmnModCode
+            LEFT JOIN TSysMenuGrpModule_L MOD_L ON MOD.FTGmnModCode = MOD_L.FTGmnModCode AND MOD_L.FNLngID  = ".$this->db->escape($nLngID)."
+            INNER JOIN TSysMenuAlbAct MNUALB ON USRM.FTMnuCode = MNUALB.FTMnuCode
+            WHERE 1=1 AND MENU.FTGmnModCode NOT IN ('RPT')
+        ";
+        if(!empty($tSesUsrRoleCodeMulti)){
+            $tSQL   .= " AND USRM.FTRolCode IN ($tSesUsrRoleCodeMulti) ";
+        }
+            /*$tSQL   .= " 
+                AND MENU.FNMnuLevel     = 0
+                AND MENU.FTMnuStaUse    = 1
+                AND MOD.FTGmnModStaUse  = 1
+                UNION
+                SELECT DISTINCT
+                    MENU.FTGmnModCode,
+                    MOD_L.FTGmnModName,
+                    MOD.FNGmnModShwSeq,
+                    MGP.FTGmnCode,
+                    MGPL.FTGmnName,
+                    MGP.FNGmnShwSeq,
+                    MENU.FTMnuCode,
+                    MNU_L.FTMnuName,
+                    MENU.FNMnuSeq,
+                    MENU.FNMnuLevel,
+                    ISNULL(USRM.FTAutStaRead, 1)        AS FTAutStaRead,
+                    ISNULL(USRM.FTAutStaAdd, 1)         AS FTAutStaAdd,
+                    ISNULL(USRM.FTAutStaDelete, 1)      AS FTAutStaDelete,
+                    ISNULL(USRM.FTAutStaEdit, 1)        AS FTAutStaEdit,
+                    ISNULL(USRM.FTAutStaCancel, 1)      AS FTAutStaCancel,
+                    ISNULL(USRM.FTAutStaAppv, 1)        AS FTAutStaAppv,
+                    ISNULL(USRM.FTAutStaPrint, 1)       AS FTAutStaPrint,
+                    ISNULL(USRM.FTAutStaPrintMore, 1)   AS FTAutStaPrintMore
+                    FROM TCNTUsrMenu USRM
+                    LEFT JOIN TSysMenuGrp MGP ON USRM.FTGmnCode = MGP.FTGmnCode
+                    LEFT JOIN TSysMenuGrp_L MGPL ON USRM.FTGmnCode = MGPL.FTGmnCode AND MGPL.FNLngID = ".$this->db->escape($nLngID)."
+                    LEFT JOIN TSysMenuList MENU ON USRM.FTMnuCode = MENU.FTMnuCode
+                    LEFT JOIN TSysMenuList_L MNU_L ON USRM.FTMnuCode = MNU_L.FTMnuCode AND MNU_L.FNLngID = ".$this->db->escape($nLngID)."
+                    LEFT JOIN TSysMenuGrpModule MOD ON MENU.FTGmnModCode = MOD.FTGmnModCode
+                    LEFT JOIN TSysMenuGrpModule_L MOD_L ON MOD.FTGmnModCode = MOD_L.FTGmnModCode AND MOD_L.FNLngID = ".$this->db->escape($nLngID)."
+                    INNER JOIN TSysMenuAlbAct MNUALB ON USRM.FTMnuCode = MNUALB.FTMnuCode
+                    WHERE USRM.FDCreateOn <> ''
+                ";*/
+            $tSQL   .= " 
+                AND MENU.FNMnuLevel     = 0
+                AND MENU.FTMnuStaUse    = 1
+                AND MOD.FTGmnModStaUse  = 1
+                GROUP BY MENU.FTGmnModCode,MOD_L.FTGmnModName,MOD.FNGmnModShwSeq,MOD.FTGmnModCode,MOD_L.FTGmnModName,MENU.FTMnuCode,MNU_L.FTMnuName,MENU.FNMnuSeq,MENU.FNMnuLevel
+                UNION
+                SELECT DISTINCT
+                    MENU.FTGmnModCode,
+                    MOD_L.FTGmnModName,
+                    MOD.FNGmnModShwSeq,
+                    MGP.FTGmnCode,
+                    MGPL.FTGmnName,
+                    MGP.FNGmnShwSeq,
+                    MENU.FTMnuCode,
+                    MNU_L.FTMnuName,
+                    MENU.FNMnuSeq,
+                    MENU.FNMnuLevel,
+                    ISNULL(MAX(USRM.FTAutStaRead), 1)        AS FTAutStaRead,
+                    ISNULL(MAX(USRM.FTAutStaAdd), 1)         AS FTAutStaAdd,
+                    ISNULL(MAX(USRM.FTAutStaDelete), 1)      AS FTAutStaDelete,
+                    ISNULL(MAX(USRM.FTAutStaEdit), 1)        AS FTAutStaEdit,
+                    ISNULL(MAX(USRM.FTAutStaCancel), 1)      AS FTAutStaCancel,
+                    ISNULL(MAX(USRM.FTAutStaAppv), 1)        AS FTAutStaAppv,
+                    ISNULL(MAX(USRM.FTAutStaPrint), 1)       AS FTAutStaPrint,
+                    ISNULL(MAX(USRM.FTAutStaPrintMore), 1)   AS FTAutStaPrintMore
+                    FROM TCNTUsrMenu USRM
+                    LEFT JOIN TSysMenuGrp MGP ON USRM.FTGmnCode = MGP.FTGmnCode
+                    LEFT JOIN TSysMenuGrp_L MGPL ON USRM.FTGmnCode = MGPL.FTGmnCode AND MGPL.FNLngID = ".$this->db->escape($nLngID)."
+                    LEFT JOIN TSysMenuList MENU ON USRM.FTMnuCode = MENU.FTMnuCode
+                    LEFT JOIN TSysMenuList_L MNU_L ON USRM.FTMnuCode = MNU_L.FTMnuCode AND MNU_L.FNLngID = ".$this->db->escape($nLngID)."
+                    LEFT JOIN TSysMenuGrpModule MOD ON MENU.FTGmnModCode = MOD.FTGmnModCode
+                    LEFT JOIN TSysMenuGrpModule_L MOD_L ON MOD.FTGmnModCode = MOD_L.FTGmnModCode AND MOD_L.FNLngID = ".$this->db->escape($nLngID)."
+                    INNER JOIN TSysMenuAlbAct MNUALB ON USRM.FTMnuCode = MNUALB.FTMnuCode
+                    WHERE USRM.FDCreateOn <> ''
+                ";
             if(!empty($tSesUsrRoleCodeMulti)){
                 $tSQL   .= " AND USRM.FTRolCode IN ($tSesUsrRoleCodeMulti) ";
             }
@@ -217,6 +282,7 @@ class mRole extends CI_Model
                 AND MOD.FTGmnModStaUse  = 1
                 AND MGP.FTGmnStaUse     = 1
                 AND MENU.FTMnuStaUse    = 1
+                GROUP BY MENU.FTGmnModCode, MOD_L.FTGmnModName,MOD.FNGmnModShwSeq,MGP.FTGmnCode,MGPL.FTGmnName,MGP.FNGmnShwSeq,MENU.FTMnuCode,MNU_L.FTMnuName,MENU.FNMnuSeq, MENU.FNMnuLevel
                 ORDER BY FNGmnModShwSeq,FTGmnModCode,FNGmnShwSeq,FTGmnCode,FNMnuSeq,FTMnuCode
             ";
         }else{
@@ -253,6 +319,7 @@ class mRole extends CI_Model
                 ORDER BY FNGmnModShwSeq,FTGmnModCode,FNGmnShwSeq,FTGmnCode,FNMnuSeq,FTMnuCode
             ";
         }
+        // print_r($tSQL);
         $oQuery = $this->db->query($tSQL);
         if ($oQuery->num_rows() > 0) {
             $oList = $oQuery->result_array();

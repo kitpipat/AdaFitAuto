@@ -1464,6 +1464,8 @@ class Invoice_model extends CI_Model{
         $this->db->set('FCXtdQty', $paDataUpdateDT['FCXtdQty']);
         $this->db->set('FCXtdSetPrice', $paDataUpdateDT['FCXtdSetPrice']);
         $this->db->set('FCXtdNet', $paDataUpdateDT['FCXtdNet']);
+        $this->db->set('FCXtdAmtB4DisChg', $paDataUpdateDT['FCXtdAmtB4DisChg']);
+        $this->db->set('FCXtdNetAfHD', $paDataUpdateDT['FCXtdNetAfHD']);
         $this->db->set('FTXtdPdtName', $paDataUpdateDT['FTXtdPdtName']);
         $this->db->set('FCXtdQtyAll', $paDataUpdateDT['FCXtdQty'] * $cPdtUnitFact);
         $this->db->where('FTSessionID', $tSessionID);

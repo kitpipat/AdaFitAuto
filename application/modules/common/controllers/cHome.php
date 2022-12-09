@@ -22,6 +22,7 @@ class cHome extends MX_Controller{
         $this->load->model('common/mNotification');
         $this->load->model('document/purchaseorder/mPurchaseOrder');
         $this->load->model('document/purchaseinvoice/mPurchaseInvoice');
+        $this->load->model('document/adjustmentcost/mAdjustmentcost');
     }
 
     public function index($nMsgResp = ''){
@@ -911,16 +912,37 @@ class cHome extends MX_Controller{
                             }
                         break;
                         case "adjcost":
+                            $tPdtCode       = trim($aPackData[$i][0]);
+                            $tBarCode       = (isset($aPackData[$i][2]) == '') ? '' : $aPackData[$i][2];
+                            $nSeqNo         = $i;
+                            $cXtdAmt        = (isset($aPackData[$i][1]) == '') ? 0 : $aPackData[$i][1];
+                            $tTmpStatus     = (isset($aPackData[$i][2]) == '') ? '' : $aPackData[$i][2];
+                            $tTmpRemark     = (isset($aPackData[$i][3]) == '') ? '' : $aPackData[$i][3];
+
+                            $aParams = array(
+                                'FTSessionID'   => $this->session->userdata('tSesSessionID'),
+                                'FNLngID'       => $this->session->userdata("tLangEdit"),
+                                'FTPdtCode'     => $tPdtCode,
+                                'tPdtCodeDup'   => '',
+                            );
+                
+                            $aData          = $this->mAdjustmentcost->FSaMADCGetPdtDataFromImportExcel($aParams);
+                
                             $aObject = array(
                                 'FTBchCode'         => $this->session->userdata("tSesUsrBchCodeDefault"),
                                 'FTXthDocKey'       => $tTableRefPK,
                                 'FNXtdSeqNo'        => $i,
                                 'FTPdtCode'         => trim($aPackData[$i][0]),
-                                'FCXtdCostEx'       => (isset($aPackData[$i][1]) == '') ? '' : $aPackData[$i][1],
-                                'FTTmpStatus'       => (isset($aPackData[$i][2]) == '') ? '' : $aPackData[$i][2],
-                                'FTTmpRemark'       => (isset($aPackData[$i][3]) == '') ? '' : $aPackData[$i][3],
+                                'FTPunName'         => (empty($aData['raItems'][0]['FTPunName'])) ? "" : $aData['raItems'][0]['FTPunName'],
+                                'FTPunCode'         => (empty($aData['raItems'][0]['FTPunCode'])) ? "" : $aData['raItems'][0]['FTPunCode'],
+                                'FCXtdQtyOrd'       => 0,
+                                'FCXtdAmt'          => $cXtdAmt,
+                                'FCXtdVatRate'      => (empty($aData['raItems'][0]['FCPdtCostStd'])) ? 0 : (int)$aData['raItems'][0]['FCPdtCostStd'],
+                                'FCXtdQty'          => (empty($aData['raItems'][0]['FCPdtCostEx'])) ? 0 : (int)$aData['raItems'][0]['FCPdtCostEx'],
+                                'FTTmpStatus'       => $tTmpStatus,
+                                'FTTmpRemark'       => $tTmpRemark,
                                 'FTSessionID'       => $this->session->userdata("tSesSessionID"),
-                                'FDCreateOn'        => date('Y-m-d')
+                                'FDCreateOn'        => date('Y-m-d H:i:s')
                             );
                         break;
                     }

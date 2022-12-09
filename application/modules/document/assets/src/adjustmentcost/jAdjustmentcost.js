@@ -376,7 +376,7 @@ function JSxValidateFormAddADC() {
                 }
             } else {
                 if ($('#ohdCheckADCSubmitByButton').val() == 1) {
-                    JSxADCSubmitEventByButton();;
+                    JSxADCSubmitEventByButton();
                 }
             }
 
@@ -400,6 +400,8 @@ function JSxADCSubmitEventByButton() {
 }
 
 function JSxADCInsertDT(){
+    // var nRowlength = $('#ofmADCFormAdd tr.ostAdDataPdtPri').length;
+    // $oForm = $('#ofmADCFormAdd').serialize() + '&nStaAction=' + '1';
     $.ajax({
         type: "POST",
         url: $("#ohdADCRoute").val(),
@@ -418,7 +420,6 @@ function JSxADCInsertDT(){
         timeout: 0,
         success: function (tResult) {
             var aReturn = JSON.parse(tResult);
-            console.log(aReturn);
             if (nStaADCBrowseType != 1) {
                 if (aReturn['nStaEvent'] == 1) {
                   var oSOCallDataTableFile = {
@@ -932,7 +933,6 @@ function JSxADCGetDataFromTableInsert() {
             }
 
         }
-        console.log(aData);
 
     });
     return aData;
@@ -1073,8 +1073,8 @@ function JSxSpaSaveInLine(oEvent, oElm) {
         var b4value = parseFloat($(oElm).attr('b4value'));
         var tValue = ($(oElm).val() == "") ? 0 : parseFloat($(oElm).val().replace(/,/g, ''));
         // alert(tValue);
-        console.log(b4value);
-        console.log(tValue);
+        // console.log(b4value);
+        // console.log(tValue);
         //console.log(oElm);
         // if(tValue == ""){
         //     alert('Value is null');

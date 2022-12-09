@@ -120,7 +120,7 @@ class cAdjustmentcost extends MX_Controller {
 
         $aData = array(
             'nStaAddOrEdit'   => 99,
-            'FTXthDocKey'     => 'TCNTPdtTwiDT',
+            'FTXthDocKey'     => 'TCNTPdtAdjCostHD',
             'FTSessionID'     => $this->session->userdata('tSesSessionID'),
             'aResList'        => $aResList,
             'tBchCompCode'    => $this->session->userdata("tSesUsrBchCodeDefault"),
@@ -163,7 +163,7 @@ class cAdjustmentcost extends MX_Controller {
 
         $aDataDoc   = array(
             'FTXphDocNo'    => $tXchDocNo,
-            'FTXthDocKey'   => 'TCNTPdtTwiDT',
+            'FTXthDocKey'   => 'TCNTPdtAdjCostHD',
             'FTSessionID'   => $this->session->userdata('tSesSessionID'),
             'FDLastUpdOn'   => date('Y-m-d'),
             'FDCreateOn'    => date('Y-m-d'),
@@ -216,7 +216,9 @@ class cAdjustmentcost extends MX_Controller {
             $tTable         = $this->input->post('tTable');
             $tDocNo         = $this->input->post('tDocNo');
             $tPdtCodeDup    = $this->input->post('tPdtCodeDup');
+            $tBchCode       = $this->input->post('tBchCode');
             $nLangEdit      = $this->session->userdata("tLangEdit");
+            $tSession       = $this->session->userdata('tSesSessionID');
 
             $aParams = array(
                 'tTable' => $tTable,
@@ -226,6 +228,39 @@ class cAdjustmentcost extends MX_Controller {
             );
 
             $aData = $this->mAdjustmentcost->FSaMADCGetPdtFromDoc($aParams);
+            // print_r($aData);
+
+            if($aData['rtCode'] == '1') {
+                for ($i = 0; $i < FCNnHSizeOf($aData['raItems']); $i++) {
+                    $nSeq = $i + 1;
+                    $aDataEdit = array(
+                        'FNXtdSeqNo'            => $nSeq,
+                        'FTBchCode'             => $tBchCode,
+                        'FTXthDocNo'            => $tDocNo,
+                        'FTXthDocKey'           => 'TCNTPdtAdjCostHD',
+                        'FCXtdQtyOrd'           => empty($aData['raItems'][$i]['FCXcdDiff']) ? 0 : $aData['raItems'][$i]['FCXcdDiff'],
+                        'FCXtdAmt'              => empty($aData['raItems'][$i]['FCXcdCostNew']) ? 0 : $aData['raItems'][$i]['FCXcdCostNew'],
+                        'FTPdtCode'             => $aData['raItems'][$i]['FTPdtCode'],
+                        'FTPdtName'             => $aData['raItems'][$i]['FTPdtName'],
+                        'FTPunName'             => empty($aData['raItems'][$i]['FTPunName']) ? '' : $aData['raItems'][$i]['FTPunName'],
+                        'FCXtdVatRate'          => empty($aData['raItems'][$i]['FCPdtCostStd']) ? 0 : $aData['raItems'][$i]['FCPdtCostStd'],
+                        'FCXtdQty'              => empty($aData['raItems'][$i]['FCPdtCostEx']) ? 0 : $aData['raItems'][$i]['FCPdtCostEx'],
+                        'FTPunCode'             => empty($aData['raItems'][$i]['FTPunCode']) ? '' : $aData['raItems'][$i]['FTPunCode'],
+                        'FCXtdFactor'           => empty($aData['raItems'][$i]['FCXcdFactor']) ? 0 : $aData['raItems'][$i]['FCXcdFactor'],
+                        'FTXtdBarCode'          => empty($aData['raItems'][$i]['FTXcdBarScan']) ? '' : $aData['raItems'][$i]['FTXcdBarScan'],
+                        'FTSessionID'           => $tSession,
+                        'FDLastUpdOn'           => date('Y-m-d'),
+                        'FDCreateOn'            => date('Y-m-d'),
+                        'FTLastUpdBy'           => $this->session->userdata('tSesUsername'),
+                        'FTCreateBy'            => $this->session->userdata('tSesUsername')
+                    );
+                    $aCheckTmpDup = $this->mAdjustmentcost->FSaMSPACheckDataTempDuplicate($aDataEdit); //check data duplicate
+                    // insert data to table doctmp if not have items
+                    if ($aCheckTmpDup == FALSE) {
+                        $this->mAdjustmentcost->FSaMSPAAddPdtDocTmp($aDataEdit);
+                    }
+                }
+            }
 
             if ($aData['rtCode'] == '1') {
                 $aReturnData = array(
@@ -265,7 +300,7 @@ class cAdjustmentcost extends MX_Controller {
 
             $aDataGetSeq = array(
                 'FTXthDocNo'    => $tDocNo,
-                'FTXthDocKey'   => 'TCNTPdtTwiDT',
+                'FTXthDocKey'   => 'TCNTPdtAdjCostHD',
                 'FTSessionID'   => $tSession
             );
             $aGetSeq = $this->mAdjustmentcost->FSaMSPACheckDataSeq($aDataGetSeq);
@@ -278,37 +313,39 @@ class cAdjustmentcost extends MX_Controller {
                 'FNLngID'   => $nLangEdit,
             );
 
+            // print_r($aParams);
             $aData = $this->mAdjustmentcost->FSaMADCGetPdtFromPdtCode($aParams);
-
-            $aDataEdit = array(
-                'FNXtdSeqNo'            => $nSeq+1,
-                'FTBchCode'             => $tBchCode,
-                'FTXthDocNo'            => $tDocNo,
-                'FTXthDocKey'           => 'TCNTPdtTwiDT',
-                'FCXtdQtyOrd'            => $aData['raItems'][0]['FCXcdDiff'],
-                'FCXtdAmt'            => $aData['raItems'][0]['FCXcdCostNew'],
-                'FTPdtCode'            => $aData['raItems'][0]['FTPdtCode'],
-                'FTPdtName'            => $aData['raItems'][0]['FTPdtName'],
-                'FTPunName'             => $aData['raItems'][0]['FTPunName'],
-                'FCXtdVatRate'             => $aData['raItems'][0]['FCPdtCostStd'],
-                'FCXtdQty'         => $aData['raItems'][0]['FCPdtCostEx'],
-                'FTPunCode'         => $aData['raItems'][0]['FTPunCode'],
-                'FCXtdFactor'         => $aData['raItems'][0]['FCXcdFactor'],
-                'FTXtdBarCode'         => $aData['raItems'][0]['FTXcdBarScan'],
-                'FTXtdPdtParent'         => $aData['raItems'][0]['FTBarCode'],
-                'FTSessionID'           => $tSession,
-                'FDLastUpdOn'           => date('Y-m-d'),
-                'FDCreateOn'            => date('Y-m-d'),
-                'FTLastUpdBy'           => $this->session->userdata('tSesUsername'),
-                'FTCreateBy'            => $this->session->userdata('tSesUsername')
-            );
-            $aCheckTmpDup = $this->mAdjustmentcost->FSaMSPACheckDataTempDuplicate($aDataEdit);
-
-            if ($aCheckTmpDup == FALSE) {
-                $this->mAdjustmentcost->FSaMSPAAddPdtDocTmp($aDataEdit);
-            }
-
+            // print_r($aData);exit;
             if ($aData['rtCode'] == '1') {
+                $aDataEdit = array(
+                    'FNXtdSeqNo'            => $nSeq+1,
+                    'FTBchCode'             => $tBchCode,
+                    'FTXthDocNo'            => $tDocNo,
+                    'FTXthDocKey'           => 'TCNTPdtAdjCostHD',
+                    'FCXtdQtyOrd'           => $aData['raItems'][0]['FCXcdDiff'],
+                    'FCXtdAmt'              => $aData['raItems'][0]['FCXcdCostNew'],
+                    'FTPdtCode'             => $aData['raItems'][0]['FTPdtCode'],
+                    'FTPdtName'             => $aData['raItems'][0]['FTPdtName'],
+                    'FTPunName'             => $aData['raItems'][0]['FTPunName'],
+                    'FCXtdVatRate'          => $aData['raItems'][0]['FCPdtCostStd'],
+                    'FCXtdQty'              => $aData['raItems'][0]['FCPdtCostEx'],
+                    'FTPunCode'             => $aData['raItems'][0]['FTPunCode'],
+                    'FCXtdFactor'           => $aData['raItems'][0]['FCXcdFactor'],
+                    'FTXtdBarCode'          => $aData['raItems'][0]['FTXcdBarScan'],
+                    'FTXtdPdtParent'        => $aData['raItems'][0]['FTBarCode'],
+                    'FTSessionID'           => $tSession,
+                    'FDLastUpdOn'           => date('Y-m-d'),
+                    'FDCreateOn'            => date('Y-m-d'),
+                    'FTLastUpdBy'           => $this->session->userdata('tSesUsername'),
+                    'FTCreateBy'            => $this->session->userdata('tSesUsername')
+                );
+
+                $aCheckTmpDup = $this->mAdjustmentcost->FSaMSPACheckDataTempDuplicate($aDataEdit);
+
+                if ($aCheckTmpDup == FALSE) {
+                    $this->mAdjustmentcost->FSaMSPAAddPdtDocTmp($aDataEdit);
+                }
+            
                 $aReturnData = array(
                     'aData' => $aData['raItems'],
                     'nStaEvent' => $aData['rtCode'],
@@ -336,63 +373,60 @@ class cAdjustmentcost extends MX_Controller {
     // Return Type : object
     public function FSoCADCGetPdtFromFilter(){
         try{
-            $tBchCode    = $this->input->post('tFTBchCode');
-            $tDocNo      = $this->input->post('tFTXthDocNo');
-            $tPdtCodeFrom         = $this->input->post('tPdtCodeFrom');
+            $tBchCode           = $this->input->post('tFTBchCode');
+            $tDocNo             = $this->input->post('tFTXthDocNo');
+            $tPdtCodeFrom       = $this->input->post('tPdtCodeFrom');
             $tPdtCodeTo         = $this->input->post('tPdtCodeTo');
-            $tBarCodeFrom    = $this->input->post('tBarCodeFrom');
-            $tBarCodeCodeTo    = $this->input->post('tBarCodeCodeTo');
-            $tPdtCodeDup    = $this->input->post('tPdtCodeDup');
-            $tBchCode    = $this->input->post('tBchCode');
-            $nLangEdit      = $this->session->userdata("tLangEdit");
-            $tSession    = $this->session->userdata('tSesSessionID');
+            $tBarCodeFrom       = $this->input->post('tBarCodeFrom');
+            $tBarCodeCodeTo     = $this->input->post('tBarCodeCodeTo');
+            $tPdtCodeDup        = $this->input->post('tPdtCodeDup');
+            $tBchCode           = $this->input->post('tBchCode');
+            $nLangEdit          = $this->session->userdata("tLangEdit");
+            $tSession           = $this->session->userdata('tSesSessionID');
 
             $aDataGetSeq = array(
                 'FTXthDocNo'    => $tDocNo,
-                'FTXthDocKey'   => 'TCNTPdtTwiDT',
+                'FTXthDocKey'   => 'TCNTPdtAdjCostHD',
                 'FTSessionID'   => $tSession
             );
-            //print_r($aDataGetSeq);
             $aParams = array(
-                'tPdtCodeFrom' => $tPdtCodeFrom,
-                'tPdtCodeTo' => $tPdtCodeTo,
-                'tBarCodeFrom' => $tBarCodeFrom,
-                'tBarCodeCodeTo' => $tBarCodeCodeTo,
-                'tPdtCodeDup' => $tPdtCodeDup,
-                'tBchCode'  => $tBchCode,
-                'FNLngID' => $nLangEdit,
+                'tPdtCodeFrom'      => $tPdtCodeFrom,
+                'tPdtCodeTo'        => $tPdtCodeTo,
+                'tBarCodeFrom'      => $tBarCodeFrom,
+                'tBarCodeCodeTo'    => $tBarCodeCodeTo,
+                'tPdtCodeDup'       => $tPdtCodeDup,
+                'tBchCode'          => $tBchCode,
+                'FNLngID'           => $nLangEdit,
             );
             $aGetSeq = $this->mAdjustmentcost->FSaMSPACheckDataSeq($aDataGetSeq);
 
 
             $aData = $this->mAdjustmentcost->FSaMADCGetPdtFromFilter($aParams);
             $nNumData    = FCNnHSizeOf($aData['raItems']);
-            //print_r($nNumData);
             
             $nSeq    = $aGetSeq[0]['nSeq'];
             if($aData['rtCode'] == '1') {
-               //print_r($aData['raItems']);
                 for ($i = 0; $i < $nNumData; $i++) {
                     $nSeq = $nSeq + 1;
                     $aDataEdit = array(
                         'FNXtdSeqNo'            => $nSeq,
                         'FTBchCode'             => $tBchCode,
                         'FTXthDocNo'            => $tDocNo,
-                        'FTXthDocKey'           => 'TCNTPdtTwiDT',
-                        'FCXtdQtyOrd'            => $aData['raItems'][$i]['FCXcdDiff'],
-                        'FCXtdAmt'            => $aData['raItems'][$i]['FCXcdCostNew'],
-                        'FTPdtCode'            => $aData['raItems'][$i]['FTPdtCode'],
-                        'FTPdtName'            => $aData['raItems'][$i]['FTPdtName'],
+                        'FTXthDocKey'           => 'TCNTPdtAdjCostHD',
+                        'FCXtdQtyOrd'           => $aData['raItems'][$i]['FCXcdDiff'],
+                        'FCXtdAmt'              => $aData['raItems'][$i]['FCXcdCostNew'],
+                        'FTPdtCode'             => $aData['raItems'][$i]['FTPdtCode'],
+                        'FTPdtName'             => $aData['raItems'][$i]['FTPdtName'],
                         'FTPunName'             => $aData['raItems'][$i]['FTPunName'],
-                        'FCXtdVatRate'             => $aData['raItems'][$i]['FCPdtCostStd'],
-                        'FCXtdQty'         => $aData['raItems'][$i]['FCPdtCostEx'],
-                        'FTPunCode'         => $aData['raItems'][$i]['FTPunCode'],
-                        'FCXtdFactor'         => $aData['raItems'][$i]['FCXcdFactor'],
-                        'FTXtdBarCode'         => $aData['raItems'][$i]['FTXcdBarScan'],
-                        'FTXtdPdtParent'         => $aData['raItems'][$i]['FTBarCode'],
+                        'FCXtdVatRate'          => $aData['raItems'][$i]['FCPdtCostStd'],
+                        'FCXtdQty'              => $aData['raItems'][$i]['FCPdtCostEx'],
+                        'FTPunCode'             => $aData['raItems'][$i]['FTPunCode'],
+                        'FCXtdFactor'           => $aData['raItems'][$i]['FCXcdFactor'],
+                        'FTXtdBarCode'          => $aData['raItems'][$i]['FTXcdBarScan'],
+                        'FTXtdPdtParent'        => $aData['raItems'][$i]['FTBarCode'],
                         'FTSessionID'           => $tSession,
-                        'FDLastUpdOn'           => date('Y-m-d'),
-                        'FDCreateOn'            => date('Y-m-d'),
+                        'FDLastUpdOn'           => date('Y-m-d H:i:s'),
+                        'FDCreateOn'            => date('Y-m-d H:i:s'),
                         'FTLastUpdBy'           => $this->session->userdata('tSesUsername'),
                         'FTCreateBy'            => $this->session->userdata('tSesUsername')
                     );
@@ -401,7 +435,6 @@ class cAdjustmentcost extends MX_Controller {
                     if ($aCheckTmpDup == FALSE) {
                         $this->mAdjustmentcost->FSaMSPAAddPdtDocTmp($aDataEdit);
                     }
-                    //print_r($aDataEdit);
                 }
             }
             if ($aData['rtCode'] == '1') {
@@ -433,15 +466,15 @@ class cAdjustmentcost extends MX_Controller {
     // Return Type : object
     public function FSoCADCGetPdtFromImportExcel(){
         try{
-            $tPdtCodeDup   = $this->input->post('tPdtCodeDup');
+            $tPdtCodeDup    = $this->input->post('tPdtCodeDup');
             $nLangEdit      = $this->session->userdata("tLangEdit");
-            $tBchCode    = $this->input->post('tBchCode');
-            $tDocNo      = $this->input->post('tDocNo');
-            $tSession    = $this->session->userdata('tSesSessionID');
+            $tBchCode       = $this->input->post('tBchCode');
+            $tDocNo         = $this->input->post('tDocNo');
+            $tSession       = $this->session->userdata('tSesSessionID');
 
             $aDataGetSeq = array(
                 'FTXthDocNo'    => $tDocNo,
-                'FTXthDocKey'   => 'TCNTPdtTwiDT',
+                'FTXthDocKey'   => 'TCNTPdtAdjCostHD',
                 'FTSessionID'   => $tSession
             );
             $aParams = array(
@@ -450,9 +483,10 @@ class cAdjustmentcost extends MX_Controller {
                 'FNLngID' => $nLangEdit,
             );
 
-            $aGetSeq = $this->mAdjustmentcost->FSaMSPACheckDataSeq($aDataGetSeq);
-            $aData = $this->mAdjustmentcost->FSaMADCGetPdtFromImportExcel($aParams);
+            $aGetSeq    = $this->mAdjustmentcost->FSaMSPACheckDataSeq($aDataGetSeq);
+            $aData      = $this->mAdjustmentcost->FSaMADCGetPdtFromImportExcel($aParams);
 
+            // print_r($aData);
             $nNumData    = FCNnHSizeOf($aData['raItems']);
 
             $nSeq    = $aGetSeq[0]['nSeq'];
@@ -464,27 +498,29 @@ class cAdjustmentcost extends MX_Controller {
                         'FNXtdSeqNo'            => $nSeq,
                         'FTBchCode'             => $tBchCode,
                         'FTXthDocNo'            => $tDocNo,
-                        'FTXthDocKey'           => 'TCNTPdtTwiDT',
-                        'FCXtdQtyOrd'            => $aData['raItems'][$i]['FCXcdDiff'],
-                        'FCXtdAmt'            => $aData['raItems'][$i]['FCXcdCostNew'],
-                        'FTPdtCode'            => $aData['raItems'][$i]['FTPdtCode'],
-                        'FTPdtName'            => $aData['raItems'][$i]['FTPdtName'],
+                        'FTXthDocKey'           => 'TCNTPdtAdjCostHD',
+                        'FCXtdQtyOrd'           => (empty($aData['raItems'][$i]['FCXcdDiff'])) ? 0 : (int)$aData['raItems'][$i]['FCXcdDiff'],
+                        'FCXtdAmt'              => (empty($aData['raItems'][$i]['FCXcdCostNew'])) ? 0 : (int)$aData['raItems'][$i]['FCXcdCostNew'],
+                        'FTPdtCode'             => $aData['raItems'][$i]['FTPdtCode'],
+                        'FTPdtName'             => $aData['raItems'][$i]['FTPdtName'],
                         'FTPunName'             => $aData['raItems'][$i]['FTPunName'],
-                        'FCXtdVatRate'             => $aData['raItems'][$i]['FCPdtCostStd'],
-                        'FCXtdQty'         => $aData['raItems'][$i]['FCPdtCostEx'],
-                        'FTPunCode'         => $aData['raItems'][$i]['FTPunCode'],
-                        'FCXtdFactor'         => $aData['raItems'][$i]['FCXcdFactor'],
-                        'FTXtdBarCode'         => $aData['raItems'][$i]['FTXcdBarScan'],
+                        'FCXtdVatRate'          => (empty($aData['raItems'][$i]['FCPdtCostStd'])) ? 0 : (int)$aData['raItems'][$i]['FCPdtCostStd'],
+                        'FCXtdQty'              => (empty($aData['raItems'][$i]['FCPdtCostEx'])) ? 0 : (int)$aData['raItems'][$i]['FCPdtCostEx'],
+                        'FTPunCode'             => $aData['raItems'][$i]['FTPunCode'],
+                        'FCXtdFactor'           => (empty($aData['raItems'][$i]['FCXcdFactor'])) ? 0 : (int)$aData['raItems'][$i]['FCXcdFactor'],
+                        'FTXtdBarCode'          => (empty($aData['raItems'][$i]['FTXcdBarScan'])) ? '' : $aData['raItems'][$i]['FTXcdBarScan'],
                         'FTSessionID'           => $tSession,
-                        'FDLastUpdOn'           => date('Y-m-d'),
-                        'FDCreateOn'            => date('Y-m-d'),
+                        'FDLastUpdOn'           => date('Y-m-d H:i:s'),
+                        'FDCreateOn'            => date('Y-m-d H:i:s'),
                         'FTLastUpdBy'           => $this->session->userdata('tSesUsername'),
                         'FTCreateBy'            => $this->session->userdata('tSesUsername')
+
                     );
                     $aCheckTmpDup = $this->mAdjustmentcost->FSaMSPACheckDataTempDuplicate($aDataEdit); //check data duplicate
                     // insert data to table doctmp if not have items
                     if ($aCheckTmpDup == FALSE) {
-                        $this->mAdjustmentcost->FSaMSPAAddPdtDocTmp($aDataEdit);
+                        // $this->mAdjustmentcost->FSaMSPAAddPdtDocTmp($aDataEdit);
+                        $this->mAdjustmentcost->FSaMSPAUpdatePdtDocTmp($aDataEdit);
                     }
                     //print_r($aDataEdit);
                 }
@@ -518,17 +554,15 @@ class cAdjustmentcost extends MX_Controller {
     // Return Type : object
     public function FSoCADCEventAdd(){
         try{
-            $tBchCode   = $this->input->post('ohdADCBchCode');
-            $tDocDate    = $this->input->post('oetADCDocDate');
-            $tDocTime    = $this->input->post('oetADCDocTime');
-            $tEffectiveDate    = $this->input->post('oetADCEffectiveDate');
-            $tRefInt    = $this->input->post('oetADCRefInt');
-            $tRefIntDate    = $this->input->post('oetADCRefIntDate');
-            $tRmk   = $this->input->post('otaADCRmk');
-            $aDataInsert   = $this->input->post('aDataInsert');
-            $tDocType   = $this->input->post('ocmADCDocType');
-
-            
+            $tBchCode               = $this->input->post('ohdADCBchCode');
+            $tDocDate               = $this->input->post('oetADCDocDate');
+            $tDocTime               = $this->input->post('oetADCDocTime');
+            $tEffectiveDate         = $this->input->post('oetADCEffectiveDate');
+            $tRefInt                = $this->input->post('oetADCRefInt');
+            $tRefIntDate            = $this->input->post('oetADCRefIntDate');
+            $tRmk                   = $this->input->post('otaADCRmk');
+            $aDataInsert            = $this->input->post('aDataInsert');
+            $tDocType               = $this->input->post('ocmADCDocType');
 
             $aStoreParam = array(
                 "tTblName"    => 'TCNTPdtAdjCostHD',
@@ -553,21 +587,21 @@ class cAdjustmentcost extends MX_Controller {
                 'FTCreateBy'        => $this->session->userdata('tSesUserCode'),
                 // for DocTmpDT
                 'FTSessionID'       => $this->session->userdata('tSesSessionID'),
-                'FTXthDocKey'       => 'TCNTPdtTwiDT',
+                'FTXthDocKey'       => 'TCNTPdtAdjCostHD',
             );
 
             $aParams = array(
-                'FTBchCode'    => $tBchCode,
-                'FTXchDocNo'   => $aDataMaster['FTXchDocNo'],
-                'FNXchDocType' => $tDocType,
-                'FDXchDocDate' => $tDocDate,
-                'FTXchDocTime' => $tDocTime,
-                'FDXchAffect'  => $tEffectiveDate,
-                'FTXchRefInt'  => $tRefInt,
-                'FDXchRefIntDate' => $tRefIntDate,
-                'FTUsrCode'    => $this->session->userdata("tSesUserCode"),
-                'FTXchStaDoc'  => '1',
-                'FTXchRmk'     => $tRmk
+                'FTBchCode'         => $tBchCode,
+                'FTXchDocNo'        => $aDataMaster['FTXchDocNo'],
+                'FNXchDocType'      => $tDocType,
+                'FDXchDocDate'      => $tDocDate,
+                'FTXchDocTime'      => $tDocTime,
+                'FDXchAffect'       => $tEffectiveDate,
+                'FTXchRefInt'       => $tRefInt,
+                'FDXchRefIntDate'   => $tRefIntDate,
+                'FTUsrCode'         => $this->session->userdata("tSesUserCode"),
+                'FTXchStaDoc'       => '1',
+                'FTXchRmk'          => $tRmk
             );
            
 
@@ -652,16 +686,16 @@ class cAdjustmentcost extends MX_Controller {
     // Return Type : object
     public function FSoCADCEventEdit(){
         try{
-            $tDocNo      = $this->input->post('ohdADCDocNo');
-            $tBchCode   = $this->input->post('ohdADCBchCode');
-            $tDocDate    = $this->input->post('oetADCDocDate');
-            $tDocTime    = $this->input->post('oetADCDocTime');
-            $tEffectiveDate    = $this->input->post('oetADCEffectiveDate');
-            $tRefInt    = $this->input->post('oetADCRefInt');
-            $tRefIntDate    = $this->input->post('oetADCRefIntDate');
-            $tRmk   = $this->input->post('otaADCRmk');
-            $aDataInsert   = $this->input->post('aDataInsert');
-            $tDocType   = $this->input->post('ocmADCDocType');
+            $tDocNo             = $this->input->post('ohdADCDocNo');
+            $tBchCode           = $this->input->post('ohdADCBchCode');
+            $tDocDate           = $this->input->post('oetADCDocDate');
+            $tDocTime           = $this->input->post('oetADCDocTime');
+            $tEffectiveDate     = $this->input->post('oetADCEffectiveDate');
+            $tRefInt            = $this->input->post('oetADCRefInt');
+            $tRefIntDate        = $this->input->post('oetADCRefIntDate');
+            $tRmk               = $this->input->post('otaADCRmk');
+            $aDataInsert        = $this->input->post('aDataInsert');
+            $tDocType           = $this->input->post('ocmADCDocType');
             $aParams = array(
                 'FTBchCode'    => $tBchCode,
                 'FTXchDocNo'   => $tDocNo,
@@ -675,50 +709,66 @@ class cAdjustmentcost extends MX_Controller {
                 'FTXchStaDoc'  => '1',
                 'FTXchRmk'     => $tRmk
             );
-            $this->db->trans_begin();
-            $this->mAdjustmentcost->FSaMADCClearDT($aParams);
-            foreach ($aDataInsert as $aValue) {
-                if(empty($aValue[3])){
-                    $tBarScan = '';
-                }else{
-                    $tBarScan = $aValue[3];
-                }
-                if(empty($aValue[6])){
-                    $tFCXcdCostNew = NULL;
-                }else{
-                    $tFCXcdCostNew = $aValue[6];
-                }
-                if(empty($aValue[8])){
-                    $tPunCode = '';
-                }else{
-                    $tPunCode = $aValue[8];
-                }
-                if(empty($aValue[9])){
-                    $nXcdFactor = 0;
-                }else{
-                    $nXcdFactor = $aValue[9];
-                }
 
-                if($aValue[7] != 0){
-                    $aDataIns = array(
-                        'FTBchCode'         => $tBchCode,
-                        'FTXchDocNo'        => $tDocNo,
-                        'FNXcdSeqNo'        => $aValue[0],
-                        'FTPdtCode'         => $aValue[1],
-                        'FTPdtName'         => $aValue[2],
-                        'FCXcdCostOld'      => $aValue[4],
-                        'FCXcdDiff'         => $aValue[5],
-                        'FCXcdCostNew'      => $tFCXcdCostNew,
-                        'FTPunCode'         => $tPunCode,
-                        'FCXcdFactor'       => $nXcdFactor,
-                        'FTXcdBarScan'      => $tBarScan,
-                        'FDLastUpdOn'       => date('Y-m-d H:i:s'),
-                        'FTLastUpdBy'       => $this->session->userdata('tSesUserCode'),
-                    );
-                    $this->mAdjustmentcost->FSaMADCEventAddDT($aDataIns);
-                }
-            }
+            $aDataIns = array(
+                'FTBchCode'         => $tBchCode,
+                'FTXchDocNo'        => $tDocNo,
+                'FDLastUpdOn'       => date('Y-m-d H:i:s'),
+                'FTLastUpdBy'       => '',
+                'FDCreateOn'        => date('Y-m-d H:i:s'),
+                'FTCreateBy'        => $this->session->userdata('tSesUserCode'),
+                // for DocTmpDT
+                'FTSessionID'       => $this->session->userdata('tSesSessionID'),
+                'FTXthDocKey'       => 'TCNTPdtAdjCostHD',
+            );
             $this->mAdjustmentcost->FSaMADCEventEditHD($aParams);
+            $this->mAdjustmentcost->FSaMADDelAllProductDT($aParams); // Delete All Product by id from table DT
+            $this->mAdjustmentcost->FSoMADTmptoDT($aDataIns); // Move Doc temp to DT
+            // $this->db->trans_begin();
+            // $this->mAdjustmentcost->FSaMADCClearDT($aParams);
+            // print_r($aDataInsert); exit;
+            // foreach ($aDataInsert as $key => $aValue) {
+            //     if(empty($aValue[3])){
+            //         $tBarScan = '';
+            //     }else{
+            //         $tBarScan = $aValue[3];
+            //     }
+            //     if(empty($aValue[6])){
+            //         $tFCXcdCostNew = NULL;
+            //     }else{
+            //         $tFCXcdCostNew = $aValue[6];
+            //     }
+            //     if(empty($aValue[8])){
+            //         $tPunCode = '';
+            //     }else{
+            //         $tPunCode = $aValue[8];
+            //     }
+            //     if(empty($aValue[9])){
+            //         $nXcdFactor = 0;
+            //     }else{
+            //         $nXcdFactor = $aValue[9];
+            //     }
+
+            //     if($aValue[7] != 0){
+            //         $aDataIns = array(
+            //             'FTBchCode'         => $tBchCode,
+            //             'FTXchDocNo'        => $tDocNo,
+            //             'FNXcdSeqNo'        => $aValue[0],
+            //             'FTPdtCode'         => $aValue[1],
+            //             'FTPdtName'         => $aValue[2],
+            //             'FCXcdCostOld'      => $aValue[4],
+            //             'FCXcdDiff'         => $aValue[5],
+            //             'FCXcdCostNew'      => $tFCXcdCostNew,
+            //             'FTPunCode'         => $tPunCode,
+            //             'FCXcdFactor'       => $nXcdFactor,
+            //             'FTXcdBarScan'      => $tBarScan,
+            //             'FDLastUpdOn'       => date('Y-m-d H:i:s'),
+            //             'FTLastUpdBy'       => $this->session->userdata('tSesUserCode'),
+            //         );
+            //         $this->mAdjustmentcost->FSaMADCEventAddDT($aDataIns);
+            //     }
+            // }
+            // $this->mAdjustmentcost->FSaMADCEventEditHD($aParams);
 
             if ($this->db->trans_status() === false) {
                 $this->db->trans_rollback();
@@ -931,7 +981,7 @@ class cAdjustmentcost extends MX_Controller {
                     'FTPdtCode' => $aPdtData['tPdt'],
                     'FTPunCode' => $aPdtData['tPun'],
                     'FTSessionID' => $tSession,
-                    'FTXthDocKey' => 'TCNTPdtTwiDT'
+                    'FTXthDocKey' => 'TCNTPdtAdjCostHD'
                 );
                 $aResDel = $this->mAdjustmentcost->FSaMADCPdtTmpDelAll($aDataMaster);
 
@@ -952,7 +1002,7 @@ class cAdjustmentcost extends MX_Controller {
                 'FTPunCode' => $FTPunCode,
                 'FTSessionID' => $tSession,
                 'FNXtdSeqNo' => $tSeq,
-                'FTXthDocKey' => 'TCNTPdtTwiDT',
+                'FTXthDocKey' => 'TCNTPdtAdjCostHD',
             );
             $aResDel = $this->mAdjustmentcost->FSaMADCPdtTmpDelAll($aDataMaster);
 
@@ -1001,9 +1051,9 @@ class cAdjustmentcost extends MX_Controller {
             'FTPunCode'         => $this->input->post('FTPunCode'),
             'tPrice'            => $this->input->post('ptPrice'),
             'tSeq'              => $this->input->post('tSeq'),
-            'tDiff'             => $this->input->post('tDiff'),
+            'tDiff'             => empty($this->input->post('tDiff')) ? 0 : (float)$this->input->post('tDiff'),
             'tColValidate'      => $this->input->post('tColValidate'),
-            'tValue'            => empty($this->input->post('ptValue')) ? 0 : $this->input->post('ptValue'),
+            'tValue'            => empty($this->input->post('ptValue')) ? 0 : (float)$this->input->post('ptValue'),
             'FTSessionID'       => $this->session->userdata('tSesSessionID'),
             'tSearchSpaPdtPri'  => $this->session->userdata('tSearchSpaPdtPri')
         );
@@ -1034,7 +1084,7 @@ class cAdjustmentcost extends MX_Controller {
                 'nRow'          => get_cookie('nShowRecordInPageList'),
                 'FNLngID'       => $nLangEdit,
                 'tSearchAll'    => $tSearchAll,
-                'FTXthDocKey'   => 'TCNTPdtTwiDT',
+                'FTXthDocKey'   => 'TCNTPdtAdjCostHD',
                 'FTXphDocNo'    => $FTXphDocNo,
                 'tCostType'    => $tCostType,
                 'FTSessionID'   => $this->session->userdata('tSesSessionID'),
@@ -1050,7 +1100,9 @@ class cAdjustmentcost extends MX_Controller {
                 'aAlwEventSalePriceAdj'     => $aAlwEventSalePriceAdj,
                 'nOptDecimalShow'           => $nOptDecimalShow
             );
+            // echo "<pre>";
             // print_r($aGenTable);
+            // echo "</pre>";
             $this->load->view('document/adjustmentcost/wAdjustmentcostPriDataTable', $aGenTable);
         } catch (Exception $Error) {
             echo $Error;
