@@ -121,7 +121,8 @@ class cSalePriceAdj extends MX_Controller{
                 'nPage'                     => $nPage,
                 'tSearchAll'                => $tSearchAll,
                 'aAlwEventSalePriceAdj'     => $aAlwEventSalePriceAdj,
-                'nOptDecimalShow'           => $nOptDecimalShow
+                'nOptDecimalShow'           => $nOptDecimalShow,
+                'nRow'                      => get_cookie('nShowRecordInPageList'),
             );
 
             $this->load->view('document/salepriceadj/wSalePriceAdjPdtPriDataTable', $aGenTable);

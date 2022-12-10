@@ -50,7 +50,7 @@
                 <tbody>
                     <?php if(isset($aPdtPriDataList['rtCode']) && $aPdtPriDataList['rtCode'] == 1 ):?>
                         <!-- <?php $nIndex = 1; ?> -->
-                        <?php $nIndex = ($nPage - 1) * 20; ?>
+                        <?php $nIndex = ($nPage - 1) * $nRow; ?>
                         <?php foreach($aPdtPriDataList['raItems'] as $DataTableKey => $DataTableVal): ?>
                             <?php 
                                 $aAllpunCode    = (explode(",",$DataTableVal['FTAllPunCode']));

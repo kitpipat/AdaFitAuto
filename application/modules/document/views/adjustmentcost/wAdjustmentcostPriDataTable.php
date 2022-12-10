@@ -59,6 +59,7 @@
                             $tFSPdtCost = '' ;
                             $tFTTmpRemark = '';
                         ?>
+                        <?php $nIndex = ($nPage - 1) * $nRow; ?>
                         <?php foreach($aPdtPriDataList['raItems'] as $DataTableKey => $DataTableVal): ?>
                             <?php 
                                 //print_r($DataTableVal);
@@ -120,9 +121,9 @@
                                     $DataTableVal['FCXcdFactor'] = 0;
                                 }
                             ?>
-                            <tr class="text-center xCNTextDetail2 otrSpaPdtPri xWPdtItem" 
-                                id="otrSpaPdtPri<?=$DataTableVal['FNXtdSeqNo']?>" 
-                                name="otrSpaPdtPri" 
+                            <tr class="text-center xCNTextDetail2 ostAdDataPdtPri xWPdtItem" 
+                                id="ostAdDataPdtPri<?=$DataTableVal['FNXtdSeqNo']?>" 
+                                name="ostAdDataPdtPri" 
                                 data-pdt="<?=$DataTableVal['FTPdtCode']?>"
                                 data-doc="<?=$DataTableVal['FTXthDocNo']?>" 
                                 data-code="<?=$DataTableVal['FTPdtCode']?>" 
@@ -142,7 +143,8 @@
                                     <input type="hidden" id="ohdFTXpdShpTo<?=$DataTableVal['FNXtdSeqNo']?>" name="ohdFTXpdShpTo<?=$DataTableVal['FNXtdSeqNo']?>" value="<?=$DataTableVal['FTXtdShpTo']?>">
                                     <input type="hidden" id="ohdFTXpdBchTo<?=$DataTableVal['FNXtdSeqNo']?>" name="ohdFTXpdBchTo<?=$DataTableVal['FNXtdSeqNo']?>" value="<?=$DataTableVal['FTXtdBchTo']?>">
                                 </td>
-                                <td><?=($DataTableKey+1)?></td>
+                                <!-- <td><?=($DataTableKey+1)?></td> -->
+                                <td><?=($nIndex + 1)?></td>
                                 <td class="text-left" ><label class="text-left xCNPdtFont xWShowValueFTPdtCode<?php echo $DataTableVal['FNXtdSeqNo']?>"><?php echo $DataTableVal['FTPdtCode']?></label></td>
                                 <td class="text-left" ><label class="text-left xCNPdtFont xWShowValueFTPdtName <?php echo $DataTableVal['FNXtdSeqNo']?>"><?php echo $DataTableVal['FTPdtName']?></label></td>
                                 <td class="text-left" >
@@ -207,9 +209,9 @@
         <p><?= language('common/main/main','tResultTotalRecord')?> <?=$aPdtPriDataList['rnAllRow']?> <?= language('common/main/main','tRecord')?> <?= language('common/main/main','tCurrentPage')?> <?=$aPdtPriDataList['rnCurrentPage']?> / <?=$aPdtPriDataList['rnAllPage']?></p>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-        <div class="xWPageSpaPdt btn-toolbar pull-right">
+        <div class="xWPageAdcPdt btn-toolbar pull-right">
             <?php if($nPage == 1){ $tDisabledLeft = 'disabled'; }else{ $tDisabledLeft = '-';} ?>
-            <button onclick="JSvSpaPdtClickPage('previous')" class="btn btn-white btn-sm" <?php echo $tDisabledLeft ?>>
+            <button onclick="JSvAdcPdtClickPage('previous')" class="btn btn-white btn-sm" <?php echo $tDisabledLeft ?>>
                 <i class="fa fa-chevron-left f-s-14 t-plus-1"></i>
             </button>
             <?php for($i=max($nPage-2, 1); $i<=max(0, min($aPdtPriDataList['rnAllPage'],$nPage+2)); $i++){?> <!-- เปลี่ยนชื่อ Parameter Loop เป็นของเรื่องนั้นๆ --> 
@@ -223,10 +225,10 @@
                     }
                 ?>
                 <!-- เปลี่ยนชื่อ Onclick เป็นของเรื่องนั้นๆ --> 
-                <button onclick="JSvSpaPdtClickPage('<?php echo $i?>')" type="button" class="btn xCNBTNNumPagenation <?php echo $tActive ?>" <?php echo $tDisPageNumber ?>><?php echo $i?></button>
+                <button onclick="JSvAdcPdtClickPage('<?php echo $i?>')" type="button" class="btn xCNBTNNumPagenation <?php echo $tActive ?>" <?php echo $tDisPageNumber ?>><?php echo $i?></button>
             <?php } ?>
             <?php if($nPage >= $aPdtPriDataList['rnAllPage']){  $tDisabledRight = 'disabled'; }else{  $tDisabledRight = '-';  } ?>
-            <button onclick="JSvSpaPdtClickPage('next')" class="btn btn-white btn-sm" <?php echo $tDisabledRight ?>> <!-- เปลี่ยนชื่อ Onclick เป็นของเรื่องนั้นๆ --> 
+            <button onclick="JSvAdcPdtClickPage('next')" class="btn btn-white btn-sm" <?php echo $tDisabledRight ?>> <!-- เปลี่ยนชื่อ Onclick เป็นของเรื่องนั้นๆ --> 
                 <i class="fa fa-chevron-right f-s-14 t-plus-1"></i>
             </button>
         </div>
@@ -359,12 +361,12 @@
     $('.xCNDeleteInLineClick').off('click');
     $('.xCNDeleteInLineClick').on('click',function(){
         var nSeq  = $(this).data('seq');
-        var nPage = $('#otrSpaPdtPri'+nSeq).data('page');
-        var tDoc  = $('#otrSpaPdtPri'+nSeq).data('doc');
-        var tPdt  = $('#otrSpaPdtPri'+nSeq).data('code');
-        var tPun  = $('#otrSpaPdtPri'+nSeq).data('pun');
-        var tSta  = $('#otrSpaPdtPri'+nSeq).data('status');
-        var tName = $('#otrSpaPdtPri'+nSeq).data('name');
+        var nPage = $('#ostAdDataPdtPri'+nSeq).data('page');
+        var tDoc  = $('#ostAdDataPdtPri'+nSeq).data('doc');
+        var tPdt  = $('#ostAdDataPdtPri'+nSeq).data('code');
+        var tPun  = $('#ostAdDataPdtPri'+nSeq).data('pun');
+        var tSta  = $('#ostAdDataPdtPri'+nSeq).data('status');
+        var tName = $('#ostAdDataPdtPri'+nSeq).data('name');
         JSoAdPdtPriDel(nPage,tDoc,tPdt,tPun,nSeq,tSta,tName);
     });
 
@@ -397,7 +399,7 @@
         var aArrayConvert   = [JSON.parse(localStorage.getItem("LocalItemData"))];
         var nlength         = $('#odvRGPList').children('tr').length;
         for($i=0; $i < nlength; $i++){
-            var tDataCode   = $('#otrSpaPdtPri'+$i).data('seq');
+            var tDataCode   = $('#ostAdDataPdtPri'+$i).data('seq');
             if(aArrayConvert == null || aArrayConvert == ''){
             }else{
                 var aReturnRepeat = findObjectByKey(aArrayConvert[0],'tSeq',tDataCode);
@@ -504,19 +506,19 @@
     }
 
     // Click รายการเปลี่ยน Page สินค้า
-    function JSvSpaPdtClickPage(ptPage) {
+    function JSvAdcPdtClickPage(ptPage) {
         var nStaSession = 1;
         if (typeof(nStaSession) !== 'undefined' && nStaSession == 1) {
             var nPageCurrent = '';
             switch (ptPage) {
                 case 'next': //กดปุ่ม Next
                     $('.xWBtnNext').addClass('disabled');
-                    nPageOld        = $('.xWPageSpaPdt .active').text(); // Get เลขก่อนหน้า
+                    nPageOld        = $('.xWPageAdcPdt .active').text(); // Get เลขก่อนหน้า
                     nPageNew        = parseInt(nPageOld, 10) + 1; // +1 จำนวน
                     nPageCurrent    = nPageNew
                     break;
                 case 'previous': //กดปุ่ม Previous
-                    nPageOld = $('.xWPageSpaPdt .active').text(); // Get เลขก่อนหน้า
+                    nPageOld = $('.xWPageAdcPdt .active').text(); // Get เลขก่อนหน้า
                     nPageNew = parseInt(nPageOld, 10) - 1; // -1 จำนวน
                     nPageCurrent    = nPageNew
                     break;

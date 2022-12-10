@@ -178,69 +178,71 @@ class cTransferBchOut extends MX_Controller
             $aDataDocument  = $this->input->post();
             $tUserSessionID = $this->session->userdata('tSesSessionID');
             $tUserLoginCode = $this->session->userdata('tSesUsername');
-            $tDocDate = $this->input->post('oetTransferBchOutDocDate') . " " . $this->input->post('oetTransferBchOutDocTime');
-            $tBchCode = $this->input->post('oetTransferBchOutBchCode');
+            $tDocDate       = $this->input->post('oetTransferBchOutDocDate') . " " . $this->input->post('oetTransferBchOutDocTime');
+            $tBchCode       = $this->input->post('oetTransferBchOutBchCode');
 
-            $tWhaCodeFrm = $this->input->post('oetTransferBchOutXthWhFrmCode');
+            $tWhaCodeFrm    = $this->input->post('oetTransferBchOutXthWhFrmCode');
+            $tWahStaWaste   = $this->input->post('ohdTWOnStaWasteWAH');
 
             $aDataWah = array(
-                'tWhaCodeFrm' => $tWhaCodeFrm,
-                'tBchCode'    => $tBchCode
+                'tWhaCodeFrm'       => $tWhaCodeFrm,
+                'tBchCode'          => $tBchCode,
+                'tWahStaWaste'      => $tWahStaWaste,
             );
             $tWahCode = $this->mTransferBchOut->FSaMBSChkWareHouse($aDataWah);
 
             $aEndOfBillParams = [
-                'tSplVatType' => '2', // ภาษีรวมใน
-                'tDocNo' => 'TBODOCTEMP',
-                'tDocKey' => 'TCNTPdtTboHD',
-                'nLngID' => FCNaHGetLangEdit(),
-                'tSesSessionID' => $tUserSessionID,
-                'tBchCode' => $tBchCode
+                'tSplVatType'       => '2', // ภาษีรวมใน
+                'tDocNo'            => 'TBODOCTEMP',
+                'tDocKey'           => 'TCNTPdtTboHD',
+                'nLngID'            => FCNaHGetLangEdit(),
+                'tSesSessionID'     => $tUserSessionID,
+                'tBchCode'          => $tBchCode
             ];
             $aEndOfBillCal = FCNaDOCEndOfBillCal($aEndOfBillParams);
 
             $aDataMaster = array(
-                'tIsAutoGenCode' => $this->input->post('ocbTransferBchOutAutoGenCode'),
-                'FTBchCode' => $tBchCode, // สาขาสร้าง
-                'FTXthDocNo' => $this->input->post('oetTransferBchOutDocNo'), // เลขที่เอกสาร  XXYYMM-1234567
-                'FDXthDocDate' => $tDocDate, // วันที่/เวลา เอกสาร dd/mm/yyyy H:mm:ss
-                'FTXthVATInOrEx' => $this->input->post(''), // ภาษีมูลค่าเพิ่ม 1:รวมใน, 2:แยกนอก
-                'FTDptCode' => $this->input->post(''), // แผนก
-                'FTXthBchFrm' => $this->input->post('oetTransferBchOutXthBchFrmCode'), // รหัสสาขาต้นทาง
-                'FTXthBchTo' => $this->input->post('oetTransferBchOutXthBchToCode'), // รหัสสาขาปลายทาง
-                'FTXthMerchantFrm' => $this->input->post('oetTransferBchOutXthMerchantFrmCode'), // รหัสตัวแทน/เจ้าของดำเนินการ(ต้นทาง)
-                'FTXthMerchantTo' => $this->input->post(''), // รหัสตัวแทน/เจ้าของดำเนินการ(ปลายทาง)
-                'FTXthShopFrm' => $this->input->post('oetTransferBchOutXthShopFrmCode'), // ร้านค้า(ต้นทาง)
-                'FTXthShopTo' => $this->input->post(''), // ร้านค้า(ปลายทาง)
-                'FTXthWhFrm' => $tWahCode['rtWahCode'], // รหัสคลัง(ต้นทาง)
-                'FTXthWhTo' => $this->input->post('oetTransferBchOutXthWhToCode'), // รหัสคลัง(ปลายทาง)
-                'FTUsrCode' => $tUserLoginCode, // พนักงาน Key
-                'FTSpnCode' => '', // พนักงานขาย
-                'FTXthApvCode' => '', // ผู้อนุมัติ
-                'FNXthDocPrint' => 0, // จำนวนครั้งที่พิมพ์
-                'FCXthTotal' => floatval(str_replace(',', '', $aEndOfBillCal['cSumFCXtdNet'])), // ยอดรวมก่อนลด
-                'FCXthVat' => floatval(str_replace(',', '', $aEndOfBillCal['cSumFCXtdVat'])), // ยอดภาษี
-                'FCXthVatable' => floatval(str_replace(',', '', $aEndOfBillCal['cSumFCXtdNet'])), // ยอดแยกภาษี
-                'FTXthRmk' => $this->input->post('otaTransferBchOutXthRmk'), // หมายเหตุ
-                'FTXthStaDoc' => '1', // สถานะ เอกสาร  1:สมบูรณ์, 2:ไม่สมบูรณ์, 3:ยกเลิก
-                'FTXthStaApv' => '', // สถานะ อนุมัติ เอกสาร ว่าง:ยังไม่ทำ, 1:อนุมัติแล้ว
-                'FTXthStaPrcStk' => '', // สถานะ ประมวลผลสต็อค ว่าง หรือ Null:ยังไม่ทำ, 1:ทำแล้ว
-                'FTXthStaDelMQ' => '', // สถานะลบ MQ ว่าง หรือ Null:ยังไม่ทำ, 1:ทำแล้ว
-                'FNXthStaDocAct' => ($this->input->post('ocbTransferBchOutXthStaDocAct') == "1") ? 1 : 0, // สถานะ เคลื่อนไหว 0:NonActive, 1:Active
-                'FNXthStaRef' => intval($this->input->post('ostTransferBchOutXthStaRef')), // สถานะ อ้างอิง 0:ไม่เคยอ้างอิง, 1:อ้างอิงบางส่วน, 2:อ้างอิงหมดแล้ว
-                'FTRsnCode' => $this->input->post('oetTransferBchOutRsnCode'), // รหัสเหตุผล
+                'tIsAutoGenCode'            => $this->input->post('ocbTransferBchOutAutoGenCode'),
+                'FTBchCode'                 => $tBchCode, // สาขาสร้าง
+                'FTXthDocNo'                => $this->input->post('oetTransferBchOutDocNo'), // เลขที่เอกสาร  XXYYMM-1234567
+                'FDXthDocDate'              => $tDocDate, // วันที่/เวลา เอกสาร dd/mm/yyyy H:mm:ss
+                'FTXthVATInOrEx'            => $this->input->post(''), // ภาษีมูลค่าเพิ่ม 1:รวมใน, 2:แยกนอก
+                'FTDptCode'                 => $this->input->post(''), // แผนก
+                'FTXthBchFrm'               => $this->input->post('oetTransferBchOutXthBchFrmCode'), // รหัสสาขาต้นทาง
+                'FTXthBchTo'                => $this->input->post('oetTransferBchOutXthBchToCode'), // รหัสสาขาปลายทาง
+                'FTXthMerchantFrm'          => $this->input->post('oetTransferBchOutXthMerchantFrmCode'), // รหัสตัวแทน/เจ้าของดำเนินการ(ต้นทาง)
+                'FTXthMerchantTo'           => $this->input->post(''), // รหัสตัวแทน/เจ้าของดำเนินการ(ปลายทาง)
+                'FTXthShopFrm'              => $this->input->post('oetTransferBchOutXthShopFrmCode'), // ร้านค้า(ต้นทาง)
+                'FTXthShopTo'               => $this->input->post(''), // ร้านค้า(ปลายทาง)
+                'FTXthWhFrm'                => $tWahCode['rtWahCode'], // รหัสคลัง(ต้นทาง)
+                'FTXthWhTo'                 => $this->input->post('oetTransferBchOutXthWhToCode'), // รหัสคลัง(ปลายทาง)
+                'FTUsrCode'                 => $tUserLoginCode, // พนักงาน Key
+                'FTSpnCode'                 => '', // พนักงานขาย
+                'FTXthApvCode'              => '', // ผู้อนุมัติ
+                'FNXthDocPrint'             => 0, // จำนวนครั้งที่พิมพ์
+                'FCXthTotal'                => floatval(str_replace(',', '', $aEndOfBillCal['cSumFCXtdNet'])), // ยอดรวมก่อนลด
+                'FCXthVat'                  => floatval(str_replace(',', '', $aEndOfBillCal['cSumFCXtdVat'])), // ยอดภาษี
+                'FCXthVatable'              => floatval(str_replace(',', '', $aEndOfBillCal['cSumFCXtdNet'])), // ยอดแยกภาษี
+                'FTXthRmk'                  => $this->input->post('otaTransferBchOutXthRmk'), // หมายเหตุ
+                'FTXthStaDoc'               => '1', // สถานะ เอกสาร  1:สมบูรณ์, 2:ไม่สมบูรณ์, 3:ยกเลิก
+                'FTXthStaApv'               => '', // สถานะ อนุมัติ เอกสาร ว่าง:ยังไม่ทำ, 1:อนุมัติแล้ว
+                'FTXthStaPrcStk'            => '', // สถานะ ประมวลผลสต็อค ว่าง หรือ Null:ยังไม่ทำ, 1:ทำแล้ว
+                'FTXthStaDelMQ'             => '', // สถานะลบ MQ ว่าง หรือ Null:ยังไม่ทำ, 1:ทำแล้ว
+                'FNXthStaDocAct'            => ($this->input->post('ocbTransferBchOutXthStaDocAct') == "1") ? 1 : 0, // สถานะ เคลื่อนไหว 0:NonActive, 1:Active
+                'FNXthStaRef'               => intval($this->input->post('ostTransferBchOutXthStaRef')), // สถานะ อ้างอิง 0:ไม่เคยอ้างอิง, 1:อ้างอิงบางส่วน, 2:อ้างอิงหมดแล้ว
+                'FTRsnCode'                 => $this->input->post('oetTransferBchOutRsnCode'), // รหัสเหตุผล
                 // การขนส่ง(TCNTPdtTboHDRef)
-                'FTXthCtrName' => $this->input->post('oetTransferBchOutXthCtrName'), // ชื่อผู้ตืดต่อ
-                'FDXthTnfDate' => empty($this->input->post('oetTransferBchOutXthTnfDate')) ? NULL : $this->input->post('oetTransferBchOutXthTnfDate'), // วันที่ส่งของ
-                'FTXthRefTnfID' => $this->input->post('oetTransferBchOutXthRefTnfID'), // อ้างอิง เลขที่ ใบขนส่ง
-                'FTXthRefVehID' => $this->input->post('oetTransferBchOutXthRefVehID'), // อ้างอิง เลขที่ ยานพาหนะ ขนส่ง
-                'FTXthQtyAndTypeUnit' => $this->input->post('oetTransferBchOutXthQtyAndTypeUnit'), // จำนวนและลักษณะหีบห่อ
-                'FNXthShipAdd' => 0, // อ้างอิง ที่อยู่ ส่งของ null หรือ 0 ไม่กำหนด
-                'FTViaCode' => $this->input->post('oetTransferBchOutShipViaCode'), // รหัสการขนส่ง
-                'FDLastUpdOn' => date('Y-m-d H:i:s'), // วันที่ปรับปรุงรายการล่าสุด
-                'FTLastUpdBy' => $tUserLoginCode, // ผู้ปรับปรุงรายการล่าสุด
-                'FDCreateOn' => date('Y-m-d H:i:s'), // วันที่สร้างรายการ
-                'FTCreateBy' => $tUserLoginCode, // ผู้สร้างรายการ
+                'FTXthCtrName'              => $this->input->post('oetTransferBchOutXthCtrName'), // ชื่อผู้ตืดต่อ
+                'FDXthTnfDate'              => empty($this->input->post('oetTransferBchOutXthTnfDate')) ? NULL : $this->input->post('oetTransferBchOutXthTnfDate'), // วันที่ส่งของ
+                'FTXthRefTnfID'             => $this->input->post('oetTransferBchOutXthRefTnfID'), // อ้างอิง เลขที่ ใบขนส่ง
+                'FTXthRefVehID'             => $this->input->post('oetTransferBchOutXthRefVehID'), // อ้างอิง เลขที่ ยานพาหนะ ขนส่ง
+                'FTXthQtyAndTypeUnit'       => $this->input->post('oetTransferBchOutXthQtyAndTypeUnit'), // จำนวนและลักษณะหีบห่อ
+                'FNXthShipAdd'              => 0, // อ้างอิง ที่อยู่ ส่งของ null หรือ 0 ไม่กำหนด
+                'FTViaCode'                 => $this->input->post('oetTransferBchOutShipViaCode'), // รหัสการขนส่ง
+                'FDLastUpdOn'               => date('Y-m-d H:i:s'), // วันที่ปรับปรุงรายการล่าสุด
+                'FTLastUpdBy'               => $tUserLoginCode, // ผู้ปรับปรุงรายการล่าสุด
+                'FDCreateOn'                => date('Y-m-d H:i:s'), // วันที่สร้างรายการ
+                'FTCreateBy'                => $tUserLoginCode, // ผู้สร้างรายการ
             );
 
             $this->db->trans_begin();
@@ -249,12 +251,12 @@ class cTransferBchOut extends MX_Controller
             if ($aDataMaster['tIsAutoGenCode'] == '1') { // Check Auto Gen Reason Code?
                 // Call Auto Gencode Helper
                 $aStoreParam = array(
-                    "tTblName" => 'TCNTPdtTboHD',
-                    "tDocType" => 6,
-                    "tBchCode" => $aDataMaster["FTBchCode"],
-                    "tShpCode" => "",
-                    "tPosCode" => "",
-                    "dDocDate" => date("Y-m-d")
+                    "tTblName"              => 'TCNTPdtTboHD',
+                    "tDocType"              => 6,
+                    "tBchCode"              => $aDataMaster["FTBchCode"],
+                    "tShpCode"              => "",
+                    "tPosCode"              => "",
+                    "dDocDate"              => date("Y-m-d")
                 );
                 $aAutogen = FCNaHAUTGenDocNo($aStoreParam);
                 $aDataMaster['FTXthDocNo'] = $aAutogen[0]["FTXxhDocNo"];

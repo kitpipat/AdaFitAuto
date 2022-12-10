@@ -1098,7 +1098,8 @@ class cAdjustmentcost extends MX_Controller {
                 'nPage'                     => $nPage,
                 'tSearchAll'                => $tSearchAll,
                 'aAlwEventSalePriceAdj'     => $aAlwEventSalePriceAdj,
-                'nOptDecimalShow'           => $nOptDecimalShow
+                'nOptDecimalShow'           => $nOptDecimalShow,
+                'nRow'                      => get_cookie('nShowRecordInPageList'),
             );
             // echo "<pre>";
             // print_r($aGenTable);

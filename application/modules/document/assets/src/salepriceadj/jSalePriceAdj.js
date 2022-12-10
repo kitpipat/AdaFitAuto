@@ -1445,8 +1445,8 @@ function JSxSpaSaveInLine(oEvent, oElm) {
         var b4value = parseFloat($(oElm).attr('b4value'));
         var tValue = ($(oElm).val() == "") ? 0 : parseFloat($(oElm).val().replace(/,/g, ''));
         // alert(tValue);
-        console.log(b4value);
-        console.log(tValue);
+        // console.log(b4value);
+        // console.log(tValue);
         // console.log(oElm);
         // if(tValue == ""){
         //     alert('Value is null');
