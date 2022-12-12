@@ -1016,6 +1016,7 @@ class Rptcustomerhistoryservice_controller extends MX_Controller
 
         $oStyleColums = (new StyleBuilder())
             ->setBorder($oBorder)
+            ->setFontBold()
             ->build();
 
         $aCells = [
@@ -1337,10 +1338,10 @@ class Rptcustomerhistoryservice_controller extends MX_Controller
             WriterEntityFactory::createCell(NULL),
             WriterEntityFactory::createCell(NULL),
             WriterEntityFactory::createCell(NULL),
+            WriterEntityFactory::createCell(NULL),
+            WriterEntityFactory::createCell(NULL),
+            WriterEntityFactory::createCell(NULL),
             WriterEntityFactory::createCell($this->aText['tDatePrint'] . ' ' . date('d/m/Y') . ' ' . $this->aText['tTimePrint'] . ' ' . date('H:i:s')),
-            WriterEntityFactory::createCell(NULL),
-            WriterEntityFactory::createCell(NULL),
-            WriterEntityFactory::createCell(NULL),
             WriterEntityFactory::createCell(NULL),
             WriterEntityFactory::createCell(NULL),
         ];

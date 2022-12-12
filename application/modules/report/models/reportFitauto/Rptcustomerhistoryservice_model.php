@@ -24,20 +24,21 @@ class Rptcustomerhistoryservice_model extends CI_Model
 
         $tCallStore = "{ CALL SP_RPTxServiceHis(?,?,?,?,?,?,?,?,?,?) }";
         $aDataStore = array(
-            'ptSessionID'       => $paDataFilter['tSessionID'],
-            'ptAgnCode'     => $paDataFilter['tAgnCodeSelect'],
-            'ptBchCode'     => $tBchCodeSelect,
+            'ptSessionID'           => $paDataFilter['tSessionID'],
+            'ptAgnCode'             => $paDataFilter['tAgnCodeSelect'],
+            'ptBchCode'             => $tBchCodeSelect,
             'ptCstCodeFrm'          => $paDataFilter['tCstCodeFrom'],
             'ptCstCodeTo'           => $paDataFilter['tCstCodeTo'],
-            'ptCarRegCodeFrm'         => $paDataFilter['tRegCodeFrom'],
-            'ptCarRegCodeTo'          => $paDataFilter['tRegCodeTo'],
-            'pdServiceDateFrm'        => $paDataFilter['tDocDateFrom'],
-            'pdServiceDateTo'        => $paDataFilter['tDocDateTo'],
-            'pnResult'        => 0,
+            'ptCarRegCodeFrm'       => $paDataFilter['tRegCodeFrom'],
+            'ptCarRegCodeTo'        => $paDataFilter['tRegCodeTo'],
+            'pdServiceDateFrm'      => $paDataFilter['tDocDateFrom'],
+            'pdServiceDateTo'       => $paDataFilter['tDocDateTo'],
+            'pnResult'              => 0,
 
 
         );
         $oQuery = $this->db->query($tCallStore, $aDataStore);
+        // print_r($this->db->last_query());exit;
         if ($oQuery !== FALSE) {
             unset($oQuery);
             return 1;
