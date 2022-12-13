@@ -53,6 +53,7 @@ class mRptSaleByProduct extends CI_Model {
         );
 
         $oQuery = $this->db->query($tCallStore, $aDataStore);
+        // print_r($this->db->last_query()); exit;
         if ($oQuery !== FALSE) {
             unset($oQuery);
             return 1;
@@ -188,7 +189,8 @@ class mRptSaleByProduct extends CI_Model {
                                     AND FTComName       = '$tComName'
                                     AND FTRptCode       = '$tRptCode'
                                     AND FTUsrSession    = '$tUsrSession'
-                                    AND FCXsdQty > 0 ";
+                                    --AND FCXsdQty > 0 
+                                    ";
             if($tAppType != ""){
                 $tJoinFoooter .= "  AND FNAppType       = '$tAppType'";
             }
@@ -214,6 +216,8 @@ class mRptSaleByProduct extends CI_Model {
                         FROM (
                             SELECT
                                 ROW_NUMBER() OVER(ORDER BY FTBchCode ASC) AS RowID ,
+                                COUNT (FTBchCode) OVER (PARTITION BY FTBchCode ORDER BY FTBchCode ASC) AS PARTTITIONBYBCH,
+                                ROW_NUMBER () OVER (PARTITION BY FTBchCode ORDER BY FTBchCode ASC, FTPdtCatCode2 ASC,FTPdtCode ASC) AS PARTTITIONBYBCH_COUNT,
                                 A.*,
                                 S.FNRptGroupMember,
                                 S.FCXsdQty_SubTotal,
@@ -236,7 +240,8 @@ class mRptSaleByProduct extends CI_Model {
                                 AND FTComName       = '$tComName'
                                 AND FTRptCode       = '$tRptCode'
                                 AND FTUsrSession    = '$tUsrSession'
-                                AND FCXsdQty > 0 ";
+                                --AND FCXsdQty > 0 
+                                ";
 
         if($tAppType != ""){
             $tSQL .= "          AND FNAppType       = '$tAppType'";
@@ -249,7 +254,8 @@ class mRptSaleByProduct extends CI_Model {
                             AND A.FTComName     = '$tComName'
                             AND A.FTRptCode     = '$tRptCode'
                             AND A.FTUsrSession  = '$tUsrSession' 
-                            AND A.FCXsdQty > 0 ";
+                            --AND A.FCXsdQty > 0 
+                            ";
         if($tAppType != ""){
             $tSQL .= "      AND A.FNAppType       = '$tAppType'";
         }
@@ -266,8 +272,8 @@ class mRptSaleByProduct extends CI_Model {
             $tSQL .= " AND L.FNAppType = '$tAppType'";
         }
 
-        $tSQL .= "   ORDER BY L.FTBchCode ASC , L.FTPdtCatCode2 ASC , L.FTPdtCode ASC  , FNRowPartID ASC";
-
+        $tSQL .= "   ORDER BY L.FTBchCode ASC , L.FTPdtCatCode2 ASC , L.FTPdtCode ASC  --, FNRowPartID ASC";
+        // print_r($tSQL);exit;
         $oQuery = $this->db->query($tSQL);
 
         if ($oQuery->num_rows() > 0) {

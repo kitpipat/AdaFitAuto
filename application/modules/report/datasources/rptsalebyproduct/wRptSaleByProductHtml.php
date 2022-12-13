@@ -130,13 +130,20 @@
                                 ?>
                                 <?php
                                     //Step 2 Groupping data
-                                    $aGrouppingData = array($tBchCodeGroup);
+                                    // $aGrouppingData = array($tBchCodeGroup);
                                     // Parameter
                                     // $nRowPartID      = ลำดับตามกลุ่ม
                                     // $aGrouppingData  = ข้อมูลสำหรับ Groupping
-                                    FCNtHRPTHeadGrouppingRptTSPBch($nRowPartID,$aGrouppingData);
+                                    // FCNtHRPTHeadGrouppingRptTSPBch($nRowPartID,$aGrouppingData);
                                 ?>
                                 <!--  Step 2 แสดงข้อมูลใน TD  -->
+                                <?php
+                                    if($aValue["PARTTITIONBYBCH_COUNT"] == 1) {
+                                        echo "<tr>";
+                                        echo "<td class='xCNRptGrouPing  text-left' colspan='3' style='padding: 5px;'>".$tBchCodeGroup."</td>";
+                                        echo "</tr>";
+                                    }
+                                ?>
                                 <tr>
                                     <td class="text-left xCNRptDetail"><?php echo '&nbsp;&nbsp;'.$aValue["FTPdtCode"];?></td>
                                     <td class="text-left xCNRptDetail">
@@ -175,7 +182,20 @@
                                     //$nGroupMember     = จำนวนข้อมูลทั้งหมดในกลุ่ม
                                     //$nRowPartID       = ลำดับข้อมูลในกลุ่ม
                                     //$aSumFooter       =  ข้อมูล Summary SubFooter
-                                    FCNtHRPTSumSubFooter3($nGroupMember,$nRowPartID,$aSumFooter,2);
+                                    // FCNtHRPTSumSubFooter3($nGroupMember,$nRowPartID,$aSumFooter,2);
+                                
+                                    if($aValue["PARTTITIONBYBCH_COUNT"] == $aValue["PARTTITIONBYBCH"]) {
+                                        echo "<tr class='xCNTrSubFooter2' style='border-top:1px dashed #333 !important;border-bottom:1px dashed #333 !important;'>";
+                                        echo "<td class='xCNRptGrouPing  text-left' colspan='6' style='padding: 5px;'>".$tSumBranch."</td>";
+                                        echo "<td class='text-right xCNRptDetail'>".$nSumSubXsdQty."</td>";
+                                        echo "<td class='text-right xCNRptDetail'></td>";
+                                        echo "<td class='text-right xCNRptDetail'>".$cSumSubXsdAmtB4DisChg."</td>";
+                                        echo "<td class='text-right xCNRptDetail'>".$cSumSubXsdDis."</td>";
+                                        echo "<td class='text-right xCNRptDetail'></td>";
+                                        echo "<td class='text-right xCNRptDetail'>".$cSumSubXsdNetAfHD."</td>";
+                                        echo "</tr>";
+                                    }
+                                
 
                                     //Step 5 เตรียม Parameter สำหรับ SumFooter
                                     $nSumFootXsdQty             = number_format($aValue["FCXsdQty_Footer"], $nOptDecimalShow);

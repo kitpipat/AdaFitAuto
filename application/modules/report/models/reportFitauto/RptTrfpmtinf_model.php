@@ -11,7 +11,8 @@ class RptTrfpmtinf_model extends CI_Model{
     public function FSxMExecStoreReport($paDataFilter){
         // สาขา
         $tBchCodeSelect = ($paDataFilter['bBchStaSelectAll']) ? '' :  FCNtAddSingleQuote($paDataFilter['tBchCodeSelect']);
-        $tCallStore     = "{ CALL SP_RPTxTrfpmtinf(?,?,?,?,?,?,?,?,?,?,?) }";
+        $tCallStore     = "{ CALL SP_RPTxTrfpmtinf(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) }";
+        // $tCallStore     = "{ CALL SP_RPTxTrfpmtinf(?,?,?,?,?,?,?,?,?,?,?) }";
         $aDataStore     = [
             'pnLngID'       => $paDataFilter['nLangID'],
             'pnComName'     => $paDataFilter['tCompName'],
@@ -20,12 +21,19 @@ class RptTrfpmtinf_model extends CI_Model{
             'pnFilterType'  => $paDataFilter['tTypeSelect'],
             'ptBchL'        => $tBchCodeSelect,
             'ptPdtF'        => $paDataFilter['tPdtCodeFrom'],
-            'ptPdtT'        => $paDataFilter['tPdtCodeTo'],         
+            'ptPdtT'        => $paDataFilter['tPdtCodeTo'], 
+            'ptPdtChanF'    => $paDataFilter['tPdtGrpCodeFrom'],
+            'ptPdtChanT'    => $paDataFilter['tPdtGrpCodeTo'],
+            'ptPdtTypeF'    => $paDataFilter['tPdtTypeCodeFrom'],
+            'ptPdtTypeT'    => $paDataFilter['tPdtTypeCodeTo'],  
+            'ptCate1From'   => FCNtAddSingleQuote($paDataFilter['tCate1From']),
+            'ptCate2From'   => FCNtAddSingleQuote($paDataFilter['tCate2From']),      
             'ptDocDateF'    => $paDataFilter['tDocDateFrom'],
             'ptDocDateT'    => $paDataFilter['tDocDateTo'],
             'FNResult'      => 0
         ];
         $oQuery = $this->db->query($tCallStore, $aDataStore);
+        // print_r($this->db->last_query());exit;
         if ($oQuery !== FALSE) {
             $nStaReturn = 1;
         } else {
