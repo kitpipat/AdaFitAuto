@@ -1390,6 +1390,7 @@ $route['docDOEventAddEditHDDocRef']                 = 'document/deliveryorder/De
 $route['docDOEventDelHDDocRef']                     = 'document/deliveryorder/Deliveryorder_controller/FSoCDOEventDelHDDocRef';
 $route['docDOClearTempWhenChangeData']              = 'document/deliveryorder/Deliveryorder_controller/FSoCDOClearTempWhenChangeData';
 $route['docDOEventGenSO']                           = 'document/deliveryorder/Deliveryorder_controller/FSoCDOEventGenSO';
+$route['docDOGetSplDocRefB4Add']                    = 'document/deliveryorder/Deliveryorder_controller/FSoCDOGetSplDocRefB4Add';
 
 //========================================== ใบขอโอนสาขา (Transfer Request Branch) ======================================//
 $route['docTRB/(:any)/(:any)']                      = 'document/transferrequestbranch/Transferrequestbranch_controller/index/$1/$2';

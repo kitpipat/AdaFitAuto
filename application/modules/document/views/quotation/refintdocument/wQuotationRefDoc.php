@@ -59,8 +59,8 @@
                     <label class="xCNLabelFrm"><?php echo language('document/purchaseorder/purchaseorder', 'tPORefIntDocStatus'); ?></label>
                     <select class="selectpicker form-control  " id="oetQTRefIntStaDoc" name="oetQTRefIntStaDoc" maxlength="1" value="">
                         <option value="1"><?php echo language('document/purchaseorder/purchaseorder', 'tPOLabelFrmValStaApv1'); ?></option>
-                        <option value="2"><?php echo language('document/purchaseorder/purchaseorder', 'tPOLabelFrmValStaApv'); ?></option>
-                        <option value="3"><?php echo language('document/purchaseorder/purchaseorder', 'tPOLabelFrmValStaDoc3'); ?></option>
+                        <!-- <option value="2"><?php echo language('document/purchaseorder/purchaseorder', 'tPOLabelFrmValStaApv'); ?></option> -->
+                        <!-- <option value="3"><?php echo language('document/purchaseorder/purchaseorder', 'tPOLabelFrmValStaDoc3'); ?></option> -->
                     </select>
                 </div>
             </div>

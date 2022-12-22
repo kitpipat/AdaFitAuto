@@ -190,6 +190,7 @@ class Deliveryorder_controller extends MX_Controller {
             'tDOOptionAddPdt'   => $tDOOptionAddPdt,
             'tSessionID'        => $this->session->userdata('tSesSessionID'),
         );
+
         if ($tDoctype == 1) {
             $tDocType       = 'PO';
             $aDataResult    = $this->deliveryorder_model->FSoMDOCallRefIntDocInsertDTToTemp($aDataParam, $tDocType);
@@ -197,6 +198,7 @@ class Deliveryorder_controller extends MX_Controller {
             $tDocType       = 'ABB';
             $aDataResult    = $this->deliveryorder_model->FSoMDOCallRefIntABBDocInsertDTToTemp($aDataParam, $tDocType);
         }
+        
         return  $aDataResult;
     }
 
@@ -1197,6 +1199,36 @@ class Deliveryorder_controller extends MX_Controller {
         ];
         // เชื่อม Rabbit MQ
         FCNxCallRabbitMQ($aMQParams);
+    }
+
+    // ค่าอ้างอิงเอกสาร - โหลดข้อมูล
+    public function FSoCDOGetSplDocRefB4Add(){
+        try {
+            $tDocNo             = $this->input->post('ptDocNo');
+            $aDataWhere = [
+                'tTableHDDocRef'    => 'TAPTDoHDDocRef',
+                'tTableTmpHDRef'    => 'TSVTDODocHDRefTmp',
+                'FTXthDocNo'        => $tDocNo,
+                'FTXthDocKey'       => 'TAPTDoHD',
+                'FTSessionID'       => $this->session->userdata('tSesSessionID')
+            ];
+            $aDataDocHDRef = $this->deliveryorder_model->FSaMDOGetDataPOSplDocRef($aDataWhere);
+           
+            // $aDataConfig = array(
+            //     'aDataDocHDRef' => $aDataDocHDRef
+            // );
+            $aReturnData = array(
+                'aDataDocHDRef'     => $aDataDocHDRef,
+                'nStaEvent'         => '1',
+                'tStaMessg'         => 'Success'
+            );
+        } catch (Exception $Error) {
+            $aReturnData = array(
+                'nStaEvent' => '500',
+                'tStaMessg' => $Error->getMessage()
+            );
+        }
+        echo json_encode($aReturnData);
     }
 
 }

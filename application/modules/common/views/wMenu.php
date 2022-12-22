@@ -79,6 +79,12 @@
                         </a>
                     </li>
 
+                    <!-- <li class="treeview-item xCNMenuItem">
+                        <a data-mnrname="ImformationRegister" data-toggle="collapse" class="collapsed xWLiSubmenu">
+                            <span style="margin-left:-27px;"><?=language('register/register','tMenuInformation');?></span>
+                        </a>
+                    </li> -->
+                
                     <li class="treeview-item xCNMenuItem">
                         <a data-mnrname="AdaSoftContact" data-toggle="collapse" class="collapsed xWLiSubmenu">
                             <span style="margin-left:-27px;"><?=language('register/register','tMenuContact');?></span>

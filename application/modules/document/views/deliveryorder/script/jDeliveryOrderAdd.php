@@ -785,7 +785,11 @@
                     JSxDOValidateDocCodeDublicate();
                 }else{
                     if($("#ohdDOCheckSubmitByButton").val() == 1){
-                        JSxDOSubmitEventByButton();
+                        if($('#ocbDORefDoc').val() == 1) {
+                            JSxDOGetSplDocRefB4Add();
+                        }else{
+                            JSxDOSubmitEventByButton();
+                        }
                     }
                 }
             },
@@ -859,7 +863,12 @@
                     },
                     submitHandler: function (form) {
                         if($("#ohdDOCheckSubmitByButton").val() == 1) {
-                            JSxDOSubmitEventByButton();
+                            if($('#ocbDORefDoc').val() == 1) {
+                                JSxDOGetSplDocRefB4Add();
+                            }else{
+                                JSxDOSubmitEventByButton();
+                            }
+                            // JSxDOCheckSplDocRefB4Add();
                         }
                     }
                 })
@@ -1202,5 +1211,61 @@
             },
         });
     });
+
+    function JSxDOGetSplDocRefB4Add(){
+        var tDocNo  = "";
+        if ($("#ohdDORoute").val() == "docDOEventEdit") {
+            tDocNo = $('#oetDODocNo').val();
+        }
+        $.ajax({
+            type    : "POST",
+            url     : "docDOGetSplDocRefB4Add",
+            data:{
+                'ptDocNo' : tDocNo
+            },
+            cache   : false,
+            timeout : 0,
+            success: function(oResult){
+                var aResult = JSON.parse(oResult);
+                // console.log(aResult);
+                if(aResult['nStaEvent'] == 1) {
+                    JSxDOCheckSplDocRefB4Add(aResult['aDataDocHDRef']);
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                JCNxResponseError(jqXHR, textStatus, errorThrown);
+            }
+        });
+    }
+
+    function JSxDOCheckSplDocRefB4Add(paData){
+        // console.log(paData['aItems'])
+        var aData       = paData['aItems'];
+        var tSql        = $("#oetDOFrmSplCode").val();
+        var tCheckSpl   = '';
+        // console.log(tSql);
+
+        if(aData == 'RefEx') {
+            tCheckSpl = 1;
+        }else {
+            for(var i = 0; i < aData.length; i++) {
+                if(aData[i]['FTSplCode'] == tSql){
+                    tCheckSpl = 1;
+                }else {
+                    tCheckSpl = 2;
+                    break;
+                }
+            }
+        }
+        // console.log('tCheckSpl', tCheckSpl);
+
+        if(tCheckSpl == 1){
+            JSxDOSubmitEventByButton();
+        }else{
+            FSvCMNSetMsgErrorDialog("เอกสารใบสั่งซื้อไม่ถูกต้อง กรุณาตรวจสอบอีกครั้ง");
+        }
+
+    }
+
 
 </script>

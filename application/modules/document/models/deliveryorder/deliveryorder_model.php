@@ -2428,4 +2428,76 @@ class Deliveryorder_model extends CI_Model {
         }
         return $aResult;
     }
+
+     // แท็บค่าอ้างอิงเอกสาร - โหลด
+    public function FSaMDOGetDataPOSplDocRef($paData){
+        $tTableTmpHDRef = $paData['tTableTmpHDRef'];
+        $FTXthDocNo     = $paData['FTXthDocNo'];
+        $FTXthDocKey    = $paData['FTXthDocKey'];
+        $FTSessionID    = $paData['FTSessionID'];
+        $tSQL           = "SELECT DISTINCT PO.FTXphDocNo, PO.FTSplCode 
+                            FROM TAPTPoHD PO WITH(NOLOCK)
+                            LEFT JOIN (
+                                SELECT FTXthDocNo, FTXthRefDocNo, FTXthRefType, FTXthRefKey, FDXthRefDocDate
+                                FROM $tTableTmpHDRef TMP WITH(NOLOCK)
+                                WHERE FTXthDocNo    = ".$this->db->escape($FTXthDocNo)."
+                                AND FTXthDocKey     = ".$this->db->escape($FTXthDocKey)."
+                                AND FTSessionID     = ".$this->db->escape($FTSessionID)."
+                            ) DocTMP ON PO.FTXphDocNo = DocTMP.FTXthRefDocNo
+                            WHERE PO.FTXphDocNo IN (DocTMP.FTXthRefDocNo)
+        ";
+
+        // print_r($tSQL);
+        $oQuery = $this->db->query($tSQL);
+        if ( $oQuery->num_rows() > 0 ){
+            $aResult    = array(
+                'aItems'   => $oQuery->result_array(),
+                'tCode'    => '1',
+                'tDesc'    => 'found data',
+            );
+        }else{
+            $nCount     = $this->FSaMDOCountDataSplDocRefEx($FTXthDocNo);
+            if($nCount != 0 ){
+                $aResult    = array(
+                    'aItems'   => 'RefEx',
+                    'tCode'    => '1',
+                    'tDesc'    => 'found data',
+                );
+            }else{
+                $aResult    = array(
+                    'tCode'    => '800',
+                    'tDesc'    => 'data not found.',
+                );
+            }
+        }
+        unset($oQuery);
+        return $aResult;
+
+    }
+
+    public function FSaMDOCountDataSplDocRefEx($paData){
+        $FTXthDocNo     = $paData;
+        $FTSessionID    = $this->session->userdata('tSesSessionID');
+        $FTXthDocKey    = 'TAPTDoHD';
+
+        $tSQL = "SELECT COUNT(FTXthRefType) AS nFTXthRefType 
+                FROM TSVTDODocHDRefTmp
+                WHERE FTXthDocNo    = ".$this->db->escape($FTXthDocNo)."
+                    AND FTXthDocKey     = ".$this->db->escape($FTXthDocKey)."
+                    AND FTSessionID     = ".$this->db->escape($FTSessionID)."
+                    AND FTXthRefType = '3'
+                ";
+
+        $oQuery = $this->db->query($tSQL);
+        if($oQuery->num_rows() > 0){
+            $aDataQuery = $oQuery->row_array();
+            unset($tDODocNo);
+            unset($oQuery);
+            return $aDataQuery['nFTXthRefType'];
+        }else{
+            unset($tDODocNo);
+            unset($oQuery);
+            return 0;
+        }
+    }
 }
