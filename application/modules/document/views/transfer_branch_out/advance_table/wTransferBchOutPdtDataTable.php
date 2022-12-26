@@ -11,7 +11,7 @@
                 <th ><?= language('document/purchaseorder/purchaseorder', 'ชื่อสินค้า')?></th>
                 <th ><?= language('document/purchaseorder/purchaseorder', 'บาร์โค้ด')?></th>
                 <th ><?= language('document/purchaseorder/purchaseorder', 'หน่วยสินค้า')?></th>
-                <th ><?= language('document/purchaseorder/purchaseorder', 'สถานะสต็อค')?></th>
+                <th ><?= language('document/purchaseorder/purchaseorder', 'สถานะสต็อก')?></th>
                 <th ><?= language('document/purchaseorder/purchaseorder', 'จำนวน')?></th>
 
 
@@ -58,7 +58,7 @@
                                                         echo "<span class='xCNTextConfirm'>ยืนยันแล้ว</span>";
                                                         break;
                                                     case '2':
-                                                        echo "<span class='xCNTextConfirm'>ไม่ตรวจสอบสต็อค</span>";
+                                                        echo "<span class='xCNTextConfirm'>ไม่ตรวจสอบสต็อก</span>";
                                                         break;
                                                 }
                                                 break;

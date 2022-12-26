@@ -45,13 +45,13 @@ $lang['tASTTBVatRate']      = "อัตราภาษี";
 $lang['tASTTBVat']          = "ยอดรวมภาษี";
 $lang['tASTTBStaDoc']       = "สถานะเอกสาร";
 $lang['tASTTBStaApv']       = "สถานะอนุมัติ";
-$lang['tASTTBStaPrc']       = "สถานะอนุมัติสต๊อก";
+$lang['tASTTBStaPrc']       = "สถานะอนุมัติสต็อก";
 $lang['tASTTBStaPrc1']      = "ประมวลผล";
 $lang['tASTTBStaPrc2']      = "กำลังประมวลผล";
 $lang['tASTTBStaPrc3']      = "รอการประมวลผล";
 $lang['tASTTBCreateBy']     = "ผู้สร้าง";
 $lang['tASTTBApvBy']        = "ผู้อนุมัติเอกสาร";
-$lang['tASTTBApvStkBy']     = "ผู้อนุมัติสต๊อก";
+$lang['tASTTBApvStkBy']     = "ผู้อนุมัติสต็อก";
 $lang['tASTTBDelete']       = "ลบ";
 $lang['tASTTBEdit']         = "แก้ไข";
 $lang['tASTTBQtyAllDiff']   = "ยอดที่ปรับปรุง";
@@ -130,7 +130,7 @@ $lang['tASTAdvCountTypeRound1']       = "ตามรอบแบบรายว
 $lang['tASTAdvCountTypeRound2']       = "ตามรอบแบบรายสัปดาห์";
 $lang['tASTAdvCountTypeRound3']       = "ตามรอบแบบรายเดือน";
 $lang['tASTAdvCountTypeRound4']       = "กำหนดเอง";
-$lang['tASTAdvCountType1']       = "ตรวจนับปรับสต็อค";
+$lang['tASTAdvCountType1']       = "ตรวจนับปรับสต็อก";
 $lang['tASTAdvCountType2']       = "ตรวจนับตามรอบ";
 
  

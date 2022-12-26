@@ -184,7 +184,7 @@ $lang['tPDTSetPstEdit']         = "Edit";
 $lang['tPdtDefineExpressPdt']   = 'Define express products';
 $lang['tPdtExpressGroup']       = 'Express Group';
 
-//กำหนดเงื่อนไขการควบคุมสต็อค
+//กำหนดเงื่อนไขการควบคุมสต็อก
 $lang['tPdtStockConditions']          = 'StockConditions';
 $lang['tPdtStockConditionsCancel']    = 'Cancel';
 $lang['tPdtStockConditionsSave']      = 'Save';

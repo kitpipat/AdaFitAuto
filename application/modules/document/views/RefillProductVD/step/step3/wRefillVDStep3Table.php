@@ -83,7 +83,7 @@
 
     }); 
 
-    //ถ้าเช็คสต็อคต้นทาง ต้องห้ามให้มีการเติม 0
+    //ถ้าเช็คสต็อกต้นทาง ต้องห้ามให้มีการเติม 0
     function JSxCheckRefillNotInZeroStep3(){
         $('.otrDataNotFound').remove();
         var nLength = $('.xCNTableStep3 tbody tr').length;
@@ -98,7 +98,7 @@
         var nLength         = $('.xCNTableStep3 tbody tr.xCNWillRemoveTable').length;
         var nLengthTable    = $('.xCNTableStep3 tbody tr').length;
         if(nLength == nLengthTable){
-            var tText = "<?=language('common/main/main','tCMNNotFoundData')?>" + " หรือ สต็อคคงเหลือคลังต้นทาง ไม่พอสำหรับการเติม";
+            var tText = "<?=language('common/main/main','tCMNNotFoundData')?>" + " หรือ สต็อกคงเหลือคลังต้นทาง ไม่พอสำหรับการเติม";
             var tHTML = "<tr class='otrDataNotFound'>";
                 tHTML += "<td class='text-center xCNTextDetail2' colspan='100%'>"+tText+"</td>";
                 tHTML += "</tr>";
@@ -107,7 +107,7 @@
         }
     }
 
-    //ถ้าเป็นไม่สนใจสต็อคต้องเอากลับมาโชว์
+    //ถ้าเป็นไม่สนใจสต็อกต้องเอากลับมาโชว์
     function JSxCheckRefillShowInZeroStep3(){
         $('.otrDataNotFound').remove();
         $('.xCNTableStep3 tbody .xCNWillRemoveTable').show();

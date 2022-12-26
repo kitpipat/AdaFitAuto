@@ -1087,7 +1087,7 @@
                     "Ident": "StiInteraction"
                   },
                   "Text": {
-                    "Value": "{IIF(SP_nLang==\"1\",\"ประเภทการตรวจนับ  : \",\"Counting type : \")} {IIF(TCNTPdtAdjStkHD.FTAjhCountType==\"1\",IIF(SP_nLang==\"1\",\"ตรวจนับปรับสต็อค\",\"ตรวจนับตามรอบ\"),IIF(SP_nLang==\"1\",\"Audit count stock\",\"Cycle Count Stock\"))}"
+                    "Value": "{IIF(SP_nLang==\"1\",\"ประเภทการตรวจนับ  : \",\"Counting type : \")} {IIF(TCNTPdtAdjStkHD.FTAjhCountType==\"1\",IIF(SP_nLang==\"1\",\"ตรวจนับปรับสต็อก\",\"ตรวจนับตามรอบ\"),IIF(SP_nLang==\"1\",\"Audit count stock\",\"Cycle Count Stock\"))}"
                   },
                   "VertAlignment": "Center",
                   "Font": "Tahoma;9;;",

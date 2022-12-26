@@ -1365,7 +1365,7 @@ class Purchasebranch_controller extends MX_Controller {
 
         $oSheet = $oWriter->getCurrentSheet();
         
-        $oSheet->setName('สินค้าหมดสต็อค');
+        $oSheet->setName('สินค้าหมดสต็อก');
 
     //  ============================= Sheet ที่1 ==============================================================
 

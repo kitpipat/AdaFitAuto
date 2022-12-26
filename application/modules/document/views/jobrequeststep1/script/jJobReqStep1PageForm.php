@@ -1580,7 +1580,7 @@
                     $('.modal-backdrop').remove();
 
                     //เอาชื่อสินค้าที่ไม่พอ ไปโชว์
-                    var tMessageError       = 'ไม่สามารถอนุมัติเอกสารได้เนื่องจากมีสินค้าบางรายการมีสต๊อกไม่เพียงพอ';
+                    var tMessageError       = 'ไม่สามารถอนุมัติเอกสารได้เนื่องจากมีสินค้าบางรายการมีสต็อกไม่เพียงพอ';
                     var aItemFail           = aReturnDataCheck['aItemFail'];
                     var tTextStockFail      = '';
                     var tTextStockFailShow  = '';

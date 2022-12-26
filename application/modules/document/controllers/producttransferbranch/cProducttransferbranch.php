@@ -588,8 +588,8 @@ class cProducttransferbranch extends MX_Controller {
                 'FTXthRmk'              => $this->input->post('otaTBRmk'),
                 'FTXthStaDoc'           => 1,       //1 after save
                 'FTXthStaApv'           => NULL,    //สถานะ อนุมัติ เอกสาร ว่าง:ยังไม่ทำ, 1:อนุมัติแล้ว 
-                'FTXthStaPrcStk'        => NULL,    //สถานะ ประมวลผลสต็อค ว่าง หรือ Null:ยังไม่ทำ, 1:ทำแล้ว
-                'FNXthStaDocAct'        => $this->input->post('ocbXthStaDocAct'), //สถานะ ประมวลผลสต็อค ว่าง หรือ Null:ยังไม่ทำ, 1:ทำแล้ว
+                'FTXthStaPrcStk'        => NULL,    //สถานะ ประมวลผลสต็อก ว่าง หรือ Null:ยังไม่ทำ, 1:ทำแล้ว
+                'FNXthStaDocAct'        => $this->input->post('ocbXthStaDocAct'), //สถานะ ประมวลผลสต็อก ว่าง หรือ Null:ยังไม่ทำ, 1:ทำแล้ว
                 // 'FNXthStaRef'           => $this->input->post('ostXthStaRef'),   //Default 0
                 'FTRsnCode'             => $this->input->post('oetTBRsnCode'),
                 'FDLastUpdOn'           => date('Y-m-d H:i:s'),
@@ -2127,8 +2127,8 @@ class cProducttransferbranch extends MX_Controller {
                 'FTXthRmk'              => $this->input->post('otaTBRmk'),
                 'FTXthStaDoc'           => 1,   //1 after save
                 'FTXthStaApv'           => NULL,  //สถานะ อนุมัติ เอกสาร ว่าง:ยังไม่ทำ, 1:อนุมัติแล้ว 
-                'FTXthStaPrcStk'        => NULL,  //สถานะ ประมวลผลสต็อค ว่าง หรือ Null:ยังไม่ทำ, 1:ทำแล้ว
-                'FNXthStaDocAct'        => $this->input->post('ocbXthStaDocAct'), //สถานะ ประมวลผลสต็อค ว่าง หรือ Null:ยังไม่ทำ, 1:ทำแล้ว
+                'FTXthStaPrcStk'        => NULL,  //สถานะ ประมวลผลสต็อก ว่าง หรือ Null:ยังไม่ทำ, 1:ทำแล้ว
+                'FNXthStaDocAct'        => $this->input->post('ocbXthStaDocAct'), //สถานะ ประมวลผลสต็อก ว่าง หรือ Null:ยังไม่ทำ, 1:ทำแล้ว
                 'FNXthStaRef'           => 0,   //Default 0
                 'FTRsnCode'             => $this->input->post('oetTBRsnCode'),
                 'FDLastUpdOn'           => date('Y-m-d H:i:s'),
@@ -2845,7 +2845,7 @@ class cProducttransferbranch extends MX_Controller {
                     if( FCNnHSizeOf($aNotFoundItemInWah) > 0 ){
                         $aReturnData = array(
                             'nStaEvent'         => 600,
-                            'tStaMessg'         => 'ไม่สามารถอนุมัติเอกสารได้เนื่องจากมีสินค้าบางรายการมีสต๊อกไม่เพียงพอ',
+                            'tStaMessg'         => 'ไม่สามารถอนุมัติเอกสารได้เนื่องจากมีสินค้าบางรายการมีสต็อกไม่เพียงพอ',
                             'tChkTsysConfig'    => $tChkTsysConfig[0]['FTSysStaUsrValue'],
                             'aItemFail'         => $aNotFoundItemInWah
                         );
@@ -2871,7 +2871,7 @@ class cProducttransferbranch extends MX_Controller {
             }else{
                 $aReturnData = array(
                     'nStaEvent'     => 400,
-                    'tStaMessg'     => 'สินค้าทั้งหมดในเอกสาร ยืนยันสต็อคหมดแล้ว'
+                    'tStaMessg'     => 'สินค้าทั้งหมดในเอกสาร ยืนยันสต็อกหมดแล้ว'
                 );
             }
         } catch (Exception $Error) {

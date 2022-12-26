@@ -56,17 +56,17 @@ $lang['tWahBrowseBchCode']      = "รหัสสาขา";
 $lang['tWahBranchRefer']        = "อ้างอิงประเภท";
 $lang['tWahBchCreate']          = "สาขา";
 
-$lang['tPosStatusprocessstock']         = "สถานะประมวลผลสต็อค";
-$lang['tPosStatusprocessstockCant']     = "ไม่ตัดสต็อค";
-$lang['tPosStatusprocessstockCut']      = "ตัดสต็อค";
+$lang['tPosStatusprocessstock']         = "สถานะประมวลผลสต็อก";
+$lang['tPosStatusprocessstockCant']     = "ไม่ตัดสต็อก";
+$lang['tPosStatusprocessstockCut']      = "ตัดสต็อก";
 
-$lang['tPosCheckStatusstock']           = "สถานะเช็คสต็อค";
+$lang['tPosCheckStatusstock']           = "สถานะเช็คสต็อก";
 $lang['tPosCheckCantStock']             = "ไม่เช็ค (ขายติดลบได้)";
 $lang['tPosCheckOffline']               = "เช็คออฟไลน์ (จุดขาย)";
 $lang['tPosCheckOnline']                = "เช็คออนไลน์ (หลังบ้าน)";
 
 $lang['tPosCheckCntStk']                = "อนุญาต คำนวณมูลค่าสินค้า";
-$lang['tPosCheckCostAmt']               = "อนุญาต ตรวจสอบสต๊อกคงเหลือ(สำหรับขาย)";
+$lang['tPosCheckCostAmt']               = "อนุญาต ตรวจสอบสต็อกคงเหลือ(สำหรับขาย)";
 
 $lang['tPosCheckAlwPLFrmTBO']           = "อนุญาต จัดสินค้าจากใบจ่ายโอน";
 $lang['tPosCheckAlwPLFrmSale']          = "อนุญาต จัดสินค้าจากใบขาย";

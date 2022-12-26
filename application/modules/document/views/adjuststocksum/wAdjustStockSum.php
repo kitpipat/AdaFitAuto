@@ -29,7 +29,7 @@
                                     <button id="obtAdjStkSumPrint" onclick="JSxAdjStkSumPrintDoc()" class="btn xCNBTNDefult xCNBTNDefult2Btn" type="button"> <?php echo language('common/main/main', 'tCMNPrint')?></button>
                                     <button id="obtAdjStkSumCancel" onclick="JSnAdjStkSumCancel(false)" class="btn xCNBTNDefult xCNBTNDefult2Btn" type="button"> <?php echo language('common/main/main', 'tCancel') ?></button>
                                     <button id="obtAdjStkSumApprove" onclick="JSnAdjStkSumApprove(false)" class="btn xCNBTNPrimery xCNBTNPrimery2Btn" type="button"> <?php echo language('common/main/main', 'tCMNApprove') ?></button>
-                                    <button id="obtAdjStkSumHQApprove" onclick="JSnAdjStkSumHQApprove(false)" class="btn xCNBTNPrimery xCNBTNPrimery2Btn" type="button"><?php echo language('common/main/main', 'tCMNApprove')?>สต็อค</button>
+                                    <button id="obtAdjStkSumHQApprove" onclick="JSnAdjStkSumHQApprove(false)" class="btn xCNBTNPrimery xCNBTNPrimery2Btn" type="button"><?php echo language('common/main/main', 'tCMNApproveStock')?></button>
                                     <div class="btn-group" id="obtAdjStkSumSave">
                                         <button type="button" class="btn xWBtnGrpSaveLeft" onclick="$('#obtSubmitAdjStkSum').click()"> <?php echo language('common/main/main', 'tSave') ?></button>
                                         <?php echo $vBtnSave ?>

@@ -69,7 +69,7 @@
                 <?php } ?>
             <?php }else{ ?>
                 <tr class="otrDataNotFound">
-                    <td class='text-center xCNTextDetail2' colspan='100%'><?= language('common/main/main','tCMNNotFoundData')?> หรือ สต็อคคงเหลือคลังต้นทาง ไม่พอสำหรับการเติม</td>
+                    <td class='text-center xCNTextDetail2' colspan='100%'><?= language('common/main/main','tCMNNotFoundData')?> หรือ สต็อกคงเหลือคลังต้นทาง ไม่พอสำหรับการเติม</td>
                 </tr>
             <?php } ?>
         </tbody>
@@ -129,7 +129,7 @@
         //clear local
         // localStorage.removeItem("SetQTYInItem");
 
-        //กดตรวจสอบสต็อคต้นทาง
+        //กดตรวจสอบสต็อกต้นทาง
         $('.xCNShowWhenApv').hide();
         $('#ocbRVDStaFullRefillPos').change(function() {
            var nValue = $('#ocbRVDStaFullRefillPos:checked').val();
@@ -146,7 +146,7 @@
            }
         });
 
-        //กดตรวจสอบสต็อคต้นทาง
+        //กดตรวจสอบสต็อกต้นทาง
         var tCheckSTKBal = $('#ocbRVDStaFullRefillPos:checked').val();
         if(tCheckSTKBal == 'on'){
             $('.xCNCheckSTKBal').show();
@@ -168,7 +168,7 @@
         }
     }); 
 
-    //ถ้าเช็คสต็อคต้นทาง ต้องห้ามให้มีการเติม 0
+    //ถ้าเช็คสต็อกต้นทาง ต้องห้ามให้มีการเติม 0
     function JSxCheckRefillNotInZero(){
         $('.otrDataNotFound').remove();
         var nLength = $('.xCNTableStep2 tbody tr').length;
@@ -184,7 +184,7 @@
         var nLength         = $('.xCNTableStep2 tbody tr.xCNWillRemoveTable').length;
         var nLengthTable    = $('.xCNTableStep2 tbody tr').length;
         if(nLength == nLengthTable){
-            var tText = "<?=language('common/main/main','tCMNNotFoundData')?>" + " หรือ สต็อคคงเหลือคลังต้นทาง ไม่พอสำหรับการเติม";
+            var tText = "<?=language('common/main/main','tCMNNotFoundData')?>" + " หรือ สต็อกคงเหลือคลังต้นทาง ไม่พอสำหรับการเติม";
             var tHTML = "<tr class='otrDataNotFound'>";
                 tHTML += "<td class='text-center xCNTextDetail2' colspan='100%'>"+tText+"</td>";
                 tHTML += "</tr>";
@@ -193,7 +193,7 @@
         }
     }
 
-    //ถ้าเป็นไม่สนใจสต็อคต้องเอากลับมาโชว์
+    //ถ้าเป็นไม่สนใจสต็อกต้องเอากลับมาโชว์
     function JSxCheckRefillShowInZero(){
         $('.otrDataNotFound').remove();
         $('.xCNTableStep2 tbody .xCNWillRemoveTable').show();

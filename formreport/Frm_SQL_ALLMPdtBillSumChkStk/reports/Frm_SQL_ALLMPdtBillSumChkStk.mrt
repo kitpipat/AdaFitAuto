@@ -1109,7 +1109,7 @@
                     "Ident": "StiInteraction"
                   },
                   "Text": {
-                    "Value": "{IIF(SP_nLang==\"1\",\"ประเภทการตรวจนับ  : \",\"Counting type : \")} {IIF(TCNTPdtAdjStkHD.FTAjhCountType==\"1\",IIF(SP_nLang==\"1\",\"ตรวจนับปรับสต็อค\",\"ตรวจนับตามรอบ\"),IIF(SP_nLang==\"1\",\"Audit count stock\",\"Cycle Count Stock\"))}"
+                    "Value": "{IIF(SP_nLang==\"1\",\"ประเภทการตรวจนับ  : \",\"Counting type : \")} {IIF(TCNTPdtAdjStkHD.FTAjhCountType==\"1\",IIF(SP_nLang==\"1\",\"ตรวจนับปรับสต็อก\",\"ตรวจนับตามรอบ\"),IIF(SP_nLang==\"1\",\"Audit count stock\",\"Cycle Count Stock\"))}"
                   },
                   "VertAlignment": "Center",
                   "Font": "Tahoma;9;;",
@@ -1235,7 +1235,7 @@
                     "Ident": "StiInteraction"
                   },
                   "Text": {
-                    "Value": "{IIF(SP_nLang==\"1\",\"การปรับสต็อค  : \",\"Adjust Stock : \")} {Switch(TCNTPdtAdjStkDT.FTAjhApvSeqChk==\"1\", IIF(SP_nLang == \"1\",\"ปรับตามการตรวจนับครั่งที่ 1\" ,\"Adjust Stock by 1st\"),TCNTPdtAdjStkDT.FTAjhApvSeqChk==\"2\",IIF(SP_nLang == \"1\",\"ปรับตามการตรวจนับครั่งที่ 2\" ,\"Adjust Stock by 2rd\"),TCNTPdtAdjStkDT.FTAjhApvSeqChk==\"3\",IIF(SP_nLang == \"1\",\"กำหนดเอง\" ,\"Custom\"))}"
+                    "Value": "{IIF(SP_nLang==\"1\",\"การปรับสต็อก  : \",\"Adjust Stock : \")} {Switch(TCNTPdtAdjStkDT.FTAjhApvSeqChk==\"1\", IIF(SP_nLang == \"1\",\"ปรับตามการตรวจนับครั่งที่ 1\" ,\"Adjust Stock by 1st\"),TCNTPdtAdjStkDT.FTAjhApvSeqChk==\"2\",IIF(SP_nLang == \"1\",\"ปรับตามการตรวจนับครั่งที่ 2\" ,\"Adjust Stock by 2rd\"),TCNTPdtAdjStkDT.FTAjhApvSeqChk==\"3\",IIF(SP_nLang == \"1\",\"กำหนดเอง\" ,\"Custom\"))}"
                   },
                   "VertAlignment": "Center",
                   "Font": "Tahoma;9;;",

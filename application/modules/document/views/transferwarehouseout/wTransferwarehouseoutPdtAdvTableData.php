@@ -19,7 +19,7 @@
                     <th class="xCNTextBold"><?=language('document/transferrequestbranch/transferrequestbranch','tTRBTable_pdtname')?></th>
                     <th class="xCNTextBold"><?=language('document/transferrequestbranch/transferrequestbranch','tTRBTable_barcode')?></th>
                     <th class="xCNTextBold"><?=language('document/transferrequestbranch/transferrequestbranch','tTRBTable_qty')?></th>
-                    <th class="xCNTextBold"><?= language('document/purchaseorder/purchaseorder', 'สถานะสต็อค')?></th>
+                    <th class="xCNTextBold"><?= language('document/purchaseorder/purchaseorder', 'สถานะสต็อก')?></th>
                     <th class="xCNTextBold"><?=language('document/transferrequestbranch/transferrequestbranch','tTRBTable_unit')?></th>
                     <th class="xCNTWOBeHideMQSS"><?=language('document/purchaseinvoice/purchaseinvoice', 'tPITBDelete');?></th>
                 </tr>
@@ -66,7 +66,7 @@
                                                     echo "<span class='xCNTextConfirm'>ยืนยันแล้ว</span>";
                                                     break;
                                                 case '2':
-                                                    echo "<span class='xCNTextConfirm'>ไม่ตรวจสอบสต็อค</span>";
+                                                    echo "<span class='xCNTextConfirm'>ไม่ตรวจสอบสต็อก</span>";
                                                     break;
                                             }
                                             break;

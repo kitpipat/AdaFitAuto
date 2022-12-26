@@ -1,7 +1,7 @@
 <?php
 //TH
 //Nav Menu
-$lang['tADJVDTitle']      = "ใบตรวจนับสต๊อคสินค้า (ตู้สินค้า)";
+$lang['tADJVDTitle']      = "ใบตรวจนับสต็อกสินค้า (ตู้สินค้า)";
 $lang['tADJVDTitleAdd']   = "สร้าง";
 $lang['tADJVDTitleEdit']  = "แก้ไข";
 

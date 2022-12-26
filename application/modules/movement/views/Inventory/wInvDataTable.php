@@ -154,10 +154,10 @@
                         </div>
                             <!-- Browse คลังสินค้า -->
 
-                        <!-- Browse รหัสควบคุมสต็อค -->
+                        <!-- Browse รหัสควบคุมสต็อก -->
                             <div class="col-md-3 col-sm-3 col-xs-6">
                             <div class="form-group">
-                                    <input class="form-control" name="oetInvPdtFhnRefCode" id="oetInvPdtFhnRefCode" value="" placeholder="<?= language('movement/movement/movement','รหัสควบคุมสต็อค')?>">
+                                    <input class="form-control" name="oetInvPdtFhnRefCode" id="oetInvPdtFhnRefCode" value="" placeholder="<?= language('movement/movement/movement','รหัสควบคุมสต็อก')?>">
                             </div>
                             </div>         
                             <!-- กรองข้อมูล -->

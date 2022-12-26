@@ -1185,7 +1185,7 @@
                     "Ident": "StiInteraction"
                   },
                   "Text": {
-                    "Value": "{IIF(SP_nLang==\"1\",\"ตรวจนับสต็อค(Vending)\",\"Stock Ckecking(Vending)\")}"
+                    "Value": "{IIF(SP_nLang==\"1\",\"ตรวจนับสต็อก(Vending)\",\"Stock Ckecking(Vending)\")}"
                   },
                   "HorAlignment": "Center",
                   "VertAlignment": "Center",

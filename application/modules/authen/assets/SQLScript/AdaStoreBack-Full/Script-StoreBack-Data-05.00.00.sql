@@ -1432,7 +1432,7 @@ IF NOT EXISTS(SELECT FTUphVersion FROM TCNTUpgradeHisTmp WHERE FTUphVersion=  '0
 	INSERT [dbo].[TSysReport_L] ([FTRptCode], [FNLngID], [FTRptName], [FTRptDes]) VALUES (N'001002032', 1, N'รายงาน - สินค้าถึงจุดสั่งซื้อตามสินค้า', N'')
 	INSERT [dbo].[TSysReport_L] ([FTRptCode], [FNLngID], [FTRptName], [FTRptDes]) VALUES (N'001002033', 1, N'รายงาน - ประวัติการรับเข้าสินค้า', N'')
 	INSERT [dbo].[TSysReport_L] ([FTRptCode], [FNLngID], [FTRptName], [FTRptDes]) VALUES (N'001002034', 1, N'รายงาน - ประวัติการเบิกออกสินค้า', N'')
-	INSERT [dbo].[TSysReport_L] ([FTRptCode], [FNLngID], [FTRptName], [FTRptDes]) VALUES (N'001002036', 1, N'รายงาน - สต๊อกสินค้า', N'')
+	INSERT [dbo].[TSysReport_L] ([FTRptCode], [FNLngID], [FTRptName], [FTRptDes]) VALUES (N'001002036', 1, N'รายงาน - สต็อกสินค้า', N'')
 	INSERT [dbo].[TSysReport_L] ([FTRptCode], [FNLngID], [FTRptName], [FTRptDes]) VALUES (N'001002037', 1, N'รายงาน - ประวัติการโอนสินค้าระหว่างสาขา', N'')
 	INSERT [dbo].[TSysReport_L] ([FTRptCode], [FNLngID], [FTRptName], [FTRptDes]) VALUES (N'001002038', 1, N'รายงาน - โอนสินค้าระหว่างคลัง', N'')
 	INSERT [dbo].[TSysReport_L] ([FTRptCode], [FNLngID], [FTRptName], [FTRptDes]) VALUES (N'001003001', 1, N'รายงานใบเปิดงาน', N'')
@@ -1473,7 +1473,7 @@ IF NOT EXISTS(SELECT FTUphVersion FROM TCNTUpgradeHisTmp WHERE FTUphVersion=  '0
 	INSERT [dbo].[TSysReport_L] ([FTRptCode], [FNLngID], [FTRptName], [FTRptDes]) VALUES (N'001003036', 1, N'รายงานการขายตามประเภทการชำระเงิน', N'')
 	INSERT [dbo].[TSysReport_L] ([FTRptCode], [FNLngID], [FTRptName], [FTRptDes]) VALUES (N'001003037', 1, N'รายงานยอดขายเฉลี่ย (ชิ้น) ดามวันต่อสัปดาห์', N'')
 	INSERT [dbo].[TSysReport_L] ([FTRptCode], [FNLngID], [FTRptName], [FTRptDes]) VALUES (N'001003038', 1, N'รายงานภาษีขาย', N'')
-	INSERT [dbo].[TSysReport_L] ([FTRptCode], [FNLngID], [FTRptName], [FTRptDes]) VALUES (N'001003039', 1, N'รายงานผลต่างการตรวจนับสต๊อก', N'')
+	INSERT [dbo].[TSysReport_L] ([FTRptCode], [FNLngID], [FTRptName], [FTRptDes]) VALUES (N'001003039', 1, N'รายงานผลต่างการตรวจนับสต็อก', N'')
 	INSERT [dbo].[TSysReport_L] ([FTRptCode], [FNLngID], [FTRptName], [FTRptDes]) VALUES (N'001003040', 1, N'รายงานการสั่งซื้อตามสาขา', N'')
 	INSERT [dbo].[TSysReport_L] ([FTRptCode], [FNLngID], [FTRptName], [FTRptDes]) VALUES (N'001003041', 1, N'รายงานรายรับรายจ่าย', N'')
 	INSERT [dbo].[TSysReport_L] ([FTRptCode], [FNLngID], [FTRptName], [FTRptDes]) VALUES (N'001003042', 1, N'รายงานการขายแยกตามประเภทคูปอง', N'')
@@ -1952,8 +1952,8 @@ IF NOT EXISTS(SELECT FTUphVersion FROM TCNTUpgradeHisTmp WHERE FTUphVersion=  '0
 	INSERT INTO [TSysConfig_L] ([FTSysCode], [FTSysApp], [FTSysKey], [FTSysSeq], [FNLngID], [FTSysName], [FTSysDesc], [FTSysRmk]) VALUES ('tPS_RcvCash', 'CN', 'RcvCash', '1', '1', 'ประเภทการชำระเงินแบบเงินสด', 'กำหนดประเภทการชำระเงิน แบบเงินสด กำหนดได้มากกว่า 1 ขั่นด้วยเครื่องหมายคอมม่า (,)', '-');
 	INSERT INTO [TSysConfig] ([FTSysCode], [FTSysApp], [FTSysKey], [FTSysSeq], [FTGmnCode], [FTSysStaAlwEdit], [FTSysStaDataType], [FNSysMaxLength], [FTSysStaDefValue], [FTSysStaDefRef], [FTSysStaUsrValue], [FTSysStaUsrRef], [FDLastUpdOn], [FTLastUpdBy], [FDCreateOn], [FTCreateBy]) VALUES ('tPS_RcvCash', 'CN', 'RcvCash', '1', 'MPOS', '1', '6', '99999999', NULL, NULL, NULL, NULL, '2021-12-21 00:00:00.000', 'Kitpipat', '2021-12-21 00:00:00.000', 'Kitpipat');
 
-	--อนุญาตตรวจสอบสต๊อกก่อนโอน
-	INSERT INTO [TSysConfig_L] ([FTSysCode], [FTSysApp], [FTSysKey], [FTSysSeq], [FNLngID], [FTSysName], [FTSysDesc], [FTSysRmk]) VALUES ('tDoc_ChkStkTranfer', 'CN', 'ChkStkTranfer', '1', '1', 'อนุญาต ตรวจสอบสต๊อกก่อนโอนสินค้า', 'อนุญาต ตรวจสอบสต๊อกก่อนโอนสินค้า 1 : ตรวจสอบ , 2 : ไม่ตรวจสอบ', '-');
+	--อนุญาตตรวจสอบสต็อกก่อนโอน
+	INSERT INTO [TSysConfig_L] ([FTSysCode], [FTSysApp], [FTSysKey], [FTSysSeq], [FNLngID], [FTSysName], [FTSysDesc], [FTSysRmk]) VALUES ('tDoc_ChkStkTranfer', 'CN', 'ChkStkTranfer', '1', '1', 'อนุญาต ตรวจสอบสต็อกก่อนโอนสินค้า', 'อนุญาต ตรวจสอบสต็อกก่อนโอนสินค้า 1 : ตรวจสอบ , 2 : ไม่ตรวจสอบ', '-');
 	INSERT INTO [TSysConfig] ([FTSysCode], [FTSysApp], [FTSysKey], [FTSysSeq], [FTGmnCode], [FTSysStaAlwEdit], [FTSysStaDataType], [FNSysMaxLength], [FTSysStaDefValue], [FTSysStaDefRef], [FTSysStaUsrValue], [FTSysStaUsrRef], [FDLastUpdOn], [FTLastUpdBy], [FDCreateOn], [FTCreateBy]) VALUES ('tDoc_ChkStkTranfer', 'CN', 'ChkStkTranfer', '1', 'TRANFER', '1', '1', '1', '2', NULL, '2', NULL, '2021-12-21 00:00:00.000', 'Kitpipat', '2021-12-21 00:00:00.000', 'Kitpipat');
 
 	--ของเน็ต c#

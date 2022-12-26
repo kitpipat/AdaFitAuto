@@ -3007,24 +3007,37 @@ class mProducttransferbranch extends CI_Model {
         $tDocNo         = $paDataWhere['tDocNo'];
         $nSeq           = $paDataWhere['nSeq'];
 
-        $this->db->set('FCXtdQty', $paDataUpdateDT['FCXtdQty']);
-        $this->db->where('FTSessionID',$tSessionID);
-        $this->db->where('FTXthDocKey','TCNTPdtTbxHD');
-        $this->db->where('FNXtdSeqNo',$nSeq);
-        $this->db->where('FTXthDocNo',$tDocNo);
-        $this->db->update('TSVTTBXDocDTTmp');
+        $tSQL = "SELECT FNXtdSeqNo,FCXtdQty, FCXtdFactor FROM TSVTTBXDocDTTmp WITH (NOLOCK)
+                     WHERE FTXthDocNo = '".$tDocNo."'
+                     AND FTXthDocKey = 'TCNTPdtTbxHD'
+                     AND FTSessionID = '".$tSessionID."'
+                     AND FNXtdSeqNo = '".$nSeq."'";
+            $oQuery = $this->db->query($tSQL);
+            if($oQuery->num_rows() > 0){
+                $aResult = $oQuery->row_array();
+                
+                $this->db->set('FCXtdQty', $paDataUpdateDT['FCXtdQty']);
+                $this->db->set('FCXtdQtyAll', $paDataUpdateDT['FCXtdQty'] * $aResult['FCXtdFactor']);
+                $this->db->where('FTSessionID',$tSessionID);
+                $this->db->where('FTXthDocKey','TCNTPdtTbxHD');
+                $this->db->where('FNXtdSeqNo',$nSeq);
+                $this->db->where('FTXthDocNo',$tDocNo);
+                $this->db->update('TSVTTBXDocDTTmp');
 
-        if($this->db->affected_rows() > 0){
-            $aStatus = array(
-                'rtCode'    => '1',
-                'rtDesc'    => 'Update Success',
-            );
-        }else{
-            $aStatus = array(
-                'rtCode'    => '903',
-                'rtDesc'    => 'Update Fail',
-            );
-        }
+                if($this->db->affected_rows() > 0){
+                    $aStatus = array(
+                        'rtCode'    => '1',
+                        'rtDesc'    => 'Update Success',
+                    );
+                }else{
+                    $aStatus = array(
+                        'rtCode'    => '903',
+                        'rtDesc'    => 'Update Fail',
+                    );
+                }
+            }
+
+
         return $aStatus;
     }
 

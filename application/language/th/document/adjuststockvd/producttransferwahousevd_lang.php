@@ -1,7 +1,7 @@
 <?php
 //TH
 //Nav Menu
-$lang['tTFWTitle']      = "ใบตรวจนับสต๊อคสินค้า (ตู้สินค้า)";
+$lang['tTFWTitle']      = "ใบตรวจนับสต็อกสินค้า (ตู้สินค้า)";
 $lang['tTFWTitleAdd']   = "สร้าง";
 $lang['tTFWTitleEdit']  = "แก้ไข";
 

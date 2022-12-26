@@ -26,7 +26,7 @@ class cAdjustStock extends MX_Controller {
         $this->input->set_cookie($aCookieMenuName);
         // ========================================================================================
 
-        // ============================== Get Config อนุญาติยืนยันสต๊อค ==============================
+        // ============================== Get Config อนุญาติยืนยันสต็อก ==============================
         $aChkConfApvStk = ['tUfrGrpRef' => '089','tUfrRef' => 'KB089','tGhdApp' => 'SB'];
         $bChkConfApvStk = FCNbIsAlwFuncInRole($aChkConfApvStk);
         // =======================================================================================
@@ -538,7 +538,7 @@ class cAdjustStock extends MX_Controller {
                 'tIsAutoGenCode'  => $this->input->post('ocbASTStaAutoGenCode'), // ต้องการรัน DocNo อัตโนมัติหรือไม่ 
                 'FTBchCode'       => $tAdjStkBch,
                 'FTAjhDocNo'      => $this->input->post('oetASTDocNo'),
-                'FNAjhDocType'    => 11, // ประเภทใบนับสต็อค
+                'FNAjhDocType'    => 11, // ประเภทใบนับสต็อก
                 'FTAjhDocType'    => '3', // ประเภทใบนับย่อย
                 'FDAjhDocDate'    => $tAjhDocDate,
                 'FTAjhBchTo'      => $tAdjStkBch,  //นับภายใต้สาขา
@@ -669,7 +669,7 @@ class cAdjustStock extends MX_Controller {
             $aDataMaster = array(
                 'FTBchCode'       => $tAdjStkBch,
                 'FTAjhDocNo'      => $this->input->post('oetASTDocNo'),
-                'FNAjhDocType'    => 11, // ประเภทใบนับสต็อค
+                'FNAjhDocType'    => 11, // ประเภทใบนับสต็อก
                 'FTAjhDocType'    => '3', // ประเภทใบนับย่อย
                 'FDAjhDocDate'    => $tAjhDocDate,
                 'FTAjhBchTo'      => $tAdjStkBch,  //นับภายใต้สาขา
@@ -1025,7 +1025,7 @@ class cAdjustStock extends MX_Controller {
                                                                 "FNNotID"       => $tNotiID,
                                                                 "FNLngID"       => 1,
                                                                 "FTNotDesc1"    => 'เอกสารใบตรวจนับยืนยัน #'.$aDataGetDataHD['raItems']['FTAjhDocNo'],
-                                                                "FTNotDesc2"    => 'รหัสสาขา '.$aDataGetDataHD['raItems']['FTBchCodeLogin'].' ตรวจนับสต็อค รอ HQ ยืนยันสต็อค',
+                                                                "FTNotDesc2"    => 'รหัสสาขา '.$aDataGetDataHD['raItems']['FTBchCodeLogin'].' ตรวจนับสต็อก รอ HQ ยืนยันสต็อก',
                                                             ),
                                                             1 => array(
                                                                 "FNNotID"       => $tNotiID,
@@ -1038,7 +1038,7 @@ class cAdjustStock extends MX_Controller {
                                                              0 => array( 
                                                                     "FNNotID"       => $tNotiID,
                                                                     "FDNoaDateInsert" => date('Y-m-d H:i:s'),
-                                                                    "FTNoaDesc"      => 'รหัสสาขา '.$aDataGetDataHD['raItems']['FTBchCodeLogin'].' ตรวจนับสต็อค รอ HQ ยืนยันสต็อค',
+                                                                    "FTNoaDesc"      => 'รหัสสาขา '.$aDataGetDataHD['raItems']['FTBchCodeLogin'].' ตรวจนับสต็อก รอ HQ ยืนยันสต็อก',
                                                                     "FTNoaDocRef"    => $aDataGetDataHD['raItems']['FTAjhDocNo'],
                                                                     "FNNoaUrlType"   =>  1,
                                                                     "FTNoaUrlRef"    => 'dcmAST/2/0',
@@ -1162,7 +1162,7 @@ class cAdjustStock extends MX_Controller {
                                                                 "FNNotID"       => $tNotiID,
                                                                 "FNLngID"       => 1,
                                                                 "FTNotDesc1"    => 'เอกสารใบตรวจนับยืนยัน #'.$aDataGetDataHD['raItems']['FTAjhDocNo'],
-                                                                "FTNotDesc2"    => 'HQ ยืนยันสต็อค',
+                                                                "FTNotDesc2"    => 'HQ ยืนยันสต็อก',
                                                             ),
                                                             1 => array(
                                                                 "FNNotID"       => $tNotiID,
@@ -1175,7 +1175,7 @@ class cAdjustStock extends MX_Controller {
                                                             0 => array( 
                                                                     "FNNotID"       => $tNotiID,
                                                                     "FDNoaDateInsert" => date('Y-m-d H:i:s'),
-                                                                    "FTNoaDesc"      => 'HQ ยืนยันสต็อค',
+                                                                    "FTNoaDesc"      => 'HQ ยืนยันสต็อก',
                                                                     "FTNoaDocRef"    => $aDataGetDataHD['raItems']['FTAjhDocNo'],
                                                                     "FNNoaUrlType"   =>  1,
                                                                     "FTNoaUrlRef"    => 'dcmAST/2/0',

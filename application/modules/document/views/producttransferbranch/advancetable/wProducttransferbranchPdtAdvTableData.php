@@ -14,14 +14,14 @@
                             <?php echo iconv_substr($HeaderColVal->FTShwNameUsr, 0,30, "UTF-8");?>
                         </th>
                         <?php if($HeaderColKey == '3'){ ?>
-                            <th ><?= language('document/purchaseorder/purchaseorder', 'สถานะสต็อค')?></th>
+                            <th ><?= language('document/purchaseorder/purchaseorder', 'สถานะสต็อก')?></th>
                         <?php } ?>
                     <?php endforeach;?> -->
                     <th nowrap><?php echo language('document/document/document','รหัสสินค้า')?></th>
                     <th nowrap><?php echo language('document/document/document','ชื่อสินค้า')?></th>
                     <th nowrap><?php echo language('document/document/document','บาร์โค้ด')?></th>
                     <th nowrap><?php echo language('document/document/document','หน่วยสินค้า')?></th>
-                    <th nowrap><?php echo language('document/document/document','สถานะสต็อค')?></th>
+                    <th nowrap><?php echo language('document/document/document','สถานะสต็อก')?></th>
                     <th nowrap><?php echo language('document/document/document','จำนวน')?></th>
                     <th nowrap class="xCNTextBold xPIImportDT" style="display:none"><?php echo language('document/purchaseorder/purchaseorder','tPOLabelFrmInfoOthRemark')?></th>
                     <th nowrap class="xCNHideWhenCancelOrApprove"><?php echo language('document/document/document','tDocDelete');?></th>
@@ -70,7 +70,7 @@
                                                     echo "<span class='xCNTextConfirm'>ยืนยันแล้ว</span>";
                                                     break;
                                                 case '2':
-                                                    echo "<span class='xCNTextConfirm'>ไม่ตรวจสอบสต็อค</span>";
+                                                    echo "<span class='xCNTextConfirm'>ไม่ตรวจสอบสต็อก</span>";
                                                     break;
                                             }
                                             break;

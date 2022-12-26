@@ -97,11 +97,11 @@
                                     $tClassCheckSTK = "xCNCHKStock".$aValue['rtPDTCodeSet'];
                                     if ($aValue['FTXtdStaPrcStk'] == 0 || $aValue['FTXtdStaPrcStk'] == '' || $aValue['FTXtdStaPrcStk'] == 2) {
                                         if($aValue['FTXtdStaPrcStk'] == 2){
-                                            $tTextStaPrcStk     = 'สต๊อกไม่พอ';
+                                            $tTextStaPrcStk     = 'สต็อกไม่พอ';
                                             $tClassTextStatus   = 'xCNBookingCancel';
                                         }else{
                                             if($aValue['rtPsyType'] == 2){
-                                                $tTextStaPrcStk     = 'ไม่ตรวจสอบสต็อค';
+                                                $tTextStaPrcStk     = 'ไม่ตรวจสอบสต็อก';
                                                 $tClassTextStatus   = 'xCNBookingNotCheck';
                                                 $tClassCheckSTK     = "";
                                             }else{

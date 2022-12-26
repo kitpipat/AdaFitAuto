@@ -1086,11 +1086,11 @@ class Bookingcalendar_controller extends MX_Controller{
                         $tTextStaDoc = 'ยังไม่ถึงกำหนด';
                     }
                     if($aValue['FTXshStaPrcDoc'] == 2){
-                        $tTextStaPrcDoc = 'จองสต๊อกครบแล้ว';
+                        $tTextStaPrcDoc = 'จองสต็อกครบแล้ว';
                     }else if($aValue['FTXshStaPrcDoc'] == 1){
                         $tTextStaPrcDoc = 'จองบางส่วน';
                     }else{
-                        $tTextStaPrcDoc = 'ไม่ต้องตรวจสอบสต๊อก';
+                        $tTextStaPrcDoc = 'ไม่ต้องตรวจสอบสต็อก';
                     }
                     $values = [
                         WriterEntityFactory::createCell($aValue['FNRowID']),

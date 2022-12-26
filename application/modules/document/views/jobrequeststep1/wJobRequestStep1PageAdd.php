@@ -1131,7 +1131,7 @@ if ($tJR1StaDoc == 3) {
                 </button>
             </div>
             <div class="modal-body">
-                <p id="ospTextModalNotAproveStockFail">ไม่สามารถอนุมัติเอกสารได้เนื่องจากมีสินค้าบางรายการมีสต๊อกไม่เพียงพอ</p>
+                <p id="ospTextModalNotAproveStockFail">ไม่สามารถอนุมัติเอกสารได้เนื่องจากมีสินค้าบางรายการมีสต็อกไม่เพียงพอ</p>
             </div>
             <div class="modal-footer">
                 <button onclick="JSxJR1ReloadDatatableDT()" type="button" class="btn xCNBTNPrimery" data-dismiss="modal">

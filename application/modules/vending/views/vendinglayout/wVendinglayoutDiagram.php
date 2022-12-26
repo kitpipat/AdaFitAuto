@@ -1369,7 +1369,7 @@
                         }else if(oResult.raItem[i].DOCTYPE == 'PDTOUT'){
                             tTextDetail += 'ใบนำสินค้าออก (ตู้สินค้า) ,';
                         }else if(oResult.raItem[i].DOCTYPE == 'ADJ'){
-                            tTextDetail += 'ใบตรวจนับสต๊อคสินค้า (ตู้สินค้า)  ,';
+                            tTextDetail += 'ใบตรวจนับสต็อกสินค้า (ตู้สินค้า)  ,';
                         }
 
                         if(i == (oResult.raItem).length - 1){

@@ -1711,7 +1711,7 @@ class Jobrequeststep1_controller extends MX_Controller {
             // ไม่สามารถ Appove เอกสารได้เนื่องจาก Stock ไม่เพียงพอ
             $aReturnData    = array(
                 'nStaEvent'         => 600,
-                'tStaMessg'         => 'ไม่สามารถอนุมัติเอกสารได้เนื่องจากมีสินค้าบางรายการมีสต๊อกไม่เพียงพอ',
+                'tStaMessg'         => 'ไม่สามารถอนุมัติเอกสารได้เนื่องจากมีสินค้าบางรายการมีสต็อกไม่เพียงพอ',
                 'aItemFail'         => $aNotFoundItemInWah
             );
         }

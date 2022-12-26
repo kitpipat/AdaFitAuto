@@ -1647,7 +1647,7 @@ class cTransferwarehouseout extends MX_Controller{
                     if( FCNnHSizeOf($aNotFoundItemInWah) > 0 ){
                         $aReturnData = array(
                             'nStaEvent'         => 600,
-                            'tStaMessg'         => 'ไม่สามารถอนุมัติเอกสารได้เนื่องจากมีสินค้าบางรายการมีสต๊อกไม่เพียงพอ',
+                            'tStaMessg'         => 'ไม่สามารถอนุมัติเอกสารได้เนื่องจากมีสินค้าบางรายการมีสต็อกไม่เพียงพอ',
                             'tChkTsysConfig'    => $tChkTsysConfig[0]['FTSysStaUsrValue'],
                             'aItemFail'         => $aNotFoundItemInWah
                         );
@@ -1673,7 +1673,7 @@ class cTransferwarehouseout extends MX_Controller{
             }else{
                 $aReturnData = array(
                     'nStaEvent'     => 400,
-                    'tStaMessg'     => 'สินค้าทั้งหมดในเอกสาร ยืนยันสต็อคหมดแล้ว'
+                    'tStaMessg'     => 'สินค้าทั้งหมดในเอกสาร ยืนยันสต็อกหมดแล้ว'
                 );
             }
         } catch (Exception $Error) {

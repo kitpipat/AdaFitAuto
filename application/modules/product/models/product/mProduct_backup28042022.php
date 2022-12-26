@@ -3333,7 +3333,7 @@ class mProduct extends CI_Model
         return $aDataReturn;
     }
     /*
-    //Functionality :GetData กำหนดเงื่อนไขการควบคุมสต็อค
+    //Functionality :GetData กำหนดเงื่อนไขการควบคุมสต็อก
     //Parameters : -
     //Creator : 20/1/2020 nonapwich(petch)
     //Return : status
@@ -3382,7 +3382,7 @@ class mProduct extends CI_Model
     }
 
     /*
-    //Functionality :  insert into  กำหนดเงื่อนไขการควบคุมสต็อค
+    //Functionality :  insert into  กำหนดเงื่อนไขการควบคุมสต็อก
     //Parameters : -
     //Creator : 16/1/2020
     //Return : status
@@ -4154,7 +4154,7 @@ class mProduct extends CI_Model
         return $aResult;
 
     }
-    //Functionality :  insert into  กำหนดเงื่อนไขการควบคุมสต็อค
+    //Functionality :  insert into  กำหนดเงื่อนไขการควบคุมสต็อก
     //Parameters : function parameters
     //Creator : 16/1/2020 Phaksaran(Golf)
     //Return : array
@@ -4189,7 +4189,7 @@ class mProduct extends CI_Model
             return $Error;
         }
     }
-    //Functionality :  Edit data  กำหนดเงื่อนไขการควบคุมสต็อค
+    //Functionality :  Edit data  กำหนดเงื่อนไขการควบคุมสต็อก
     //Parameters : function parameters
     //Creator : 16/1/2020 Phaksaran(Golf)
     //Return : array

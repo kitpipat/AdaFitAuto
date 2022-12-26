@@ -37,7 +37,7 @@
                     <th nowrap class="xCNTextBold"><?= language('document/jobrequest1/jobrequest1', 'tJR1Table_type') ?></th>
                     <th style="width:80px;" nowrap class="xCNTextBold"><?= language('document/jobrequest1/jobrequest1', 'tJR1Table_qty') ?></th>
                     <th nowrap class="xCNTextBold"><?= language('document/jobrequest1/jobrequest1', 'หน่วย') ?></th>
-                    <th nowrap class="xCNTextBold"><?= language('document/jobrequest1/jobrequest1', 'สถานะสต็อค') ?></th>
+                    <th nowrap class="xCNTextBold"><?= language('document/jobrequest1/jobrequest1', 'สถานะสต็อก') ?></th>
                     <th style="min-width:90px; width: 140px;" nowrap class="xCNTextBold"><?= language('document/jobrequest1/jobrequest1', 'tJR1Table_price') ?></th>
                     <th nowrap class="xCNTextBold"><?= language('document/jobrequest1/jobrequest1', 'tJR1Table_discount') ?></th>
                     <th nowrap class="xCNTextBold"><?= language('document/jobrequest1/jobrequest1', 'tJR1Table_grand') ?></th>
@@ -154,7 +154,7 @@
                                 <td nowrap class="text-left" rowspan="<?= $aValue['PARTITIONBYDOC']; ?>"><?php echo $aValue['FTPunName'] ?></td>
                                 <td nowrap class="text-left" rowspan="<?= $aValue['PARTITIONBYDOC']; ?>">
                                     <span class='xWTextStaStk<?=$nKey ?> xWTextConfirm<?=$nKey ?> xCNTextConfirm' <?php if($aValue['FTXtdStaPrcStk']!='1'){ echo "style='display:none;'"; }?>>ยืนยันแล้ว</span>
-                                    <span class='xWTextStaStk<?=$nKey ?> xWTextCancel<?=$nKey ?> xCNTextCancel' <?php if($aValue['FTXtdStaPrcStk']!='2'){ echo "style='display:none;'"; }?>>สต็อคไม่พอ</span>
+                                    <span class='xWTextStaStk<?=$nKey ?> xWTextCancel<?=$nKey ?> xCNTextCancel' <?php if($aValue['FTXtdStaPrcStk']!='2'){ echo "style='display:none;'"; }?>>สต็อกไม่พอ</span>
                                     <span class='xWTextStaStk<?=$nKey ?> xWTextWaitConfirm<?=$nKey ?> xCNTextWaitConfirm' <?php if($aValue['FTXtdStaPrcStk']=='1' || $aValue['FTXtdStaPrcStk']=='2'){ echo "style='display:none;'"; }?>>รอยืนยัน</span>
                                 </td>
                                 <td class="text-center otdPrice" rowspan="<?= $aValue['PARTITIONBYDOC']; ?>">

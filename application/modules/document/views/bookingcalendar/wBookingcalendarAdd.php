@@ -1130,7 +1130,7 @@
                     // });
 
                     // if(bCheckStkClient == false){ //มีสินค้าที่ยังไม่ประมวลผลจะนัดหมายไม่ได้
-                    //     $('.xCNTextBookingFail').text('* ไม่สามารถนัดหมายได้เนื่องจาก มีสินค้าบางรายการมีสต๊อกไม่เพียงพอ');
+                    //     $('.xCNTextBookingFail').text('* ไม่สามารถนัดหมายได้เนื่องจาก มีสินค้าบางรายการมีสต็อกไม่เพียงพอ');
                     //     $('.xCNTextBookingFail').css('display','block');
                     // }
 
@@ -1210,7 +1210,7 @@
                     if(parseInt(oReturn.nTimes) == 3){
                         JCNxCloseLoading();
                         $('.xCNOverlay').css('z-index','2500');
-                        $('.xCNTextBookingFail').text('* ไม่สามารถนัดหมายได้เนื่องจาก มีสินค้าบางรายการมีสต๊อกไม่เพียงพอ');
+                        $('.xCNTextBookingFail').text('* ไม่สามารถนัดหมายได้เนื่องจาก มีสินค้าบางรายการมีสต็อกไม่เพียงพอ');
                         $('.xCNTextBookingFail').css('display','block');
                         $('.xCNTextBookingFail').addClass('xCNSaveButStockIsNotNull');
 
@@ -1227,14 +1227,14 @@
 
                             for(var l=0; l<oReturn.aResultCheck.length; l++){
                                 var tPDTCode = oReturn.aResultCheck[l].FTPdtCode;
-                                $('.xCNCHKStock'+tPDTCode).find('label').text('สต๊อกไม่พอ');
+                                $('.xCNCHKStock'+tPDTCode).find('label').text('สต็อกไม่พอ');
                                 $('.xCNCHKStock'+tPDTCode).find('label')
                                 .removeClass('xCNBookingWaitConfirm_text')
                                 .removeClass('xCNBookingConfirm_text')
                                 .addClass('xCNBookingCancel_text')
                             }
 
-                            //อัพเดทว่าสินค้าตัวนี้สต๊อกไม่พอ
+                            //อัพเดทว่าสินค้าตัวนี้สต็อกไม่พอ
                             JSxCallCheckUpdateSTKFail(ptDocument,oReturn);
                         }
 
@@ -1258,7 +1258,7 @@
         });
     }
 
-    //อัพเดทว่าสินคัาตัวนี้สต๊อกไม่พอ
+    //อัพเดทว่าสินคัาตัวนี้สต็อกไม่พอ
     function JSxCallCheckUpdateSTKFail(ptDocument,poItemFail){
         $.ajax({
             type    : "POST",

@@ -903,7 +903,7 @@ class cPurchaseorder extends MX_Controller {
                 'FTXphRmk'              => $this->input->post('otaXphRmk'),
                 'FTXphStaDoc'           => 1,   //1 after save
                 'FTXphStaApv'           => '',  //สถานะ อนุมัติ เอกสาร ว่าง:ยังไม่ทำ, 1:อนุมัติแล้ว 
-                'FTXphStaPrcStk'        => '',  //สถานะ ประมวลผลสต็อค ว่าง หรือ Null:ยังไม่ทำ, 1:ทำแล้ว
+                'FTXphStaPrcStk'        => '',  //สถานะ ประมวลผลสต็อก ว่าง หรือ Null:ยังไม่ทำ, 1:ทำแล้ว
                 'FTXphStaPaid'          => 1,   //สถานะ รับ/จ่ายเงิน 1:ยังไม่จ่าย 2:บางส่วน, 3:ครบ Default 1
                 'FNXphStaDocAct'        => $this->FSsCReturnCheckBox($this->input->post('ocbXphStaDocAct')),    //สถานะ เคลื่อนไหว 0:NonActive, 1:Active Default 1
                 'FNXphStaRef'           => 0,   //Default 0
@@ -1399,7 +1399,7 @@ class cPurchaseorder extends MX_Controller {
                 'FTXphRmk'              => $this->input->post('otaXphRmk'),
                 'FTXphStaDoc'           => 1, //1 after save
                 'FTXphStaApv'           => '',  //สถานะ อนุมัติ เอกสาร ว่าง:ยังไม่ทำ, 1:อนุมัติแล้ว 
-                'FTXphStaPrcStk'        => '',  //สถานะ ประมวลผลสต็อค ว่าง หรือ Null:ยังไม่ทำ, 1:ทำแล้ว
+                'FTXphStaPrcStk'        => '',  //สถานะ ประมวลผลสต็อก ว่าง หรือ Null:ยังไม่ทำ, 1:ทำแล้ว
                 'FTXphStaPaid'          => 1,   //สถานะ รับ/จ่ายเงิน 1:ยังไม่จ่าย 2:บางส่วน, 3:ครบ Default 1
                 'FNXphStaDocAct'        => $this->FSsCReturnCheckBox($this->input->post('ocbXphStaDocAct')),    //สถานะ เคลื่อนไหว 0:NonActive, 1:Active Default 1
                 'FNXphStaRef'           => 0,   //Default 0
@@ -1745,7 +1745,7 @@ class cPurchaseorder extends MX_Controller {
                 'FTXpdStaPdt'       => $aDataPdtPrg['FTPdtType'],  //สถานะ สินค้า 1:ขาย, 2:คืน, 3:แถม, 4: ยกเลิก (Void)
                 'FCXpdQtyLef'       => $FCXpdQty, //Default:FCXpdQty
                 'FCXpdQtyRfn'       => '0', //จำนวนคืนตามหน่วย (Default:0)
-                'FTXpdStaPrcStk'    => '',  //สถานะตัดสต็อค ว่าง:ยังไม่ทำ, 1:ทำแล้ว
+                'FTXpdStaPrcStk'    => '',  //สถานะตัดสต็อก ว่าง:ยังไม่ทำ, 1:ทำแล้ว
                 'FTXpdStaAlwDis'    => $aDataPdtPrg['FTPdtStaAlwDis'], 
                 'FNXpdPdtLevel'     => $aDataPdtPrg['FTPdtSetOrSN'], //ระดับสิน(ค้าชุด)
                 'FTXpdPdtParent'    => '0', //รหัสสินค้าชุด

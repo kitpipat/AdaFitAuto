@@ -208,7 +208,7 @@ $lang['tRptSRCStatus']                     = "Balance Delivery Status";
 $lang['tRptSRCStatus2']                     = "Delivery Status: Can't export. Please contact IT.";
 $lang['tRptSRCStatus3']                     = "Send balance: Sent successfully";
 
-// รายงานการตรวจนับสต็อค (Vending)
+// รายงานการตรวจนับสต็อก (Vending)
 $lang['tRptAdjStkVDTitle']          = "Report Stock counting (Vending)";
 $lang['tRptAdjStkVDDatePrint']      = "DatePrint";
 $lang['tRptAdjStkVDTimePrint']      = "Time";
@@ -2112,7 +2112,7 @@ $lang['tRptinventorytranferOut'] = "Warehouses Out";
 $lang['tRptinventorytranferIn'] = "Warehouses In";
 $lang['tRptinventorytranferQTY'] = "QTY";
 
-// รายงาน - ผลต่างการตรวจนับสต๊อก
+// รายงาน - ผลต่างการตรวจนับสต็อก
 $lang['tRptStkcountvariance']               = "Report - Stock count variance ";
 $lang['tRptStkcountvarianceNo']             = "No.";
 $lang['tRptStkcountvarianceDocNo']          = "Document Code";
@@ -2164,7 +2164,7 @@ $lang['tRptStkPdtGrp'] = "Product Group";
 $lang['tRptStkPdtDept'] = "Product Dept";
 $lang['tRptStkPdtDeptName'] = "Product Dept Name";
 $lang['tRptStkReturn']    = "Return";
-$lang['tRptPoFormTitle']    = "รายงานสต๊อก รายวันตามการเคลื่อนไหวตามวัน";
+$lang['tRptPoFormTitle']    = "รายงานสต็อก รายวันตามการเคลื่อนไหวตามวัน";
 $lang['tRptGrpAgencyF']    = "จากตัวแทนขาย/แฟรนไชส์";
 $lang['tRptCat1F']    = "จากหมวดหมู่สินค้าหลัก";
 

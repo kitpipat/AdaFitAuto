@@ -736,7 +736,7 @@ $bIsApvOrCanCel = ($bIsApv || $bIsCanCel);
 									</div>
 									<div class="form-group col-md-7" style="margin-top: 6px;margin-bottom: 0px;">
 										<input class="form-check-input <?=$tStaDisabled;?>" type="checkbox" id="ocbTUVStaShwPdtInStk" name="ocbTUVStaShwPdtInStk" value="1" checked>
-										<label class="form-check-label <?=$tStaDisabled;?>" for="ocbTUVStaShwPdtInStk">แสดงเฉพาะสินค้าที่มีในสต็อค</label>
+										<label class="form-check-label <?=$tStaDisabled;?>" for="ocbTUVStaShwPdtInStk">แสดงเฉพาะสินค้าที่มีในสต็อก</label>
 									</div>
 								</div>
 							</div>

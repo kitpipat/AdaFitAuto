@@ -63,7 +63,7 @@ class RptCheckSTKAllBch_controller extends MX_Controller
     private function init(){
         // Array Text Label
         $this->aText    = [
-            'tTitleReport'                  => language('report/report/report', 'รายงานสต๊อกรวมทุกสาขา แยกตามหมวดสินค้า'),
+            'tTitleReport'                  => language('report/report/report', 'รายงานสต็อกรวมทุกสาขา แยกตามหมวดสินค้า'),
             'tDatePrint'                    => language('report/report/report', 'tRptAdjStkVDDatePrint'),
             'tTimePrint'                    => language('report/report/report', 'tRptAdjStkVDTimePrint'),
             'tRptAddrBuilding'              => language('report/report/report', 'tRptAddrBuilding'),

@@ -31,7 +31,7 @@
                                     <button id="obtASTCancel" onclick="JSnASTCancelDoc(false)" class="btn xCNBTNDefult xCNBTNDefult2Btn" type="button"> <?php echo language('common/main/main', 'tCancel')?></button>
                                     <button id="obtASTApprove"  class="btn xCNBTNPrimery xCNBTNPrimery2Btn" type="button"> <?php echo language('common/main/main', 'tCMNApprove')?></button>
                                     <?php if($bChkConfApvStk == 1): ?>
-                                        <button id="obtASTHQApprove"  class="btn xCNBTNPrimery xCNBTNPrimery2Btn" type="button"><?php echo language('common/main/main', 'tCMNApprove')?>สต็อค</button>
+                                        <button id="obtASTHQApprove"  class="btn xCNBTNPrimery xCNBTNPrimery2Btn" type="button"><?php echo language('common/main/main', 'tCMNApproveStock')?></button>
                                     <?php endif;?>
                                     <div class="btn-group">
                                          <button id="obtASTSubmitFrom" type="button" class="btn xWBtnGrpSaveLeft"> <?php echo language('common/main/main', 'tSave')?></button>

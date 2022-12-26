@@ -165,7 +165,7 @@ class Productpick_controller extends MX_Controller{
                 'FTXthRmk'          => $this->input->post('otaPCKXthRmk'), // หมายเหตุ
                 'FTXthStaDoc'       => '1', // สถานะ เอกสาร  1:สมบูรณ์, 2:ไม่สมบูรณ์, 3:ยกเลิก
                 'FTXthStaApv'       => '', // สถานะ อนุมัติ เอกสาร ว่าง:ยังไม่ทำ, 1:อนุมัติแล้ว
-                'FTXthStaPrcStk'    => '', // สถานะ ประมวลผลสต็อค ว่าง หรือ Null:ยังไม่ทำ, 1:ทำแล้ว
+                'FTXthStaPrcStk'    => '', // สถานะ ประมวลผลสต็อก ว่าง หรือ Null:ยังไม่ทำ, 1:ทำแล้ว
                 'FTXthStaDelMQ'     => '', // สถานะลบ MQ ว่าง หรือ Null:ยังไม่ทำ, 1:ทำแล้ว
                 'FNXthStaDocAct'    => ($this->input->post('ocbPCKXthStaDocAct') == "1") ? 1 : 0, // สถานะ เคลื่อนไหว 0:NonActive, 1:Active
                 'FNXthStaRef'       => intval($this->input->post('ostPCKXthStaRef')), // สถานะ อ้างอิง 0:ไม่เคยอ้างอิง, 1:อ้างอิงบางส่วน, 2:อ้างอิงหมดแล้ว
@@ -379,7 +379,7 @@ class Productpick_controller extends MX_Controller{
                     'FTXthRmk' => $this->input->post('otaPCKXthRmk'), // หมายเหตุ
                     'FTXthStaDoc' => '1', // สถานะ เอกสาร  1:สมบูรณ์, 2:ไม่สมบูรณ์, 3:ยกเลิก
                     'FTXthStaApv' => '', // สถานะ อนุมัติ เอกสาร ว่าง:ยังไม่ทำ, 1:อนุมัติแล้ว
-                    'FTXthStaPrcStk' => '', // สถานะ ประมวลผลสต็อค ว่าง หรือ Null:ยังไม่ทำ, 1:ทำแล้ว
+                    'FTXthStaPrcStk' => '', // สถานะ ประมวลผลสต็อก ว่าง หรือ Null:ยังไม่ทำ, 1:ทำแล้ว
                     'FTXthStaDelMQ' => '', // สถานะลบ MQ ว่าง หรือ Null:ยังไม่ทำ, 1:ทำแล้ว
                     'FNXthStaDocAct' => ($this->input->post('ocbPCKXthStaDocAct') == "1") ? 1 : 0, // สถานะ เคลื่อนไหว 0:NonActive, 1:Active
                     'FNXthStaRef' => intval($this->input->post('ostPCKXthStaRef')), // สถานะ อ้างอิง 0:ไม่เคยอ้างอิง, 1:อ้างอิงบางส่วน, 2:อ้างอิงหมดแล้ว
@@ -1235,7 +1235,7 @@ class Productpick_controller extends MX_Controller{
                     if (FCNnHSizeOf($aNotFoundItemInWah) > 0) {
                         $aReturnData = array(
                             'nStaEvent'         => 600,
-                            'tStaMessg'         => 'ไม่สามารถอนุมัติเอกสารได้เนื่องจากมีสินค้าบางรายการมีสต๊อกไม่เพียงพอ',
+                            'tStaMessg'         => 'ไม่สามารถอนุมัติเอกสารได้เนื่องจากมีสินค้าบางรายการมีสต็อกไม่เพียงพอ',
                             'tChkTsysConfig'    => $tChkTsysConfig[0]['FTSysStaUsrValue']
                         );
                         $this->Productpick_model->FSxMPCKUpdatePdtStkPrcAll($aDataWhere, '0');
@@ -1278,7 +1278,7 @@ class Productpick_controller extends MX_Controller{
             } else {
                 $aReturnData = array(
                     'nStaEvent'     => 400,
-                    'tStaMessg'     => 'สินค้าทั้งหมดในเอกสาร ยืนยันสต็อคหมดแล้ว'
+                    'tStaMessg'     => 'สินค้าทั้งหมดในเอกสาร ยืนยันสต็อกหมดแล้ว'
                 );
             }
         } catch (Exception $Error) {

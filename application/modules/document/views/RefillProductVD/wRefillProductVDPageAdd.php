@@ -325,7 +325,7 @@
                                         <label class="fancy-checkbox">
                                             <input type="checkbox" id="ocbRVDStaFullRefillPos" name="ocbRVDStaFullRefillPos" maxlength="1"
                                             <?=($tFlagCheckSTK == '1') ? "checked" : "" ?> >
-                                            <span>ตรวจสอบสต็อคต้นทาง</span>
+                                            <span>ตรวจสอบสต็อกต้นทาง</span>
                                         </label>
                                     </div>
                                 </div>
