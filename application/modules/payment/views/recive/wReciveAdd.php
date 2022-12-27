@@ -116,9 +116,9 @@ $dDatenow = date("Y/m/d");
                         </li> -->
                     <?php } else { ?>
                         <?php if ($tRcvSpcStaAlwCfg  == 1) { ?>
-                            <!-- <li id="oliRcvSpcConfig" class="xWMenu xWSubTab" data-menutype="Cfg" onclick="JSxRcvSpcGetConfig();">
+                            <li id="oliRcvSpcConfig" class="xWMenu xWSubTab" data-menutype="Cfg" onclick="JSxRcvSpcGetConfig();">
                                 <a role="tab" data-toggle="tab" data-target="#odvRcvSpcConfig" aria-expanded="true"><?php echo language('payment/recivespc/recivespc', 'tRcvSpcConnectionSettings') ?></a>
-                            </li> -->
+                            </li>
                         <?php } else {
                         } ?>
                     <?php } ?>
