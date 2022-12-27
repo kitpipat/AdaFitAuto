@@ -227,7 +227,7 @@ class Rptcustomerhistoryservice_model extends CI_Model
             AND FTUsrSession    = '$tUsrSession'
             GROUP BY FTXshDocNo
         ) AS S ON A.FTXshDocNo = S.FTAjhDocNo_SUM
-        AND   A.FTUsrSession    = '$tUsrSession'
+        WHERE 1=1 AND A.FTUsrSession = '$tUsrSession'
         /* End Calculate Misures */
     ) AS L
     LEFT JOIN (
@@ -242,6 +242,7 @@ class Rptcustomerhistoryservice_model extends CI_Model
         //สั่ง Order by ตามข้อมูลหลัก
         $tSQL .= " ORDER BY L.FTXshDocNo ASC";
 
+        // print_r($tSQL);exit;
         $oQuery = $this->db->query($tSQL);
         if ($oQuery->num_rows() > 0) {
             $aData = $oQuery->result_array();
