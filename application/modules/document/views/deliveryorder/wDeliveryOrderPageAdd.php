@@ -1333,7 +1333,7 @@ if (empty($tDOBchCode) && empty($tDOShopCode)) {
                             <div class="form-group">
                                 <label class="xCNLabelFrm"><?php echo language('common/main/main', 'เอกสาร'); ?></label>
                                 <select class="selectpicker form-control" id="ocbDORefDoc" name="ocbDORefDoc">
-                                    <option value="1" ><?php echo language('common/main/main', 'ใบสั่งซื้อ'); ?></option>
+                                    <option value="1" ><?php echo language('common/main/main', 'tTableTAPTPoHD'); ?></option>
                                     <option value="2" selected ><?php echo language('common/main/main', 'ใบขาย'); ?></option>
                                 </select>
                             </div>

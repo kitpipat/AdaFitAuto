@@ -114,7 +114,7 @@
                             </div>
                         <?php 
                             else: 
-                                echo "ไม่อนุญาติให้ส่วนลด"; 
+                                echo "ไม่อนุญาตให้ส่วนลด"; 
                             endif;
                         ?>
                         </td>
@@ -345,7 +345,7 @@
                         oAlwDis += '<label class="xWDisChgDTTmp" style="padding-left: 5px;padding-top: 3px;" id="xWDisChgDTTmp'+nKey+'">'+tDisChgTxt+'</label>';
                         oAlwDis += '</div>';
                 }else{
-                    var oAlwDis = 'ไม่อนุญาติให้ส่วนลด';
+                    var oAlwDis = 'ไม่อนุญาตให้ส่วนลด';
                 }
 
                 //ราคา

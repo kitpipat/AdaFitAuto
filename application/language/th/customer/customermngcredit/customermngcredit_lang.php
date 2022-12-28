@@ -17,7 +17,7 @@ $lang['tMCRTBCstCrBalExt']  = "วงเงินเครดิตตั้ง�
 $lang['tMCRTBCstCrLeft']    = "ยอดหนี้";
 $lang['tMCRTBCstCrBalLeft'] = "วงเงินเครดิตคงเหลือ";
 
-$lang['tMCRTBCstStaApv']    = "สถานะอนุญาติ";
+$lang['tMCRTBCstStaApv']    = "สถานะอนุญาต";
 $lang['tMCRTBEdit']         = "จัดการ";
 
 // Table Data List 

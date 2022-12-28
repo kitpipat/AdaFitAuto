@@ -56,11 +56,11 @@ function FCNnHAddImgObj($paImgData){
 				// ******* Image Multiple
 				$ci->db->trans_begin();
 				$aImgData = str_replace('%COMMA%',',',$paImgData['tImgObj']);
-				$aImgData = str_replace('[removed]','',$paImgData['tImgObj']);
+				// $aImgData = str_replace('[removed]','',$paImgData['tImgObj']);
 
 				$aImgDataNew = [];
 				foreach( $aImgData as $aValue ){
-					if( !strpos($aValue,"base64") ){
+					if( !strpos($aValue,"base64")){
 						array_push($aImgDataNew,$aValue);
 					}
 				}
@@ -73,7 +73,7 @@ function FCNnHAddImgObj($paImgData){
 					$ci->db->where('FTImgRefID',$paImgData['tImgRefID']);
 					$ci->db->where('FTImgTable',$paImgData['tImgTable']);
 					$ci->db->where('FTImgKey',$paImgData['tImgKey']);
-					$oQuery = $ci->db->get()->result_array();
+					$oQuery = @$ci->db->get()->result_array();
 				}else{
 					$oQuery = array();
 				}
@@ -409,15 +409,15 @@ function FCNxHAddColorObj($paData){
 	$ci->db->where_in('FTImgTable', $paData['tImgTable']);
 	$ci->db->where_in('FTImgRefID', $paData['tImgRefID']);
 	$ci->db->delete($paData['tTableInsert']);
-	if ($ci->db->affected_rows() > 0) {
-		if (file_exists('application/modules/' . $paData['tModuleName'] . '/assets/systemimg/' . $paData['tImgFolder'])) {
-			$files    = glob('application/modules/' . $paData['tModuleName'] . '/assets/systemimg/' . $paData['tImgFolder'] . "/" . $paData['tImgRefID'] . "/*"); // get all file names
-			foreach ($files as $file) { // iterate files
-				if (is_file($file))
-					unlink($file); // delete file
-			}
-		}
-	}
+	// if ($ci->db->affected_rows() > 0) {
+	// 	if (file_exists('application/modules/' . $paData['tModuleName'] . '/assets/systemimg/' . $paData['tImgFolder'])) {
+	// 		$files    = glob('application/modules/' . $paData['tModuleName'] . '/assets/systemimg/' . $paData['tImgFolder'] . "/" . $paData['tImgRefID'] . "/*"); // get all file names
+	// 		foreach ($files as $file) { // iterate files
+	// 			if (is_file($file))
+	// 				unlink($file); // delete file
+	// 		}
+	// 	}
+	// }
 	//Add Master
 	$ci->db->insert($paData['tTableInsert'], array(
 		'FTImgRefID'        => $paData['tImgRefID'],

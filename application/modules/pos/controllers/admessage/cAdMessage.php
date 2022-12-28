@@ -316,8 +316,12 @@ class cAdMessage extends MX_Controller {
             }
 
             if($aDataMaster['FTAdvType'] == 6){
-                $aPdtImg = $this->input->post('aPdtImg');
+                // $aPdtImg = $this->input->post('aPdtImg');
                 // $aPdtImg = explode(",",$tPdtImg);
+                $aImg = $this->input->post('aPdtImg');
+                // $aPdtImg = explode(",",$tPdtImg);
+                // print_r($aPdtImg);exit;
+                $aPdtImg = str_replace('[removed]','data:image/png;base64%COMMA%',$aImg);
 
                 if(isset($aPdtImg) && !empty($aPdtImg) && is_array($aPdtImg) ){
                     // foreach($aPdtImg as $tValueImgObj){
@@ -555,9 +559,10 @@ class cAdMessage extends MX_Controller {
             }
 
             if($aDataMaster['FTAdvType'] == 6){
-                $aPdtImg = $this->input->post('aPdtImg');
+                $aImg = $this->input->post('aPdtImg');
                 // $aPdtImg = explode(",",$tPdtImg);
                 // print_r($aPdtImg);exit;
+                $aPdtImg = str_replace('[removed]','base64%COMMA%',$aImg);
                 if(isset($aPdtImg) && !empty($aPdtImg)){
                     $aImageUplode = array(
                         'tModuleName'       => 'pos',

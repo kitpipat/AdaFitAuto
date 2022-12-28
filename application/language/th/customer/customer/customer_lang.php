@@ -292,7 +292,7 @@ $lang['tCSTBranchRegNo']      = "หมายเลขจดทะเบีย�
 $lang['tCSTBranchShipto']      = "Ship To";
 $lang['tCSTBranchSoldto']      = "Sold To";
 
-$lang['tCSTStaFC']      = "สถานะแฟรนชายส์"; 
+$lang['tCSTStaFC']      = "สถานะแฟรนไชส์"; 
 
 
 $lang['tCstCrBuffer1']      = "อัตรา";
