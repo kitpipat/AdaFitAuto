@@ -927,7 +927,8 @@ class cHome extends MX_Controller{
                             );
                 
                             $aData          = $this->mAdjustmentcost->FSaMADCGetPdtDataFromImportExcel($aParams);
-                
+                            $cVatRate       = (empty($aData['raItems'][0]['FCPdtCostStd'])) ? 0 : (int)$aData['raItems'][0]['FCPdtCostStd'];
+
                             $aObject = array(
                                 'FTBchCode'         => $this->session->userdata("tSesUsrBchCodeDefault"),
                                 'FTXthDocKey'       => $tTableRefPK,
@@ -935,9 +936,9 @@ class cHome extends MX_Controller{
                                 'FTPdtCode'         => trim($aPackData[$i][0]),
                                 'FTPunName'         => (empty($aData['raItems'][0]['FTPunName'])) ? "" : $aData['raItems'][0]['FTPunName'],
                                 'FTPunCode'         => (empty($aData['raItems'][0]['FTPunCode'])) ? "" : $aData['raItems'][0]['FTPunCode'],
-                                'FCXtdQtyOrd'       => 0,
+                                'FCXtdQtyOrd'       => $cXtdAmt - $cVatRate, //,0, //vattare, amt
                                 'FCXtdAmt'          => $cXtdAmt,
-                                'FCXtdVatRate'      => (empty($aData['raItems'][0]['FCPdtCostStd'])) ? 0 : (int)$aData['raItems'][0]['FCPdtCostStd'],
+                                'FCXtdVatRate'      => $cVatRate,
                                 'FCXtdQty'          => (empty($aData['raItems'][0]['FCPdtCostEx'])) ? 0 : (int)$aData['raItems'][0]['FCPdtCostEx'],
                                 'FTTmpStatus'       => $tTmpStatus,
                                 'FTTmpRemark'       => $tTmpRemark,

@@ -586,7 +586,7 @@
                     '<td class="hidden">' + paResult['aData'][i].FTXcdBarScan + '</td>' +
                     '<td >' + tFTPunName + '</td>' +
                     '<td class="text-right">' + tFCPdtCost + '</td>' +
-                    '<td class="text-right">' + tFCXcdDiff + '</td>' +
+                    '<td class="text-right xCNPdtInLine">' + tFCXcdDiff + '</td>' +
                     '<td class="otdQty">' +
                     '<div class="xWEditInLine">' +
                     '<input type="text" value ="' + tFCXcdCostNew + '"onblur = "JSxADCCostDiff(this)" class="inputs form-control xControlForm xCNInputNumericWithDecimal xCNPdtEditInLine text-right xWValueEditInLine xWShowInLine" style="background:#F9F9F9;border-top: 0px !important;border-left: 0px !important;border-right: 0px !important;box-shadow: inset 0 0px 0px; min-width:100px;" maxlength="10" value="" autocomplete="off">' +

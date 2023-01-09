@@ -950,7 +950,7 @@ function JSvAdPdtPriDataTable(pnPage, ptFocusType) {
         var tSearchAll  = $('#oetSearchSpaPdtPri').val();
         var FTXphDocNo  = $('#oetXphDocNo').val();
         var tFocusType  = (ptFocusType === undefined || ptFocusType == '') ? '1' : ptFocusType;
-        if ($('#ofmADCFormAdd tr.otrSpaPdtPri').length == 0) {
+        if ($('#ofmADCFormAdd tr.ostAdDataPdtPri').length == 0) {
             if (pnPage != undefined) {
                 pnPage = pnPage - 1;
             }
@@ -1084,10 +1084,10 @@ function JSxSpaSaveInLine(oEvent, oElm) {
         // var tWhs = parseFloat($('#ohdFCXtdPriceWhs'+pnSeq).val());
         // var tNet = parseFloat($('#ohdFCXtdPriceNet'+pnSeq).val());
         var tDiff = $('#Diff' + nSeq).val()
-        var tDocNo = $('#otrSpaPdtPri' + nSeq).data('doc');
-        var tPdtCode = $('#otrSpaPdtPri' + nSeq).data('code');
-        var tPunCode = $('#otrSpaPdtPri' + nSeq).data('pun');
-        var tSeq = $('#otrSpaPdtPri' + nSeq).data('seq');
+        var tDocNo = $('#ostAdDataPdtPri' + nSeq).data('doc');
+        var tPdtCode = $('#ostAdDataPdtPri' + nSeq).data('code');
+        var tPunCode = $('#ostAdDataPdtPri' + nSeq).data('pun');
+        var tSeq = $('#ostAdDataPdtPri' + nSeq).data('seq');
         var oetSearchSpaPdtPri = $('#oetSearchSpaPdtPri').val();
         // $('.xWShowValueFCXtdPriceRet'+pnSeq).text(tRet.toFixed(nDecimalShow));
         // $('.xWShowValueFCXtdPriceWhs'+pnSeq).text(tWhs.toFixed(nDecimalShow));
@@ -1101,7 +1101,7 @@ function JSxSpaSaveInLine(oEvent, oElm) {
 
         // JCNxOpenLoading();
 
-        // console.log('tDocNo:',tDocNo,'tPdtCode:',tPdtCode,'tPunCode:',tPunCode,'tPrice:',tPrice,'tValue:',tValue, 'tDiff:',tDiff)
+        // console.log(nDecimalShow,'tDocNo:',tDocNo,'tPdtCode:',tPdtCode,'tPunCode:',tPunCode,'tPrice:',tPrice,'tValue:',tValue, 'tDiff:',tDiff)
             // $(oElm).addClass('xCNHide');
             $.ajax({
                 type: "POST",
@@ -1125,9 +1125,9 @@ function JSxSpaSaveInLine(oEvent, oElm) {
                     $(oElm).attr('b4value', tValue);
                     // $('#otdSPATotalPrice').text(objResult['cSpaTotalPrice']);
 
-                    var tStatus = $(oElm).parents(".otrSpaPdtPri").data("status");
+                    var tStatus = $(oElm).parents(".ostAdDataPdtPri").data("status");
                     if (tStatus == "3") {
-                        $(oElm).parents(".otrSpaPdtPri").find(".xCNAdjPriceStaRmk").text("").removeClass("text-danger");
+                        $(oElm).parents(".ostAdDataPdtPri").find(".xCNAdjPriceStaRmk").text("").removeClass("text-danger");
                     }
                     // JSvSpaPdtPriDataTable(nPage);
                     // JCNxCloseLoading();

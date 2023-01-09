@@ -153,12 +153,13 @@
                                 <td class="text-right">
                                     <?php echo $tFCPdtCost;?>
                                 </td>
-                                <td nowrap class="text-right xCNPdtInLine" >
-                                    
+                                <td nowrap class="text-right xCNPdtInLine">
+                                    <label class="text-right xCNPdtFont"><?php echo $DataTableVal['FCXcdDiff']?>
                                 </td>
-                                <td class="xCNPdtEditInLine">
+                                <td>
                                     <div class="xWEditInLine">
                                     <input type="hidden" id="Diff<?=$DataTableVal['FNXtdSeqNo']?>" value="">
+                                    <input type="hidden" id="nDecimalShow" value="<?=$nOptDecimalShow?>">
                                     <input style="    
                                                 background: rgb(249, 249, 249);
                                                 box-shadow: 0px 0px 0px inset;
@@ -169,20 +170,20 @@
                                                 text-align: right;
                                             " 
                                             type="text" 
-                                            class="form-control xStaDocEdit xWValueEditInLine1 xCNInputNumericWithDecimal text-right" 
+                                            class="form-control xStaDocEdit xWValueEditInLine<?=$DataTableVal['FNXtdSeqNo']?> xCNInputNumericWithDecimal text-right" 
                                             id="ohdFCXtdPriceRet<?=$DataTableVal['FNXtdSeqNo']?>" 
                                             name="ohdFCXtdPriceRet<?=$DataTableVal['FNXtdSeqNo']?>" 
                                             maxlength="11" 
-                                            value="<?=$DataTableVal['FCXcdCostNew']?>" 
+                                            value="<?=number_format($DataTableVal['FCXcdCostNew'], 2)?>" 
                                             autocomplete="off" 
                                             seq="<?=$DataTableVal['FNXtdSeqNo']?>" 
                                             columname="FCXtdVatRate" 
                                             col-validate=""                          
                                             page="<?=$nPage?>"
-                                            b4value="<?= $tFSPdtCost ?>" 
+                                            b4value="<?=number_format($tFSPdtCost) ?>" 
                                             onkeypress=" if(event.keyCode==13 ){     event.preventDefault(); return JSxSpaSaveInLine(event,this); } " 
                                             onfocusout="JSxSpaSaveInLine(event,this)"
-                                            onblur = "JSxADCCostDiff(this,<?= $tFSPdtCost ?>,<?=$DataTableVal['FNXtdSeqNo']?>)">
+                                            onblur = "JSxADCCostDiff(this,<?= number_format($tFSPdtCost) ?>,<?=$DataTableVal['FNXtdSeqNo']?>)">
                                     </div>
                                 </td>
                                 <td class="text-left xWRemark1" style="color: red !important;"> <?php echo $DataTableVal['FTTmpRemark']; ?> </td>

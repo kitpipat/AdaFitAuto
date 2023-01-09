@@ -491,7 +491,6 @@ class cAdjustmentcost extends MX_Controller {
 
             $nSeq    = $aGetSeq[0]['nSeq'];
             if($aData['rtCode'] == '1') {
-               //print_r($aData['raItems']);
                 for ($i = 0; $i < $nNumData; $i++) {
                     $nSeq = $nSeq + 1;
                     $aDataEdit = array(
