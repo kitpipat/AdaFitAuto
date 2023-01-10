@@ -250,7 +250,10 @@ class Invoice_model extends CI_Model{
                         DOCTMP.FCXtdSetPrice,
                         DOCTMP.FCXtdAmtB4DisChg,
                         DOCTMP.FTXtdDisChgTxt,
+                        DOCTMP.FCXtdDis,
+                        DOCTMP.FCXtdChg,
                         DOCTMP.FCXtdNet,
+                        (ISNULL(DOCTMP.FCXtdNet,0) + (-(ISNULL(DOCTMP.FCXtdChg,0))) + ISNULL(DOCTMP.FCXtdDis,0)) AS FTPriceDefault,
                         DOCTMP.FCXtdNetAfHD,
                         DOCTMP.FTXtdStaAlwDis,
                         DOCTMP.FTTmpRemark,
@@ -3691,7 +3694,7 @@ class Invoice_model extends CI_Model{
 
     // แท็บค่าอ้างอิงเอกสาร - เพิ่ม
     public function FSaMIVAddEditHDRefTmp($paDataWhere, $paDataAddEdit){
-        $tRefDocNo  = (empty($paDataWhere['tIVRefDocNoOld']) ? $paDataAddEdit['FTXshRefDocNo'] : $paDataWhere['tIVRefDocNoOld']);
+        $tRefDocNo  = (empty($paDataWhere['tIVRefDocNoOld']) ? $paDataAddEdit['FTXthRefDocNo'] : $paDataWhere['tIVRefDocNoOld']);
         $tSQL       = " SELECT FTXthRefDocNo FROM TCNTDocHDRefTmp
                         WHERE FTXthDocNo    = '" . $paDataWhere['FTXshDocNo'] . "'
                             AND FTXthDocKey   = '" . $paDataWhere['FTXshDocKey'] . "'
@@ -3916,7 +3919,7 @@ class Invoice_model extends CI_Model{
                 SELECT 
                     FTCfgStaUsrValue AS FTSysStaDefValue,
                     FTCfgStaUsrValue AS FTSysStaUsrValue
-                FROM  TCNTConfigSpc
+                FROM  TCNTConfigSpc WITH(NOLOCK)
                 WHERE FTSysCode = 'tCN_Cost' 
                 AND FTSysKey    = 'Company'
                 AND FTSysSeq    = '2'

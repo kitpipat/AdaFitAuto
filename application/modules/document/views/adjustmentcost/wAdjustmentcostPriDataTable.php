@@ -174,16 +174,16 @@
                                             id="ohdFCXtdPriceRet<?=$DataTableVal['FNXtdSeqNo']?>" 
                                             name="ohdFCXtdPriceRet<?=$DataTableVal['FNXtdSeqNo']?>" 
                                             maxlength="11" 
-                                            value="<?=number_format($DataTableVal['FCXcdCostNew'], 2)?>" 
+                                            value="<?=$DataTableVal['FCXcdCostNew']?>" 
                                             autocomplete="off" 
                                             seq="<?=$DataTableVal['FNXtdSeqNo']?>" 
                                             columname="FCXtdVatRate" 
                                             col-validate=""                          
                                             page="<?=$nPage?>"
-                                            b4value="<?=number_format($tFSPdtCost) ?>" 
+                                            b4value="<?= $tFSPdtCost ?>" 
                                             onkeypress=" if(event.keyCode==13 ){     event.preventDefault(); return JSxSpaSaveInLine(event,this); } " 
                                             onfocusout="JSxSpaSaveInLine(event,this)"
-                                            onblur = "JSxADCCostDiff(this,<?= number_format($tFSPdtCost) ?>,<?=$DataTableVal['FNXtdSeqNo']?>)">
+                                            onblur = "JSxADCCostDiff(this,<?= $tFSPdtCost ?>,<?=$DataTableVal['FNXtdSeqNo']?>)">
                                     </div>
                                 </td>
                                 <td class="text-left xWRemark1" style="color: red !important;"> <?php echo $DataTableVal['FTTmpRemark']; ?> </td>

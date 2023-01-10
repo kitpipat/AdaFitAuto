@@ -131,20 +131,35 @@ function FCNbHUpdateDocDTTemp($paParams){
     $tConditionNet          = "";
     $tConditionAfNetHD      = "";
     if(isset($tDataDocKey) && !empty($tDataDocKey) && $tDataDocKey == 'TAPTPiDT') {
+
         $tConditionB4DisChg   = "CASE
-                                    WHEN ISNULL(DTTemp.FCXtdNet,0) <> 0 THEN ISNULL(DTTemp.FCXtdNet,0)
-                                    ELSE ISNULL(DTTemp.FCXtdNet,0)
+                                    WHEN ISNULL(DTTemp.FCXtdAmtB4DisChg,0) <> 0 THEN ISNULL(DTTemp.FCXtdAmtB4DisChg,0)
+                                    ELSE ISNULL(DTTemp.FCXtdAmtB4DisChg,0)
                                 END";
+
         $tConditionNet        = "CASE
-                                    WHEN ISNULL(DTTemp.FCXtdNet,0) <> 0 THEN (ISNULL(DTTemp.FCXtdNet,0) - (-ISNULL(DTDisAll.FTXtdDisList,0)) + (ISNULL(DTDisAll.FTXtdChgList,0)))
+                                    WHEN ISNULL(DTTemp.FCXtdAmtB4DisChg,0) <> 0 THEN (ISNULL(DTTemp.FCXtdAmtB4DisChg,0) - (-ISNULL(DTDisAll.FTXtdDisList,0)) + (ISNULL(DTDisAll.FTXtdChgList,0)))
                                     ELSE ((ISNULL(DTTemp.FCXtdQty,0) * ISNULL(DTTemp.FCXtdSetPrice,0)) - (-ISNULL(DTDisAll.FTXtdDisList,0)) + (ISNULL(DTDisAll.FTXtdChgList,0)))
                                 END ";
 
         $tConditionAfNetHD    = "CASE
-                                    WHEN ISNULL(DTTemp.FCXtdNet,0) <> 0 THEN ((ISNULL(DTTemp.FCXtdNet,0) - (-ISNULL(DTDisAll.FTXtdDisList,0))+(ISNULL(DTDisAll.FTXtdChgList,0))) + ((ISNULL(DTDisAll.FTXtdDisFoot,0)) + (ISNULL(DTDisAll.FTXtdChgFoot,0))))
+                                    WHEN ISNULL(DTTemp.FCXtdAmtB4DisChg,0) <> 0 THEN ((ISNULL(DTTemp.FCXtdAmtB4DisChg,0) - (-ISNULL(DTDisAll.FTXtdDisList,0))+(ISNULL(DTDisAll.FTXtdChgList,0))) + ((ISNULL(DTDisAll.FTXtdDisFoot,0)) + (ISNULL(DTDisAll.FTXtdChgFoot,0))))
                                     ELSE (((ISNULL(DTTemp.FCXtdQty,0)*ISNULL(DTTemp.FCXtdSetPrice,0)) - (-ISNULL(DTDisAll.FTXtdDisList,0))+(ISNULL(DTDisAll.FTXtdChgList,0))) + ((ISNULL(DTDisAll.FTXtdDisFoot,0)) + (ISNULL(DTDisAll.FTXtdChgFoot,0))))
                                 END ";
 
+        // $tConditionB4DisChg   = "CASE
+        //                             WHEN ISNULL(DTTemp.FCXtdNet,0) <> 0 THEN ISNULL(DTTemp.FCXtdNet,0)
+        //                             ELSE (ISNULL(DTTemp.FCXtdQty,0) * ISNULL(DTTemp.FCXtdSetPrice,0))
+        //                         END";
+        // $tConditionNet        = "CASE
+        //                             WHEN ISNULL(DTTemp.FCXtdNet,0) <> 0 THEN (ISNULL(DTTemp.FCXtdNet,0) - (-ISNULL(DTDisAll.FTXtdDisList,0)) + (ISNULL(DTDisAll.FTXtdChgList,0)))
+        //                             ELSE ((ISNULL(DTTemp.FCXtdQty,0) * ISNULL(DTTemp.FCXtdSetPrice,0)) - (-ISNULL(DTDisAll.FTXtdDisList,0)) + (ISNULL(DTDisAll.FTXtdChgList,0)))
+        //                         END ";
+
+        // $tConditionAfNetHD    = "CASE
+        //                             WHEN ISNULL(DTTemp.FCXtdNet,0) <> 0 THEN ((ISNULL(DTTemp.FCXtdNet,0) - (-ISNULL(DTDisAll.FTXtdDisList,0))+(ISNULL(DTDisAll.FTXtdChgList,0))) + ((ISNULL(DTDisAll.FTXtdDisFoot,0)) + (ISNULL(DTDisAll.FTXtdChgFoot,0))))
+        //                             ELSE (((ISNULL(DTTemp.FCXtdQty,0)*ISNULL(DTTemp.FCXtdSetPrice,0)) - (-ISNULL(DTDisAll.FTXtdDisList,0))+(ISNULL(DTDisAll.FTXtdChgList,0))) + ((ISNULL(DTDisAll.FTXtdDisFoot,0)) + (ISNULL(DTDisAll.FTXtdChgFoot,0))))
+        //                         END ";
     }else {
         $tConditionB4DisChg   = "(ISNULL(DTTemp.FCXtdQty,0)*ISNULL(DTTemp.FCXtdSetPrice,0)) ";
         $tConditionNet        = "((ISNULL(DTTemp.FCXtdQty,0)*ISNULL(DTTemp.FCXtdSetPrice,0))-(-ISNULL(DTDisAll.FTXtdDisList,0))+(ISNULL(DTDisAll.FTXtdChgList,0)))";

@@ -1222,6 +1222,8 @@
                     var tDocNoRef = $('#oetIVRefDocNo').val();
                 }
 
+                var tIVVATInOrEx    = $('#ocmIVfoVatInOrEx').val();
+
                 $.ajax({
                     type    : "POST",
                     url     : "docIVEventAddEditHDDocRef",
@@ -1231,7 +1233,9 @@
                         'ptRefType'         : $('#ocbIVRefType').val(),
                         'ptRefDocNo'        : tDocNoRef,
                         'pdRefDocDate'      : $('#oetIVRefDocDate').val(),
-                        'ptRefKey'          : $('#oetIVRefKey').val()
+                        'ptRefKey'          : $('#oetIVRefKey').val(),
+                        'ptIVVATInOrEx'     : tIVVATInOrEx,
+                        'ptBCHCode'         : $('#ohdIVBchCode').val(),
                     },
                     cache   : false,
                     timeout : 0,

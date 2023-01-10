@@ -54,7 +54,7 @@
                             data-setprice="<?=$aDataTableVal['FCXtdSetPrice'];?>"
                             data-qty="<?=$aDataTableVal['FCXtdQty'];?>"
                             data-netafhd="<?=$aDataTableVal['FCXtdNetAfHD'];?>"
-                            data-setdfprice="<?=$aDataTableVal['FCXtdNet'];?>"
+                            data-setdfprice="<?=$aDataTableVal['FTPriceDefault'];?>"
                             data-net="<?=$aDataTableVal['FCXtdNet'];?>"
                             data-stadis="<?=$aDataTableVal['FTXtdStaAlwDis'];?>"
                             data-TypePdt="<?=$aDataTableVal['FTTmpStatus'];?>"
@@ -883,6 +883,7 @@
         var cResult     = parseFloat(cTotal / nQty);
 
         var cResult1    = parseFloat(cPrice * nQty);
+        var tIVVATInOrEx    = $('#ocmIVfoVatInOrEx').val();
         
         if(ptObjID == ('ospGrandTotal'+pnSeq)){
             $('#ospPrice'+pnSeq).text(parseFloat(cResult).toFixed(2));
@@ -946,7 +947,8 @@
                     'cPrice'            : $('#ospPrice'+pnSeq).text().replace(/,/g, ''),
                     'cNet'              : parseFloat(accounting.unformat($('#ospGrandTotal'+pnSeq).val())),
                     'cSetDfPrice'       : tSetDfPrice,
-                    'nStaDelDis'        : pnStaDelDis
+                    'nStaDelDis'        : pnStaDelDis,
+                    'tIVVATInOrEx'      : tIVVATInOrEx
                 },
                 catch   : false,
                 timeout : 0,

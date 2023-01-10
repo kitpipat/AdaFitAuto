@@ -275,6 +275,7 @@ class Invoice_controller extends MX_Controller {
                     'tBchCode'          => $tBCHCode
                 ];
                 $tStaCalcuRate = FCNbHCallCalcDocDTTemp($aCalcDTParams);
+                // print_r($tStaCalcuRate);
                 if ($tStaCalcuRate === TRUE) {
                     $this->FSxCalculateHDDisAgain($tIVDocNo,$tBCHCode);
                     $aReturnData = array(
@@ -394,7 +395,6 @@ class Invoice_controller extends MX_Controller {
             $tIVDocDate     = $aDataDocument['oetIVDocDate'] . " " . $aDataDocument['oetIVDocTime'];
             $tIVVATInOrEx   = $aDataDocument['ocmIVfoVatInOrEx'];
             $tIVSessionID   = $this->session->userdata('tSesSessionID');
-
 
             FCNaHCalculateProrate('TAPTPiDT',$tIVDocNo);
             $aCalcDTParams  = [
@@ -876,10 +876,11 @@ class Invoice_controller extends MX_Controller {
     //Edit Inline สินค้า ลง Document DT Temp
     public function FSoCIVEditPdtIntoDocDTTemp() {
         try {
-            $tIVBchCode = $this->input->post('tIVBchCode');
-            $tIVDocNo   = $this->input->post('tIVDocNo');
-            $nIVSeqNo   = $this->input->post('nIVSeqNo');
-            $nStaDelDis = $this->input->post('nStaDelDis');
+            $tIVBchCode     = $this->input->post('tIVBchCode');
+            $tIVDocNo       = $this->input->post('tIVDocNo');
+            $nIVSeqNo       = $this->input->post('nIVSeqNo');
+            $nStaDelDis     = $this->input->post('nStaDelDis');
+            $tIVVATInOrEx   = $this->input->post('tIVVATInOrEx');
             $aDataWhere = array(
                 'tIVBchCode'    => $tIVBchCode,
                 'tIVDocNo'      => $tIVDocNo,
@@ -897,12 +898,25 @@ class Invoice_controller extends MX_Controller {
                 'FCXtdNetAfHD'      => $this->input->post('cNet')
             );
             $this->db->trans_begin();
+            // print_r([$aDataUpdateDT, $aDataWhere]);
             $this->Invoice_model->FSaMIVUpdateInlineDTTemp($aDataUpdateDT, $aDataWhere);
             if ($nStaDelDis == '1') {
                 // ยืนยันการลบ DTDis ส่วนลดรายการนี้
                 $this->Invoice_model->FSaMIVDeleteDTDisTemp($aDataWhere);
                 $this->Invoice_model->FSaMIVClearDisChgTxtDTTemp($aDataWhere);
             }
+            $aCalcDTParams = [
+                'tDataDocEvnCall'   => '12',
+                'tDataVatInOrEx'    => $tIVVATInOrEx,
+                'tDataDocNo'        => $tIVDocNo,
+                'tDataDocKey'       => 'TAPTPiDT',
+                'tDataSeqNo'        => '',
+                'tBchCode'          => $tIVBchCode,
+                // 'nStaEditLine'      => '1' //1 = ส่งมาจากการ edit line
+            ];
+            $tStaCalcuRate = FCNbHCallCalcDocDTTemp($aCalcDTParams);
+            // print_r($tStaCalcuRate);
+            // if ($tStaCalcuRate === TRUE) {
             //ให้มันคำนวณส่วนลดท้ายบิลใหม่อีกครั้ง
             $this->FSxCalculateHDDisAgain($tIVDocNo,$tIVBchCode);
             if ($this->db->trans_status() === FALSE) {
@@ -918,6 +932,7 @@ class Invoice_controller extends MX_Controller {
                     'tStaMessg' => "Update Inline Into Document DT Temp."
                 );
             }
+            
         } catch (Exception $Error) {
             $aReturnData    = array(
                 'nStaEvent' => '500',
@@ -1439,12 +1454,15 @@ class Invoice_controller extends MX_Controller {
 
     // ค่าอ้างอิงเอกสาร - เพิ่ม หรือ เเก้ไข
     public function FSoCIVEventAddEditHDDocRef(){
+        $tIVDocNo           = $this->input->post('ptIVDocNo');
+        $tIVVATInOrEx       = $this->input->post('ptIVVATInOrEx');
+        $tBCHCode           = $this->input->post('ptBCHCode');
         try {
             $aDataWhere = [
                 'FTXshDocNo'        => $this->input->post('ptIVDocNo'),
                 'FTXshDocKey'       => 'TAPTPiDT',
                 'FTSessionID'       => $this->session->userdata('tSesSessionID'),
-                'tIVRefDocNoOld'   => $this->input->post('ptRefDocNoOld'),
+                'tIVRefDocNoOld'    => $this->input->post('ptRefDocNoOld'),
                 'FDCreateOn'        => date('Y-m-d H:i:s'),
             ];
             $aDataAddEdit = [
@@ -1455,6 +1473,32 @@ class Invoice_controller extends MX_Controller {
                 'FDCreateOn'        => date('Y-m-d H:i:s'),
             ];
             $aReturnData = $this->Invoice_model->FSaMIVAddEditHDRefTmp($aDataWhere,$aDataAddEdit);
+
+            if($aReturnData['nStaEvent'] == '1') {
+                // Calcurate Document DT Temp Array Parameter
+                $aCalcDTParams = [
+                    'tDataDocEvnCall'   => '12',
+                    'tDataVatInOrEx'    => $tIVVATInOrEx,
+                    'tDataDocNo'        => $tIVDocNo,
+                    'tDataDocKey'       => 'TAPTPiDT',
+                    'tDataSeqNo'        => '',
+                    'tBchCode'          => $tBCHCode
+                ];
+                $tStaCalcuRate = FCNbHCallCalcDocDTTemp($aCalcDTParams);
+                // print_r($tStaCalcuRate);
+                if ($tStaCalcuRate === TRUE) {
+                    $this->FSxCalculateHDDisAgain($tIVDocNo,$tBCHCode);
+                    $aReturnData = array(
+                        'nStaEvent' => '1',
+                        'tStaMessg' => 'Success Add Product Into Document DT Temp.'
+                    );
+                } else {
+                    $aReturnData = array(
+                        'nStaEvent' => '500',
+                        'tStaMessg' => 'Error Calcurate Document DT Temp Please Contact Admin.'
+                    );
+                }
+            }
         } catch (Exception $Error) {
             $aReturnData = array(
                 'nStaEvent' => '500',
